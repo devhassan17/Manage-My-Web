@@ -4,47 +4,54 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Welcome | ManageMyWeb.co</title>
-        <meta name="description" content="ManageMyWeb.co — We are developing our system, stay tuned!" />
+        <title>Coming Soon - ManageMyWeb.co</title>
+        <meta
+          name="description"
+          content="ManageMyWeb.co – We are developing our system. Stay tuned!"
+        />
       </Head>
 
-      <main style={styles.main}>
-        <h1 style={styles.title}>🚀 Coming Soon!</h1>
+      <div style={styles.container}>
+        <h1 style={styles.title}>Coming Soon!</h1>
         <p style={styles.text}>
           We are developing our system.
           <br />
-          <strong>Stay tuned!</strong>
+          Stay tuned!
         </p>
-        <p style={styles.subText}>📌 ManageMyWeb.co</p>
-      </main>
+        <p style={styles.subText}>ManageMyWeb.co</p>
+      </div>
     </>
   );
 }
 
 const styles = {
-  main: {
-    minHeight: "100vh",
+  container: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#f9f9f9",
+    alignItems: "center",
+    height: "100vh",
+    margin: 0,
+    padding: 0,
     fontFamily: "Arial, sans-serif",
-    padding: "20px",
+    backgroundColor: "#ffffff",
     textAlign: "center",
   },
   title: {
     fontSize: "48px",
-    marginBottom: "20px",
-    color: "#111",
+    fontWeight: "700",
+    marginBottom: "12px",
+    color: "#111111",
   },
   text: {
-    fontSize: "24px",
-    color: "#333",
-    marginBottom: "12px",
+    fontSize: "22px",
+    color: "#333333",
+    lineHeight: "1.4",
+    marginBottom: "8px",
   },
   subText: {
     fontSize: "18px",
-    color: "#555",
+    color: "#555555",
+    marginTop: "6px",
   },
 };
