@@ -58,8 +58,8 @@ export default function Contact() {
         canonicalUrl="https://managemyweb.co/contact"
       />
 
-      <CountdownBanner onClaimDemo={() => { }} />
-      <Navbar onOpenDemoModal={() => { }} />
+      <CountdownBanner onClaimDemo={() => {}} />
+      <Navbar onOpenDemoModal={() => {}} />
 
       <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
         <div className="container" style={{ maxWidth: '1040px' }}>
@@ -338,7 +338,7 @@ export default function Contact() {
         </div>
       </main>
 
-      <Footer onOpenDemoModal={() => { }} />
+      <Footer onOpenDemoModal={() => {}} />
     </>
   );
 }
