@@ -1,45 +1,51 @@
 const BASE_URL = 'https://managemyweb.co';
 
+const SITEMAP_ROUTES = [
+  { path: '', priority: '1.0', changefreq: 'daily', image: '/images/coffee_store_hero.jpg', title: 'ManageMyWeb 3D Virtual Stores & Managed E-Commerce' },
+  { path: '/experience', priority: '0.95', changefreq: 'weekly', image: '/images/spatial_devices_preview.jpg', title: 'Interactive 3D Storefront Live Showroom' },
+  { path: '/services', priority: '0.9', changefreq: 'weekly', image: '/images/coffee_store_hero.jpg', title: '3D Storefront & Managed Web Services' },
+  { path: '/services/3d-virtual-stores', priority: '0.95', changefreq: 'weekly', image: '/images/coffee_store_hero.jpg', title: 'Custom 3D Virtual Store Architecture' },
+  { path: '/services/web-management', priority: '0.85', changefreq: 'weekly', image: '/images/spatial_devices_preview.jpg', title: 'Managed Web Hosting & Technical Operations' },
+  { path: '/services/ecommerce-growth', priority: '0.85', changefreq: 'weekly', image: '/images/fairchain_story_wall.jpg', title: 'E-Commerce Conversion Rate Optimization' },
+  { path: '/pricing', priority: '0.9', changefreq: 'weekly', image: '/images/spatial_devices_preview.jpg', title: '3D Store & Managed Retainer Pricing' },
+  { path: '/case-studies', priority: '0.85', changefreq: 'weekly', image: '/images/coffee_store_hero.jpg', title: '3D E-Commerce Client Case Studies' },
+  { path: '/contact', priority: '0.9', changefreq: 'weekly', image: '/images/spatial_devices_preview.jpg', title: 'Request Free 3D Store Prototype' },
+  { path: '/about', priority: '0.8', changefreq: 'monthly', image: '/images/fairchain_story_wall.jpg', title: 'About ManageMyWeb Studio' },
+  { path: '/faq', priority: '0.8', changefreq: 'weekly', image: '/images/spatial_devices_preview.jpg', title: '3D Virtual Store Frequently Asked Questions' },
+  { path: '/blog', priority: '0.8', changefreq: 'weekly', image: '/images/coffee_store_hero.jpg', title: 'Spatial Commerce & Web Engineering Journal' },
+  { path: '/blog/future-of-ecommerce-3d-virtual-stores', priority: '0.75', changefreq: 'monthly', image: '/images/coffee_store_hero.jpg', title: 'Why 3D Virtual Stores Are Replacing Flat Product Grids' },
+  { path: '/blog/fairchain-coffee-story-in-spatial-web', priority: '0.75', changefreq: 'monthly', image: '/images/fairchain_story_wall.jpg', title: 'Turning Product Provenance into Interactive 3D Storytelling' },
+  { path: '/blog/why-traditional-ecommerce-grids-are-dying', priority: '0.75', changefreq: 'monthly', image: '/images/spatial_devices_preview.jpg', title: 'Overcoming Rising Ad Costs with Spatial Merchandising' },
+  { path: '/privacy', priority: '0.4', changefreq: 'yearly', image: null, title: 'Privacy Policy' },
+  { path: '/terms', priority: '0.4', changefreq: 'yearly', image: null, title: 'Terms of Service' },
+];
+
 export async function getServerSideProps({ res }) {
-  const pages = [
-    '',
-    '/services',
-    '/services/3d-virtual-stores',
-    '/services/web-management',
-    '/services/ecommerce-growth',
-    '/experience',
-    '/case-studies',
-    '/pricing',
-    '/about',
-    '/contact',
-    '/faq',
-    '/blog',
-    '/blog/future-of-ecommerce-3d-virtual-stores',
-    '/blog/fairchain-coffee-story-in-spatial-web',
-    '/blog/why-traditional-ecommerce-grids-are-dying',
-    '/privacy',
-    '/terms',
-  ];
+  const nowIso = new Date().toISOString();
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${pages
-    .map((page) => {
-      const priority = page === '' ? '1.0' : page.includes('3d-virtual') ? '0.9' : '0.8';
-      const changefreq = page === '' ? 'daily' : 'weekly';
-      return `
-    <url>
-      <loc>${BASE_URL}${page}</loc>
-      <lastmod>${new Date().toISOString()}</lastmod>
-      <changefreq>${changefreq}</changefreq>
-      <priority>${priority}</priority>
-    </url>
-  `;
-    })
-    .join('')}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${SITEMAP_ROUTES.map(
+  (route) => `  <url>
+    <loc>${BASE_URL}${route.path}</loc>
+    <lastmod>${nowIso}</lastmod>
+    <changefreq>${route.changefreq}</changefreq>
+    <priority>${route.priority}</priority>${
+      route.image
+        ? `
+    <image:image>
+      <image:loc>${BASE_URL}${route.image}</image:loc>
+      <image:title>${route.title.replace(/&/g, '&amp;')}</image:title>
+    </image:image>`
+        : ''
+    }
+  </url>`
+).join('\n')}
 </urlset>`;
 
-  res.setHeader('Content-Type', 'text/xml');
+  res.setHeader('Content-Type', 'text/xml; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
   res.write(sitemap);
   res.end();
 

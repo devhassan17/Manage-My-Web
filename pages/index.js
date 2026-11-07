@@ -144,8 +144,21 @@ export default function Home() {
   return (
     <>
       <SEOHead
-        title="ManageMyWeb | 3D Flagship Storefronts & Web Operations for E-Commerce"
-        description="Most e-commerce websites look identical. We design interactive 3D storefronts for fashion, beauty, electronics, luxury, and retail brands—and manage your entire web infrastructure. Request a free 3D prototype."
+        title="ManageMyWeb | 3D Virtual Storefronts & Managed Web Operations for E-Commerce"
+        description="Turn your online store into an interactive 3D flagship showroom. We build custom 3D storefronts for fashion, beauty, electronics, luxury, and retail brands—and manage your entire web infrastructure. Request a free 48-hour prototype."
+        keywords="3D virtual store, 3D ecommerce website, interactive 3D Shopify store, virtual retail showroom, spatial commerce agency, WebGL online store, 3D storefront builder, managed web operations, ecommerce conversion rate optimization, Shopify 3D store, ManageMyWeb"
+        canonicalUrl="https://managemyweb.co"
+        schemaData={{
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((item) => ({
+            '@type': 'Question',
+            name: item.q,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: item.a,
+            },
+          })),
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => openModalForCategory('Fashion, Apparel & Footwear')} />

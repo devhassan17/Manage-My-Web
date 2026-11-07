@@ -1,4 +1,10 @@
-import { getSmtpConfig, writeJsonData } from '../../../utils/dataStore';
+import {
+  getSmtpConfig,
+  readJsonData,
+  writeJsonData,
+  DEFAULT_CONFIRMATION_SUBJECT,
+  DEFAULT_CONFIRMATION_BODY,
+} from '../../../utils/dataStore';
 
 export default function handler(req, res) {
   // GET: Return current SMTP config (mask password)
@@ -15,33 +21,70 @@ export default function handler(req, res) {
     }
   }
 
-  // POST: Update SMTP config
+  // POST: Update SMTP config + confirmation email template
   if (req.method === 'POST') {
     try {
       const existing = getSmtpConfig();
-      const { host, port, user, pass, fromEmail, fromName } = req.body;
+      const {
+        host,
+        port,
+        user,
+        pass,
+        fromEmail,
+        fromName,
+        notifyEmail,
+        confirmationSubject,
+        confirmationBody,
+      } = req.body;
 
       const resolvedPort = port !== undefined ? Number(port) : existing.port || 465;
-      // Automatically enforce secure=true ONLY for port 465 (implicit SSL) and secure=false for port 587 (STARTTLS)
       const resolvedSecure = resolvedPort === 465;
+      const resolvedUser = user !== undefined ? user.trim() : existing.user || 'sales@managemyweb.co';
+      const resolvedFromEmail =
+        fromEmail !== undefined && fromEmail.trim()
+          ? fromEmail.trim()
+          : existing.fromEmail || resolvedUser;
+      const resolvedNotifyEmail =
+        notifyEmail !== undefined && notifyEmail.trim()
+          ? notifyEmail.trim()
+          : existing.notifyEmail || resolvedFromEmail;
 
       const updated = {
         host: host !== undefined ? host.trim() : existing.host || 'smtp.zoho.com',
         port: resolvedPort,
         secure: resolvedSecure,
-        user: user !== undefined ? user.trim() : existing.user || 'sales@managemyweb.co',
-        // If password is not changed (e.g. user submitted mask), keep existing
+        user: resolvedUser,
         pass: pass && pass !== '••••••••' ? pass : existing.pass || '',
-        fromEmail: fromEmail !== undefined ? fromEmail.trim() : existing.fromEmail || 'sales@managemyweb.co',
+        fromEmail: resolvedFromEmail,
         fromName: fromName !== undefined ? fromName.trim() : existing.fromName || 'ManageMyWeb',
+        notifyEmail: resolvedNotifyEmail,
+        confirmationSubject:
+          confirmationSubject !== undefined
+            ? confirmationSubject
+            : existing.confirmationSubject || DEFAULT_CONFIRMATION_SUBJECT,
+        confirmationBody:
+          confirmationBody !== undefined
+            ? confirmationBody
+            : existing.confirmationBody || DEFAULT_CONFIRMATION_BODY,
         isConfigured: true,
       };
 
       writeJsonData('smtp-config.json', updated);
 
+      // Keep public site contact email in sync if notifyEmail was updated
+      try {
+        const currentSettings = readJsonData('site-settings.json', {});
+        if (currentSettings && currentSettings.contact) {
+          currentSettings.contact.supportEmail = resolvedNotifyEmail;
+          writeJsonData('site-settings.json', currentSettings);
+        }
+      } catch (e) {
+        // non-blocking
+      }
+
       return res.status(200).json({
         success: true,
-        message: 'SMTP settings saved.',
+        message: 'Email settings and confirmation template saved.',
         config: {
           ...updated,
           pass: updated.pass ? '••••••••' : '',

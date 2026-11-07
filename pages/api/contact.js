@@ -1,5 +1,12 @@
 import nodemailer from 'nodemailer';
-import { readJsonData, writeJsonData, getSmtpConfig } from '../../utils/dataStore';
+import {
+  readJsonData,
+  writeJsonData,
+  getSmtpConfig,
+  renderEmailTemplate,
+  DEFAULT_CONFIRMATION_SUBJECT,
+  DEFAULT_CONFIRMATION_BODY,
+} from '../../utils/dataStore';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -50,6 +57,9 @@ export default async function handler(req, res) {
 
     try {
       const smtpConfig = getSmtpConfig();
+      const siteSettings = readJsonData('site-settings.json', {});
+      const configuredSupportEmail = siteSettings?.contact?.supportEmail;
+
       if (smtpConfig && smtpConfig.isConfigured && smtpConfig.host && smtpConfig.user && smtpConfig.pass) {
         const portNum = Number(smtpConfig.port) || 465;
         const isImplicitSsl = portNum === 465;
@@ -67,13 +77,14 @@ export default async function handler(req, res) {
 
         const firstName = newLead.name.split(' ')[0];
         const brandLabel = newLead.storeName || 'your store';
-        const siteReference = newLead.websiteUrl ? ` (${newLead.websiteUrl})` : '';
         const senderAddress = smtpConfig.fromEmail || smtpConfig.user || 'sales@managemyweb.co';
+        const adminReceiverAddress =
+          smtpConfig.notifyEmail || configuredSupportEmail || senderAddress;
 
-        // 1. Send notification to Studio Admin (sales@managemyweb.co)
+        // 1. Send notification to Studio Admin (notifyEmail / sales@managemyweb.co)
         await transporter.sendMail({
           from: `"${smtpConfig.fromName || 'ManageMyWeb'}" <${senderAddress}>`,
-          to: senderAddress,
+          to: adminReceiverAddress,
           replyTo: newLead.email,
           subject: `New 3D Prototype Request: ${newLead.storeName || newLead.name}`,
           html: `
@@ -96,50 +107,44 @@ export default async function handler(req, res) {
           `,
         });
 
-        // 2. Send short, personal, human confirmation email to the client
-        const plainTextConfirmation = [
-          `Hi ${firstName},`,
-          ``,
-          `Thanks for reaching out to ManageMyWeb. I received your request for a 3D storefront preview for ${brandLabel}${siteReference}.`,
-          ``,
-          `Our team is reviewing your catalog now and putting together a working 3D prototype so you can walk through and see how your products look inside an interactive space. I will send your private preview link over within 48 hours.`,
-          ``,
-          `Quick question while we set this up: are there 2 or 3 best-selling products on your site you would especially like us to feature on the main display?`,
-          ``,
-          `Feel free to reply directly to this email, or message me on WhatsApp anytime at +92 317 4075023.`,
-          ``,
-          `Best regards,`,
-          `Sales Team — ManageMyWeb`,
-          `sales@managemyweb.co`,
-          `WhatsApp: +92 317 4075023`,
-        ].join('\n');
+        // 2. Render and send customizable confirmation email to the client
+        const templateVars = {
+          firstName,
+          name: newLead.name,
+          storeName: brandLabel,
+          websiteUrl: newLead.websiteUrl || '',
+          category: newLead.category || 'E-Commerce',
+        };
+
+        const renderedSubject = renderEmailTemplate(
+          smtpConfig.confirmationSubject || DEFAULT_CONFIRMATION_SUBJECT,
+          templateVars
+        );
+        const renderedBody = renderEmailTemplate(
+          smtpConfig.confirmationBody || DEFAULT_CONFIRMATION_BODY,
+          templateVars
+        );
+
+        const htmlParagraphs = renderedBody
+          .split(/\n\s*\n/)
+          .map(
+            (para) =>
+              `<p style="margin: 0 0 16px 0; white-space: pre-line;">${para
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')}</p>`
+          )
+          .join('');
 
         await transporter.sendMail({
           from: `"${smtpConfig.fromName || 'ManageMyWeb'}" <${senderAddress}>`,
           to: newLead.email,
-          replyTo: senderAddress,
-          subject: `Your 3D store preview for ${newLead.storeName || 'your brand'}`,
-          text: plainTextConfirmation,
+          replyTo: adminReceiverAddress,
+          subject: renderedSubject,
+          text: renderedBody,
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif; max-width: 540px; color: #1D1D1F; font-size: 15px; line-height: 1.6;">
-              <p style="margin: 0 0 16px 0;">Hi ${firstName},</p>
-              <p style="margin: 0 0 16px 0;">
-                Thanks for reaching out to ManageMyWeb. I received your request for a 3D storefront preview for <strong>${brandLabel}</strong>${siteReference}.
-              </p>
-              <p style="margin: 0 0 16px 0;">
-                Our team is reviewing your catalog right now and putting together a working 3D prototype so you can see how your products look inside an interactive showroom. I’ll send your private preview link over within 48 hours.
-              </p>
-              <p style="margin: 0 0 16px 0;">
-                Quick question while we set this up: are there 2 or 3 best-selling products on your site you’d especially like us to feature on the main display?
-              </p>
-              <p style="margin: 0 0 24px 0;">
-                You can reply directly to this email, or message me on <a href="https://wa.me/923174075023" style="color: #0066CC; text-decoration: none;">WhatsApp (+92 317 4075023)</a> anytime.
-              </p>
-              <div style="border-top: 1px solid #E5E5EA; padding-top: 14px; font-size: 13px; color: #6E6E73; line-height: 1.5;">
-                <strong style="color: #1D1D1F;">ManageMyWeb</strong><br />
-                3D Storefronts &amp; Managed Web Operations<br />
-                <a href="mailto:sales@managemyweb.co" style="color: #0066CC; text-decoration: none;">sales@managemyweb.co</a> · +92 317 4075023
-              </div>
+              ${htmlParagraphs}
             </div>
           `,
         });

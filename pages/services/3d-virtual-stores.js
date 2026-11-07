@@ -13,9 +13,23 @@ export default function ThreeDVirtualStores() {
   return (
     <>
       <SEOHead
-        title="3D Virtual Storefronts for E-Commerce Brands | ManageMyWeb"
-        description="Transform any e-commerce catalog—fashion, beauty, electronics, luxury, home, or specialty goods—into a walkable 3D flagship storefront."
+        title="Custom 3D Virtual Storefronts for E-Commerce Brands | ManageMyWeb"
+        description="Transform any e-commerce catalog—fashion, beauty, electronics, luxury watches, home furniture, or specialty goods—into a walkable 60fps 3D flagship storefront synced with Shopify or WooCommerce."
+        keywords="3D virtual store builder, custom 3D Shopify store, 3D fashion boutique online, 3D beauty showroom, 3D electronics store, spatial retail website, WebGL ecommerce development"
         canonicalUrl="https://managemyweb.co/services/3d-virtual-stores"
+        schemaData={{
+          '@type': 'Service',
+          name: 'Custom 3D Virtual Storefront Development',
+          serviceType: '3D E-Commerce Web Development',
+          provider: {
+            '@type': 'Organization',
+            name: 'ManageMyWeb',
+            url: 'https://managemyweb.co',
+          },
+          areaServed: 'Worldwide',
+          description:
+            'Custom 60fps 3D virtual retail storefronts for fashion, beauty, electronics, luxury, home, and specialty e-commerce brands.',
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />

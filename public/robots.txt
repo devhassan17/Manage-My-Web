@@ -1,6 +1,35 @@
+# ManageMyWeb Robots & Crawler Directives
 User-agent: *
 Allow: /
 Disallow: /admin
-Disallow: /api/admin/
+Disallow: /api/
+
+# Search Engine Crawlers
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+# AI Answer Engines (AEO / GEO Optimization)
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
 
 Sitemap: https://managemyweb.co/sitemap.xml
+Host: https://managemyweb.co

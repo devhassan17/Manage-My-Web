@@ -11,9 +11,21 @@ export default function EcommerceGrowth() {
   return (
     <>
       <SEOHead
-        title="Conversion & Checkout Engineering | ManageMyWeb"
-        description="Turn existing store traffic into higher-value orders with frictionless Apple Pay checkouts, shelf bundling, and conversion engineering."
+        title="E-Commerce Conversion Rate Optimization & Checkout Engineering | ManageMyWeb"
+        description="Turn existing store traffic into higher-value orders with frictionless Apple Pay & Stripe express checkouts, spatial shelf bundling, and server-side GA4 attribution."
+        keywords="ecommerce conversion rate optimization, Shopify checkout optimization, increase average order value, Apple Pay express checkout integration, ecommerce CRO agency"
         canonicalUrl="https://managemyweb.co/services/ecommerce-growth"
+        schemaData={{
+          '@type': 'Service',
+          name: 'E-Commerce Conversion & Checkout Engineering',
+          serviceType: 'Conversion Rate Optimization (CRO)',
+          provider: {
+            '@type': 'Organization',
+            name: 'ManageMyWeb',
+            url: 'https://managemyweb.co',
+          },
+          areaServed: 'Worldwide',
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />

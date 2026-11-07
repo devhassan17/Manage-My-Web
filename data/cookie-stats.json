@@ -1,0 +1,59 @@
+{
+  "config": {
+    "enabled": true,
+    "bannerTitle": "Cookie & Privacy Preferences",
+    "bannerText": "We use cookies to deliver smooth 3D WebGL storefront previews, measure site performance, and improve your browsing experience. You can accept all cookies or customize your preferences at any time.",
+    "privacyPolicyUrl": "/privacy",
+    "defaultAnalytics": true,
+    "defaultMarketing": true,
+    "defaultFunctional": true
+  },
+  "stats": {
+    "totalDecisions": 14,
+    "acceptedAll": 11,
+    "essentialOnly": 1,
+    "customized": 2,
+    "analyticsOptIn": 13,
+    "marketingOptIn": 11,
+    "functionalOptIn": 13,
+    "totalPageViews": 68,
+    "pageViewsByPath": {
+      "/": 29,
+      "/experience": 14,
+      "/services/3d-virtual-stores": 11,
+      "/pricing": 8,
+      "/contact": 6
+    }
+  },
+  "recentConsents": [
+    {
+      "id": "consent-seed-1",
+      "timestamp": "2026-11-07T11:15:00.000Z",
+      "decision": "accepted_all",
+      "categories": {
+        "essential": true,
+        "analytics": true,
+        "marketing": true,
+        "functional": true
+      },
+      "path": "/",
+      "device": "Desktop · macOS / Chrome",
+      "visitorId": "v-8941a2"
+    },
+    {
+      "id": "consent-seed-2",
+      "timestamp": "2026-11-07T09:42:00.000Z",
+      "decision": "custom",
+      "categories": {
+        "essential": true,
+        "analytics": true,
+        "marketing": false,
+        "functional": true
+      },
+      "path": "/experience",
+      "device": "Mobile · iOS / Safari",
+      "visitorId": "v-3109f4"
+    }
+  ]
+}
+

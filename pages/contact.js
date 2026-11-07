@@ -1,10 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SEOHead from '../components/SEOHead';
 import CountdownBanner from '../components/CountdownBanner';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 export default function Contact() {
+  const [contactInfo, setContactInfo] = useState({
+    whatsappNumber: '+92 317 4075023',
+    supportEmail: 'sales@managemyweb.co',
+  });
+
+  useEffect(() => {
+    fetch('/api/admin/settings')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data && data.contact) {
+          setContactInfo({
+            whatsappNumber: data.contact.whatsappNumber || '+92 317 4075023',
+            supportEmail: data.contact.supportEmail || 'sales@managemyweb.co',
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -45,7 +63,7 @@ export default function Contact() {
     }
   };
 
-  const waRaw = '923174075023';
+  const waRaw = (contactInfo.whatsappNumber || '923174075023').replace(/[^0-9]/g, '');
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
     'Hello ManageMyWeb team, I would like to request a complimentary 3D store prototype for our e-commerce brand.'
   )}`;
@@ -54,8 +72,15 @@ export default function Contact() {
     <>
       <SEOHead
         title="Contact & Request Free 3D Store Prototype | ManageMyWeb"
-        description="Contact ManageMyWeb to request a complimentary custom 3D prototype of your online store or discuss managed web operations."
+        description="Request a complimentary custom 3D prototype of your online store delivered in 48 hours, or speak directly with ManageMyWeb engineers on WhatsApp (+92 317 4075023) and sales@managemyweb.co."
+        keywords="request 3D store prototype, free 3D ecommerce demo, hire 3D web developer, contact ManageMyWeb, custom 3D Shopify store quote, managed web operations contact"
         canonicalUrl="https://managemyweb.co/contact"
+        schemaData={{
+          '@type': 'ContactPage',
+          name: 'Contact ManageMyWeb Studio',
+          url: 'https://managemyweb.co/contact',
+          description: 'Request a complimentary 48-hour 3D virtual store prototype for your e-commerce brand.',
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => {}} />
@@ -298,7 +323,7 @@ export default function Contact() {
                   className="btn-apple-dark"
                   style={{ width: '100%' }}
                 >
-                  WhatsApp · +92 317 4075023
+                  WhatsApp · {contactInfo.whatsappNumber}
                 </a>
               </div>
 
@@ -308,12 +333,12 @@ export default function Contact() {
                 </p>
                 <div style={{ fontSize: '14px', color: '#424245', marginBottom: '8px' }}>
                   <strong style={{ color: '#1D1D1F' }}>Email:</strong>{' '}
-                  <a href="mailto:sales@managemyweb.co" style={{ color: '#0066CC', textDecoration: 'none' }}>
-                    sales@managemyweb.co
+                  <a href={`mailto:${contactInfo.supportEmail}`} style={{ color: '#0066CC', textDecoration: 'none' }}>
+                    {contactInfo.supportEmail}
                   </a>
                 </div>
                 <div style={{ fontSize: '14px', color: '#424245', marginBottom: '8px' }}>
-                  <strong style={{ color: '#1D1D1F' }}>WhatsApp:</strong> +92 317 4075023
+                  <strong style={{ color: '#1D1D1F' }}>WhatsApp:</strong> {contactInfo.whatsappNumber}
                 </div>
                 <div style={{ fontSize: '14px', color: '#1D7D3F', fontWeight: 500 }}>
                   Average response time under 2 hours

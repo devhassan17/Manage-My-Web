@@ -75,9 +75,21 @@ export default function Pricing() {
   return (
     <>
       <SEOHead
-        title="Pricing & Complimentary Prototype Program | ManageMyWeb"
-        description="Transparent pricing for bespoke 3D retail storefronts and managed web operations. Request a complimentary 3D store prototype before committing."
+        title="3D Storefront Pricing & Managed Retainers | ManageMyWeb"
+        description="Transparent pricing for custom 3D virtual stores ($1,850–$3,400) and ongoing managed web operations ($490/mo). Request a complimentary 3D store prototype before committing."
+        keywords="3D virtual store pricing, custom 3D website cost, 3D Shopify store price, managed web hosting retainer, spatial ecommerce cost, free 3D store prototype"
         canonicalUrl="https://managemyweb.co/pricing"
+        schemaData={{
+          '@type': 'OfferCatalog',
+          name: 'ManageMyWeb 3D Storefront & Managed Operations Plans',
+          itemListElement: tiers.map((t) => ({
+            '@type': 'Offer',
+            name: t.name,
+            description: t.description,
+            price: t.price.replace(/[^0-9.]/g, ''),
+            priceCurrency: 'USD',
+          })),
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />

@@ -1,0 +1,17 @@
+{
+  "name": "ManageMyWeb — 3D Virtual Stores & Managed Web Operations",
+  "short_name": "ManageMyWeb",
+  "description": "Custom 3D virtual storefronts and full-stack managed web operations for modern e-commerce brands.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FBFBFD",
+  "theme_color": "#FBFBFD",
+  "icons": [
+    {
+      "src": "/images/coffee_store_hero.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
+

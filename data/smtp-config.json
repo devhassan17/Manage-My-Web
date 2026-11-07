@@ -6,5 +6,8 @@
   "pass": "",
   "fromEmail": "sales@managemyweb.co",
   "fromName": "ManageMyWeb",
+  "notifyEmail": "sales@managemyweb.co",
+  "confirmationSubject": "Your 3D store preview for {{storeName}}",
+  "confirmationBody": "Hi {{firstName}},\n\nThanks for reaching out to ManageMyWeb. I received your request for a 3D storefront preview for {{storeName}}.\n\nOur team is reviewing your catalog right now and putting together a working 3D prototype so you can see how your products look inside an interactive showroom. I’ll send your private preview link over within 48 hours.\n\nQuick question while we set this up: are there 2 or 3 best-selling products on your site you’d especially like us to feature on the main display?\n\nYou can reply directly to this email, or message me on WhatsApp (+92 317 4075023) anytime.\n\nBest regards,\nManageMyWeb\nsales@managemyweb.co · +92 317 4075023",
   "isConfigured": true
 }

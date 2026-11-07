@@ -57,8 +57,9 @@ export default function ServicesHub() {
   return (
     <>
       <SEOHead
-        title="Studio Capabilities & Web Operations | ManageMyWeb"
-        description="Explore our full suite of services: bespoke 3D retail storefronts, managed web operations, edge hosting, and conversion engineering."
+        title="3D Storefront & Managed Web Services | ManageMyWeb"
+        description="Explore our full suite of e-commerce engineering services: bespoke 3D virtual retail storefronts, managed web operations, global edge hosting, and conversion rate optimization."
+        keywords="3D ecommerce services, custom 3D store development, managed web operations agency, Shopify speed optimization service, ecommerce conversion optimization"
         canonicalUrl="https://managemyweb.co/services"
       />
 

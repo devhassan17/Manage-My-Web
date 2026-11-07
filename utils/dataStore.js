@@ -2,6 +2,49 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 
+export const DEFAULT_CONFIRMATION_SUBJECT = 'Your 3D store preview for {{storeName}}';
+
+export const DEFAULT_CONFIRMATION_BODY = [
+  'Hi {{firstName}},',
+  '',
+  'Thanks for reaching out to ManageMyWeb. I received your request for a 3D storefront preview for {{storeName}}.',
+  '',
+  'Our team is reviewing your catalog right now and putting together a working 3D prototype so you can see how your products look inside an interactive showroom. I’ll send your private preview link over within 48 hours.',
+  '',
+  'Quick question while we set this up: are there 2 or 3 best-selling products on your site you’d especially like us to feature on the main display?',
+  '',
+  'You can reply directly to this email, or message me on WhatsApp (+92 317 4075023) anytime.',
+  '',
+  'Best regards,',
+  'ManageMyWeb',
+  'sales@managemyweb.co · +92 317 4075023',
+].join('\n');
+
+export const DEFAULT_COOKIE_DATA = {
+  config: {
+    enabled: true,
+    bannerTitle: 'Cookie & Privacy Preferences',
+    bannerText:
+      'We use cookies to deliver smooth 3D WebGL storefront previews, measure site performance, and improve your browsing experience. You can accept all cookies or customize your preferences at any time.',
+    privacyPolicyUrl: '/privacy',
+    defaultAnalytics: true,
+    defaultMarketing: true,
+    defaultFunctional: true,
+  },
+  stats: {
+    totalDecisions: 0,
+    acceptedAll: 0,
+    essentialOnly: 0,
+    customized: 0,
+    analyticsOptIn: 0,
+    marketingOptIn: 0,
+    functionalOptIn: 0,
+    totalPageViews: 0,
+    pageViewsByPath: {},
+  },
+  recentConsents: [],
+};
+
 function getBundledPath(filename) {
   return path.join(process.cwd(), 'data', filename);
 }
@@ -66,6 +109,9 @@ export function getSmtpConfig() {
     pass: '',
     fromEmail: 'sales@managemyweb.co',
     fromName: 'ManageMyWeb',
+    notifyEmail: 'sales@managemyweb.co',
+    confirmationSubject: DEFAULT_CONFIRMATION_SUBJECT,
+    confirmationBody: DEFAULT_CONFIRMATION_BODY,
     isConfigured: true,
   });
 
@@ -75,6 +121,9 @@ export function getSmtpConfig() {
   const pass = process.env.SMTP_PASS || saved.pass || '';
   const fromEmail = process.env.SMTP_FROM_EMAIL || saved.fromEmail || user;
   const fromName = process.env.SMTP_FROM_NAME || saved.fromName || 'ManageMyWeb';
+  const notifyEmail = process.env.SMTP_NOTIFY_EMAIL || saved.notifyEmail || fromEmail || user;
+  const confirmationSubject = saved.confirmationSubject || DEFAULT_CONFIRMATION_SUBJECT;
+  const confirmationBody = saved.confirmationBody || DEFAULT_CONFIRMATION_BODY;
 
   return {
     host,
@@ -85,7 +134,38 @@ export function getSmtpConfig() {
     pass,
     fromEmail,
     fromName,
+    notifyEmail,
+    confirmationSubject,
+    confirmationBody,
     isConfigured: Boolean(host && user && pass),
   };
 }
 
+export function renderEmailTemplate(template, variables = {}) {
+  if (!template) return '';
+  return template
+    .replace(/\{\{\s*firstName\s*\}\}/gi, variables.firstName || 'there')
+    .replace(/\{\{\s*name\s*\}\}/gi, variables.name || 'there')
+    .replace(/\{\{\s*storeName\s*\}\}/gi, variables.storeName || 'your store')
+    .replace(/\{\{\s*websiteUrl\s*\}\}/gi, variables.websiteUrl || '')
+    .replace(/\{\{\s*category\s*\}\}/gi, variables.category || 'E-Commerce');
+}
+
+export function getCookieStore() {
+  const raw = readJsonData('cookie-stats.json', DEFAULT_COOKIE_DATA);
+  return {
+    config: {
+      ...DEFAULT_COOKIE_DATA.config,
+      ...(raw.config || {}),
+    },
+    stats: {
+      ...DEFAULT_COOKIE_DATA.stats,
+      ...(raw.stats || {}),
+      pageViewsByPath: {
+        ...DEFAULT_COOKIE_DATA.stats.pageViewsByPath,
+        ...(raw.stats?.pageViewsByPath || {}),
+      },
+    },
+    recentConsents: Array.isArray(raw.recentConsents) ? raw.recentConsents : [],
+  };
+}

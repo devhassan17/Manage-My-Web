@@ -11,9 +11,21 @@ export default function WebManagement() {
   return (
     <>
       <SEOHead
-        title="Managed Web Operations & Cloud Infrastructure | ManageMyWeb"
-        description="Hand off your hosting, domains, DNS records, business email deliverability, and daily website updates to a dedicated engineering team."
+        title="Managed Web Operations, Cloud Hosting & Technical Stewardship | ManageMyWeb"
+        description="Hand off your cloud edge hosting, domains, DNS records, DMARC/SPF email deliverability, Core Web Vitals optimization, and daily website updates to a dedicated engineering team."
+        keywords="managed web operations, ecommerce website management service, managed cloud hosting, Core Web Vitals optimization, DNS and DMARC management, website maintenance retainer"
         canonicalUrl="https://managemyweb.co/services/web-management"
+        schemaData={{
+          '@type': 'Service',
+          name: 'Managed Web Operations & Cloud Infrastructure',
+          serviceType: 'Website Management & Cloud Hosting',
+          provider: {
+            '@type': 'Organization',
+            name: 'ManageMyWeb',
+            url: 'https://managemyweb.co',
+          },
+          areaServed: 'Worldwide',
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />

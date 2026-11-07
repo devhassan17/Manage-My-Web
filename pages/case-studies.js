@@ -40,8 +40,9 @@ export default function CaseStudies() {
   return (
     <>
       <SEOHead
-        title="Client Results & Case Studies | ManageMyWeb"
-        description="Documented commercial results from brands that upgraded from standard 2D templates to interactive 3D retail storefronts."
+        title="3D E-Commerce Case Studies & Conversion Results | ManageMyWeb"
+        description="Documented commercial results (+340% time on site, +62% average order value, +185% conversion lift) from e-commerce brands that upgraded to interactive 3D retail storefronts."
+        keywords="3D ecommerce case studies, virtual store conversion rate, 3D retail ROI, interactive storefront results, ManageMyWeb portfolio"
         canonicalUrl="https://managemyweb.co/case-studies"
       />
 

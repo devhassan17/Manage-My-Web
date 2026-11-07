@@ -1,8 +1,28 @@
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Footer({ onOpenDemoModal }) {
   const currentYear = new Date().getFullYear();
-  const waRaw = '923174075023';
+  const [contactInfo, setContactInfo] = useState({
+    whatsappNumber: '+92 317 4075023',
+    supportEmail: 'sales@managemyweb.co',
+  });
+
+  useEffect(() => {
+    fetch('/api/admin/settings')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data && data.contact) {
+          setContactInfo({
+            whatsappNumber: data.contact.whatsappNumber || '+92 317 4075023',
+            supportEmail: data.contact.supportEmail || 'sales@managemyweb.co',
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const waRaw = (contactInfo.whatsappNumber || '923174075023').replace(/[^0-9]/g, '');
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
     'Hello ManageMyWeb team, I would like to discuss a 3D store prototype and managed web operations.'
   )}`;
@@ -106,11 +126,11 @@ export default function Footer({ onOpenDemoModal }) {
               Bespoke 3D retail storefronts and end-to-end web operations for modern commerce brands.
             </p>
             <div style={{ color: '#1D1D1F', fontWeight: 500, fontSize: '12px', marginBottom: '4px' }}>
-              WhatsApp: +92 317 4075023
+              WhatsApp: {contactInfo.whatsappNumber}
             </div>
             <div style={{ color: '#424245', fontSize: '12px' }}>
-              <a href="mailto:sales@managemyweb.co" style={{ color: '#0066CC', textDecoration: 'none' }}>
-                sales@managemyweb.co
+              <a href={`mailto:${contactInfo.supportEmail}`} style={{ color: '#0066CC', textDecoration: 'none' }}>
+                {contactInfo.supportEmail}
               </a>
             </div>
           </div>
@@ -234,7 +254,7 @@ export default function Footer({ onOpenDemoModal }) {
             Copyright © {currentYear} ManageMyWeb Studio Inc. All rights reserved.
           </div>
 
-          <div style={{ display: 'flex', gap: '18px' }}>
+          <div style={{ display: 'flex', gap: '18px', alignItems: 'center', flexWrap: 'wrap' }}>
             <Link href="/privacy" style={{ color: '#424245', textDecoration: 'none' }}>
               Privacy Policy
             </Link>
@@ -242,6 +262,26 @@ export default function Footer({ onOpenDemoModal }) {
             <Link href="/terms" style={{ color: '#424245', textDecoration: 'none' }}>
               Terms of Use
             </Link>
+            <span style={{ color: '#D2D2D7' }}>|</span>
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('mmw:open-cookie-settings'));
+                }
+              }}
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                color: '#424245',
+                fontSize: '12px',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+              }}
+            >
+              Cookie Preferences
+            </button>
             <span style={{ color: '#D2D2D7' }}>|</span>
             <Link href="/sitemap.xml" style={{ color: '#424245', textDecoration: 'none' }}>
               Site Map
