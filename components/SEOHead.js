@@ -64,18 +64,27 @@ export default function SEOHead({
   schemaData = null,
 }) {
   const fullTitle = title.includes('ManageMyWeb') ? title : `${title} | ManageMyWeb`;
-  const absoluteOgImage = ogImage.startsWith('http') ? ogImage : `${SITE_URL}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`;
+  const absoluteOgImage = ogImage.startsWith('http')
+    ? ogImage
+    : `${SITE_URL}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`;
   const cleanCanonical = canonicalUrl.startsWith('http')
     ? canonicalUrl
     : `${SITE_URL}${canonicalUrl.startsWith('/') ? '' : '/'}${canonicalUrl}`;
+  const gscVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '';
 
   const organizationSchema = {
     '@type': ['Organization', 'ProfessionalService'],
     '@id': `${SITE_URL}/#organization`,
     name: 'ManageMyWeb',
+    alternateName: ['Manage My Web', 'ManageMyWeb Studio'],
     legalName: 'ManageMyWeb Studio Inc.',
     url: SITE_URL,
-    logo: `${SITE_URL}/images/coffee_store_hero.jpg`,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${SITE_URL}/favicon.svg`,
+      width: 512,
+      height: 512,
+    },
     image: absoluteOgImage,
     description:
       'Bespoke 3D virtual storefront engineering and full-stack managed web operations for modern e-commerce brands across fashion, beauty, electronics, jewelry, home goods, and specialty retail.',
@@ -125,15 +134,60 @@ export default function SEOHead({
     },
   };
 
+  // Google Search Site Name & Sitelinks Schema
   const websiteSchema = {
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
     name: 'ManageMyWeb',
+    alternateName: ['Manage My Web', 'ManageMyWeb Studio', 'managemyweb.co'],
     publisher: {
       '@id': `${SITE_URL}/#organization`,
     },
     inLanguage: 'en-US',
+  };
+
+  const siteNavigationSchema = {
+    '@type': 'ItemList',
+    '@id': `${SITE_URL}/#navigation`,
+    name: 'ManageMyWeb Main Navigation',
+    itemListElement: [
+      {
+        '@type': 'SiteNavigationElement',
+        position: 1,
+        name: '3D Virtual Storefronts',
+        description: 'Walkable 3D flagship retail stores for Shopify, WooCommerce, and custom e-commerce brands.',
+        url: `${SITE_URL}/services/3d-virtual-stores`,
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        position: 2,
+        name: 'Interactive 3D Showroom Demo',
+        description: 'Explore our live 360° interactive 3D storefront preview right in your browser.',
+        url: `${SITE_URL}/experience`,
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        position: 3,
+        name: 'Managed Web Operations',
+        description: '24/7 cloud hosting, DNS, speed optimization, and technical stewardship.',
+        url: `${SITE_URL}/services/web-management`,
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        position: 4,
+        name: 'Pricing & Retainers',
+        description: 'Transparent one-time 3D storefront builds and monthly managed web retainers.',
+        url: `${SITE_URL}/pricing`,
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        position: 5,
+        name: 'Request Free 3D Prototype',
+        description: 'Get a complimentary working 3D preview of your online store within 48 hours.',
+        url: `${SITE_URL}/contact`,
+      },
+    ],
   };
 
   const webPageSchema = {
@@ -153,7 +207,14 @@ export default function SEOHead({
 
   const breadcrumbSchema = buildBreadcrumbs(cleanCanonical, fullTitle);
 
-  const graphNodes = [organizationSchema, websiteSchema, webPageSchema, breadcrumbSchema];
+  const graphNodes = [
+    organizationSchema,
+    websiteSchema,
+    siteNavigationSchema,
+    webPageSchema,
+    breadcrumbSchema,
+  ];
+
   if (schemaData) {
     if (Array.isArray(schemaData)) {
       graphNodes.push(...schemaData);
@@ -172,10 +233,13 @@ export default function SEOHead({
   return (
     <Head>
       <title>{fullTitle}</title>
+      <meta name="application-name" content="ManageMyWeb" />
+      <meta name="apple-mobile-web-app-title" content="ManageMyWeb" />
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
       <meta name="author" content="ManageMyWeb" />
       <meta name="publisher" content="ManageMyWeb" />
+      {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
       <meta
         name="robots"
         content={
