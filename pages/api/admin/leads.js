@@ -1,20 +1,8 @@
-import fs from 'fs';
-import path from 'path';
+import { readJsonData, writeJsonData } from '../../../utils/dataStore';
 
 export default function handler(req, res) {
-  const leadsFilePath = path.join(process.cwd(), 'data', 'leads.json');
-
-  if (!fs.existsSync(leadsFilePath)) {
-    fs.writeFileSync(leadsFilePath, '[]', 'utf8');
-  }
-
-  const rawData = fs.readFileSync(leadsFilePath, 'utf8');
-  let leads = [];
-  try {
-    leads = JSON.parse(rawData || '[]');
-  } catch (e) {
-    leads = [];
-  }
+  let leads = readJsonData('leads.json', []);
+  if (!Array.isArray(leads)) leads = [];
 
   // GET: Fetch all leads
   if (req.method === 'GET') {
@@ -37,7 +25,7 @@ export default function handler(req, res) {
     if (notes !== undefined) leads[index].notes = notes;
     leads[index].updatedAt = new Date().toISOString();
 
-    fs.writeFileSync(leadsFilePath, JSON.stringify(leads, null, 2), 'utf8');
+    writeJsonData('leads.json', leads);
     return res.status(200).json({ success: true, lead: leads[index] });
   }
 
@@ -54,7 +42,7 @@ export default function handler(req, res) {
       return res.status(404).json({ error: 'Lead not found' });
     }
 
-    fs.writeFileSync(leadsFilePath, JSON.stringify(leads, null, 2), 'utf8');
+    writeJsonData('leads.json', leads);
     return res.status(200).json({ success: true, message: 'Lead deleted successfully' });
   }
 

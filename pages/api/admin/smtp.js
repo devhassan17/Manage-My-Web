@@ -1,38 +1,14 @@
-import fs from 'fs';
-import path from 'path';
+import { getSmtpConfig, writeJsonData } from '../../../utils/dataStore';
 
 export default function handler(req, res) {
-  const smtpFilePath = path.join(process.cwd(), 'data', 'smtp-config.json');
-
-  if (!fs.existsSync(smtpFilePath)) {
-    fs.writeFileSync(
-      smtpFilePath,
-      JSON.stringify(
-        {
-          host: 'smtp.zoho.com',
-          port: 465,
-          secure: true,
-          user: 'sales@managemyweb.co',
-          pass: '',
-          fromEmail: 'sales@managemyweb.co',
-          fromName: 'ManageMyWeb',
-          isConfigured: true
-        },
-        null,
-        2
-      ),
-      'utf8'
-    );
-  }
-
   // GET: Return current SMTP config (mask password)
   if (req.method === 'GET') {
     try {
-      const data = JSON.parse(fs.readFileSync(smtpFilePath, 'utf8'));
+      const data = getSmtpConfig();
       return res.status(200).json({
         ...data,
         pass: data.pass ? '••••••••' : '',
-        hasPasswordSet: Boolean(data.pass)
+        hasPasswordSet: Boolean(data.pass),
       });
     } catch (e) {
       return res.status(500).json({ error: 'Failed to read SMTP config' });
@@ -42,40 +18,35 @@ export default function handler(req, res) {
   // POST: Update SMTP config
   if (req.method === 'POST') {
     try {
-      const existing = JSON.parse(fs.readFileSync(smtpFilePath, 'utf8') || '{}');
-      const {
-        host,
-        port,
-        secure,
-        user,
-        pass,
-        fromEmail,
-        fromName,
-        isConfigured
-      } = req.body;
+      const existing = getSmtpConfig();
+      const { host, port, user, pass, fromEmail, fromName } = req.body;
+
+      const resolvedPort = port !== undefined ? Number(port) : existing.port || 465;
+      // Automatically enforce secure=true ONLY for port 465 (implicit SSL) and secure=false for port 587 (STARTTLS)
+      const resolvedSecure = resolvedPort === 465;
 
       const updated = {
-        host: host !== undefined ? host.trim() : existing.host || '',
-        port: port !== undefined ? Number(port) : existing.port || 587,
-        secure: secure !== undefined ? Boolean(secure) : existing.secure || false,
-        user: user !== undefined ? user.trim() : existing.user || '',
+        host: host !== undefined ? host.trim() : existing.host || 'smtp.zoho.com',
+        port: resolvedPort,
+        secure: resolvedSecure,
+        user: user !== undefined ? user.trim() : existing.user || 'sales@managemyweb.co',
         // If password is not changed (e.g. user submitted mask), keep existing
         pass: pass && pass !== '••••••••' ? pass : existing.pass || '',
-        fromEmail: fromEmail !== undefined ? fromEmail.trim() : existing.fromEmail || '',
-        fromName: fromName !== undefined ? fromName.trim() : existing.fromName || 'ManageMyWeb Studio',
-        isConfigured: isConfigured !== undefined ? Boolean(isConfigured) : true
+        fromEmail: fromEmail !== undefined ? fromEmail.trim() : existing.fromEmail || 'sales@managemyweb.co',
+        fromName: fromName !== undefined ? fromName.trim() : existing.fromName || 'ManageMyWeb',
+        isConfigured: true,
       };
 
-      fs.writeFileSync(smtpFilePath, JSON.stringify(updated, null, 2), 'utf8');
+      writeJsonData('smtp-config.json', updated);
 
       return res.status(200).json({
         success: true,
-        message: 'SMTP settings updated successfully.',
+        message: 'SMTP settings saved.',
         config: {
           ...updated,
           pass: updated.pass ? '••••••••' : '',
-          hasPasswordSet: Boolean(updated.pass)
-        }
+          hasPasswordSet: Boolean(updated.pass),
+        },
       });
     } catch (e) {
       return res.status(500).json({ error: 'Failed to update SMTP config: ' + e.message });

@@ -1002,7 +1002,14 @@ export default function AdminDashboard() {
                       required
                       placeholder="465"
                       value={smtpConfig.port || 465}
-                      onChange={(e) => setSmtpConfig({ ...smtpConfig, port: Number(e.target.value) })}
+                      onChange={(e) => {
+                        const newPort = Number(e.target.value);
+                        setSmtpConfig({
+                          ...smtpConfig,
+                          port: newPort,
+                          secure: newPort === 465,
+                        });
+                      }}
                       className="ios-input"
                     />
                   </div>
@@ -1066,12 +1073,19 @@ export default function AdminDashboard() {
                   <input
                     type="checkbox"
                     id="smtpSecure"
-                    checked={smtpConfig.secure === true}
-                    onChange={(e) => setSmtpConfig({ ...smtpConfig, secure: e.target.checked })}
+                    checked={Number(smtpConfig.port) === 465 || smtpConfig.secure === true}
+                    onChange={(e) => {
+                      const useSsl = e.target.checked;
+                      setSmtpConfig({
+                        ...smtpConfig,
+                        secure: useSsl,
+                        port: useSsl ? 465 : 587,
+                      });
+                    }}
                     style={{ width: '16px', height: '16px', accentColor: '#0071E3' }}
                   />
                   <label htmlFor="smtpSecure" style={{ fontSize: '13px', color: '#424245', cursor: 'pointer' }}>
-                    Use SSL / TLS (Required for port 465)
+                    Use Implicit SSL (Port 465 — uncheck for Port 587 STARTTLS)
                   </label>
                 </div>
 
