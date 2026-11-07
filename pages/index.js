@@ -4,6 +4,7 @@ import SEOHead from '../components/SEOHead';
 import CountdownBanner from '../components/CountdownBanner';
 import Navbar from '../components/Navbar';
 import VirtualCoffeeStore3D from '../components/VirtualCoffeeStore3D';
+import ClientLogos from '../components/ClientLogos';
 import LeadModal from '../components/LeadModal';
 import Footer from '../components/Footer';
 
@@ -270,6 +271,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/*CLIENT LOGOS PORTFOLIO*/}
+        <ClientLogos />
 
         {/* 3-STEP HOW IT WORKS */}
         <section style={{ padding: '72px 0', background: '#FFFFFF', borderBottom: '1px solid #D2D2D7' }}>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import SEOHead from '../components/SEOHead';
 import CountdownBanner from '../components/CountdownBanner';
 import Navbar from '../components/Navbar';
+import ClientLogos from '../components/ClientLogos';
 import LeadModal from '../components/LeadModal';
 import Footer from '../components/Footer';
 
@@ -132,6 +133,11 @@ export default function CaseStudies() {
           </div>
         </div>
       </main>
+
+      <ClientLogos
+        title="All 14 Global Client Websites"
+        subtitle="Netherlands · UK · Ireland · USA · Australia · Canada"
+      />
 
       <Footer onOpenDemoModal={() => setDemoModalOpen(true)} />
       <LeadModal isOpen={demoModalOpen} onClose={() => setDemoModalOpen(false)} />
