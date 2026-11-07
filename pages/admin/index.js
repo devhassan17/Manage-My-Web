@@ -19,14 +19,14 @@ export default function AdminDashboard() {
 
   // SMTP State
   const [smtpConfig, setSmtpConfig] = useState({
-    host: '',
-    port: 587,
-    secure: false,
+    host: 'smtp.zoho.com',
+    port: 465,
+    secure: true,
     user: 'sales@managemyweb.co',
     pass: '',
     fromEmail: 'sales@managemyweb.co',
-    fromName: 'ManageMyWeb Sales',
-    isConfigured: false,
+    fromName: 'ManageMyWeb',
+    isConfigured: true,
   });
   const [smtpLoading, setSmtpLoading] = useState(false);
   const [smtpMsg, setSmtpMsg] = useState({ type: '', text: '' });
@@ -939,6 +939,45 @@ export default function AdminDashboard() {
                 </div>
               )}
 
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '20px' }}>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSmtpConfig({
+                      ...smtpConfig,
+                      host: 'smtp.zoho.com',
+                      port: 465,
+                      secure: true,
+                      user: 'sales@managemyweb.co',
+                      fromEmail: 'sales@managemyweb.co',
+                      fromName: 'ManageMyWeb',
+                    })
+                  }
+                  className="btn-apple-secondary"
+                  style={{ padding: '6px 12px', fontSize: '12px' }}
+                >
+                  Apply Zoho SSL (465)
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSmtpConfig({
+                      ...smtpConfig,
+                      host: 'smtp.zoho.com',
+                      port: 587,
+                      secure: false,
+                      user: 'sales@managemyweb.co',
+                      fromEmail: 'sales@managemyweb.co',
+                      fromName: 'ManageMyWeb',
+                    })
+                  }
+                  className="btn-apple-secondary"
+                  style={{ padding: '6px 12px', fontSize: '12px' }}
+                >
+                  Apply Zoho TLS (587)
+                </button>
+              </div>
+
               <form onSubmit={handleSaveSmtp} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '12px' }}>
                   <div>
@@ -948,7 +987,7 @@ export default function AdminDashboard() {
                     <input
                       type="text"
                       required
-                      placeholder="smtp.gmail.com"
+                      placeholder="smtp.zoho.com"
                       value={smtpConfig.host || ''}
                       onChange={(e) => setSmtpConfig({ ...smtpConfig, host: e.target.value })}
                       className="ios-input"
@@ -961,8 +1000,8 @@ export default function AdminDashboard() {
                     <input
                       type="number"
                       required
-                      placeholder="587"
-                      value={smtpConfig.port || 587}
+                      placeholder="465"
+                      value={smtpConfig.port || 465}
                       onChange={(e) => setSmtpConfig({ ...smtpConfig, port: Number(e.target.value) })}
                       className="ios-input"
                     />
@@ -1114,20 +1153,20 @@ export default function AdminDashboard() {
                 }}
               >
                 <h4 style={{ fontSize: '12px', fontWeight: 600, color: '#6E6E73', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px' }}>
-                  Common Provider Settings
+                  Zoho Mail Configuration Checklist
                 </h4>
-                <ul style={{ listStyle: 'none', fontSize: '13px', color: '#424245', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <ul style={{ listStyle: 'none', fontSize: '13px', color: '#424245', display: 'flex', flexDirection: 'column', gap: '10px', lineHeight: 1.5 }}>
                   <li>
-                    <strong style={{ color: '#1D1D1F' }}>Google Workspace / Gmail:</strong> smtp.gmail.com (Port 587)
+                    <strong style={{ color: '#1D1D1F' }}>1. Outgoing Server (SMTP):</strong> Use <code>smtp.zoho.com</code> with Port <code>465</code> (SSL checked) or Port <code>587</code> (TLS).
                   </li>
                   <li>
-                    <strong style={{ color: '#1D1D1F' }}>SendGrid:</strong> smtp.sendgrid.net (Port 587, user: apikey)
+                    <strong style={{ color: '#1D1D1F' }}>2. Zoho App Password:</strong> If 2FA is active on Zoho, go to <code>accounts.zoho.com</code> → Security → App Passwords and generate an App Password for this website.
                   </li>
                   <li>
-                    <strong style={{ color: '#1D1D1F' }}>Mailgun:</strong> smtp.mailgun.org (Port 587)
+                    <strong style={{ color: '#1D1D1F' }}>3. Matching Sender Address:</strong> Keep both Username and Sender Email set to <code>sales@managemyweb.co</code> (Zoho blocks sending from unverified addresses).
                   </li>
                   <li>
-                    <strong style={{ color: '#1D1D1F' }}>Hostinger / cPanel:</strong> smtp.hostinger.com (Port 465 SSL)
+                    <strong style={{ color: '#1D1D1F' }}>4. Domain DNS (MX &amp; SPF):</strong> Ensure <code>mx.zoho.com</code> (10), <code>mx2.zoho.com</code> (20), <code>mx3.zoho.com</code> (50), and TXT <code>v=spf1 include:zohomail.com ~all</code> are added in your domain DNS.
                   </li>
                 </ul>
               </div>

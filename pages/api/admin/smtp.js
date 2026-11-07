@@ -9,14 +9,14 @@ export default function handler(req, res) {
       smtpFilePath,
       JSON.stringify(
         {
-          host: '',
-          port: 587,
-          secure: false,
-          user: '',
+          host: 'smtp.zoho.com',
+          port: 465,
+          secure: true,
+          user: 'sales@managemyweb.co',
           pass: '',
-          fromEmail: '',
-          fromName: 'ManageMyWeb Studio Concierge',
-          isConfigured: false
+          fromEmail: 'sales@managemyweb.co',
+          fromName: 'ManageMyWeb',
+          isConfigured: true
         },
         null,
         2

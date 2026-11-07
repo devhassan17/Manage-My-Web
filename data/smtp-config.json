@@ -1,10 +1,10 @@
 {
-  "host": "smtp.gmail.com",
-  "port": 587,
-  "secure": false,
+  "host": "smtp.zoho.com",
+  "port": 465,
+  "secure": true,
   "user": "sales@managemyweb.co",
   "pass": "",
   "fromEmail": "sales@managemyweb.co",
-  "fromName": "ManageMyWeb Sales",
-  "isConfigured": false
+  "fromName": "ManageMyWeb",
+  "isConfigured": true
 }
