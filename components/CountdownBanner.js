@@ -4,7 +4,6 @@ export default function CountdownBanner({ onClaimDemo }) {
   const [timeLeft, setTimeLeft] = useState({
     days: 59,
     hours: 23,
-    minutes: 42,
   });
   const [mounted, setMounted] = useState(false);
 
@@ -21,16 +20,14 @@ export default function CountdownBanner({ onClaimDemo }) {
     }
 
     const updateTimer = () => {
-      const now = Date.now();
-      const diff = targetTime - now;
-
+      const diff = targetTime - Date.now();
       if (diff <= 0) {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0 });
+        setTimeLeft({ days: 0, hours: 0 });
       } else {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        setTimeLeft({ days, hours, minutes });
+        setTimeLeft({
+          days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        });
       }
     };
 
@@ -53,27 +50,22 @@ export default function CountdownBanner({ onClaimDemo }) {
       <div
         className="container"
         style={{
-          paddingTop: '9px',
-          paddingBottom: '9px',
+          paddingTop: '8px',
+          paddingBottom: '8px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flexWrap: 'wrap',
-          gap: '8px 16px',
+          gap: '6px 14px',
           textAlign: 'center',
         }}
       >
-        <span style={{ color: '#1D1D1F' }}>
-          <strong style={{ fontWeight: 600 }}>Q4 Studio Onboarding:</strong> We build a complimentary 3D store prototype for qualified brands before you commit to a build.
+        <span>
+          <strong style={{ fontWeight: 600 }}>Free 48h 3D Demo:</strong> Preview your store in 3D before you invest.
         </span>
 
-        <span
-          style={{
-            color: '#6E6E73',
-            fontVariantNumeric: 'tabular-nums',
-          }}
-        >
-          Window closes in {mounted ? `${timeLeft.days}d ${timeLeft.hours}h` : '59d 23h'}
+        <span style={{ color: '#6E6E73', fontVariantNumeric: 'tabular-nums' }}>
+          {mounted ? `${timeLeft.days}d ${timeLeft.hours}h left` : '59d 23h left'}
         </span>
 
         <button
@@ -87,15 +79,9 @@ export default function CountdownBanner({ onClaimDemo }) {
             cursor: 'pointer',
             padding: 0,
             fontFamily: 'inherit',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '3px',
           }}
-          onMouseOver={(e) => (e.currentTarget.style.textDecoration = 'underline')}
-          onMouseOut={(e) => (e.currentTarget.style.textDecoration = 'none')}
         >
-          <span>Request your prototype</span>
-          <span aria-hidden="true">›</span>
+          Claim Free Demo ›
         </button>
       </div>
     </div>

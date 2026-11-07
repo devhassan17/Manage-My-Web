@@ -24,7 +24,7 @@ export default function Footer({ onOpenDemoModal }) {
 
   const waRaw = (contactInfo.whatsappNumber || '923174075023').replace(/[^0-9]/g, '');
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
-    'Hello ManageMyWeb team, I would like to discuss a 3D store prototype and managed web operations.'
+    'Hello ManageMyWeb team, I would like to discuss a 3D store demo and quotation.'
   )}`;
 
   return (
@@ -37,11 +37,11 @@ export default function Footer({ onOpenDemoModal }) {
         lineHeight: 1.5,
       }}
     >
-      {/* Pre-Footer Consultative Sales Callout */}
+      {/* Pre-Footer CTA */}
       <div
         style={{
           borderBottom: '1px solid #D2D2D7',
-          padding: '72px 0',
+          padding: '48px 0',
           background: '#FFFFFF',
         }}
       >
@@ -52,80 +52,67 @@ export default function Footer({ onOpenDemoModal }) {
             alignItems: 'center',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
-            gap: '32px',
+            gap: '24px',
           }}
         >
-          <div style={{ maxWidth: '620px' }}>
-            <p
-              style={{
-                fontSize: '12px',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-                color: '#6E6E73',
-                marginBottom: '8px',
-              }}
-            >
-              Complimentary Prototype Program
-            </p>
+          <div style={{ maxWidth: '520px' }}>
             <h3
               style={{
-                fontSize: 'clamp(26px, 3.5vw, 36px)',
+                fontSize: 'clamp(22px, 3vw, 30px)',
                 fontWeight: 600,
                 color: '#1D1D1F',
                 letterSpacing: '-0.025em',
                 lineHeight: 1.15,
-                marginBottom: '12px',
+                marginBottom: '6px',
               }}
             >
-              See your products inside a 3D store before spending a dollar.
+              Ready to see your store in 3D?
             </h3>
-            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.5 }}>
-              Share your store URL during our 60-day onboarding window. Our engineers will build a working, interactive 3D walkthrough of your storefront in 48 hours—with zero obligation.
+            <p style={{ color: '#6E6E73', fontSize: '14.5px' }}>
+              Start with a free 48-hour 3D demo or request a custom quotation today.
             </p>
           </div>
 
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             <button
               onClick={onOpenDemoModal}
               className="btn-apple-blue"
-              style={{ padding: '13px 26px', fontSize: '15px' }}
+              style={{ padding: '11px 22px', fontSize: '14px' }}
             >
-              Request Free Prototype
+              Free 3D Demo / Quote
             </button>
             <a
               href={waUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-apple-secondary"
-              style={{ padding: '13px 24px', fontSize: '15px', color: '#1D1D1F' }}
+              style={{ padding: '11px 20px', fontSize: '14px', color: '#1D1D1F' }}
             >
-              Speak with an Engineer
+              WhatsApp Us
             </a>
           </div>
         </div>
       </div>
 
-      {/* Apple-Style Multi-Column Directory */}
-      <div className="container" style={{ paddingTop: '44px', paddingBottom: '36px' }}>
+      {/* Directory */}
+      <div className="container" style={{ paddingTop: '36px', paddingBottom: '28px' }}>
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-            gap: '32px',
-            paddingBottom: '36px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
+            gap: '28px',
+            paddingBottom: '28px',
             borderBottom: '1px solid #D2D2D7',
           }}
         >
-          {/* Column 1 */}
           <div>
-            <div style={{ fontWeight: 600, color: '#1D1D1F', marginBottom: '10px', fontSize: '12px' }}>
+            <div style={{ fontWeight: 600, color: '#1D1D1F', marginBottom: '6px', fontSize: '12px' }}>
               ManageMyWeb
             </div>
-            <p style={{ color: '#6E6E73', fontSize: '12px', lineHeight: 1.6, marginBottom: '14px' }}>
-              Bespoke 3D retail storefronts and end-to-end web operations for modern commerce brands.
+            <p style={{ color: '#6E6E73', fontSize: '12px', lineHeight: 1.5, marginBottom: '10px' }}>
+              3D storefronts &amp; managed web operations.
             </p>
-            <div style={{ color: '#1D1D1F', fontWeight: 500, fontSize: '12px', marginBottom: '4px' }}>
+            <div style={{ color: '#1D1D1F', fontWeight: 500, fontSize: '12px', marginBottom: '2px' }}>
               WhatsApp: {contactInfo.whatsappNumber}
             </div>
             <div style={{ color: '#424245', fontSize: '12px' }}>
@@ -135,54 +122,42 @@ export default function Footer({ onOpenDemoModal }) {
             </div>
           </div>
 
-          {/* Column 2 */}
           <div>
-            <h4 style={{ fontSize: '12px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
-              Spatial Storefronts
+            <h4 style={{ fontSize: '12px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
+              3D Storefronts
             </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <li>
                 <Link href="/services/3d-virtual-stores" style={{ color: '#424245', textDecoration: 'none' }}>
-                  3D Virtual Store Architecture
+                  3D Virtual Stores
                 </Link>
               </li>
               <li>
                 <Link href="/experience" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Interactive Showroom Demo
+                  Live 3D Demo
                 </Link>
               </li>
               <li>
-                <Link href="/services/3d-virtual-stores#interactive-shelves" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Product Shelving Systems
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/3d-virtual-stores#spatial-checkout" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Express Bar Checkout
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/3d-virtual-stores#fairchain-story" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Provenance & Impact Displays
+                <Link href="/pricing" style={{ color: '#424245', textDecoration: 'none' }}>
+                  Get Quotation
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 3 */}
           <div>
-            <h4 style={{ fontSize: '12px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
-              Web Operations
+            <h4 style={{ fontSize: '12px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
+              Services
             </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <li>
                 <Link href="/services" style={{ color: '#424245', textDecoration: 'none' }}>
-                  All Studio Capabilities
+                  All Capabilities
                 </Link>
               </li>
               <li>
                 <Link href="/services/web-management" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Managed Hosting & DNS
+                  Managed Hosting &amp; DNS
                 </Link>
               </li>
               <li>
@@ -190,48 +165,37 @@ export default function Footer({ onOpenDemoModal }) {
                   Conversion Engineering
                 </Link>
               </li>
-              <li>
-                <Link href="/pricing" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Pricing & Retainers
-                </Link>
-              </li>
             </ul>
           </div>
 
-          {/* Column 4 */}
           <div>
-            <h4 style={{ fontSize: '12px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
+            <h4 style={{ fontSize: '12px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
               Company
             </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <li>
                 <Link href="/case-studies" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Client Case Studies
+                  Case Studies
                 </Link>
               </li>
               <li>
                 <Link href="/about" style={{ color: '#424245', textDecoration: 'none' }}>
-                  About the Studio
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Editorial Journal
+                  About
                 </Link>
               </li>
               <li>
                 <Link href="/faq" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Frequently Asked Questions
+                  FAQ
                 </Link>
               </li>
               <li>
                 <Link href="/contact" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Contact Sales
+                  Contact
                 </Link>
               </li>
               <li>
                 <Link href="/admin" style={{ color: '#6E6E73', textDecoration: 'none' }}>
-                  Studio Admin
+                  Admin
                 </Link>
               </li>
             </ul>
@@ -241,7 +205,7 @@ export default function Footer({ onOpenDemoModal }) {
         {/* Bottom Legal Line */}
         <div
           style={{
-            paddingTop: '18px',
+            paddingTop: '16px',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -250,17 +214,15 @@ export default function Footer({ onOpenDemoModal }) {
             color: '#6E6E73',
           }}
         >
-          <div>
-            Copyright © {currentYear} ManageMyWeb Studio Inc. All rights reserved.
-          </div>
+          <div>© {currentYear} ManageMyWeb. All rights reserved.</div>
 
-          <div style={{ display: 'flex', gap: '18px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
             <Link href="/privacy" style={{ color: '#424245', textDecoration: 'none' }}>
-              Privacy Policy
+              Privacy
             </Link>
             <span style={{ color: '#D2D2D7' }}>|</span>
             <Link href="/terms" style={{ color: '#424245', textDecoration: 'none' }}>
-              Terms of Use
+              Terms
             </Link>
             <span style={{ color: '#D2D2D7' }}>|</span>
             <button
@@ -280,12 +242,8 @@ export default function Footer({ onOpenDemoModal }) {
                 fontFamily: 'inherit',
               }}
             >
-              Cookie Preferences
+              Cookies
             </button>
-            <span style={{ color: '#D2D2D7' }}>|</span>
-            <Link href="/sitemap.xml" style={{ color: '#424245', textDecoration: 'none' }}>
-              Site Map
-            </Link>
           </div>
         </div>
       </div>

@@ -12,44 +12,41 @@ export default function ServicesHub() {
   const services = [
     {
       num: '01',
-      title: '3D Spatial Retail Storefronts',
+      title: '3D Retail Storefronts',
       slug: '/services/3d-virtual-stores',
       badge: 'Flagship Architecture',
-      desc: 'Move beyond generic 2D templates. We design custom 3D storefronts where customers explore product shelving, check out at the bar, and experience your brand provenance.',
+      desc: 'Walkable 3D storefronts with interactive product shelves, express checkout, and brand walls.',
       features: [
-        'Bespoke 3D WebGL & Three.js Architecture',
-        'Interactive Product Shelving Systems',
-        'One-Tap Express Bar Checkout',
-        'Brand Provenance & Sustainability Exhibit',
-        'Direct Concierge Dispatch Desk',
+        'Custom 3D WebGL Storefront',
+        '360° Product Shelving',
+        'Express Apple Pay & Stripe Checkout',
+        'Shopify & WooCommerce Sync',
       ],
     },
     {
       num: '02',
-      title: 'Managed Web Operations & Infrastructure',
+      title: 'Managed Web Operations',
       slug: '/services/web-management',
-      badge: 'Technical Stewardship',
-      desc: 'We take full responsibility for your cloud hosting, DNS records, domain renewals, email authentication, security backups, and day-to-day website updates.',
+      badge: 'Full Tech Management',
+      desc: 'We run your cloud hosting, DNS, domains, business email, backups, and daily site edits.',
       features: [
         'Sub-Second Global Edge Hosting',
-        'Domain, DNS & SSL Certificate Management',
-        'DMARC, DKIM & SPF Email Security',
-        'Core Web Vitals & Speed Optimization',
-        'Same-Day Content & Catalog Updates',
+        'Domain, DNS & SSL Management',
+        'DMARC, DKIM & SPF Email Setup',
+        'Same-Day Updates via WhatsApp',
       ],
     },
     {
       num: '03',
-      title: 'Conversion & Checkout Engineering',
+      title: 'Conversion Engineering',
       slug: '/services/ecommerce-growth',
-      badge: 'Commercial Growth',
-      desc: 'Turn existing store traffic into higher-value orders through frictionless Apple Pay checkouts, shelf bundling, and clean attribution analytics.',
+      badge: 'Revenue Lift',
+      desc: 'Turn traffic into higher-value orders with one-tap checkouts and 3D shelf bundling.',
       features: [
-        'Conversion Rate Optimization (CRO)',
         'One-Tap Apple Pay & Stripe Flows',
-        'Shelf Bundling & Upsell Architecture',
+        '3D Shelf Bundling & Upsells',
         'GA4 & Server-Side Attribution',
-        'Checkout Abandonment Reduction',
+        'Cart Abandonment Reduction',
       ],
     },
   ];
@@ -66,93 +63,75 @@ export default function ServicesHub() {
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 60px auto' }}>
-            <p className="apple-eyebrow" style={{ marginBottom: '12px' }}>
-              Studio Capabilities
+          <div style={{ textAlign: 'center', maxWidth: '620px', margin: '0 auto 44px auto' }}>
+            <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
+              Services
             </p>
             <h1
               style={{
-                fontSize: 'clamp(36px, 5vw, 54px)',
+                fontSize: 'clamp(32px, 4.5vw, 48px)',
                 fontWeight: 600,
                 letterSpacing: '-0.03em',
                 color: '#1D1D1F',
                 lineHeight: 1.08,
-                marginBottom: '16px',
+                marginBottom: '12px',
               }}
             >
-              Flagship design meets effortless operations.
+              3D design &amp; managed operations.
             </h1>
-            <p style={{ color: '#6E6E73', fontSize: '18px', lineHeight: 1.5 }}>
-              Whether you want to transform your store into an interactive 3D showroom or hand off all technical website management to a dedicated engineering team, we handle everything under one roof.
+            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.45 }}>
+              Everything your online store needs under one roof.
             </p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {services.map((s) => (
               <div
                 key={s.title}
                 className="apple-card"
                 style={{
-                  padding: 'clamp(28px, 4vw, 44px)',
-                  borderRadius: '24px',
+                  padding: 'clamp(24px, 3.5vw, 36px)',
+                  borderRadius: '20px',
                   background: '#FFFFFF',
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                  gap: '36px',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                  gap: '28px',
                   alignItems: 'center',
                 }}
               >
                 <div>
-                  <p className="apple-eyebrow" style={{ marginBottom: '8px', color: '#0066CC' }}>
+                  <p className="apple-eyebrow" style={{ marginBottom: '6px', color: '#0066CC' }}>
                     {s.num} · {s.badge}
                   </p>
 
-                  <h2 style={{ fontSize: '28px', fontWeight: 600, color: '#1D1D1F', marginBottom: '12px' }}>
+                  <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
                     {s.title}
                   </h2>
 
-                  <p style={{ color: '#424245', fontSize: '15.5px', lineHeight: 1.65, marginBottom: '24px' }}>
+                  <p style={{ color: '#424245', fontSize: '14.5px', lineHeight: 1.55, marginBottom: '18px' }}>
                     {s.desc}
                   </p>
 
-                  <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                    <Link href={s.slug} className="btn-apple-dark" style={{ padding: '11px 22px', fontSize: '14px' }}>
-                      Explore Service Details
+                  <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                    <Link href={s.slug} className="btn-apple-dark" style={{ padding: '10px 18px', fontSize: '13.5px' }}>
+                      Explore
                     </Link>
                     <button
                       onClick={() => setDemoModalOpen(true)}
                       className="btn-apple-secondary"
-                      style={{ padding: '11px 20px', fontSize: '14px' }}
+                      style={{ padding: '10px 18px', fontSize: '13.5px' }}
                     >
-                      Request Free Prototype
+                      Free 3D Demo / Quote
                     </button>
                   </div>
                 </div>
 
-                <div
-                  style={{
-                    background: '#F5F5F7',
-                    borderRadius: '18px',
-                    padding: '28px',
-                  }}
-                >
-                  <h4
-                    style={{
-                      fontSize: '12px',
-                      fontWeight: 600,
-                      color: '#6E6E73',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.06em',
-                      marginBottom: '16px',
-                    }}
-                  >
-                    Included Deliverables
-                  </h4>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ background: '#F5F5F7', borderRadius: '16px', padding: '22px' }}>
+                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     {s.features.map((feat) => (
-                      <li key={feat} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#1D1D1F', fontSize: '14.5px', fontWeight: 500 }}>
+                      <li key={feat} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#1D1D1F', fontSize: '14px', fontWeight: 500 }}>
                         <span style={{ color: '#0066CC', fontWeight: 600 }}>✓</span>
                         <span>{feat}</span>
                       </li>

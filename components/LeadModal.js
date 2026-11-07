@@ -4,7 +4,7 @@ export default function LeadModal({
   isOpen,
   onClose,
   initialCategory = 'Fashion, Apparel & Footwear',
-  initialMode = 'demo', // 'demo' | 'quotation'
+  initialMode = 'demo',
   initialPackage = 'Spatial Retail Flagship',
 }) {
   const [formData, setFormData] = useState({
@@ -15,7 +15,7 @@ export default function LeadModal({
     websiteUrl: '',
     category: initialCategory,
     revenueRange: 'Not Specified',
-    requestType: initialMode, // 'demo' | 'quotation'
+    requestType: initialMode,
     requestedPackage: initialPackage,
     productCount: '15 - 50 Products',
     platform: 'Shopify',
@@ -67,8 +67,8 @@ export default function LeadModal({
   const waRaw = '923174075023';
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
     isQuotation
-      ? `Hello ManageMyWeb, I just requested a custom quotation (${formData.requestedPackage}) for ${formData.storeName || 'our e-commerce brand'}.`
-      : `Hello ManageMyWeb, I just requested Step 1 (Free 3D Store Demo) for ${formData.storeName || 'our e-commerce brand'}.`
+      ? `Hello ManageMyWeb, I just requested a custom quotation (${formData.requestedPackage}) for ${formData.storeName || 'our store'}.`
+      : `Hello ManageMyWeb, I just requested a Free 3D Demo for ${formData.storeName || 'our store'}.`
   )}`;
 
   return (
@@ -83,7 +83,7 @@ export default function LeadModal({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '20px',
+        padding: '16px',
         overflowY: 'auto',
       }}
       onClick={onClose}
@@ -92,10 +92,10 @@ export default function LeadModal({
         style={{
           background: '#FFFFFF',
           border: '1px solid rgba(0, 0, 0, 0.08)',
-          borderRadius: '22px',
-          maxWidth: '580px',
+          borderRadius: '20px',
+          maxWidth: '520px',
           width: '100%',
-          padding: '36px',
+          padding: '28px',
           boxShadow: '0 24px 60px rgba(0, 0, 0, 0.18)',
           position: 'relative',
           color: '#1D1D1F',
@@ -107,16 +107,16 @@ export default function LeadModal({
           aria-label="Close modal"
           style={{
             position: 'absolute',
-            top: '20px',
-            right: '20px',
+            top: '16px',
+            right: '16px',
             background: '#F5F5F7',
             border: 'none',
             color: '#6E6E73',
-            width: '30px',
-            height: '30px',
+            width: '28px',
+            height: '28px',
             borderRadius: '50%',
             cursor: 'pointer',
-            fontSize: '14px',
+            fontSize: '13px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -126,70 +126,36 @@ export default function LeadModal({
         </button>
 
         {submitted ? (
-          <div style={{ textAlign: 'center', padding: '16px 8px' }}>
+          <div style={{ textAlign: 'center', padding: '12px 4px' }}>
             <div
               style={{
-                width: '48px',
-                height: '48px',
+                width: '44px',
+                height: '44px',
                 borderRadius: '50%',
                 background: '#E8F5E9',
                 color: '#1D7D3F',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                margin: '0 auto 16px auto',
-                fontSize: '20px',
+                margin: '0 auto 12px auto',
+                fontSize: '18px',
                 fontWeight: 600,
               }}
             >
               ✓
             </div>
-            <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
-              {isQuotation ? 'Custom Quotation Request Received' : 'Step 1 Confirmed: 3D Demo in Progress'}
+            <h2 style={{ fontSize: '21px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+              {isQuotation ? 'Quotation Request Received' : 'Step 1: Free 3D Demo Confirmed'}
             </h2>
-            <p style={{ color: '#6E6E73', fontSize: '15px', lineHeight: 1.5, marginBottom: '22px' }}>
-              {isQuotation ? (
-                <>
-                  Thank you, {formData.name}. Our engineering team is preparing a tailored quotation for{' '}
-                  <strong style={{ color: '#1D1D1F' }}>{formData.storeName || 'your store'}</strong> ({formData.requestedPackage}) and will send your itemized proposal within 24 hours.
-                </>
-              ) : (
-                <>
-                  Thank you, {formData.name}. Our team is building your complimentary 3D store demo for{' '}
-                  <strong style={{ color: '#1D1D1F' }}>{formData.storeName || 'your catalog'}</strong>. Once you review the demo (Step 1), we will prepare your custom quotation (Step 2).
-                </>
-              )}
+            <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5, marginBottom: '20px' }}>
+              {isQuotation
+                ? `Thanks, ${formData.name}. We will send your itemized quotation within 24 hours.`
+                : `Thanks, ${formData.name}. We will email your free 3D preview link in 48 hours (Step 1), followed by your custom quotation (Step 2).`}
             </p>
-
-            <div
-              style={{
-                background: '#F5F5F7',
-                padding: '16px 20px',
-                borderRadius: '12px',
-                marginBottom: '24px',
-                textAlign: 'left',
-              }}
-            >
-              <div style={{ fontWeight: 600, color: '#1D1D1F', fontSize: '13px', marginBottom: '6px' }}>
-                {isQuotation ? 'Your Quotation Roadmap' : 'Your 2-Step Engagement Roadmap'}
-              </div>
-              {isQuotation ? (
-                <ul style={{ margin: 0, paddingLeft: '18px', color: '#424245', fontSize: '13px', lineHeight: 1.6 }}>
-                  <li>We review your store catalog, SKU volume ({formData.productCount}), and platform ({formData.platform}).</li>
-                  <li>You receive a formal itemized quotation via email within 24 hours.</li>
-                  <li>We can also include a complimentary 3D preview of your hero products upon request.</li>
-                </ul>
-              ) : (
-                <ul style={{ margin: 0, paddingLeft: '18px', color: '#424245', fontSize: '13px', lineHeight: 1.6 }}>
-                  <li><strong>Step 1 (Free 3D Demo):</strong> Within 48 hours, you receive a private interactive 3D walkthrough link featuring your products.</li>
-                  <li><strong>Step 2 (Custom Quotation):</strong> After you test the 3D demo with your team, we send a custom quotation tailored to your final scope.</li>
-                </ul>
-              )}
-            </div>
 
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a href={waUrl} target="_blank" rel="noopener noreferrer" className="btn-apple-blue">
-                Message Our Team on WhatsApp
+                Chat on WhatsApp
               </a>
               <button
                 onClick={() => {
@@ -204,7 +170,7 @@ export default function LeadModal({
           </div>
         ) : (
           <div>
-            {/* Segmented Mode Switcher: Demo First vs Direct Quotation */}
+            {/* Mode Switcher */}
             <div
               style={{
                 display: 'grid',
@@ -212,8 +178,8 @@ export default function LeadModal({
                 gap: '6px',
                 background: '#F5F5F7',
                 padding: '4px',
-                borderRadius: '12px',
-                marginBottom: '20px',
+                borderRadius: '11px',
+                marginBottom: '16px',
                 border: '1px solid #E5E5EA',
               }}
             >
@@ -221,13 +187,13 @@ export default function LeadModal({
                 type="button"
                 onClick={() => setFormData({ ...formData, requestType: 'demo' })}
                 style={{
-                  padding: '9px 12px',
-                  borderRadius: '9px',
+                  padding: '8px 10px',
+                  borderRadius: '8px',
                   border: 'none',
                   background: !isQuotation ? '#FFFFFF' : 'transparent',
-                  boxShadow: !isQuotation ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
+                  boxShadow: !isQuotation ? '0 2px 6px rgba(0,0,0,0.08)' : 'none',
                   color: '#1D1D1F',
-                  fontSize: '12.5px',
+                  fontSize: '12px',
                   fontWeight: !isQuotation ? 600 : 500,
                   cursor: 'pointer',
                   fontFamily: 'inherit',
@@ -239,54 +205,29 @@ export default function LeadModal({
                 type="button"
                 onClick={() => setFormData({ ...formData, requestType: 'quotation' })}
                 style={{
-                  padding: '9px 12px',
-                  borderRadius: '9px',
+                  padding: '8px 10px',
+                  borderRadius: '8px',
                   border: 'none',
                   background: isQuotation ? '#FFFFFF' : 'transparent',
-                  boxShadow: isQuotation ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
+                  boxShadow: isQuotation ? '0 2px 6px rgba(0,0,0,0.08)' : 'none',
                   color: '#1D1D1F',
-                  fontSize: '12.5px',
+                  fontSize: '12px',
                   fontWeight: isQuotation ? 600 : 500,
                   cursor: 'pointer',
                   fontFamily: 'inherit',
                 }}
               >
-                2. Request Custom Quotation
+                2. Custom Quotation
               </button>
             </div>
 
-            <p
-              style={{
-                fontSize: '11px',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-                color: '#0066CC',
-                marginBottom: '6px',
-              }}
-            >
-              {isQuotation
-                ? 'Direct Custom Quotation · 24-Hour Turnaround'
-                : 'Step 1: Free 3D Store Demo → Step 2: Custom Quotation'}
-            </p>
-
-            <h2
-              style={{
-                fontSize: '23px',
-                fontWeight: 600,
-                color: '#1D1D1F',
-                marginBottom: '6px',
-                letterSpacing: '-0.02em',
-              }}
-            >
-              {isQuotation
-                ? 'Request a tailored quotation for your store.'
-                : 'Start with a free 3D demo, then get your quote.'}
+            <h2 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
+              {isQuotation ? 'Request Custom Quotation' : 'Step 1: Free 3D Demo → Step 2: Quote'}
             </h2>
-            <p style={{ color: '#6E6E73', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '18px' }}>
+            <p style={{ color: '#6E6E73', fontSize: '13px', marginBottom: '14px' }}>
               {isQuotation
-                ? 'Every store has a unique catalog and technical scope. Tell us what you need and our engineers will send an itemized quotation within 24 hours.'
-                : 'Want to see your products inside an interactive 3D showroom first? We will build a free working 3D preview in 48 hours (Step 1), followed by your custom quotation (Step 2).'}
+                ? 'Receive a tailored quotation in 24 hours.'
+                : 'Preview your store in 3D in 48 hours at zero cost.'}
             </p>
 
             {errorMsg && (
@@ -295,20 +236,20 @@ export default function LeadModal({
                   background: '#FFF2F2',
                   border: '1px solid #FFD6D6',
                   color: '#D70015',
-                  padding: '10px 14px',
-                  borderRadius: '10px',
-                  fontSize: '13px',
-                  marginBottom: '16px',
+                  padding: '9px 12px',
+                  borderRadius: '8px',
+                  fontSize: '12.5px',
+                  marginBottom: '12px',
                 }}
               >
                 {errorMsg}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                  <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
                     Full Name *
                   </label>
                   <input
@@ -322,7 +263,7 @@ export default function LeadModal({
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                  <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
                     Work Email *
                   </label>
                   <input
@@ -336,14 +277,14 @@ export default function LeadModal({
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                    Brand / Store Name
+                  <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                    Store Name
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. Atelier Studio"
+                    placeholder="Atelier Studio"
                     value={formData.storeName}
                     onChange={(e) => setFormData({ ...formData, storeName: e.target.value })}
                     className="ios-input"
@@ -351,8 +292,8 @@ export default function LeadModal({
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                    Current Website URL
+                  <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                    Website URL
                   </label>
                   <input
                     type="text"
@@ -364,30 +305,29 @@ export default function LeadModal({
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                    E-Commerce Category
+                  <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                    Category
                   </label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     className="ios-input"
                   >
-                    <option value="Fashion, Apparel & Footwear">Fashion, Apparel & Footwear</option>
-                    <option value="Beauty, Cosmetics & Fragrance">Beauty, Cosmetics & Fragrance</option>
-                    <option value="Consumer Electronics & Audio">Consumer Electronics & Audio</option>
-                    <option value="Watches, Jewelry & Luxury Goods">Watches, Jewelry & Luxury Goods</option>
-                    <option value="Home, Furniture & Decor">Home, Furniture & Decor</option>
-                    <option value="Food, Beverage & Specialty Goods">Food, Beverage & Specialty Goods</option>
-                    <option value="Sports, Fitness & Outdoors">Sports, Fitness & Outdoors</option>
-                    <option value="Other E-Commerce Store">Other E-Commerce Store</option>
+                    <option value="Fashion, Apparel & Footwear">Fashion &amp; Footwear</option>
+                    <option value="Beauty, Cosmetics & Fragrance">Beauty &amp; Fragrance</option>
+                    <option value="Consumer Electronics & Audio">Electronics &amp; Audio</option>
+                    <option value="Watches, Jewelry & Luxury Goods">Watches &amp; Luxury</option>
+                    <option value="Home, Furniture & Decor">Home &amp; Furniture</option>
+                    <option value="Food, Beverage & Specialty Goods">Food &amp; Beverage</option>
+                    <option value="Other E-Commerce Store">Other E-Commerce</option>
                   </select>
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                    Phone or WhatsApp
+                  <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                    WhatsApp / Phone
                   </label>
                   <input
                     type="text"
@@ -399,27 +339,26 @@ export default function LeadModal({
                 </div>
               </div>
 
-              {/* Scope Selectors for Quotation or Demo */}
-              <div style={{ display: 'grid', gridTemplateColumns: isQuotation ? '1.3fr 1fr 1fr' : '1fr 1fr', gap: '10px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '10px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                    Desired Scope / Package
+                  <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                    Package
                   </label>
                   <select
                     value={formData.requestedPackage}
                     onChange={(e) => setFormData({ ...formData, requestedPackage: e.target.value })}
                     className="ios-input"
                   >
-                    <option value="Spatial Retail Flagship">Spatial Retail Flagship (3D Store)</option>
+                    <option value="Spatial Retail Flagship">Spatial Retail Flagship</option>
                     <option value="3D Storefront Launchpad">3D Storefront Launchpad</option>
-                    <option value="Managed Web Concierge">Managed Web Concierge Retainer</option>
-                    <option value="Full 3D Store + Managed Web Bundle">Full 3D Store + Managed Web Bundle</option>
+                    <option value="Managed Web Concierge">Managed Web Concierge</option>
+                    <option value="Full 3D Store + Managed Web Bundle">3D Store + Managed Bundle</option>
                   </select>
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                    Catalog Size
+                  <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                    Catalog SKUs
                   </label>
                   <select
                     value={formData.productCount}
@@ -432,39 +371,12 @@ export default function LeadModal({
                     <option value="200+ Products">200+ SKUs</option>
                   </select>
                 </div>
-
-                {isQuotation && (
-                  <div>
-                    <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                      Platform
-                    </label>
-                    <select
-                      value={formData.platform}
-                      onChange={(e) => setFormData({ ...formData, platform: e.target.value })}
-                      className="ios-input"
-                    >
-                      <option value="Shopify">Shopify</option>
-                      <option value="WooCommerce">WooCommerce</option>
-                      <option value="Custom / Headless">Custom / Headless</option>
-                      <option value="New Store">New Store</option>
-                    </select>
-                  </div>
-                )}
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                  {isQuotation
-                    ? 'Project requirements or features to include in quotation'
-                    : 'Products to feature in your free 3D demo (optional)'}
-                </label>
                 <textarea
                   rows={2}
-                  placeholder={
-                    isQuotation
-                      ? 'Share any custom features, timeline goals, or integrations you want included in your quotation...'
-                      : 'Tell us 2–3 best-selling products or layout ideas for your free 3D preview...'
-                  }
+                  placeholder="Optional notes or products to feature..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="ios-input"
@@ -472,35 +384,18 @@ export default function LeadModal({
                 />
               </div>
 
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  paddingTop: '8px',
-                  gap: '12px',
-                  flexWrap: 'wrap',
-                }}
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-apple-blue"
+                style={{ padding: '12px 20px', fontSize: '14px', width: '100%', marginTop: '4px' }}
               >
-                <span style={{ fontSize: '12px', color: '#6E6E73' }}>
-                  {isQuotation
-                    ? 'Itemized proposal in 24h · Zero obligation'
-                    : 'Step 1: Free 48h 3D Demo → Step 2: Custom Quote'}
-                </span>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn-apple-blue"
-                  style={{ padding: '12px 24px', fontSize: '14px' }}
-                >
-                  {loading
-                    ? 'Submitting...'
-                    : isQuotation
-                    ? 'Request Custom Quotation'
-                    : 'Start with Free 3D Demo'}
-                </button>
-              </div>
+                {loading
+                  ? 'Submitting...'
+                  : isQuotation
+                  ? 'Request Custom Quotation'
+                  : 'Start with Free 3D Demo'}
+              </button>
             </form>
           </div>
         )}

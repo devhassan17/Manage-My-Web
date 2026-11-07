@@ -10,6 +10,37 @@ import Footer from '../../components/Footer';
 export default function ThreeDVirtualStores() {
   const [demoModalOpen, setDemoModalOpen] = useState(false);
 
+  const zones = [
+    {
+      id: 'interactive-shelves',
+      zone: 'Zone 01',
+      title: '3D Product Displays & Shelving',
+      desc: 'Shoppers walk up to racks and shelves, inspect items in 360°, and add directly to bag.',
+      image: '/images/coffee_store_hero.jpg',
+    },
+    {
+      id: 'spatial-checkout',
+      zone: 'Zone 02',
+      title: 'Express Counter Checkout',
+      desc: 'One-tap Apple Pay, Google Pay, and Stripe synced with Shopify or WooCommerce (+62% AOV).',
+      image: '/images/spatial_devices_preview.jpg',
+    },
+    {
+      id: 'fairchain-story',
+      zone: 'Zone 03',
+      title: 'Brand Story & Provenance Wall',
+      desc: 'Highlight craftsmanship, materials, and origin stories directly inside the showroom.',
+      image: '/images/fairchain_harvest.jpg',
+    },
+    {
+      id: 'postal-dispatch',
+      zone: 'Zone 04',
+      title: 'VIP Client & Concierge Desk',
+      desc: 'In-store desk for sizing questions, wholesale inquiries, and instant support.',
+      image: '/images/coffee_post_office.jpg',
+    },
+  ];
+
   return (
     <>
       <SEOHead
@@ -35,213 +66,81 @@ export default function ThreeDVirtualStores() {
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          {/* Header */}
-          <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 52px auto' }}>
-            <p className="apple-eyebrow" style={{ marginBottom: '12px' }}>
-              3D Storefront Architecture for All E-Commerce Brands
+          <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 40px auto' }}>
+            <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
+              3D Storefront Architecture
             </p>
             <h1
               style={{
-                fontSize: 'clamp(36px, 5vw, 58px)',
+                fontSize: 'clamp(34px, 4.6vw, 52px)',
                 fontWeight: 600,
                 letterSpacing: '-0.035em',
                 color: '#1D1D1F',
                 lineHeight: 1.08,
-                marginBottom: '18px',
+                marginBottom: '12px',
               }}
             >
-              A digital storefront that feels like a physical flagship.
+              A digital store that feels like a physical flagship.
             </h1>
-            <p style={{ fontSize: '18px', color: '#6E6E73', lineHeight: 1.55, maxWidth: '700px', margin: '0 auto' }}>
-              Whether you sell apparel, cosmetics, electronics, watches, furniture, or specialty goods, we replace flat thumbnail grids with architectural 3D retail spaces where shoppers inspect products, check out in one tap, and connect with your brand story.
+            <p style={{ fontSize: '16px', color: '#6E6E73', lineHeight: 1.45 }}>
+              Custom 60fps 3D storefronts for fashion, beauty, electronics, luxury, home, and specialty retail.
             </p>
 
-            <div style={{ marginTop: '28px', display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div style={{ marginTop: '22px', display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
               <button
                 onClick={() => setDemoModalOpen(true)}
                 className="btn-apple-blue"
-                style={{ padding: '13px 28px', fontSize: '15px' }}
+                style={{ padding: '12px 24px', fontSize: '14.5px' }}
               >
-                Request Free 3D Prototype
+                Free 3D Demo / Quotation
               </button>
-              <Link href="/experience" className="apple-link" style={{ fontSize: '16px' }}>
-                <span>Open fullscreen showroom</span>
+              <Link href="/experience" className="apple-link" style={{ fontSize: '15px' }}>
+                <span>Fullscreen showroom</span>
                 <span aria-hidden="true">›</span>
               </Link>
             </div>
           </div>
 
-          {/* Embedded Live 3D Storefront Preview */}
-          <div style={{ marginBottom: '88px' }}>
+          <div style={{ marginBottom: '56px' }}>
             <VirtualCoffeeStore3D onOpenContact={() => setDemoModalOpen(true)} />
           </div>
 
-          {/* 4 Architectural Zones */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
-            {/* Zone 1 */}
-            <div
-              id="interactive-shelves"
-              className="apple-card"
-              style={{
-                padding: 'clamp(28px, 4vw, 48px)',
-                borderRadius: '24px',
-                background: '#FFFFFF',
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '44px',
-                alignItems: 'center',
-              }}
-            >
-              <div>
-                <p className="apple-eyebrow" style={{ marginBottom: '10px', color: '#0066CC' }}>
-                  Zone 01
-                </p>
-                <h2 style={{ fontSize: '30px', fontWeight: 600, color: '#1D1D1F', marginBottom: '14px' }}>
-                  Interactive Product Displays, Racks & Shelving
-                </h2>
-                <p style={{ color: '#424245', fontSize: '16px', lineHeight: 1.65, marginBottom: '18px' }}>
-                  Instead of scrolling past tiny square images, shoppers walk up to custom apparel racks, display tables, or shelving. They can pick up individual products, inspect materials and specifications in 360°, and add items straight to their bag.
-                </p>
-                <ul style={{ color: '#6E6E73', fontSize: '14.5px', lineHeight: 1.8, paddingLeft: '18px' }}>
-                  <li>Custom 3D product models and fixtures tailored to your industry</li>
-                  <li>Interactive product cards with variants, sizing, and specifications</li>
-                  <li>Real-time inventory sync with Shopify and WooCommerce</li>
-                </ul>
-              </div>
-              <div>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '20px',
+            }}
+          >
+            {zones.map((z) => (
+              <div
+                key={z.id}
+                id={z.id}
+                className="apple-card"
+                style={{
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  background: '#FFFFFF',
+                }}
+              >
                 <img
-                  src="/images/coffee_store_hero.jpg"
-                  alt="3D Product Shelving"
-                  style={{ width: '100%', borderRadius: '18px', display: 'block' }}
+                  src={z.image}
+                  alt={z.title}
+                  style={{ width: '100%', height: '200px', objectFit: 'cover', display: 'block' }}
                 />
-              </div>
-            </div>
-
-            {/* Zone 2 */}
-            <div
-              id="spatial-checkout"
-              className="apple-card"
-              style={{
-                padding: 'clamp(28px, 4vw, 48px)',
-                borderRadius: '24px',
-                background: '#FFFFFF',
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '44px',
-                alignItems: 'center',
-              }}
-            >
-              <div>
-                <img
-                  src="/images/spatial_devices_preview.jpg"
-                  alt="Express Counter Checkout"
-                  style={{ width: '100%', borderRadius: '18px', display: 'block' }}
-                />
-              </div>
-              <div>
-                <p className="apple-eyebrow" style={{ marginBottom: '10px', color: '#0066CC' }}>
-                  Zone 02
-                </p>
-                <h2 style={{ fontSize: '30px', fontWeight: 600, color: '#1D1D1F', marginBottom: '14px' }}>
-                  Express Counter Checkout
-                </h2>
-                <p style={{ color: '#424245', fontSize: '16px', lineHeight: 1.65, marginBottom: '20px' }}>
-                  Multi-step form checkouts cause nearly 70% of shoppers to abandon their carts. Our express counter brings the simplicity of stepping up to a flagship register with one-tap Apple Pay, Google Pay, and Stripe checkout.
-                </p>
-                <div style={{ display: 'flex', gap: '20px' }}>
-                  <div style={{ background: '#F5F5F7', padding: '14px 20px', borderRadius: '14px' }}>
-                    <div style={{ fontSize: '24px', fontWeight: 600, color: '#1D1D1F' }}>+62%</div>
-                    <div style={{ fontSize: '12px', color: '#6E6E73' }}>Average Order Value Lift</div>
+                <div style={{ padding: '24px' }}>
+                  <div style={{ fontSize: '11px', fontWeight: 600, color: '#0066CC', textTransform: 'uppercase', marginBottom: '6px' }}>
+                    {z.zone}
                   </div>
-                  <div style={{ background: '#F5F5F7', padding: '14px 20px', borderRadius: '14px' }}>
-                    <div style={{ fontSize: '24px', fontWeight: 600, color: '#1D1D1F' }}>-41%</div>
-                    <div style={{ fontSize: '12px', color: '#6E6E73' }}>Checkout Abandonment</div>
-                  </div>
+                  <h2 style={{ fontSize: '19px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                    {z.title}
+                  </h2>
+                  <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5 }}>{z.desc}</p>
                 </div>
               </div>
-            </div>
-
-            {/* Zone 3 */}
-            <div
-              id="fairchain-story"
-              className="apple-card"
-              style={{
-                padding: 'clamp(28px, 4vw, 48px)',
-                borderRadius: '24px',
-                background: '#FFFFFF',
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '44px',
-                alignItems: 'center',
-              }}
-            >
-              <div>
-                <p className="apple-eyebrow" style={{ marginBottom: '10px', color: '#0066CC' }}>
-                  Zone 03
-                </p>
-                <h2 style={{ fontSize: '30px', fontWeight: 600, color: '#1D1D1F', marginBottom: '14px' }}>
-                  Brand Story & Craftsmanship Wall
-                </h2>
-                <p style={{ color: '#424245', fontSize: '16px', lineHeight: 1.65, marginBottom: '18px' }}>
-                  Shoppers care about how your products are designed, sourced, and built—yet very few click a standard &ldquo;About&rdquo; link in the footer. Placing your brand story exhibit right inside the showroom turns your quality into a tangible reason to buy.
-                </p>
-                <ul style={{ color: '#6E6E73', fontSize: '14.5px', lineHeight: 1.8, paddingLeft: '18px' }}>
-                  <li>Interactive material, engineering, and craftsmanship breakdowns</li>
-                  <li>Sustainability, provenance, and customer proof displays</li>
-                  <li>Custom editorial video or 3D storytelling panels</li>
-                </ul>
-              </div>
-              <div>
-                <img
-                  src="/images/fairchain_harvest.jpg"
-                  alt="Brand Story & Craftsmanship Wall"
-                  style={{ width: '100%', borderRadius: '18px', display: 'block' }}
-                />
-              </div>
-            </div>
-
-            {/* Zone 4 */}
-            <div
-              id="postal-dispatch"
-              className="apple-card"
-              style={{
-                padding: 'clamp(28px, 4vw, 48px)',
-                borderRadius: '24px',
-                background: '#FFFFFF',
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '44px',
-                alignItems: 'center',
-              }}
-            >
-              <div>
-                <img
-                  src="/images/coffee_post_office.jpg"
-                  alt="Concierge Dispatch Desk"
-                  style={{ width: '100%', borderRadius: '18px', display: 'block' }}
-                />
-              </div>
-              <div>
-                <p className="apple-eyebrow" style={{ marginBottom: '10px', color: '#0066CC' }}>
-                  Zone 04
-                </p>
-                <h2 style={{ fontSize: '30px', fontWeight: 600, color: '#1D1D1F', marginBottom: '14px' }}>
-                  VIP Client & Concierge Desk
-                </h2>
-                <p style={{ color: '#424245', fontSize: '16px', lineHeight: 1.65, marginBottom: '22px' }}>
-                  An architectural concierge booth inside your storefront makes styling consultations, wholesale inquiries, corporate gifting requests, and customer correspondence feel warm and personal.
-                </p>
-                <button
-                  onClick={() => setDemoModalOpen(true)}
-                  className="btn-apple-dark"
-                  style={{ padding: '12px 24px', fontSize: '14px' }}
-                >
-                  Request Your Custom 3D Prototype
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </main>

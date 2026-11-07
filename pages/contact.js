@@ -23,6 +23,7 @@ export default function Contact() {
       })
       .catch(() => {});
   }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -31,7 +32,7 @@ export default function Contact() {
     websiteUrl: '',
     category: 'Fashion, Apparel & Footwear',
     revenueRange: 'Not Specified',
-    requestType: 'demo', // 'demo' | 'quotation'
+    requestType: 'demo',
     requestedPackage: 'Spatial Retail Flagship',
     productCount: '15 - 50 Products',
     platform: 'Shopify',
@@ -69,7 +70,7 @@ export default function Contact() {
 
   const waRaw = (contactInfo.whatsappNumber || '923174075023').replace(/[^0-9]/g, '');
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
-    'Hello ManageMyWeb team, I would like to request a complimentary 3D store prototype for our e-commerce brand.'
+    'Hello ManageMyWeb team, I would like to request a 3D store demo / custom quotation.'
   )}`;
 
   return (
@@ -90,88 +91,71 @@ export default function Contact() {
       <CountdownBanner onClaimDemo={() => {}} />
       <Navbar onOpenDemoModal={() => {}} />
 
-      <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
-        <div className="container" style={{ maxWidth: '1040px' }}>
-          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 56px auto' }}>
-            <p className="apple-eyebrow" style={{ marginBottom: '12px' }}>
-              Studio Concierge
+      <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
+        <div className="container" style={{ maxWidth: '980px' }}>
+          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 40px auto' }}>
+            <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
+              Get Started
             </p>
             <h1
               style={{
-                fontSize: 'clamp(36px, 5vw, 54px)',
+                fontSize: 'clamp(32px, 4.5vw, 48px)',
                 fontWeight: 600,
                 letterSpacing: '-0.03em',
                 color: '#1D1D1F',
                 lineHeight: 1.08,
-                marginBottom: '16px',
+                marginBottom: '10px',
               }}
             >
-              Let’s build your 3D store preview.
+              Free 3D Demo or Custom Quote.
             </h1>
-            <p style={{ color: '#6E6E73', fontSize: '18px', lineHeight: 1.5 }}>
-              Share your current website below. Whether you sell fashion, beauty, electronics, home goods, or specialty products, our engineers will prepare an interactive 3D walkthrough featuring your products within 48 hours at no cost.
+            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.45 }}>
+              Share your store URL below—or message our engineers directly on WhatsApp.
             </p>
           </div>
 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '32px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))',
+              gap: '24px',
             }}
           >
             {/* Inquiry Form */}
-            <div
-              className="apple-card"
-              style={{
-                padding: '40px',
-                borderRadius: '22px',
-                background: '#FFFFFF',
-              }}
-            >
+            <div className="apple-card" style={{ padding: '32px', borderRadius: '20px', background: '#FFFFFF' }}>
               {submitted ? (
-                <div style={{ textAlign: 'center', padding: '24px 8px' }}>
+                <div style={{ textAlign: 'center', padding: '20px 8px' }}>
                   <div
                     style={{
-                      width: '48px',
-                      height: '48px',
+                      width: '44px',
+                      height: '44px',
                       borderRadius: '50%',
                       background: '#E8F5E9',
                       color: '#1D7D3F',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      margin: '0 auto 16px auto',
-                      fontSize: '20px',
+                      margin: '0 auto 14px auto',
+                      fontSize: '18px',
                       fontWeight: 600,
                     }}
                   >
                     ✓
                   </div>
-                  <h3 style={{ fontSize: '24px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
-                    {formData.requestType === 'quotation'
-                      ? 'Custom Quotation Request Received'
-                      : 'Step 1 Confirmed: 3D Demo in Progress'}
+                  <h3 style={{ fontSize: '22px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
+                    {formData.requestType === 'quotation' ? 'Quotation Request Received' : 'Step 1: 3D Demo Confirmed'}
                   </h3>
-                  <p style={{ color: '#424245', fontSize: '15px', lineHeight: 1.6, marginBottom: '20px' }}>
-                    {formData.requestType === 'quotation' ? (
-                      <>
-                        Thank you, {formData.name}. Our team is preparing an itemized quotation for{' '}
-                        <strong>{formData.storeName || formData.websiteUrl || 'your store'}</strong> ({formData.requestedPackage}) and will send your proposal within 24 hours.
-                      </>
-                    ) : (
-                      <>
-                        Thank you, {formData.name}. Our engineering team has received your request for{' '}
-                        <strong>{formData.storeName || formData.websiteUrl || 'your store'}</strong>. We will deliver your complimentary 3D preview link within 48 hours (Step 1), followed by your custom quotation (Step 2).
-                      </>
-                    )}
+                  <p style={{ color: '#424245', fontSize: '14.5px', lineHeight: 1.5, marginBottom: '18px' }}>
+                    {formData.requestType === 'quotation'
+                      ? `Thanks, ${formData.name}. We will email your itemized quotation within 24 hours.`
+                      : `Thanks, ${formData.name}. Your free 3D preview will be ready within 48 hours (Step 1), followed by your custom quotation (Step 2).`}
                   </p>
                   <a href={waUrl} target="_blank" rel="noopener noreferrer" className="btn-apple-blue">
-                    Message Our Engineers on WhatsApp
+                    Chat on WhatsApp
                   </a>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                   {/* Segmented Switcher */}
                   <div
                     style={{
@@ -180,7 +164,7 @@ export default function Contact() {
                       gap: '6px',
                       background: '#F5F5F7',
                       padding: '4px',
-                      borderRadius: '12px',
+                      borderRadius: '11px',
                       border: '1px solid #E5E5EA',
                     }}
                   >
@@ -188,13 +172,13 @@ export default function Contact() {
                       type="button"
                       onClick={() => setFormData({ ...formData, requestType: 'demo' })}
                       style={{
-                        padding: '10px 12px',
-                        borderRadius: '9px',
+                        padding: '9px 10px',
+                        borderRadius: '8px',
                         border: 'none',
                         background: formData.requestType === 'demo' ? '#FFFFFF' : 'transparent',
-                        boxShadow: formData.requestType === 'demo' ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
+                        boxShadow: formData.requestType === 'demo' ? '0 2px 6px rgba(0,0,0,0.08)' : 'none',
                         color: '#1D1D1F',
-                        fontSize: '13px',
+                        fontSize: '12.5px',
                         fontWeight: formData.requestType === 'demo' ? 600 : 500,
                         cursor: 'pointer',
                         fontFamily: 'inherit',
@@ -206,33 +190,20 @@ export default function Contact() {
                       type="button"
                       onClick={() => setFormData({ ...formData, requestType: 'quotation' })}
                       style={{
-                        padding: '10px 12px',
-                        borderRadius: '9px',
+                        padding: '9px 10px',
+                        borderRadius: '8px',
                         border: 'none',
                         background: formData.requestType === 'quotation' ? '#FFFFFF' : 'transparent',
-                        boxShadow: formData.requestType === 'quotation' ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
+                        boxShadow: formData.requestType === 'quotation' ? '0 2px 6px rgba(0,0,0,0.08)' : 'none',
                         color: '#1D1D1F',
-                        fontSize: '13px',
+                        fontSize: '12.5px',
                         fontWeight: formData.requestType === 'quotation' ? 600 : 500,
                         cursor: 'pointer',
                         fontFamily: 'inherit',
                       }}
                     >
-                      2. Request Custom Quotation
+                      2. Custom Quotation
                     </button>
-                  </div>
-
-                  <div>
-                    <h3 style={{ fontSize: '22px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
-                      {formData.requestType === 'quotation'
-                        ? 'Request Your Custom Quotation'
-                        : 'Step 1: Request Free 3D Demo → Step 2: Quotation'}
-                    </h3>
-                    <p style={{ color: '#6E6E73', fontSize: '13.5px' }}>
-                      {formData.requestType === 'quotation'
-                        ? 'Tell us your scope and receive an itemized quotation tailored to your catalog within 24 hours.'
-                        : 'Experience your products inside a free 3D prototype in 48 hours first, then receive your tailored quotation.'}
-                    </p>
                   </div>
 
                   {errorMsg && (
@@ -241,7 +212,7 @@ export default function Contact() {
                         background: '#FFF2F2',
                         border: '1px solid #FFD6D6',
                         color: '#D70015',
-                        padding: '12px 16px',
+                        padding: '10px 14px',
                         borderRadius: '10px',
                         fontSize: '13px',
                       }}
@@ -250,9 +221,9 @@ export default function Contact() {
                     </div>
                   )}
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
                         Full Name *
                       </label>
                       <input
@@ -266,7 +237,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
                         Work Email *
                       </label>
                       <input
@@ -280,10 +251,10 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
-                        Brand / Store Name
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                        Store Name
                       </label>
                       <input
                         type="text"
@@ -295,7 +266,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
                         Website URL
                       </label>
                       <input
@@ -308,10 +279,10 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
-                        E-Commerce Category
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                        Category
                       </label>
                       <select
                         value={formData.category}
@@ -324,14 +295,13 @@ export default function Contact() {
                         <option value="Watches, Jewelry & Luxury Goods">Watches, Jewelry & Luxury Goods</option>
                         <option value="Home, Furniture & Decor">Home, Furniture & Decor</option>
                         <option value="Food, Beverage & Specialty Goods">Food, Beverage & Specialty Goods</option>
-                        <option value="Sports, Fitness & Outdoors">Sports, Fitness & Outdoors</option>
                         <option value="Other E-Commerce Store">Other E-Commerce Store</option>
                       </select>
                     </div>
 
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
-                        Phone or WhatsApp
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                        WhatsApp / Phone
                       </label>
                       <input
                         type="text"
@@ -343,26 +313,26 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
-                        Desired Package / Scope
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                        Package
                       </label>
                       <select
                         value={formData.requestedPackage}
                         onChange={(e) => setFormData({ ...formData, requestedPackage: e.target.value })}
                         className="ios-input"
                       >
-                        <option value="Spatial Retail Flagship">Spatial Retail Flagship (3D Store)</option>
+                        <option value="Spatial Retail Flagship">Spatial Retail Flagship</option>
                         <option value="3D Storefront Launchpad">3D Storefront Launchpad</option>
-                        <option value="Managed Web Concierge">Managed Web Concierge Retainer</option>
-                        <option value="Full 3D Store + Managed Web Bundle">Full 3D Store + Managed Web Bundle</option>
+                        <option value="Managed Web Concierge">Managed Web Concierge</option>
+                        <option value="Full 3D Store + Managed Web Bundle">3D Store + Managed Bundle</option>
                       </select>
                     </div>
 
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
-                        Catalog Size &amp; Platform
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                        Catalog SKUs
                       </label>
                       <select
                         value={formData.productCount}
@@ -378,12 +348,12 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
-                      Project Goals or Products to Highlight
+                    <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                      Notes (Optional)
                     </label>
                     <textarea
-                      rows={4}
-                      placeholder="Tell us about your flagship products, store layout vision, or current website priorities..."
+                      rows={2}
+                      placeholder="Products to highlight or specific requirements..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="ios-input"
@@ -391,82 +361,65 @@ export default function Contact() {
                     />
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '6px', flexWrap: 'wrap', gap: '12px' }}>
-                    <div style={{ fontSize: '12px', color: '#6E6E73' }}>
-                      {formData.requestType === 'quotation'
-                        ? '24-hour itemized quotation turnaround'
-                        : 'Step 1: 48h 3D Demo → Step 2: Custom Quotation'}
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="btn-apple-blue"
-                      style={{ padding: '13px 28px', fontSize: '14.5px' }}
-                    >
-                      {loading
-                        ? 'Submitting...'
-                        : formData.requestType === 'quotation'
-                        ? 'Request Custom Quotation'
-                        : 'Start Step 1: Request Free 3D Demo'}
-                    </button>
-                  </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="btn-apple-blue"
+                    style={{ padding: '13px 24px', fontSize: '14.5px', width: '100%' }}
+                  >
+                    {loading
+                      ? 'Submitting...'
+                      : formData.requestType === 'quotation'
+                      ? 'Request Custom Quotation'
+                      : 'Start Step 1: Request Free 3D Demo'}
+                  </button>
                 </form>
               )}
             </div>
 
             {/* Direct Contact Sidebar */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div className="apple-card" style={{ padding: '32px', borderRadius: '20px', background: '#FFFFFF' }}>
-                <p className="apple-eyebrow" style={{ marginBottom: '10px' }}>
-                  Direct Engineer Access
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div className="apple-card" style={{ padding: '26px', borderRadius: '18px', background: '#FFFFFF' }}>
+                <p className="apple-eyebrow" style={{ marginBottom: '6px' }}>
+                  Direct WhatsApp
                 </p>
-                <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
-                  Prefer to chat directly?
+                <h3 style={{ fontSize: '19px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                  Chat with an engineer.
                 </h3>
-                <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.6, marginBottom: '20px' }}>
-                  Speak directly with our lead engineers on WhatsApp for quick questions about Shopify integration, timelines, or custom 3D environments.
+                <p style={{ color: '#6E6E73', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '16px' }}>
+                  Quick answers on Shopify sync, 3D demos, and custom quotations.
                 </p>
                 <a
                   href={waUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-apple-dark"
-                  style={{ width: '100%' }}
+                  style={{ width: '100%', padding: '11px', fontSize: '13.5px' }}
                 >
                   WhatsApp · {contactInfo.whatsappNumber}
                 </a>
               </div>
 
-              <div className="apple-card" style={{ padding: '32px', borderRadius: '20px', background: '#FFFFFF' }}>
-                <p className="apple-eyebrow" style={{ marginBottom: '12px' }}>
-                  Studio Information
-                </p>
-                <div style={{ fontSize: '14px', color: '#424245', marginBottom: '8px' }}>
+              <div className="apple-card" style={{ padding: '24px', borderRadius: '18px', background: '#FFFFFF' }}>
+                <div style={{ fontSize: '13.5px', color: '#424245', marginBottom: '6px' }}>
                   <strong style={{ color: '#1D1D1F' }}>Email:</strong>{' '}
                   <a href={`mailto:${contactInfo.supportEmail}`} style={{ color: '#0066CC', textDecoration: 'none' }}>
                     {contactInfo.supportEmail}
                   </a>
                 </div>
-                <div style={{ fontSize: '14px', color: '#424245', marginBottom: '8px' }}>
+                <div style={{ fontSize: '13.5px', color: '#424245', marginBottom: '6px' }}>
                   <strong style={{ color: '#1D1D1F' }}>WhatsApp:</strong> {contactInfo.whatsappNumber}
                 </div>
-                <div style={{ fontSize: '14px', color: '#1D7D3F', fontWeight: 500 }}>
-                  Average response time under 2 hours
+                <div style={{ fontSize: '13px', color: '#1D7D3F', fontWeight: 500 }}>
+                  Replies in under 2 hours
                 </div>
               </div>
 
-              <div
-                style={{
-                  borderRadius: '20px',
-                  overflow: 'hidden',
-                  border: '1px solid #D2D2D7',
-                }}
-              >
+              <div style={{ borderRadius: '18px', overflow: 'hidden', border: '1px solid #D2D2D7' }}>
                 <img
                   src="/images/spatial_devices_preview.jpg"
                   alt="3D Storefront across devices"
-                  style={{ width: '100%', height: '210px', objectFit: 'cover', display: 'block' }}
+                  style={{ width: '100%', height: '190px', objectFit: 'cover', display: 'block' }}
                 />
               </div>
             </div>

@@ -21,57 +21,54 @@ export default function About() {
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 60px auto' }}>
-            <p className="apple-eyebrow" style={{ marginBottom: '12px' }}>
-              Our Philosophy
+          <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 44px auto' }}>
+            <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
+              About ManageMyWeb
             </p>
             <h1
               style={{
-                fontSize: 'clamp(36px, 5vw, 54px)',
+                fontSize: 'clamp(34px, 4.6vw, 50px)',
                 fontWeight: 600,
                 letterSpacing: '-0.03em',
                 color: '#1D1D1F',
                 lineHeight: 1.08,
-                marginBottom: '18px',
+                marginBottom: '12px',
               }}
             >
               Great brands deserve better than flat templates.
             </h1>
-            <p style={{ color: '#6E6E73', fontSize: '18px', lineHeight: 1.55 }}>
-              In 1999, online shopping was designed as a grid of small thumbnails to fit dial-up connections. Decades later, 99% of e-commerce websites—across fashion, beauty, electronics, home goods, and specialty retail—still use the exact same layout. We founded ManageMyWeb to bring flagship architecture and human curation to digital commerce.
+            <p style={{ color: '#6E6E73', fontSize: '16.5px', lineHeight: 1.5 }}>
+              We build interactive 3D storefronts for modern e-commerce brands—and manage their entire web stack year-round.
             </p>
           </div>
 
           <div
             style={{
-              padding: 'clamp(28px, 4vw, 52px)',
-              borderRadius: '24px',
+              padding: 'clamp(24px, 3.5vw, 40px)',
+              borderRadius: '22px',
               background: '#FFFFFF',
               border: '1px solid #D2D2D7',
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '44px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '36px',
               alignItems: 'center',
-              marginBottom: '72px',
+              marginBottom: '48px',
             }}
           >
             <div>
-              <p className="apple-eyebrow" style={{ marginBottom: '10px' }}>
-                Why We Built ManageMyWeb
+              <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
+                Our Mission
               </p>
-              <h2 style={{ fontSize: '30px', fontWeight: 600, color: '#1D1D1F', marginBottom: '16px', lineHeight: 1.15 }}>
-                Bridging the gap between physical flagship stores and online commerce.
+              <h2 style={{ fontSize: '26px', fontWeight: 600, color: '#1D1D1F', marginBottom: '12px', lineHeight: 1.15 }}>
+                Flagship retail architecture on the web.
               </h2>
-              <p style={{ color: '#424245', fontSize: '16px', lineHeight: 1.65, marginBottom: '14px' }}>
-                When a customer walks into an Apple Store, a Soho fashion boutique, or an artisanal roastery, the space itself communicates quality. Products are curated on tables and shelves, specialists are ready to help, and checkout is effortless.
+              <p style={{ color: '#424245', fontSize: '15px', lineHeight: 1.6, marginBottom: '20px' }}>
+                99% of online stores use the same 2D grid. We turn your catalog into a walkable 3D showroom and handle your hosting, speed, DNS, and daily edits under one roof.
               </p>
-              <p style={{ color: '#424245', fontSize: '16px', lineHeight: 1.65, marginBottom: '24px' }}>
-                Yet online, those same brands are flattened into identical four-column grids. We engineer interactive 3D storefronts for every e-commerce vertical—and manage the entire technical stack behind the scenes—so your digital presence finally matches the quality of your products.
-              </p>
-              <Link href="/services/3d-virtual-stores" className="btn-apple-dark">
-                Explore 3D Store Architecture
+              <Link href="/services/3d-virtual-stores" className="btn-apple-dark" style={{ padding: '11px 22px', fontSize: '14px' }}>
+                Explore 3D Storefronts
               </Link>
             </div>
 
@@ -79,46 +76,39 @@ export default function About() {
               <img
                 src="/images/spatial_devices_preview.jpg"
                 alt="3D Storefront Architecture"
-                style={{
-                  width: '100%',
-                  borderRadius: '18px',
-                  display: 'block',
-                }}
+                style={{ width: '100%', borderRadius: '16px', display: 'block' }}
               />
             </div>
           </div>
 
-          {/* Core Principles */}
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '24px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: '20px',
             }}
           >
             {[
               {
                 num: '01',
-                title: 'Bespoke to Your Industry',
-                desc: 'Whether you sell streetwear, skincare, watches, hardware, or specialty foods, every 3D room is architected specifically around your catalog.',
+                title: 'Built for Any Industry',
+                desc: 'Tailored 3D rooms for fashion, beauty, electronics, watches, home, and food.',
               },
               {
                 num: '02',
-                title: 'Lightweight Mobile Engineering',
-                desc: 'We avoid bloated code and heavy plugins. Our WebGL scenes render at 60 frames per second on everyday iPhones and Android devices.',
+                title: '60fps Mobile Speed',
+                desc: 'Instant loading on iPhone and Android browsers with zero app downloads.',
               },
               {
                 num: '03',
-                title: 'Direct Engineer Stewardship',
-                desc: 'No ticket queues or account middlemen. Every client communicates directly with the senior engineers managing their storefront.',
+                title: 'Direct Engineer Access',
+                desc: 'Message our senior engineers directly on WhatsApp for same-day updates.',
               },
             ].map((v) => (
-              <div key={v.title} className="apple-card" style={{ padding: '36px', borderRadius: '20px', background: '#FFFFFF' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#0066CC', marginBottom: '12px' }}>{v.num}</div>
-                <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
-                  {v.title}
-                </h3>
-                <p style={{ color: '#6E6E73', fontSize: '14.5px', lineHeight: 1.6 }}>{v.desc}</p>
+              <div key={v.title} className="apple-card" style={{ padding: '28px', borderRadius: '18px', background: '#FFFFFF' }}>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#0066CC', marginBottom: '8px' }}>{v.num}</div>
+                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>{v.title}</h3>
+                <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5 }}>{v.desc}</p>
               </div>
             ))}
           </div>

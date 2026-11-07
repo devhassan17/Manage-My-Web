@@ -31,80 +31,80 @@ export default function WebManagement() {
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 60px auto' }}>
-            <p className="apple-eyebrow" style={{ marginBottom: '12px' }}>
+          <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 44px auto' }}>
+            <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
               Managed Web Operations
             </p>
             <h1
               style={{
-                fontSize: 'clamp(36px, 5vw, 54px)',
+                fontSize: 'clamp(32px, 4.5vw, 48px)',
                 fontWeight: 600,
                 letterSpacing: '-0.03em',
                 color: '#1D1D1F',
                 lineHeight: 1.08,
-                marginBottom: '18px',
+                marginBottom: '12px',
               }}
             >
-              We run your web infrastructure so you can run your business.
+              We run your website so you can run your business.
             </h1>
-            <p style={{ color: '#6E6E73', fontSize: '18px', lineHeight: 1.55 }}>
-              Hosting, DNS records, domain renewals, SSL certificates, email authentication, speed tuning, and daily content edits—handled by senior engineers under a single predictable monthly retainer.
+            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.45 }}>
+              Hosting, DNS, speed, security, and daily edits handled by senior engineers.
             </p>
           </div>
 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))',
-              gap: '24px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
+              gap: '18px',
             }}
           >
             {[
               {
                 num: '01',
                 title: 'Global Edge Cloud Hosting',
-                desc: 'We migrate and host your storefront on NVMe edge infrastructure with HTTP/3 and global CDN caching for sub-second load times.',
+                desc: 'Sub-second load times on NVMe edge infrastructure with global CDN caching.',
               },
               {
                 num: '02',
-                title: 'DNS & Domain Stewardship',
-                desc: 'Complete management of A records, CNAMEs, TXT verifications, SSL certificates, and domain renewals with zero downtime.',
+                title: 'DNS & Domain Management',
+                desc: 'Zero-downtime management of DNS records, SSL certificates, and renewals.',
               },
               {
                 num: '03',
-                title: 'Business Email Deliverability',
-                desc: 'Google Workspace and custom SMTP configuration with strict DKIM, SPF, and DMARC policies so your emails reach the primary inbox.',
+                title: 'Email Deliverability',
+                desc: 'Full DKIM, SPF, and DMARC authentication so your emails never land in spam.',
               },
               {
                 num: '04',
                 title: 'Security & Daily Backups',
-                desc: 'Automated off-site daily backups, web application firewall protection, DDoS mitigation, and continuous uptime monitoring.',
+                desc: 'Automated off-site backups, firewall protection, and 24/7 uptime monitoring.',
               },
               {
                 num: '05',
-                title: 'Same-Day Content & Product Edits',
-                desc: 'Need a seasonal banner, pricing update, or new product launch? Send a quick message on WhatsApp and we publish it the same day.',
+                title: 'Same-Day WhatsApp Edits',
+                desc: 'Message us on WhatsApp for seasonal banners, new products, or copy updates.',
               },
               {
                 num: '06',
-                title: 'Core Web Vitals & SEO Hygiene',
-                desc: 'Ongoing image optimization, clean semantic markup, and performance audits to maintain 95+ Lighthouse scores.',
+                title: 'Speed & SEO Hygiene',
+                desc: 'Continuous Core Web Vitals tuning for 95+ Google Lighthouse scores.',
               },
             ].map((card) => (
               <div
                 key={card.title}
                 className="apple-card"
-                style={{ padding: '36px', borderRadius: '20px', background: '#FFFFFF' }}
+                style={{ padding: '26px', borderRadius: '18px', background: '#FFFFFF' }}
               >
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#0066CC', marginBottom: '12px' }}>
+                <div style={{ fontSize: '11px', fontWeight: 600, color: '#0066CC', marginBottom: '8px' }}>
                   {card.num}
                 </div>
-                <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
                   {card.title}
                 </h3>
-                <p style={{ color: '#6E6E73', fontSize: '14.5px', lineHeight: 1.6 }}>{card.desc}</p>
+                <p style={{ color: '#6E6E73', fontSize: '13.5px', lineHeight: 1.5 }}>{card.desc}</p>
               </div>
             ))}
           </div>

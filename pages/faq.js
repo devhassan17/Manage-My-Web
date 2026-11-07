@@ -11,44 +11,34 @@ export default function FAQPage() {
 
   const faqs = [
     {
-      category: 'Complimentary Prototype Program',
-      q: 'How does the complimentary 3D prototype work?',
-      a: 'During our 60-day onboarding window, you can submit your current website URL and our engineering team will build a working, interactive 3D walkthrough featuring your products at no cost. There is no obligation, no upfront fee, and no credit card required.',
+      category: 'Demo & Quotation',
+      q: 'How does the Free 3D Demo and Custom Quotation work?',
+      a: 'Choose Step 1 to receive a free 48-hour 3D preview of your products before getting your Step 2 quotation—or request a direct itemized quotation within 24 hours.',
     },
     {
-      category: 'Complimentary Prototype Program',
-      q: 'What is included in the custom 3D prototype?',
-      a: 'Your prototype includes a tailored 3D architectural showroom featuring interactive product shelving with your packaging, an express barista or boutique checkout counter, a brand provenance wall, and a concierge contact desk.',
-    },
-    {
-      category: 'Technology & Performance',
-      q: 'Does a 3D storefront run smoothly on iPhones and Android devices?',
-      a: 'Yes. We engineer every storefront using hardware-accelerated WebGL and Three.js. It runs at 60 frames per second directly inside mobile Safari, Chrome, iPad, desktop browsers, and Apple Vision Pro with zero app installation.',
-    },
-    {
-      category: 'Technology & Performance',
-      q: 'Will a 3D storefront slow down initial page load times?',
-      a: 'No. We combine Next.js server-side rendering with progressive asset streaming. Critical page content renders immediately while 3D geometry streams in the background, achieving sub-second first paint.',
-    },
-    {
-      category: 'Search & SEO',
-      q: 'Can Google index products inside a 3D storefront?',
-      a: 'Yes. Every product title, description, price, and article includes complete semantic HTML markup and Schema.org JSON-LD structured data so search engines index your catalog effortlessly.',
+      category: 'Mobile Speed',
+      q: 'Does a 3D store run fast on iPhones and Android phones?',
+      a: 'Yes. 60fps directly inside mobile Safari and Chrome in under 1.1 seconds—no app download required.',
     },
     {
       category: 'Integrations',
-      q: 'Does this connect to our existing Shopify or WooCommerce inventory?',
-      a: 'Yes. We connect directly to your Shopify or WooCommerce backend so inventory counts, product variants, pricing, and order fulfillment remain synchronized with your existing operations.',
+      q: 'Does it connect to our existing Shopify or WooCommerce catalog?',
+      a: 'Yes. Your products, variants, stock, and order fulfillment remain 100% synced with your current store.',
     },
     {
-      category: 'Web Operations Concierge',
-      q: 'What does ManageMyWeb handle on a day-to-day basis?',
-      a: 'We manage your cloud edge hosting, domain and DNS records, business email deliverability (SPF, DKIM, DMARC), security patches, speed tuning, and routine site edits. Whenever you need an update, simply message our engineers.',
+      category: 'SEO',
+      q: 'Can Google index products inside a 3D storefront?',
+      a: 'Yes. Every page and product includes full semantic HTML and Schema.org JSON-LD markup for Google indexing.',
     },
     {
-      category: 'Timelines',
-      q: 'How long does a full production 3D storefront take to launch?',
-      a: 'Your complimentary prototype is delivered within 48 hours. A complete production storefront with full catalog integration typically launches within 2 to 3 weeks.',
+      category: 'Managed Operations',
+      q: 'What does ManageMyWeb handle monthly?',
+      a: 'Cloud hosting, domains, DNS, business email (SPF/DKIM/DMARC), speed optimization, security backups, and same-day edits via WhatsApp.',
+    },
+    {
+      category: 'Timeline',
+      q: 'How fast can we launch?',
+      a: 'Your free 3D demo is ready in 48 hours. Full production storefronts launch in 2 to 3 weeks.',
     },
   ];
 
@@ -63,47 +53,39 @@ export default function FAQPage() {
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
-        <div className="container" style={{ maxWidth: '820px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '56px' }}>
-            <p className="apple-eyebrow" style={{ marginBottom: '12px' }}>
-              Knowledge Base
+      <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
+        <div className="container" style={{ maxWidth: '760px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
+              FAQ
             </p>
             <h1
               style={{
-                fontSize: 'clamp(36px, 5vw, 52px)',
+                fontSize: 'clamp(32px, 4.5vw, 46px)',
                 fontWeight: 600,
                 letterSpacing: '-0.03em',
                 color: '#1D1D1F',
-                marginBottom: '14px',
+                marginBottom: '8px',
               }}
             >
-              Frequently Asked Questions
+              Questions &amp; Answers
             </h1>
-            <p style={{ color: '#6E6E73', fontSize: '18px' }}>
-              Everything you need to know about our 3D storefronts, prototype program, and managed web operations.
-            </p>
           </div>
 
           <div style={{ borderTop: '1px solid #D2D2D7' }}>
             {faqs.map((faq, idx) => {
               const isOpen = openIdx === idx;
               return (
-                <div
-                  key={faq.q}
-                  style={{
-                    borderBottom: '1px solid #D2D2D7',
-                  }}
-                >
+                <div key={faq.q} style={{ borderBottom: '1px solid #D2D2D7' }}>
                   <button
                     onClick={() => setOpenIdx(isOpen ? null : idx)}
                     style={{
                       width: '100%',
-                      padding: '22px 0',
+                      padding: '18px 0',
                       background: 'transparent',
                       border: 'none',
                       color: '#1D1D1F',
-                      fontSize: '17px',
+                      fontSize: '16px',
                       fontWeight: 600,
                       textAlign: 'left',
                       cursor: 'pointer',
@@ -122,7 +104,7 @@ export default function FAQPage() {
                           textTransform: 'uppercase',
                           letterSpacing: '0.05em',
                           display: 'block',
-                          marginBottom: '4px',
+                          marginBottom: '3px',
                           fontWeight: 600,
                         }}
                       >
@@ -132,8 +114,7 @@ export default function FAQPage() {
                     </div>
                     <span
                       style={{
-                        fontSize: '22px',
-                        fontWeight: 400,
+                        fontSize: '20px',
                         color: '#6E6E73',
                         transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
                         transition: 'transform 0.2s ease',
@@ -146,10 +127,10 @@ export default function FAQPage() {
                   {isOpen && (
                     <div
                       style={{
-                        paddingBottom: '22px',
+                        paddingBottom: '18px',
                         color: '#424245',
-                        fontSize: '15.5px',
-                        lineHeight: 1.6,
+                        fontSize: '14.5px',
+                        lineHeight: 1.55,
                       }}
                     >
                       {faq.a}

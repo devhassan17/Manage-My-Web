@@ -10,31 +10,28 @@ export const blogPosts = [
   {
     slug: 'future-of-ecommerce-3d-virtual-stores',
     title: 'Why 3D Flagship Storefronts Are Replacing Flat Product Grids',
-    excerpt:
-      'Most online stores look the same today as they did two decades ago. How interactive 3D retail spaces and tactile shelving drive 3.4× longer customer engagement.',
-    date: 'November 2, 2026',
-    readTime: '6 min read',
+    excerpt: 'How interactive 3D retail spaces drive 3.4× longer customer sessions.',
+    date: 'Nov 2, 2026',
+    readTime: '4 min read',
     category: 'Spatial Retail',
     image: '/images/coffee_store_hero.jpg',
   },
   {
     slug: 'fairchain-coffee-story-in-spatial-web',
-    title: 'How Visual Provenance Walls Turn Ethical Sourcing Into Buyer Trust',
-    excerpt:
-      'Less than 4% of visitors click a standard About Us page. Placing direct-trade data and harvest provenance inside the showroom transforms brand retention.',
-    date: 'October 28, 2026',
-    readTime: '5 min read',
-    category: 'Brand Provenance',
+    title: 'How Visual Provenance Walls Build Instant Buyer Trust',
+    excerpt: 'Placing craftsmanship and origin data directly inside the showroom.',
+    date: 'Oct 28, 2026',
+    readTime: '3 min read',
+    category: 'Brand Story',
     image: '/images/fairchain_harvest.jpg',
   },
   {
     slug: 'why-traditional-ecommerce-grids-are-dying',
-    title: 'The Psychology of the Walk-Up Counter: Lifting Order Value by 62%',
-    excerpt:
-      'Multi-step checkout forms suffer from 70% abandonment. A closer look at why express bar registers and contextual shelf merchandising convert better.',
-    date: 'October 21, 2026',
-    readTime: '7 min read',
-    category: 'Conversion Engineering',
+    title: 'Lifting Average Order Value by 62% with Express Counters',
+    excerpt: 'Why one-tap express registers and 3D shelf bundles convert higher.',
+    date: 'Oct 21, 2026',
+    readTime: '4 min read',
+    category: 'Conversion',
     image: '/images/spatial_devices_preview.jpg',
   },
 ];
@@ -53,34 +50,31 @@ export default function BlogIndex() {
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 60px auto' }}>
-            <p className="apple-eyebrow" style={{ marginBottom: '12px' }}>
-              Editorial Journal
+          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 44px auto' }}>
+            <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
+              Journal
             </p>
             <h1
               style={{
-                fontSize: 'clamp(36px, 5vw, 54px)',
+                fontSize: 'clamp(32px, 4.5vw, 48px)',
                 fontWeight: 600,
                 letterSpacing: '-0.03em',
                 color: '#1D1D1F',
                 lineHeight: 1.08,
-                marginBottom: '16px',
+                marginBottom: '10px',
               }}
             >
-              Notes on spatial retail & conversion.
+              Notes on 3D retail.
             </h1>
-            <p style={{ color: '#6E6E73', fontSize: '18px', lineHeight: 1.5 }}>
-              Architectural benchmarks, conversion research, and case notes from our engineering team.
-            </p>
           </div>
 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '28px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: '22px',
             }}
           >
             {blogPosts.map((post) => (
@@ -88,14 +82,14 @@ export default function BlogIndex() {
                 key={post.slug}
                 className="apple-card apple-card-interactive"
                 style={{
-                  borderRadius: '20px',
+                  borderRadius: '18px',
                   overflow: 'hidden',
                   background: '#FFFFFF',
                   display: 'flex',
                   flexDirection: 'column',
                 }}
               >
-                <div style={{ height: '220px', position: 'relative' }}>
+                <div style={{ height: '195px' }}>
                   <img
                     src={post.image}
                     alt={post.title}
@@ -103,22 +97,17 @@ export default function BlogIndex() {
                   />
                 </div>
 
-                <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+                <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
                   <div>
-                    <div style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#0066CC', marginBottom: '6px' }}>
-                      {post.category}
+                    <div style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', color: '#0066CC', marginBottom: '4px' }}>
+                      {post.category} · {post.readTime}
                     </div>
-                    <div style={{ fontSize: '12px', color: '#86868B', marginBottom: '10px' }}>
-                      {post.date} · {post.readTime}
-                    </div>
-
-                    <h2 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px', lineHeight: 1.3 }}>
+                    <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px', lineHeight: 1.3 }}>
                       <Link href={`/blog/${post.slug}`} style={{ color: '#1D1D1F', textDecoration: 'none' }}>
                         {post.title}
                       </Link>
                     </h2>
-
-                    <p style={{ color: '#6E6E73', fontSize: '14.5px', lineHeight: 1.6, marginBottom: '20px' }}>
+                    <p style={{ color: '#6E6E73', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '16px' }}>
                       {post.excerpt}
                     </p>
                   </div>
@@ -127,16 +116,12 @@ export default function BlogIndex() {
                     href={`/blog/${post.slug}`}
                     style={{
                       color: '#0066CC',
-                      fontSize: '14px',
+                      fontSize: '13.5px',
                       fontWeight: 500,
                       textDecoration: 'none',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '4px',
                     }}
                   >
-                    <span>Read article</span>
-                    <span aria-hidden="true">›</span>
+                    Read ›
                   </Link>
                 </div>
               </article>

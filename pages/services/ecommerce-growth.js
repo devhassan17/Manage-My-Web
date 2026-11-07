@@ -31,65 +31,65 @@ export default function EcommerceGrowth() {
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 60px auto' }}>
-            <p className="apple-eyebrow" style={{ marginBottom: '12px' }}>
+          <div style={{ textAlign: 'center', maxWidth: '620px', margin: '0 auto 44px auto' }}>
+            <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
               Conversion Engineering
             </p>
             <h1
               style={{
-                fontSize: 'clamp(36px, 5vw, 54px)',
+                fontSize: 'clamp(32px, 4.5vw, 48px)',
                 fontWeight: 600,
                 letterSpacing: '-0.03em',
                 color: '#1D1D1F',
                 lineHeight: 1.08,
-                marginBottom: '18px',
+                marginBottom: '12px',
               }}
             >
-              Designed to convert visitors into repeat buyers.
+              Built to convert visitors into buyers.
             </h1>
-            <p style={{ color: '#6E6E73', fontSize: '18px', lineHeight: 1.55 }}>
-              Acquiring traffic is expensive. We engineer every detail of your storefront—from shelf merchandising to one-tap express checkout—to maximize order value and retention.
+            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.45 }}>
+              Higher order values and faster checkouts from the traffic you already have.
             </p>
           </div>
 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '24px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '20px',
             }}
           >
             {[
               {
                 stat: '+62%',
                 label: 'Average Order Value Lift',
-                desc: 'Presenting products on curated 3D shelves alongside complementary pairings naturally encourages multi-item orders.',
+                desc: 'Curated 3D shelves naturally encourage multi-item bundle orders.',
               },
               {
                 stat: '-41%',
-                label: 'Reduction in Cart Abandonment',
-                desc: 'Our express bar checkout removes unnecessary form fields, offering native Apple Pay, Google Pay, and Stripe checkout in seconds.',
+                label: 'Less Cart Abandonment',
+                desc: 'One-tap Apple Pay, Google Pay, and Stripe checkout in seconds.',
               },
               {
                 stat: '3.4×',
-                label: 'Longer Session Engagement',
-                desc: 'Interactive exploration replaces a 40-second bounce with an engaging three-minute walkthrough of your products and provenance.',
+                label: 'Longer Session Time',
+                desc: 'Interactive 3D exploration keeps shoppers engaged over 3 minutes.',
               },
             ].map((metric) => (
               <div
                 key={metric.label}
                 className="apple-card"
-                style={{ padding: '38px', borderRadius: '20px', background: '#FFFFFF' }}
+                style={{ padding: '30px', borderRadius: '18px', background: '#FFFFFF' }}
               >
-                <div style={{ fontSize: '40px', fontWeight: 600, color: '#1D1D1F', letterSpacing: '-0.03em', marginBottom: '8px' }}>
+                <div style={{ fontSize: '36px', fontWeight: 600, color: '#1D1D1F', letterSpacing: '-0.03em', marginBottom: '6px' }}>
                   {metric.stat}
                 </div>
-                <h3 style={{ fontSize: '19px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
                   {metric.label}
                 </h3>
-                <p style={{ color: '#6E6E73', fontSize: '14.5px', lineHeight: 1.6 }}>{metric.desc}</p>
+                <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5 }}>{metric.desc}</p>
               </div>
             ))}
           </div>

@@ -8,9 +8,8 @@ export default function CookieConsent() {
   const [showCustomize, setShowCustomize] = useState(false);
   const [bannerConfig, setBannerConfig] = useState({
     enabled: true,
-    bannerTitle: 'Cookie & Privacy Preferences',
-    bannerText:
-      'We use cookies to deliver smooth 3D WebGL storefront previews, measure site performance, and improve your browsing experience. You can accept all cookies or customize your preferences at any time.',
+    bannerTitle: 'Cookie Preferences',
+    bannerText: 'We use cookies for 3D previews and site analytics.',
     privacyPolicyUrl: '/privacy',
   });
 
