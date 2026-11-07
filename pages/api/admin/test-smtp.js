@@ -15,7 +15,6 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Test recipient email is required.' });
     }
 
-    // Use passed config, or fallback to saved config
     let finalHost = host;
     let finalPort = port;
     let finalSecure = secure;
@@ -55,32 +54,31 @@ export default async function handler(req, res) {
       connectionTimeout: 10000,
     });
 
-    // Verify SMTP connection
     await transporter.verify();
 
-    // Dispatch test email
     const info = await transporter.sendMail({
-      from: `"${finalFromName || 'ManageMyWeb Test'}" <${finalFromEmail || finalUser}>`,
+      from: `"${finalFromName || 'ManageMyWeb'}" <${finalFromEmail || finalUser}>`,
       to: targetEmail,
-      subject: '✅ ManageMyWeb SMTP Test - Connection Verified!',
+      subject: 'ManageMyWeb SMTP Connection Verified',
       html: `
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; padding: 24px; background: #0B0C10; color: #FFFFFF; border-radius: 16px;">
-          <h2 style="color: #30D158;">SMTP Dispatch Succeeded!</h2>
-          <p style="color: #CBD5E0;">Your SMTP email credentials for <strong>ManageMyWeb Studio</strong> have been successfully verified.</p>
-          <div style="background: rgba(255,255,255,0.06); padding: 14px; border-radius: 10px; margin: 16px 0; font-family: monospace; font-size: 13px; color: #63B3ED;">
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif; max-width: 520px; padding: 24px; background: #FFFFFF; color: #1D1D1F; border: 1px solid #D2D2D7; border-radius: 14px;">
+          <h2 style="font-size: 18px; font-weight: 600; color: #1D1D1F; margin: 0 0 10px 0;">SMTP Connection Verified</h2>
+          <p style="font-size: 14px; color: #424245; line-height: 1.5; margin: 0 0 16px 0;">
+            Your outbound email configuration for <strong>ManageMyWeb</strong> is active and ready to send client confirmations.
+          </p>
+          <div style="background: #F5F5F7; padding: 12px 14px; border-radius: 10px; font-family: monospace; font-size: 12.5px; color: #1D1D1F; line-height: 1.6;">
             Host: ${finalHost}<br/>
             Port: ${finalPort}<br/>
-            User: ${finalUser}<br/>
-            Timestamp: ${new Date().toISOString()}
+            Sender: ${finalFromEmail || finalUser}<br/>
+            Verified at: ${new Date().toISOString()}
           </div>
-          <p style="color: #A0AEC0; font-size: 13px;">When new clients submit inquiries or claim the free 3D demo store, you will receive real-time email alerts instantly.</p>
         </div>
       `,
     });
 
     return res.status(200).json({
       success: true,
-      message: `Test email sent successfully to ${targetEmail}! Message ID: ${info.messageId}`,
+      message: `Test email sent to ${targetEmail} (Message ID: ${info.messageId})`,
     });
   } catch (error) {
     console.error('SMTP Test Error:', error);

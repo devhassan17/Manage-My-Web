@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       category,
       revenueRange,
       message,
-      promoCode
+      promoCode,
     } = req.body;
 
     if (!name || !email) {
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
       message: (message || '').trim(),
       promoCode: promoCode || 'FREE-3D-DEMO-60D',
       status: 'New',
-      notes: ''
+      notes: '',
     };
 
     leads.unshift(newLead);
@@ -69,58 +69,80 @@ export default async function handler(req, res) {
             },
           });
 
-          // Send notification to admin
+          const firstName = newLead.name.split(' ')[0];
+          const brandLabel = newLead.storeName || 'your store';
+          const siteReference = newLead.websiteUrl ? ` (${newLead.websiteUrl})` : '';
+
+          // 1. Send notification to Studio Admin (sales@managemyweb.co)
           await transporter.sendMail({
-            from: `"${smtpConfig.fromName || 'ManageMyWeb Concierge'}" <${smtpConfig.fromEmail || smtpConfig.user}>`,
-            to: smtpConfig.user,
-            subject: `🔥 New Free 3D Demo Lead: ${newLead.storeName || newLead.name}`,
+            from: `"${smtpConfig.fromName || 'ManageMyWeb Sales'}" <${smtpConfig.fromEmail || smtpConfig.user}>`,
+            to: smtpConfig.fromEmail || smtpConfig.user || 'sales@managemyweb.co',
+            replyTo: newLead.email,
+            subject: `New 3D Prototype Request: ${newLead.storeName || newLead.name}`,
             html: `
-              <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; padding: 24px; background: #0B0C10; color: #FFFFFF; border-radius: 16px;">
-                <h2 style="color: #0A84FF; margin-top: 0;">🚀 New 3D Virtual Store Demo Request</h2>
-                <p style="color: #A0AEC0;">A new founder has applied for the 60-day promotional free 3D demo website:</p>
-                <table style="width: 100%; border-collapse: collapse; margin: 20px 0; color: #E2E8F0;">
-                  <tr><td style="padding: 8px 0; font-weight: bold; width: 140px;">Name:</td><td>${newLead.name}</td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold;">Email:</td><td><a href="mailto:${newLead.email}" style="color: #0A84FF;">${newLead.email}</a></td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold;">Phone/WhatsApp:</td><td>${newLead.phone || 'N/A'}</td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold;">Store Name:</td><td>${newLead.storeName || 'N/A'}</td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold;">Website URL:</td><td><a href="${newLead.websiteUrl}" style="color: #0A84FF;" target="_blank">${newLead.websiteUrl || 'N/A'}</a></td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold;">Category:</td><td>${newLead.category}</td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold;">Revenue:</td><td>${newLead.revenueRange}</td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold;">Promo Code:</td><td><span style="background: #1A365D; color: #63B3ED; padding: 4px 8px; border-radius: 6px;">${newLead.promoCode}</span></td></tr>
+              <div style="font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; max-width: 560px; padding: 28px; background: #FFFFFF; color: #1D1D1F; border: 1px solid #D2D2D7; border-radius: 14px;">
+                <p style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #6E6E73; margin: 0 0 6px 0;">New Client Inquiry</p>
+                <h2 style="font-size: 20px; font-weight: 600; color: #1D1D1F; margin: 0 0 18px 0;">${newLead.storeName || newLead.name}</h2>
+                <table style="width: 100%; border-collapse: collapse; font-size: 14px; color: #1D1D1F;">
+                  <tr><td style="padding: 6px 0; color: #6E6E73; width: 130px;">Name</td><td style="padding: 6px 0; font-weight: 500;">${newLead.name}</td></tr>
+                  <tr><td style="padding: 6px 0; color: #6E6E73;">Email</td><td style="padding: 6px 0;"><a href="mailto:${newLead.email}" style="color: #0066CC; text-decoration: none;">${newLead.email}</a></td></tr>
+                  <tr><td style="padding: 6px 0; color: #6E6E73;">Phone / WhatsApp</td><td style="padding: 6px 0;">${newLead.phone || 'Not provided'}</td></tr>
+                  <tr><td style="padding: 6px 0; color: #6E6E73;">Store Name</td><td style="padding: 6px 0;">${newLead.storeName || 'Not provided'}</td></tr>
+                  <tr><td style="padding: 6px 0; color: #6E6E73;">Website</td><td style="padding: 6px 0;">${newLead.websiteUrl || 'Not provided'}</td></tr>
+                  <tr><td style="padding: 6px 0; color: #6E6E73;">Category</td><td style="padding: 6px 0;">${newLead.category}</td></tr>
                 </table>
-                <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; margin-top: 16px;">
-                  <h4 style="margin: 0 0 8px 0; color: #30D158;">Founder's Message / Vision:</h4>
-                  <p style="margin: 0; line-height: 1.6; color: #CBD5E0;">${newLead.message || 'No additional message provided.'}</p>
-                </div>
-                <div style="margin-top: 24px; text-align: center;">
-                  <a href="https://wa.me/${(newLead.phone || '').replace(/[^0-9]/g, '')}" style="display: inline-block; background: #25D366; color: #FFFFFF; padding: 12px 24px; border-radius: 980px; text-decoration: none; font-weight: 600; margin-right: 12px;">Reply on WhatsApp</a>
-                  <a href="mailto:${newLead.email}" style="display: inline-block; background: #0A84FF; color: #FFFFFF; padding: 12px 24px; border-radius: 980px; text-decoration: none; font-weight: 600;">Reply via Email</a>
+                <div style="background: #F5F5F7; padding: 14px 16px; border-radius: 10px; margin-top: 18px; font-size: 14px; color: #1D1D1F; line-height: 1.5;">
+                  <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: #6E6E73; margin-bottom: 4px;">Client Notes</div>
+                  ${newLead.message || 'No additional notes provided.'}
                 </div>
               </div>
             `,
           });
 
-          // Send confirmation back to founder
+          // 2. Send short, personal, human confirmation email to the client
+          const plainTextConfirmation = [
+            `Hi ${firstName},`,
+            ``,
+            `Thanks for reaching out to ManageMyWeb. I received your request for a 3D storefront preview for ${brandLabel}${siteReference}.`,
+            ``,
+            `Our team is reviewing your catalog now and putting together a working 3D prototype so you can walk through and see how your products look inside an interactive space. I will send your private preview link over within 48 hours.`,
+            ``,
+            `Quick question while we set this up: are there 2 or 3 best-selling products on your site you would especially like us to feature on the main display?`,
+            ``,
+            `Feel free to reply directly to this email, or message me on WhatsApp anytime at +92 317 4075023.`,
+            ``,
+            `Best regards,`,
+            `Sales Team — ManageMyWeb`,
+            `sales@managemyweb.co`,
+            `WhatsApp: +92 317 4075023`,
+          ].join('\n');
+
           await transporter.sendMail({
-            from: `"${smtpConfig.fromName || 'ManageMyWeb Studio'}" <${smtpConfig.fromEmail || smtpConfig.user}>`,
+            from: `"${smtpConfig.fromName || 'ManageMyWeb'}" <${smtpConfig.fromEmail || smtpConfig.user}>`,
             to: newLead.email,
-            subject: `✨ 3D Store Demo Locked In! We're Crafting Your Virtual Prototype`,
+            replyTo: smtpConfig.fromEmail || 'sales@managemyweb.co',
+            subject: `Your 3D store preview for ${newLead.storeName || 'your brand'}`,
+            text: plainTextConfirmation,
             html: `
-              <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; padding: 24px; background: #0B0C10; color: #FFFFFF; border-radius: 16px;">
-                <h2 style="color: #0A84FF;">Hi ${newLead.name}, Your 3D Demo Reservation Is Confirmed!</h2>
-                <p style="color: #CBD5E0; line-height: 1.6;">Thank you for claiming our <strong>60-day promotional offer</strong>. Most e-commerce stores look identical, but we're about to transform how your customers experience <strong>${newLead.storeName || 'your brand'}</strong>.</p>
-                <div style="background: rgba(10, 132, 255, 0.1); border: 1px solid rgba(10, 132, 255, 0.3); padding: 16px; border-radius: 12px; margin: 20px 0;">
-                  <h4 style="margin: 0 0 6px 0; color: #0A84FF;">Your Free Prototype Perks:</h4>
-                  <ul style="margin: 0; padding-left: 20px; color: #E2E8F0; line-height: 1.6;">
-                    <li>Custom 3D walkaround showroom with interactive product shelves</li>
-                    <li>Interactive 3D checkout counter and spatial product inspection</li>
-                    <li>Brand impact/story corner (like our FairChain Coffee showcase)</li>
-                    <li>Direct postal/contact booth integration</li>
-                    <li>Zero cost or obligation ($3,500 design value waived)</li>
-                  </ul>
+              <div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif; max-width: 540px; color: #1D1D1F; font-size: 15px; line-height: 1.6;">
+                <p style="margin: 0 0 16px 0;">Hi ${firstName},</p>
+                <p style="margin: 0 0 16px 0;">
+                  Thanks for reaching out to ManageMyWeb. I received your request for a 3D storefront preview for <strong>${brandLabel}</strong>${siteReference}.
+                </p>
+                <p style="margin: 0 0 16px 0;">
+                  Our team is reviewing your catalog right now and putting together a working 3D prototype so you can see how your products look inside an interactive showroom. I’ll send your private preview link over within 48 hours.
+                </p>
+                <p style="margin: 0 0 16px 0;">
+                  Quick question while we set this up: are there 2 or 3 best-selling products on your site you’d especially like us to feature on the main display?
+                </p>
+                <p style="margin: 0 0 24px 0;">
+                  You can reply directly to this email, or message me on <a href="https://wa.me/923174075023" style="color: #0066CC; text-decoration: none;">WhatsApp (+92 317 4075023)</a> anytime.
+                </p>
+                <div style="border-top: 1px solid #E5E5EA; padding-top: 14px; font-size: 13px; color: #6E6E73; line-height: 1.5;">
+                  <strong style="color: #1D1D1F;">ManageMyWeb</strong><br />
+                  3D Storefronts &amp; Managed Web Operations<br />
+                  <a href="mailto:sales@managemyweb.co" style="color: #0066CC; text-decoration: none;">sales@managemyweb.co</a> · +92 317 4075023
                 </div>
-                <p style="color: #A0AEC0;">Our creative spatial team is reviewing your website. We will contact you within 24 hours with your interactive prototype preview.</p>
-                <p style="color: #718096; font-size: 13px; margin-top: 30px;">ManageMyWeb Studio • Next-Gen 3D E-Commerce Operations</p>
               </div>
             `,
           });
@@ -135,10 +157,10 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      message: 'Demo inquiry registered successfully! Our spatial engineers will contact you within 24 hours.',
+      message: 'Prototype request registered. We will send your preview link within 48 hours.',
       leadId: newLead.id,
       emailSent,
-      emailError
+      emailError,
     });
   } catch (error) {
     console.error('API Contact Error:', error);
