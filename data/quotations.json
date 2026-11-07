@@ -1,0 +1,85 @@
+[
+  {
+    "id": "quote-1001",
+    "quoteNumber": "QT-2026-101",
+    "createdAt": "2026-11-05T14:20:00.000Z",
+    "updatedAt": "2026-11-06T10:15:00.000Z",
+    "leadId": "lead-seed-2",
+    "clientName": "Elena Rostova",
+    "clientEmail": "elena@atelier-lux.ch",
+    "clientPhone": "+41 22 710 4490",
+    "storeName": "Atelier Horology",
+    "websiteUrl": "https://atelier-lux.ch",
+    "journeyType": "Demo → Step 2 Quotation",
+    "packageTitle": "Spatial Retail Flagship + Managed Concierge",
+    "currency": "$",
+    "validUntil": "2026-11-25",
+    "timeline": "14 Business Days",
+    "paymentTerms": "50% Kickoff Deposit · 50% Upon Storefront Launch",
+    "items": [
+      {
+        "title": "Bespoke 3D Architectural Watch Salon (WebGL / 60fps)",
+        "description": "Custom 360° luxury showroom with illuminated glass display cases and macro timepiece inspection.",
+        "qty": 1,
+        "price": 2800
+      },
+      {
+        "title": "Interactive 3D Product Shelving & Shopify Sync",
+        "description": "Real-time inventory, variant, and Apple Pay / Stripe express checkout integration.",
+        "qty": 1,
+        "price": 600
+      },
+      {
+        "title": "Managed Web Operations & Global Edge Hosting (First Month)",
+        "description": "24/7 cloud hosting, SSL/DNS stewardship, Core Web Vitals optimization, and priority updates.",
+        "qty": 1,
+        "price": 490
+      }
+    ],
+    "discount": 290,
+    "taxRate": 0,
+    "subtotal": 3890,
+    "totalAmount": 3600,
+    "status": "Sent",
+    "notes": "Following your team's review of the 3D watch salon prototype, this quotation includes complimentary first-month onboarding migration."
+  },
+  {
+    "id": "quote-1002",
+    "quoteNumber": "QT-2026-102",
+    "createdAt": "2026-11-06T18:00:00.000Z",
+    "updatedAt": "2026-11-07T09:00:00.000Z",
+    "leadId": "lead-seed-1",
+    "clientName": "Marcus Vance",
+    "clientEmail": "marcus@roastcraftcoffee.com",
+    "clientPhone": "+1 415 890 2231",
+    "storeName": "Roastcraft Artisanal Beans",
+    "websiteUrl": "https://roastcraftcoffee.com",
+    "journeyType": "Direct Quotation",
+    "packageTitle": "3D Storefront Launchpad",
+    "currency": "$",
+    "validUntil": "2026-11-28",
+    "timeline": "10 Business Days",
+    "paymentTerms": "50% Kickoff Deposit · 50% Upon Storefront Launch",
+    "items": [
+      {
+        "title": "3D Storefront Launchpad Architecture",
+        "description": "Interactive 3D showroom with product shelving, express checkout counter, and provenance wall.",
+        "qty": 1,
+        "price": 1850
+      },
+      {
+        "title": "3D Product Modeling & Texture Optimization (12 SKUs)",
+        "description": "High-resolution PBR WebGL models optimized for mobile Safari and desktop browsers.",
+        "qty": 1,
+        "price": 450
+      }
+    ],
+    "discount": 150,
+    "taxRate": 0,
+    "subtotal": 2300,
+    "totalAmount": 2150,
+    "status": "Accepted",
+    "notes": "Includes complimentary 3D prototype preview and live Shopify catalog synchronization."
+  }
+]
+

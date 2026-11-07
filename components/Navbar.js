@@ -20,7 +20,7 @@ export default function Navbar({ onOpenDemoModal }) {
     { label: 'Web Management', href: '/services/web-management' },
     { label: 'Interactive Demo', href: '/experience' },
     { label: 'Client Results', href: '/case-studies' },
-    { label: 'Pricing', href: '/pricing' },
+    { label: 'Get Quotation', href: '/pricing' },
     { label: 'About', href: '/about' },
     { label: 'Journal', href: '/blog' },
   ];
@@ -127,21 +127,22 @@ export default function Navbar({ onOpenDemoModal }) {
         </div>
 
         {/* Right Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Link
+            href="/pricing"
             style={{
-              fontSize: '12.5px',
-              color: '#424245',
+              fontSize: '12px',
+              color: '#1D1D1F',
               textDecoration: 'none',
-              fontWeight: 400,
+              fontWeight: 500,
+              padding: '6px 12px',
+              borderRadius: '980px',
+              border: '1px solid #D2D2D7',
             }}
             className="desktop-only-link"
           >
-            Talk to Sales
-          </a>
+            Request Quotation
+          </Link>
 
           <button
             onClick={onOpenDemoModal}
@@ -161,7 +162,7 @@ export default function Navbar({ onOpenDemoModal }) {
             onMouseOver={(e) => (e.currentTarget.style.background = '#0077ED')}
             onMouseOut={(e) => (e.currentTarget.style.background = '#0071E3')}
           >
-            Free Prototype
+            Free 3D Demo
           </button>
 
           {/* Mobile Menu Button */}

@@ -9,12 +9,14 @@ import Footer from '../components/Footer';
 
 export default function Home() {
   const [demoModalOpen, setDemoModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState('demo');
   const [selectedCategory, setSelectedCategory] = useState('Fashion, Apparel & Footwear');
   const [selectedZoneTab, setSelectedZoneTab] = useState(0);
   const [activeFaq, setActiveFaq] = useState(0);
 
-  const openModalForCategory = (cat) => {
+  const openModalForCategory = (cat, mode = 'demo') => {
     setSelectedCategory(cat || 'Fashion, Apparel & Footwear');
+    setModalMode(mode);
     setDemoModalOpen(true);
   };
 
@@ -213,26 +215,34 @@ export default function Home() {
               Whether you sell fashion, beauty, electronics, home goods, or specialty products, we transform flat catalogs into interactive 3D retail spaces—and manage your hosting, speed, and daily website operations under one roof.
             </p>
 
-            {/* Primary Apple CTAs */}
+            {/* Primary Apple CTAs — Two Visitor Paths */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '24px',
+                gap: '14px',
                 flexWrap: 'wrap',
                 marginBottom: '20px',
               }}
             >
               <button
-                onClick={() => openModalForCategory('Fashion, Apparel & Footwear')}
+                onClick={() => openModalForCategory('Fashion, Apparel & Footwear', 'demo')}
                 className="btn-apple-blue"
-                style={{ padding: '14px 28px', fontSize: '16px' }}
+                style={{ padding: '14px 26px', fontSize: '15.5px' }}
               >
-                Request Free 3D Prototype
+                Step 1: Request Free 3D Demo
               </button>
 
-              <Link href="/experience" className="apple-link" style={{ fontSize: '17px' }}>
+              <button
+                onClick={() => openModalForCategory('Fashion, Apparel & Footwear', 'quotation')}
+                className="btn-apple-secondary"
+                style={{ padding: '14px 26px', fontSize: '15.5px', color: '#1D1D1F' }}
+              >
+                Request Custom Quotation
+              </button>
+
+              <Link href="/experience" className="apple-link" style={{ fontSize: '16px', marginLeft: '6px' }}>
                 <span>Launch fullscreen 3D demo</span>
                 <span aria-hidden="true">›</span>
               </Link>
@@ -246,7 +256,7 @@ export default function Home() {
                 marginBottom: '48px',
               }}
             >
-              Complimentary custom prototype of your store delivered in 48 hours · Works with Shopify, WooCommerce & Custom Stores
+              Choose Step 1 (Free 48h 3D Demo → Step 2 Quotation) or request a Direct Custom Quotation · Works with Shopify, WooCommerce &amp; Custom Stores
             </p>
 
             {/* Interactive Live 3D Showroom Preview (https://crazy-3d-website-idea.vercel.app/) */}
@@ -1018,6 +1028,7 @@ export default function Home() {
         isOpen={demoModalOpen}
         onClose={() => setDemoModalOpen(false)}
         initialCategory={selectedCategory}
+        initialMode={modalMode}
       />
     </>
   );

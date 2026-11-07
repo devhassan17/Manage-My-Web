@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 
-export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion, Apparel & Footwear' }) {
+export default function LeadModal({
+  isOpen,
+  onClose,
+  initialCategory = 'Fashion, Apparel & Footwear',
+  initialMode = 'demo', // 'demo' | 'quotation'
+  initialPackage = 'Spatial Retail Flagship',
+}) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -8,7 +14,11 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion,
     storeName: '',
     websiteUrl: '',
     category: initialCategory,
-    revenueRange: '$20k - $50k / mo',
+    revenueRange: 'Not Specified',
+    requestType: initialMode, // 'demo' | 'quotation'
+    requestedPackage: initialPackage,
+    productCount: '15 - 50 Products',
+    platform: 'Shopify',
     message: '',
     promoCode: 'FREE-3D-DEMO-60D',
   });
@@ -17,12 +27,17 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion,
   const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
-    if (initialCategory) {
-      setFormData((prev) => ({ ...prev, category: initialCategory }));
-    }
-  }, [initialCategory]);
+    setFormData((prev) => ({
+      ...prev,
+      category: initialCategory || prev.category,
+      requestType: initialMode || 'demo',
+      requestedPackage: initialPackage || prev.requestedPackage,
+    }));
+  }, [initialCategory, initialMode, initialPackage, isOpen]);
 
   if (!isOpen) return null;
+
+  const isQuotation = formData.requestType === 'quotation';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +66,9 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion,
 
   const waRaw = '923174075023';
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
-    `Hello ManageMyWeb, I just requested a complimentary 3D store prototype for ${formData.storeName || 'our e-commerce brand'}.`
+    isQuotation
+      ? `Hello ManageMyWeb, I just requested a custom quotation (${formData.requestedPackage}) for ${formData.storeName || 'our e-commerce brand'}.`
+      : `Hello ManageMyWeb, I just requested Step 1 (Free 3D Store Demo) for ${formData.storeName || 'our e-commerce brand'}.`
   )}`;
 
   return (
@@ -75,8 +92,8 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion,
         style={{
           background: '#FFFFFF',
           border: '1px solid rgba(0, 0, 0, 0.08)',
-          borderRadius: '20px',
-          maxWidth: '540px',
+          borderRadius: '22px',
+          maxWidth: '580px',
           width: '100%',
           padding: '36px',
           boxShadow: '0 24px 60px rgba(0, 0, 0, 0.18)',
@@ -128,11 +145,20 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion,
               ✓
             </div>
             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
-              Prototype Request Received
+              {isQuotation ? 'Custom Quotation Request Received' : 'Step 1 Confirmed: 3D Demo in Progress'}
             </h2>
-            <p style={{ color: '#6E6E73', fontSize: '15px', lineHeight: 1.5, marginBottom: '24px' }}>
-              Thank you, {formData.name}. Our engineering team will review{' '}
-              <strong style={{ color: '#1D1D1F' }}>{formData.storeName || 'your catalog'}</strong> and prepare a private interactive 3D walkthrough link within 48 hours.
+            <p style={{ color: '#6E6E73', fontSize: '15px', lineHeight: 1.5, marginBottom: '22px' }}>
+              {isQuotation ? (
+                <>
+                  Thank you, {formData.name}. Our engineering team is preparing a tailored quotation for{' '}
+                  <strong style={{ color: '#1D1D1F' }}>{formData.storeName || 'your store'}</strong> ({formData.requestedPackage}) and will send your itemized proposal within 24 hours.
+                </>
+              ) : (
+                <>
+                  Thank you, {formData.name}. Our team is building your complimentary 3D store demo for{' '}
+                  <strong style={{ color: '#1D1D1F' }}>{formData.storeName || 'your catalog'}</strong>. Once you review the demo (Step 1), we will prepare your custom quotation (Step 2).
+                </>
+              )}
             </p>
 
             <div
@@ -145,31 +171,90 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion,
               }}
             >
               <div style={{ fontWeight: 600, color: '#1D1D1F', fontSize: '13px', marginBottom: '6px' }}>
-                What to expect next
+                {isQuotation ? 'Your Quotation Roadmap' : 'Your 2-Step Engagement Roadmap'}
               </div>
-              <ul style={{ margin: 0, paddingLeft: '18px', color: '#424245', fontSize: '13px', lineHeight: 1.6 }}>
-                <li>We select 3–5 hero products from your current site and model your custom 3D showroom layout.</li>
-                <li>We send you a direct browser link you can test on iPhone, Mac, or desktop.</li>
-                <li>No invoice, retainer, or obligation unless you choose to move forward.</li>
-              </ul>
+              {isQuotation ? (
+                <ul style={{ margin: 0, paddingLeft: '18px', color: '#424245', fontSize: '13px', lineHeight: 1.6 }}>
+                  <li>We review your store catalog, SKU volume ({formData.productCount}), and platform ({formData.platform}).</li>
+                  <li>You receive a formal itemized quotation via email within 24 hours.</li>
+                  <li>We can also include a complimentary 3D preview of your hero products upon request.</li>
+                </ul>
+              ) : (
+                <ul style={{ margin: 0, paddingLeft: '18px', color: '#424245', fontSize: '13px', lineHeight: 1.6 }}>
+                  <li><strong>Step 1 (Free 3D Demo):</strong> Within 48 hours, you receive a private interactive 3D walkthrough link featuring your products.</li>
+                  <li><strong>Step 2 (Custom Quotation):</strong> After you test the 3D demo with your team, we send a custom quotation tailored to your final scope.</li>
+                </ul>
+              )}
             </div>
 
-            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-              <a
-                href={waUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-apple-blue"
-              >
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href={waUrl} target="_blank" rel="noopener noreferrer" className="btn-apple-blue">
                 Message Our Team on WhatsApp
               </a>
-              <button onClick={onClose} className="btn-apple-secondary">
+              <button
+                onClick={() => {
+                  setSubmitted(false);
+                  onClose();
+                }}
+                className="btn-apple-secondary"
+              >
                 Close
               </button>
             </div>
           </div>
         ) : (
           <div>
+            {/* Segmented Mode Switcher: Demo First vs Direct Quotation */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '6px',
+                background: '#F5F5F7',
+                padding: '4px',
+                borderRadius: '12px',
+                marginBottom: '20px',
+                border: '1px solid #E5E5EA',
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, requestType: 'demo' })}
+                style={{
+                  padding: '9px 12px',
+                  borderRadius: '9px',
+                  border: 'none',
+                  background: !isQuotation ? '#FFFFFF' : 'transparent',
+                  boxShadow: !isQuotation ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
+                  color: '#1D1D1F',
+                  fontSize: '12.5px',
+                  fontWeight: !isQuotation ? 600 : 500,
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                }}
+              >
+                1. Free 3D Demo First
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, requestType: 'quotation' })}
+                style={{
+                  padding: '9px 12px',
+                  borderRadius: '9px',
+                  border: 'none',
+                  background: isQuotation ? '#FFFFFF' : 'transparent',
+                  boxShadow: isQuotation ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
+                  color: '#1D1D1F',
+                  fontSize: '12.5px',
+                  fontWeight: isQuotation ? 600 : 500,
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                }}
+              >
+                2. Request Custom Quotation
+              </button>
+            </div>
+
             <p
               style={{
                 fontSize: '11px',
@@ -180,22 +265,28 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion,
                 marginBottom: '6px',
               }}
             >
-              Complimentary 3D Store Prototype
+              {isQuotation
+                ? 'Direct Custom Quotation · 24-Hour Turnaround'
+                : 'Step 1: Free 3D Store Demo → Step 2: Custom Quotation'}
             </p>
 
             <h2
               style={{
-                fontSize: '24px',
+                fontSize: '23px',
                 fontWeight: 600,
                 color: '#1D1D1F',
-                marginBottom: '8px',
+                marginBottom: '6px',
                 letterSpacing: '-0.02em',
               }}
             >
-              See your products in 3D before you commit.
+              {isQuotation
+                ? 'Request a tailored quotation for your store.'
+                : 'Start with a free 3D demo, then get your quote.'}
             </h2>
-            <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5, marginBottom: '22px' }}>
-              Share your current store URL. We will build a working 3D preview tailored to your brand and product category within 48 hours at no cost.
+            <p style={{ color: '#6E6E73', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '18px' }}>
+              {isQuotation
+                ? 'Every store has a unique catalog and technical scope. Tell us what you need and our engineers will send an itemized quotation within 24 hours.'
+                : 'Want to see your products inside an interactive 3D showroom first? We will build a free working 3D preview in 48 hours (Step 1), followed by your custom quotation (Step 2).'}
             </p>
 
             {errorMsg && (
@@ -214,7 +305,7 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion,
               </div>
             )}
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
@@ -300,7 +391,7 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion,
                   </label>
                   <input
                     type="text"
-                    placeholder="+1 (555) 019-2831"
+                    placeholder="+92 317 4075023"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="ios-input"
@@ -308,13 +399,72 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion,
                 </div>
               </div>
 
+              {/* Scope Selectors for Quotation or Demo */}
+              <div style={{ display: 'grid', gridTemplateColumns: isQuotation ? '1.3fr 1fr 1fr' : '1fr 1fr', gap: '10px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                    Desired Scope / Package
+                  </label>
+                  <select
+                    value={formData.requestedPackage}
+                    onChange={(e) => setFormData({ ...formData, requestedPackage: e.target.value })}
+                    className="ios-input"
+                  >
+                    <option value="Spatial Retail Flagship">Spatial Retail Flagship (3D Store)</option>
+                    <option value="3D Storefront Launchpad">3D Storefront Launchpad</option>
+                    <option value="Managed Web Concierge">Managed Web Concierge Retainer</option>
+                    <option value="Full 3D Store + Managed Web Bundle">Full 3D Store + Managed Web Bundle</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                    Catalog Size
+                  </label>
+                  <select
+                    value={formData.productCount}
+                    onChange={(e) => setFormData({ ...formData, productCount: e.target.value })}
+                    className="ios-input"
+                  >
+                    <option value="Up to 15 Products">Up to 15 SKUs</option>
+                    <option value="15 - 50 Products">15 – 50 SKUs</option>
+                    <option value="50 - 200 Products">50 – 200 SKUs</option>
+                    <option value="200+ Products">200+ SKUs</option>
+                  </select>
+                </div>
+
+                {isQuotation && (
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                      Platform
+                    </label>
+                    <select
+                      value={formData.platform}
+                      onChange={(e) => setFormData({ ...formData, platform: e.target.value })}
+                      className="ios-input"
+                    >
+                      <option value="Shopify">Shopify</option>
+                      <option value="WooCommerce">WooCommerce</option>
+                      <option value="Custom / Headless">Custom / Headless</option>
+                      <option value="New Store">New Store</option>
+                    </select>
+                  </div>
+                )}
+              </div>
+
               <div>
                 <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                  Notes or specific products to feature (optional)
+                  {isQuotation
+                    ? 'Project requirements or features to include in quotation'
+                    : 'Products to feature in your free 3D demo (optional)'}
                 </label>
                 <textarea
-                  rows={3}
-                  placeholder="Tell us about your flagship products, store layout ideas, or current website challenges..."
+                  rows={2}
+                  placeholder={
+                    isQuotation
+                      ? 'Share any custom features, timeline goals, or integrations you want included in your quotation...'
+                      : 'Tell us 2–3 best-selling products or layout ideas for your free 3D preview...'
+                  }
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="ios-input"
@@ -333,16 +483,22 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion,
                 }}
               >
                 <span style={{ fontSize: '12px', color: '#6E6E73' }}>
-                  Delivered in 48 hours · No commitment
+                  {isQuotation
+                    ? 'Itemized proposal in 24h · Zero obligation'
+                    : 'Step 1: Free 48h 3D Demo → Step 2: Custom Quote'}
                 </span>
 
                 <button
                   type="submit"
                   disabled={loading}
                   className="btn-apple-blue"
-                  style={{ padding: '12px 26px', fontSize: '14px' }}
+                  style={{ padding: '12px 24px', fontSize: '14px' }}
                 >
-                  {loading ? 'Submitting...' : 'Request Free Prototype'}
+                  {loading
+                    ? 'Submitting...'
+                    : isQuotation
+                    ? 'Request Custom Quotation'
+                    : 'Start with Free 3D Demo'}
                 </button>
               </div>
             </form>

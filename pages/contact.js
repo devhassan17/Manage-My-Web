@@ -30,7 +30,11 @@ export default function Contact() {
     storeName: '',
     websiteUrl: '',
     category: 'Fashion, Apparel & Footwear',
-    revenueRange: '$20k - $50k / mo',
+    revenueRange: 'Not Specified',
+    requestType: 'demo', // 'demo' | 'quotation'
+    requestedPackage: 'Spatial Retail Flagship',
+    productCount: '15 - 50 Products',
+    platform: 'Shopify',
     message: '',
     promoCode: 'FREE-3D-DEMO-60D',
   });
@@ -145,11 +149,22 @@ export default function Contact() {
                     ✓
                   </div>
                   <h3 style={{ fontSize: '24px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
-                    Prototype Request Confirmed
+                    {formData.requestType === 'quotation'
+                      ? 'Custom Quotation Request Received'
+                      : 'Step 1 Confirmed: 3D Demo in Progress'}
                   </h3>
                   <p style={{ color: '#424245', fontSize: '15px', lineHeight: 1.6, marginBottom: '20px' }}>
-                    Thank you, {formData.name}. Our engineering team has received your request for{' '}
-                    <strong>{formData.storeName || formData.websiteUrl || 'your store'}</strong> and will deliver your interactive 3D preview link within 48 hours.
+                    {formData.requestType === 'quotation' ? (
+                      <>
+                        Thank you, {formData.name}. Our team is preparing an itemized quotation for{' '}
+                        <strong>{formData.storeName || formData.websiteUrl || 'your store'}</strong> ({formData.requestedPackage}) and will send your proposal within 24 hours.
+                      </>
+                    ) : (
+                      <>
+                        Thank you, {formData.name}. Our engineering team has received your request for{' '}
+                        <strong>{formData.storeName || formData.websiteUrl || 'your store'}</strong>. We will deliver your complimentary 3D preview link within 48 hours (Step 1), followed by your custom quotation (Step 2).
+                      </>
+                    )}
                   </p>
                   <a href={waUrl} target="_blank" rel="noopener noreferrer" className="btn-apple-blue">
                     Message Our Engineers on WhatsApp
@@ -157,12 +172,68 @@ export default function Contact() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <h3 style={{ fontSize: '22px', fontWeight: 600, color: '#1D1D1F', marginBottom: '2px' }}>
-                    Request Complimentary Prototype
-                  </h3>
-                  <p style={{ color: '#6E6E73', fontSize: '13.5px', marginBottom: '8px' }}>
-                    No retainer or credit card required. All brand assets are kept strictly confidential.
-                  </p>
+                  {/* Segmented Switcher */}
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 1fr',
+                      gap: '6px',
+                      background: '#F5F5F7',
+                      padding: '4px',
+                      borderRadius: '12px',
+                      border: '1px solid #E5E5EA',
+                    }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, requestType: 'demo' })}
+                      style={{
+                        padding: '10px 12px',
+                        borderRadius: '9px',
+                        border: 'none',
+                        background: formData.requestType === 'demo' ? '#FFFFFF' : 'transparent',
+                        boxShadow: formData.requestType === 'demo' ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
+                        color: '#1D1D1F',
+                        fontSize: '13px',
+                        fontWeight: formData.requestType === 'demo' ? 600 : 500,
+                        cursor: 'pointer',
+                        fontFamily: 'inherit',
+                      }}
+                    >
+                      1. Free 3D Demo First
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, requestType: 'quotation' })}
+                      style={{
+                        padding: '10px 12px',
+                        borderRadius: '9px',
+                        border: 'none',
+                        background: formData.requestType === 'quotation' ? '#FFFFFF' : 'transparent',
+                        boxShadow: formData.requestType === 'quotation' ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
+                        color: '#1D1D1F',
+                        fontSize: '13px',
+                        fontWeight: formData.requestType === 'quotation' ? 600 : 500,
+                        cursor: 'pointer',
+                        fontFamily: 'inherit',
+                      }}
+                    >
+                      2. Request Custom Quotation
+                    </button>
+                  </div>
+
+                  <div>
+                    <h3 style={{ fontSize: '22px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
+                      {formData.requestType === 'quotation'
+                        ? 'Request Your Custom Quotation'
+                        : 'Step 1: Request Free 3D Demo → Step 2: Quotation'}
+                    </h3>
+                    <p style={{ color: '#6E6E73', fontSize: '13.5px' }}>
+                      {formData.requestType === 'quotation'
+                        ? 'Tell us your scope and receive an itemized quotation tailored to your catalog within 24 hours.'
+                        : 'Experience your products inside a free 3D prototype in 48 hours first, then receive your tailored quotation.'}
+                    </p>
+                  </div>
 
                   {errorMsg && (
                     <div
@@ -272,6 +343,40 @@ export default function Contact() {
                     </div>
                   </div>
 
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                        Desired Package / Scope
+                      </label>
+                      <select
+                        value={formData.requestedPackage}
+                        onChange={(e) => setFormData({ ...formData, requestedPackage: e.target.value })}
+                        className="ios-input"
+                      >
+                        <option value="Spatial Retail Flagship">Spatial Retail Flagship (3D Store)</option>
+                        <option value="3D Storefront Launchpad">3D Storefront Launchpad</option>
+                        <option value="Managed Web Concierge">Managed Web Concierge Retainer</option>
+                        <option value="Full 3D Store + Managed Web Bundle">Full 3D Store + Managed Web Bundle</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                        Catalog Size &amp; Platform
+                      </label>
+                      <select
+                        value={formData.productCount}
+                        onChange={(e) => setFormData({ ...formData, productCount: e.target.value })}
+                        className="ios-input"
+                      >
+                        <option value="Up to 15 Products">Up to 15 SKUs</option>
+                        <option value="15 - 50 Products">15 – 50 SKUs</option>
+                        <option value="50 - 200 Products">50 – 200 SKUs</option>
+                        <option value="200+ Products">200+ SKUs</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
                       Project Goals or Products to Highlight
@@ -288,7 +393,9 @@ export default function Contact() {
 
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '6px', flexWrap: 'wrap', gap: '12px' }}>
                     <div style={{ fontSize: '12px', color: '#6E6E73' }}>
-                      48-hour prototype turnaround
+                      {formData.requestType === 'quotation'
+                        ? '24-hour itemized quotation turnaround'
+                        : 'Step 1: 48h 3D Demo → Step 2: Custom Quotation'}
                     </div>
 
                     <button
@@ -297,7 +404,11 @@ export default function Contact() {
                       className="btn-apple-blue"
                       style={{ padding: '13px 28px', fontSize: '14.5px' }}
                     >
-                      {loading ? 'Submitting...' : 'Submit Prototype Request'}
+                      {loading
+                        ? 'Submitting...'
+                        : formData.requestType === 'quotation'
+                        ? 'Request Custom Quotation'
+                        : 'Start Step 1: Request Free 3D Demo'}
                     </button>
                   </div>
                 </form>

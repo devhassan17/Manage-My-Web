@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 
-const DEFAULT_CONFIRMATION_SUBJECT = 'Your 3D store preview for {{storeName}}';
+const DEFAULT_CONFIRMATION_SUBJECT = 'Step 1: Your 3D store demo for {{storeName}}';
 const DEFAULT_CONFIRMATION_BODY = [
   'Hi {{firstName}},',
   '',
-  'Thanks for reaching out to ManageMyWeb. I received your request for a 3D storefront preview for {{storeName}}.',
+  'Thanks for reaching out to ManageMyWeb. I received your request for Step 1: your complimentary 3D storefront demo for {{storeName}}.',
   '',
-  'Our team is reviewing your catalog right now and putting together a working 3D prototype so you can see how your products look inside an interactive showroom. I’ll send your private preview link over within 48 hours.',
+  'Here is how our 2-step process works:',
+  '1. Free 3D Demo (In Progress): Our team is building an interactive 3D preview featuring your products and will send your private walkthrough link within 48 hours.',
+  '2. Custom Quotation: Once you explore the 3D demo with your team and share any adjustments, we will prepare a custom quotation tailored to your exact catalog scope.',
   '',
   'Quick question while we set this up: are there 2 or 3 best-selling products on your site you’d especially like us to feature on the main display?',
   '',
@@ -19,12 +21,102 @@ const DEFAULT_CONFIRMATION_BODY = [
   'sales@managemyweb.co · +92 317 4075023',
 ].join('\n');
 
+const DEFAULT_QUOTATION_SUBJECT = 'Your custom quotation request for {{storeName}}';
+const DEFAULT_QUOTATION_BODY = [
+  'Hi {{firstName}},',
+  '',
+  'Thanks for contacting ManageMyWeb. I received your request for a custom quotation for {{storeName}} ({{packageScope}}).',
+  '',
+  'Our engineering team is reviewing your store requirements right now and putting together an itemized proposal with scope, timeline, and investment options. I will send your custom quotation over within 24 hours.',
+  '',
+  'Also, if you would like us to include a complimentary 3D preview of 2 or 3 of your products alongside your quotation, just reply with the product links or message me on WhatsApp (+92 317 4075023).',
+  '',
+  'Best regards,',
+  'ManageMyWeb',
+  'sales@managemyweb.co · +92 317 4075023',
+].join('\n');
+
+const PRE_DESIGNED_QUOTE_TEMPLATES = {
+  launchpad: {
+    packageTitle: '3D Storefront Launchpad',
+    timeline: '10 Business Days',
+    items: [
+      {
+        title: '3D Storefront Launchpad Architecture (WebGL / 60fps)',
+        description: 'Custom 3D showroom with interactive product shelving, express bar checkout, and provenance wall.',
+        qty: 1,
+        price: 1850,
+      },
+      {
+        title: '3D Product Modeling & Mobile Optimization (Up to 15 SKUs)',
+        description: 'High-resolution WebGL models optimized for iOS Safari, Android Chrome, and desktop.',
+        qty: 1,
+        price: 450,
+      },
+      {
+        title: 'Live Shopify / WooCommerce Catalog & Checkout Sync',
+        description: 'Direct inventory, variant, and express checkout integration.',
+        qty: 1,
+        price: 300,
+      },
+    ],
+    discount: 250,
+    notes: 'Includes complimentary 3D prototype preview and 30 days of post-launch technical support.',
+  },
+  flagship: {
+    packageTitle: 'Spatial Retail Flagship',
+    timeline: '14 Business Days',
+    items: [
+      {
+        title: 'Bespoke Multi-Zone 3D Architectural Showroom',
+        description: 'Custom 360° flagship retail space with gallery lighting, acoustic soundscape, and macro product inspection.',
+        qty: 1,
+        price: 2900,
+      },
+      {
+        title: 'Interactive Product Shelving & Apple Pay Express Register',
+        description: 'Unlimited 3D shelving zones synced with Shopify, WooCommerce, or headless backend.',
+        qty: 1,
+        price: 650,
+      },
+      {
+        title: 'Spatial Customer Engagement Analytics & Speed Tuning',
+        description: 'Zone interaction tracking, Core Web Vitals optimization, and global edge delivery.',
+        qty: 1,
+        price: 350,
+      },
+    ],
+    discount: 400,
+    notes: 'Includes complimentary 3D demo prototype, custom lighting modes, and dedicated lead engineer.',
+  },
+  concierge: {
+    packageTitle: 'Managed Web Concierge Retainer',
+    timeline: 'Immediate Onboarding',
+    items: [
+      {
+        title: 'Global Edge Cloud NVMe Hosting & Technical Stewardship',
+        description: '24/7 managed hosting, domain/DNS management, SSL, and DMARC/SPF email authentication.',
+        qty: 1,
+        price: 490,
+      },
+      {
+        title: 'Continuous Core Web Vitals & Unlimited Routine Store Edits',
+        description: 'Ongoing speed tuning, daily off-site backups, and same-day catalog/content updates.',
+        qty: 1,
+        price: 0,
+      },
+    ],
+    discount: 0,
+    notes: 'Monthly managed operations retainer with direct WhatsApp access to your engineering team.',
+  },
+};
+
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passcode, setPasscode] = useState('');
   const [authError, setAuthError] = useState('');
 
-  const [activeTab, setActiveTab] = useState('leads'); // 'leads' | 'smtp' | 'campaign' | 'overview'
+  const [activeTab, setActiveTab] = useState('leads'); // 'leads' | 'quotations' | 'smtp' | 'cookies' | 'campaign' | 'overview'
 
   // Leads State
   const [leads, setLeads] = useState([]);
@@ -33,6 +125,39 @@ export default function AdminDashboard() {
   const [statusFilter, setStatusFilter] = useState('All');
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [noteText, setNoteText] = useState('');
+
+  // Quotations State
+  const [quotations, setQuotations] = useState([]);
+  const [quoteStats, setQuoteStats] = useState({
+    totalQuotations: 0,
+    totalQuotedAmount: 0,
+    acceptedCount: 0,
+    acceptedAmount: 0,
+    sentCount: 0,
+  });
+  const [activeQuote, setActiveQuote] = useState({
+    id: '',
+    quoteNumber: 'QT-2026-103',
+    leadId: '',
+    clientName: '',
+    clientEmail: '',
+    clientPhone: '',
+    storeName: '',
+    websiteUrl: '',
+    journeyType: 'Demo → Step 2 Quotation',
+    packageTitle: 'Spatial Retail Flagship',
+    currency: '$',
+    validUntil: new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0],
+    timeline: '14 Business Days',
+    paymentTerms: '50% Kickoff Deposit · 50% Upon Storefront Launch',
+    items: PRE_DESIGNED_QUOTE_TEMPLATES.flagship.items,
+    discount: 400,
+    taxRate: 0,
+    status: 'Draft',
+    notes: PRE_DESIGNED_QUOTE_TEMPLATES.flagship.notes,
+  });
+  const [quoteLoading, setQuoteLoading] = useState(false);
+  const [quoteMsg, setQuoteMsg] = useState({ type: '', text: '' });
 
   // SMTP State
   const [smtpConfig, setSmtpConfig] = useState({
@@ -46,6 +171,8 @@ export default function AdminDashboard() {
     notifyEmail: 'sales@managemyweb.co',
     confirmationSubject: DEFAULT_CONFIRMATION_SUBJECT,
     confirmationBody: DEFAULT_CONFIRMATION_BODY,
+    quotationSubject: DEFAULT_QUOTATION_SUBJECT,
+    quotationBody: DEFAULT_QUOTATION_BODY,
     isConfigured: true,
   });
   const [smtpLoading, setSmtpLoading] = useState(false);
@@ -114,9 +241,145 @@ export default function AdminDashboard() {
 
   const fetchAllData = async () => {
     fetchLeads();
+    fetchQuotations();
     fetchSmtp();
     fetchSettings();
     fetchCookies();
+  };
+
+  const fetchQuotations = async () => {
+    try {
+      const res = await fetch('/api/admin/quotations');
+      const data = await res.json();
+      if (res.ok && data) {
+        setQuotations(data.quotations || []);
+        if (data.stats) setQuoteStats(data.stats);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const applyQuoteTemplate = (templateKey) => {
+    const tpl = PRE_DESIGNED_QUOTE_TEMPLATES[templateKey];
+    if (!tpl) return;
+    setActiveQuote((prev) => ({
+      ...prev,
+      packageTitle: tpl.packageTitle,
+      timeline: tpl.timeline,
+      items: tpl.items.map((item) => ({ ...item })),
+      discount: tpl.discount,
+      notes: tpl.notes,
+    }));
+  };
+
+  const loadLeadIntoQuotation = (lead) => {
+    if (!lead) return;
+    const isDirectQuote = lead.requestType === 'quotation';
+    const nextQuoteNumber = `QT-${new Date().getFullYear()}-${String(quotations.length + 101).padStart(3, '0')}`;
+    const pkgLower = (lead.requestedPackage || '').toLowerCase();
+    const tplKey = pkgLower.includes('launchpad')
+      ? 'launchpad'
+      : pkgLower.includes('managed') && !pkgLower.includes('3d')
+      ? 'concierge'
+      : 'flagship';
+    const tpl = PRE_DESIGNED_QUOTE_TEMPLATES[tplKey];
+
+    setActiveQuote({
+      id: '',
+      quoteNumber: nextQuoteNumber,
+      leadId: lead.id,
+      clientName: lead.name || '',
+      clientEmail: lead.email || '',
+      clientPhone: lead.phone || '',
+      storeName: lead.storeName || '',
+      websiteUrl: lead.websiteUrl || '',
+      journeyType: isDirectQuote ? 'Direct Quotation Request' : 'Demo → Step 2 Quotation',
+      packageTitle: lead.requestedPackage || tpl.packageTitle,
+      currency: '$',
+      validUntil: new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0],
+      timeline: tpl.timeline,
+      paymentTerms: '50% Kickoff Deposit · 50% Upon Storefront Launch',
+      items: tpl.items.map((i) => ({ ...i })),
+      discount: tpl.discount,
+      taxRate: 0,
+      status: 'Draft',
+      notes: tpl.notes,
+    });
+    setQuoteMsg({ type: '', text: '' });
+    setActiveTab('quotations');
+  };
+
+  const handleSaveQuotation = async (sendEmail = false) => {
+    if (!activeQuote.clientName || !activeQuote.clientEmail) {
+      setQuoteMsg({ type: 'error', text: 'Please enter Client Name and Client Email.' });
+      return;
+    }
+    setQuoteLoading(true);
+    setQuoteMsg({ type: '', text: '' });
+    try {
+      const res = await fetch('/api/admin/quotations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...activeQuote,
+          sendEmail,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        fetchQuotations();
+        fetchLeads();
+        setActiveQuote((prev) => ({ ...prev, id: data.quotation.id, status: data.quotation.status }));
+        if (sendEmail) {
+          if (data.emailDispatched) {
+            setQuoteMsg({
+              type: 'success',
+              text: `Quotation ${data.quotation.quoteNumber} saved and emailed to ${activeQuote.clientEmail}.`,
+            });
+          } else {
+            setQuoteMsg({
+              type: 'error',
+              text: `Quotation saved, but email could not be sent: ${data.emailError || 'Check SMTP password'}.`,
+            });
+          }
+        } else {
+          setQuoteMsg({
+            type: 'success',
+            text: `Quotation ${data.quotation.quoteNumber} saved (${data.quotation.currency}${data.quotation.totalAmount.toLocaleString()}).`,
+          });
+        }
+      } else {
+        setQuoteMsg({ type: 'error', text: data.error || 'Failed to save quotation.' });
+      }
+    } catch (e) {
+      setQuoteMsg({ type: 'error', text: 'Network error while saving quotation.' });
+    } finally {
+      setQuoteLoading(false);
+    }
+  };
+
+  const updateQuoteStatus = async (id, status) => {
+    try {
+      const res = await fetch('/api/admin/quotations', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status }),
+      });
+      if (res.ok) fetchQuotations();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const deleteQuotation = async (id) => {
+    if (!confirm('Delete this quotation?')) return;
+    try {
+      const res = await fetch(`/api/admin/quotations?id=${id}`, { method: 'DELETE' });
+      if (res.ok) fetchQuotations();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const fetchCookies = async () => {
@@ -593,17 +856,17 @@ export default function AdminDashboard() {
             {
               label: 'Total Client Leads',
               value: leads.length,
-              sub: 'All submitted inquiries',
+              sub: 'Demo + Quotation inquiries',
             },
             {
-              label: 'New / Unread',
-              value: leads.filter((l) => (l.status || 'New') === 'New').length,
-              sub: 'Awaiting prototype review',
+              label: 'People Quoted',
+              value: quoteStats.totalQuotations || quotations.length,
+              sub: `${quoteStats.sentCount || 0} sent · ${quoteStats.acceptedCount || 0} accepted`,
             },
             {
-              label: 'Active Prototypes',
-              value: leads.filter((l) => l.status === 'In Progress' || l.status === 'Contacted').length,
-              sub: 'Currently in progress',
+              label: 'Total Quoted Pipeline',
+              value: `$${(quoteStats.totalQuotedAmount || 0).toLocaleString()}`,
+              sub: `$${(quoteStats.acceptedAmount || 0).toLocaleString()} approved / won`,
             },
             {
               label: 'Email Dispatch (SMTP)',
@@ -645,7 +908,8 @@ export default function AdminDashboard() {
           <div className="segmented-control" style={{ background: '#E5E5EA' }}>
             {[
               { id: 'leads', label: `Client Leads (${leads.length})` },
-              { id: 'smtp', label: 'SMTP & Confirmation Email' },
+              { id: 'quotations', label: `Quotations & Proposals (${quotations.length})` },
+              { id: 'smtp', label: 'SMTP & Confirmation Emails' },
               { id: 'cookies', label: `Cookies, Traffic & SEO (${cookieStore.stats?.totalDecisions || 0})` },
               { id: 'campaign', label: 'Onboarding & Contact Info' },
               { id: 'overview', label: 'System Status' },
@@ -848,8 +1112,26 @@ export default function AdminDashboard() {
                             </div>
                           </td>
 
-                          {/* Category */}
+                          {/* Category & Visitor Flow */}
                           <td style={{ padding: '18px 20px' }}>
+                            <div
+                              style={{
+                                display: 'inline-block',
+                                padding: '3px 9px',
+                                borderRadius: '980px',
+                                fontSize: '11px',
+                                fontWeight: 600,
+                                marginBottom: '6px',
+                                background: lead.requestType === 'quotation' ? '#FFF4E5' : '#EBF5FF',
+                                color: lead.requestType === 'quotation' ? '#B25000' : '#0066CC',
+                              }}
+                            >
+                              {lead.journeyStage ||
+                                (lead.requestType === 'quotation'
+                                  ? 'Direct Quotation Requested'
+                                  : 'Step 1: Free Demo → Step 2: Quote')}
+                            </div>
+                            <br />
                             <span
                               style={{
                                 background: '#F5F5F7',
@@ -865,12 +1147,14 @@ export default function AdminDashboard() {
                             >
                               {lead.category || 'E-Commerce'}
                             </span>
-                            <div style={{ fontSize: '11.5px', color: '#6E6E73' }}>
-                              Code: <strong style={{ color: '#1D1D1F' }}>{lead.promoCode || 'FREE-3D-DEMO-60D'}</strong>
-                            </div>
-                            {lead.revenueRange && (
+                            {lead.requestedPackage && (
+                              <div style={{ fontSize: '11.5px', color: '#1D1D1F', fontWeight: 500 }}>
+                                Scope: {lead.requestedPackage}
+                              </div>
+                            )}
+                            {lead.productCount && (
                               <div style={{ fontSize: '11.5px', color: '#86868B', marginTop: '2px' }}>
-                                Scale: {lead.revenueRange}
+                                {lead.productCount} · {lead.platform || 'Shopify'}
                               </div>
                             )}
                           </td>
@@ -958,6 +1242,19 @@ export default function AdminDashboard() {
                               </div>
                             ) : (
                               <div>
+                                <button
+                                  type="button"
+                                  onClick={() => loadLeadIntoQuotation(lead)}
+                                  className="btn-apple-blue"
+                                  style={{
+                                    padding: '6px 12px',
+                                    fontSize: '11.5px',
+                                    marginBottom: '8px',
+                                    width: '100%',
+                                  }}
+                                >
+                                  {lead.quoteNumber ? `Edit Quote (${lead.quoteNumber})` : '+ Prepare Quotation'}
+                                </button>
                                 <div
                                   style={{
                                     fontSize: '12.5px',
@@ -997,6 +1294,727 @@ export default function AdminDashboard() {
                 </table>
               </div>
             )}
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB 2: QUOTATIONS & PRE-DESIGNED PROPOSAL STUDIO               */}
+        {/* ============================================================== */}
+        {activeTab === 'quotations' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+            {/* Quotation Analytics Summary Cards */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                gap: '16px',
+              }}
+            >
+              {[
+                {
+                  label: 'Total People Quoted',
+                  value: quoteStats.totalQuotations || quotations.length,
+                  sub: `${quoteStats.sentCount || 0} emailed to clients`,
+                },
+                {
+                  label: 'Total Quoted Amount',
+                  value: `$${(quoteStats.totalQuotedAmount || 0).toLocaleString()}`,
+                  sub: 'Combined value of all quotations',
+                },
+                {
+                  label: 'Approved / Won Quotations',
+                  value: `$${(quoteStats.acceptedAmount || 0).toLocaleString()}`,
+                  sub: `${quoteStats.acceptedCount || 0} accepted proposals`,
+                },
+                {
+                  label: 'Step 1 Demo Leads Ready for Quote',
+                  value: leads.filter((l) => l.requestType !== 'quotation').length,
+                  sub: 'Select any lead below to generate Step 2 quote',
+                },
+              ].map((card) => (
+                <div
+                  key={card.label}
+                  style={{
+                    background: '#FFFFFF',
+                    border: '1px solid #D2D2D7',
+                    borderRadius: '18px',
+                    padding: '22px',
+                  }}
+                >
+                  <div style={{ fontSize: '12px', fontWeight: 500, color: '#6E6E73', marginBottom: '6px' }}>
+                    {card.label}
+                  </div>
+                  <div style={{ fontSize: '28px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
+                    {card.value}
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#86868B' }}>{card.sub}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Pre-Designed Adjustable Quotation Builder + Live Formal Quotation Preview */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
+                gap: '24px',
+                alignItems: 'start',
+              }}
+            >
+              {/* LEFT: Adjustable Quotation Editor */}
+              <div
+                style={{
+                  background: '#FFFFFF',
+                  border: '1px solid #D2D2D7',
+                  borderRadius: '22px',
+                  padding: '32px',
+                }}
+              >
+                <div style={{ marginBottom: '20px' }}>
+                  <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
+                    Pre-Designed Quotation Builder &amp; Adjustments
+                  </h3>
+                  <p style={{ fontSize: '13px', color: '#6E6E73', lineHeight: 1.5 }}>
+                    Choose a pre-designed package template or select a client lead, adjust deliverables and prices, and send the formal quotation directly via email or WhatsApp.
+                  </p>
+                </div>
+
+                {/* 1-Click Pre-Designed Package Presets */}
+                <div style={{ marginBottom: '18px' }}>
+                  <label style={{ display: 'block', fontSize: '11.5px', fontWeight: 600, color: '#6E6E73', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+                    Load Pre-Designed Quotation Template
+                  </label>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    <button
+                      type="button"
+                      onClick={() => applyQuoteTemplate('launchpad')}
+                      className="btn-apple-secondary"
+                      style={{ padding: '7px 13px', fontSize: '12px' }}
+                    >
+                      3D Launchpad ($2,350)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => applyQuoteTemplate('flagship')}
+                      className="btn-apple-secondary"
+                      style={{ padding: '7px 13px', fontSize: '12px' }}
+                    >
+                      Spatial Flagship ($3,500)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => applyQuoteTemplate('concierge')}
+                      className="btn-apple-secondary"
+                      style={{ padding: '7px 13px', fontSize: '12px' }}
+                    >
+                      Managed Concierge ($490/mo)
+                    </button>
+                  </div>
+                </div>
+
+                {/* Auto-Fill from Existing Client Lead */}
+                <div style={{ marginBottom: '18px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 500, color: '#1D1D1F', marginBottom: '6px' }}>
+                    Auto-Fill Client from Leads (Demo Step 2 or Direct Quote Request)
+                  </label>
+                  <select
+                    onChange={(e) => {
+                      const found = leads.find((l) => l.id === e.target.value);
+                      if (found) loadLeadIntoQuotation(found);
+                    }}
+                    value={activeQuote.leadId || ''}
+                    className="ios-input"
+                  >
+                    <option value="">— Select a client lead or type manually below —</option>
+                    {leads.map((l) => (
+                      <option key={l.id} value={l.id}>
+                        {l.name} · {l.storeName || l.email} ({l.requestType === 'quotation' ? 'Direct Quote' : 'Demo Step 1'})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {quoteMsg.text && (
+                  <div
+                    style={{
+                      background: quoteMsg.type === 'success' ? '#E8F5E9' : '#FFF2F2',
+                      border: `1px solid ${quoteMsg.type === 'success' ? '#B7E1CD' : '#FFD6D6'}`,
+                      color: quoteMsg.type === 'success' ? '#1D7D3F' : '#D70015',
+                      padding: '12px 14px',
+                      borderRadius: '10px',
+                      fontSize: '13px',
+                      marginBottom: '16px',
+                    }}
+                  >
+                    {quoteMsg.text}
+                  </div>
+                )}
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 90px', gap: '10px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                        Quote Number
+                      </label>
+                      <input
+                        type="text"
+                        value={activeQuote.quoteNumber}
+                        onChange={(e) => setActiveQuote({ ...activeQuote, quoteNumber: e.target.value })}
+                        className="ios-input"
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                        Journey Stage
+                      </label>
+                      <select
+                        value={activeQuote.journeyType}
+                        onChange={(e) => setActiveQuote({ ...activeQuote, journeyType: e.target.value })}
+                        className="ios-input"
+                      >
+                        <option value="Demo → Step 2 Quotation">Demo → Step 2 Quotation</option>
+                        <option value="Direct Quotation Request">Direct Quotation Request</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                        Currency
+                      </label>
+                      <select
+                        value={activeQuote.currency}
+                        onChange={(e) => setActiveQuote({ ...activeQuote, currency: e.target.value })}
+                        className="ios-input"
+                      >
+                        <option value="$">USD ($)</option>
+                        <option value="€">EUR (€)</option>
+                        <option value="£">GBP (£)</option>
+                        <option value="AED ">AED</option>
+                        <option value="PKR ">PKR</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                        Client Name *
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Elena Rostova"
+                        value={activeQuote.clientName}
+                        onChange={(e) => setActiveQuote({ ...activeQuote, clientName: e.target.value })}
+                        className="ios-input"
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                        Client Email *
+                      </label>
+                      <input
+                        type="email"
+                        placeholder="elena@brand.com"
+                        value={activeQuote.clientEmail}
+                        onChange={(e) => setActiveQuote({ ...activeQuote, clientEmail: e.target.value })}
+                        className="ios-input"
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                        Brand / Store Name
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Atelier Horology"
+                        value={activeQuote.storeName}
+                        onChange={(e) => setActiveQuote({ ...activeQuote, storeName: e.target.value })}
+                        className="ios-input"
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                        Proposal Title / Scope
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Spatial Retail Flagship"
+                        value={activeQuote.packageTitle}
+                        onChange={(e) => setActiveQuote({ ...activeQuote, packageTitle: e.target.value })}
+                        className="ios-input"
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                        Delivery Timeline
+                      </label>
+                      <input
+                        type="text"
+                        value={activeQuote.timeline}
+                        onChange={(e) => setActiveQuote({ ...activeQuote, timeline: e.target.value })}
+                        className="ios-input"
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                        Valid Until
+                      </label>
+                      <input
+                        type="date"
+                        value={activeQuote.validUntil}
+                        onChange={(e) => setActiveQuote({ ...activeQuote, validUntil: e.target.value })}
+                        className="ios-input"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Line Items Editor */}
+                  <div style={{ borderTop: '1px solid #E5E5EA', paddingTop: '14px', marginTop: '4px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: 600, color: '#1D1D1F', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                        Deliverable Line Items (Adjustable)
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setActiveQuote({
+                            ...activeQuote,
+                            items: [
+                              ...(activeQuote.items || []),
+                              { title: 'Custom 3D Feature / Integration', description: 'Tailored engineering deliverable.', qty: 1, price: 450 },
+                            ],
+                          })
+                        }
+                        className="btn-apple-secondary"
+                        style={{ padding: '4px 10px', fontSize: '11.5px' }}
+                      >
+                        + Add Line Item
+                      </button>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      {(activeQuote.items || []).map((item, idx) => (
+                        <div
+                          key={idx}
+                          style={{
+                            background: '#F5F5F7',
+                            padding: '12px',
+                            borderRadius: '12px',
+                            border: '1px solid #E5E5EA',
+                          }}
+                        >
+                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 65px 100px 28px', gap: '8px', marginBottom: '6px', alignItems: 'center' }}>
+                            <input
+                              type="text"
+                              placeholder="Deliverable title"
+                              value={item.title}
+                              onChange={(e) => {
+                                const updated = [...activeQuote.items];
+                                updated[idx] = { ...updated[idx], title: e.target.value };
+                                setActiveQuote({ ...activeQuote, items: updated });
+                              }}
+                              className="ios-input"
+                              style={{ padding: '7px 10px', fontSize: '12.5px', fontWeight: 600 }}
+                            />
+                            <input
+                              type="number"
+                              min="1"
+                              placeholder="Qty"
+                              value={item.qty}
+                              onChange={(e) => {
+                                const updated = [...activeQuote.items];
+                                updated[idx] = { ...updated[idx], qty: Number(e.target.value) };
+                                setActiveQuote({ ...activeQuote, items: updated });
+                              }}
+                              className="ios-input"
+                              style={{ padding: '7px 8px', fontSize: '12.5px' }}
+                            />
+                            <input
+                              type="number"
+                              placeholder="Price"
+                              value={item.price}
+                              onChange={(e) => {
+                                const updated = [...activeQuote.items];
+                                updated[idx] = { ...updated[idx], price: Number(e.target.value) };
+                                setActiveQuote({ ...activeQuote, items: updated });
+                              }}
+                              className="ios-input"
+                              style={{ padding: '7px 8px', fontSize: '12.5px', fontWeight: 600 }}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const updated = activeQuote.items.filter((_, i) => i !== idx);
+                                setActiveQuote({ ...activeQuote, items: updated });
+                              }}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#D70015',
+                                cursor: 'pointer',
+                                fontSize: '14px',
+                              }}
+                              title="Remove item"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                          <input
+                            type="text"
+                            placeholder="Description of deliverable"
+                            value={item.description}
+                            onChange={(e) => {
+                              const updated = [...activeQuote.items];
+                              updated[idx] = { ...updated[idx], description: e.target.value };
+                              setActiveQuote({ ...activeQuote, items: updated });
+                            }}
+                            className="ios-input"
+                            style={{ padding: '6px 10px', fontSize: '12px', color: '#424245' }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Discount, Tax & Payment Terms */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '4px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                        Discount Amount ({activeQuote.currency})
+                      </label>
+                      <input
+                        type="number"
+                        value={activeQuote.discount}
+                        onChange={(e) => setActiveQuote({ ...activeQuote, discount: Number(e.target.value) })}
+                        className="ios-input"
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                        Tax (%)
+                      </label>
+                      <input
+                        type="number"
+                        value={activeQuote.taxRate}
+                        onChange={(e) => setActiveQuote({ ...activeQuote, taxRate: Number(e.target.value) })}
+                        className="ios-input"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
+                      Notes &amp; Included Terms
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={activeQuote.notes}
+                      onChange={(e) => setActiveQuote({ ...activeQuote, notes: e.target.value })}
+                      className="ios-input"
+                      style={{ fontSize: '12.5px' }}
+                    />
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', paddingTop: '8px' }}>
+                    <button
+                      type="button"
+                      disabled={quoteLoading}
+                      onClick={() => handleSaveQuotation(true)}
+                      className="btn-apple-blue"
+                      style={{ padding: '11px 20px', fontSize: '13.5px' }}
+                    >
+                      {quoteLoading ? 'Processing...' : 'Save & Email Quotation to Client'}
+                    </button>
+                    <button
+                      type="button"
+                      disabled={quoteLoading}
+                      onClick={() => handleSaveQuotation(false)}
+                      className="btn-apple-dark"
+                      style={{ padding: '11px 18px', fontSize: '13.5px' }}
+                    >
+                      Save Quotation Only
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* RIGHT: Live Pre-Designed Quotation Preview Card */}
+              {(() => {
+                const liveSubtotal = (activeQuote.items || []).reduce(
+                  (sum, i) => sum + (Number(i.qty) || 1) * (Number(i.price) || 0),
+                  0
+                );
+                const liveAfterDisc = Math.max(0, liveSubtotal - (Number(activeQuote.discount) || 0));
+                const liveTax = Math.round(liveAfterDisc * ((Number(activeQuote.taxRate) || 0) / 100));
+                const liveTotal = liveAfterDisc + liveTax;
+                const cur = activeQuote.currency || '$';
+
+                return (
+                  <div
+                    style={{
+                      background: '#FFFFFF',
+                      border: '1px solid #D2D2D7',
+                      borderRadius: '22px',
+                      overflow: 'hidden',
+                      boxShadow: '0 12px 36px rgba(0, 0, 0, 0.06)',
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: '#F5F5F7',
+                        padding: '24px 28px',
+                        borderBottom: '1px solid #D2D2D7',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                        gap: '12px',
+                      }}
+                    >
+                      <div>
+                        <div style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#0066CC', marginBottom: '4px' }}>
+                          Live Pre-Designed Quotation Preview
+                        </div>
+                        <div style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F' }}>ManageMyWeb</div>
+                        <div style={{ fontSize: '12px', color: '#6E6E73' }}>
+                          3D Virtual Storefronts &amp; Managed Web Operations
+                        </div>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ fontSize: '13px', fontWeight: 600, color: '#1D1D1F' }}>{activeQuote.quoteNumber}</div>
+                        <div style={{ fontSize: '11.5px', color: '#6E6E73' }}>Valid: {activeQuote.validUntil}</div>
+                        <div style={{ fontSize: '11.5px', color: '#0066CC', fontWeight: 500, marginTop: '2px' }}>
+                          {activeQuote.journeyType}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ padding: '28px' }}>
+                      <div
+                        style={{
+                          background: '#F5F5F7',
+                          borderRadius: '12px',
+                          padding: '14px 16px',
+                          marginBottom: '20px',
+                          fontSize: '13px',
+                          color: '#424245',
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        <strong style={{ color: '#1D1D1F' }}>Prepared For:</strong>{' '}
+                        {activeQuote.clientName || 'Client Name'} ({activeQuote.storeName || 'Brand Storefront'})<br />
+                        <strong style={{ color: '#1D1D1F' }}>Scope:</strong> {activeQuote.packageTitle} ·{' '}
+                        <strong style={{ color: '#1D1D1F' }}>Timeline:</strong> {activeQuote.timeline}
+                      </div>
+
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', marginBottom: '20px' }}>
+                        <thead>
+                          <tr style={{ borderBottom: '1px solid #D2D2D7', color: '#6E6E73', fontSize: '11px', textTransform: 'uppercase' }}>
+                            <th style={{ padding: '8px 0', textAlign: 'left' }}>Deliverable</th>
+                            <th style={{ padding: '8px 6px', textAlign: 'center' }}>Qty</th>
+                            <th style={{ padding: '8px 0', textAlign: 'right' }}>Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {(activeQuote.items || []).map((item, idx) => (
+                            <tr key={idx} style={{ borderBottom: '1px solid #E5E5EA' }}>
+                              <td style={{ padding: '12px 0' }}>
+                                <div style={{ fontWeight: 600, color: '#1D1D1F' }}>{item.title}</div>
+                                {item.description && (
+                                  <div style={{ fontSize: '12px', color: '#6E6E73', marginTop: '2px' }}>{item.description}</div>
+                                )}
+                              </td>
+                              <td style={{ padding: '12px 6px', textAlign: 'center', color: '#424245' }}>{item.qty || 1}</td>
+                              <td style={{ padding: '12px 0', textAlign: 'right', fontWeight: 600, color: '#1D1D1F', whiteSpace: 'nowrap' }}>
+                                {cur}
+                                {((Number(item.qty) || 1) * (Number(item.price) || 0)).toLocaleString()}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+
+                      <div style={{ background: '#F5F5F7', borderRadius: '14px', padding: '16px 18px', marginBottom: '18px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#6E6E73', marginBottom: '6px' }}>
+                          <span>Subtotal</span>
+                          <span style={{ color: '#1D1D1F', fontWeight: 500 }}>
+                            {cur}
+                            {liveSubtotal.toLocaleString()}
+                          </span>
+                        </div>
+                        {Number(activeQuote.discount) > 0 && (
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#1D7D3F', marginBottom: '6px' }}>
+                            <span>Onboarding Discount</span>
+                            <span style={{ fontWeight: 500 }}>
+                              -{cur}
+                              {Number(activeQuote.discount).toLocaleString()}
+                            </span>
+                          </div>
+                        )}
+                        {Number(activeQuote.taxRate) > 0 && (
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#6E6E73', marginBottom: '6px' }}>
+                            <span>Tax ({activeQuote.taxRate}%)</span>
+                            <span style={{ color: '#1D1D1F' }}>
+                              {cur}
+                              {liveTax.toLocaleString()}
+                            </span>
+                          </div>
+                        )}
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'baseline',
+                            borderTop: '1px solid #D2D2D7',
+                            paddingTop: '10px',
+                            marginTop: '6px',
+                          }}
+                        >
+                          <span style={{ fontSize: '15px', fontWeight: 600, color: '#1D1D1F' }}>Total Quotation Amount</span>
+                          <span style={{ fontSize: '24px', fontWeight: 600, color: '#0066CC' }}>
+                            {cur}
+                            {liveTotal.toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+
+                      {activeQuote.notes && (
+                        <div style={{ fontSize: '12.5px', color: '#424245', lineHeight: 1.5, marginBottom: '16px' }}>
+                          <strong style={{ color: '#1D1D1F' }}>Included Notes:</strong> {activeQuote.notes}
+                        </div>
+                      )}
+
+                      <div style={{ fontSize: '12px', color: '#6E6E73', borderTop: '1px solid #E5E5EA', paddingTop: '12px' }}>
+                        <strong style={{ color: '#1D1D1F' }}>ManageMyWeb Studio</strong> · sales@managemyweb.co · WhatsApp: +92 317 4075023
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+
+            {/* All Quotations Registry Table */}
+            <div
+              style={{
+                background: '#FFFFFF',
+                border: '1px solid #D2D2D7',
+                borderRadius: '20px',
+                overflow: 'hidden',
+              }}
+            >
+              <div style={{ padding: '22px 26px', borderBottom: '1px solid #E5E5EA', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#1D1D1F', marginBottom: '2px' }}>
+                    All Client Quotations ({quotations.length})
+                  </h3>
+                  <p style={{ fontSize: '13px', color: '#6E6E73' }}>
+                    Click &ldquo;Adjust / Load&rdquo; on any quotation to modify line items or resend the proposal email.
+                  </p>
+                </div>
+              </div>
+
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13.5px' }}>
+                  <thead>
+                    <tr style={{ background: '#F5F5F7', borderBottom: '1px solid #D2D2D7', fontSize: '11px', fontWeight: 600, color: '#6E6E73', textTransform: 'uppercase' }}>
+                      <th style={{ padding: '12px 20px' }}>Quote #</th>
+                      <th style={{ padding: '12px 20px' }}>Client &amp; Store</th>
+                      <th style={{ padding: '12px 20px' }}>Journey Flow</th>
+                      <th style={{ padding: '12px 20px' }}>Package Scope</th>
+                      <th style={{ padding: '12px 20px' }}>Total Amount</th>
+                      <th style={{ padding: '12px 20px' }}>Status</th>
+                      <th style={{ padding: '12px 20px' }}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {quotations.length === 0 ? (
+                      <tr>
+                        <td colSpan={7} style={{ padding: '32px', textAlign: 'center', color: '#6E6E73' }}>
+                          No quotations created yet. Use the builder above to create your first quotation.
+                        </td>
+                      </tr>
+                    ) : (
+                      quotations.map((q) => (
+                        <tr key={q.id} style={{ borderBottom: '1px solid #E5E5EA' }}>
+                          <td style={{ padding: '16px 20px', fontWeight: 600, fontFamily: 'monospace', color: '#1D1D1F' }}>
+                            {q.quoteNumber}
+                          </td>
+                          <td style={{ padding: '16px 20px' }}>
+                            <div style={{ fontWeight: 600, color: '#1D1D1F' }}>{q.clientName}</div>
+                            <div style={{ fontSize: '12.5px', color: '#0066CC' }}>{q.storeName}</div>
+                            <div style={{ fontSize: '12px', color: '#6E6E73' }}>{q.clientEmail}</div>
+                          </td>
+                          <td style={{ padding: '16px 20px' }}>
+                            <span
+                              style={{
+                                padding: '4px 10px',
+                                borderRadius: '980px',
+                                fontSize: '11.5px',
+                                fontWeight: 600,
+                                background: q.journeyType?.includes('Direct') ? '#FFF4E5' : '#EBF5FF',
+                                color: q.journeyType?.includes('Direct') ? '#B25000' : '#0066CC',
+                              }}
+                            >
+                              {q.journeyType || 'Demo → Step 2 Quotation'}
+                            </span>
+                          </td>
+                          <td style={{ padding: '16px 20px', color: '#424245' }}>{q.packageTitle}</td>
+                          <td style={{ padding: '16px 20px', fontSize: '16px', fontWeight: 600, color: '#1D1D1F' }}>
+                            {q.currency || '$'}
+                            {Number(q.totalAmount || 0).toLocaleString()}
+                          </td>
+                          <td style={{ padding: '16px 20px' }}>
+                            <select
+                              value={q.status || 'Draft'}
+                              onChange={(e) => updateQuoteStatus(q.id, e.target.value)}
+                              className="ios-input"
+                              style={{ padding: '6px 10px', fontSize: '12px', fontWeight: 600, borderRadius: '980px', width: 'auto' }}
+                            >
+                              <option value="Draft">Draft</option>
+                              <option value="Sent">Sent</option>
+                              <option value="Accepted">Accepted / Won</option>
+                              <option value="Declined">Declined</option>
+                            </select>
+                          </td>
+                          <td style={{ padding: '16px 20px' }}>
+                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setActiveQuote({ ...q });
+                                  window.scrollTo({ top: 180, behavior: 'smooth' });
+                                }}
+                                className="btn-apple-secondary"
+                                style={{ padding: '6px 12px', fontSize: '12px' }}
+                              >
+                                Adjust / Load
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => deleteQuotation(q.id)}
+                                style={{
+                                  background: 'none',
+                                  border: 'none',
+                                  color: '#D70015',
+                                  fontSize: '12px',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         )}
 
@@ -1298,7 +2316,7 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* Client Confirmation Email Template Editor */}
+            {/* Dual Client Confirmation Email Templates Editor (Demo Flow vs Quotation Flow) */}
             <div
               style={{
                 gridColumn: '1 / -1',
@@ -1315,16 +2333,15 @@ export default function AdminDashboard() {
                   alignItems: 'flex-start',
                   flexWrap: 'wrap',
                   gap: '12px',
-                  marginBottom: '20px',
+                  marginBottom: '22px',
                 }}
               >
                 <div>
                   <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
-                    Client Confirmation Email Template
+                    Automated Confirmation Emails (Demo Flow &amp; Quotation Flow)
                   </h3>
                   <p style={{ color: '#6E6E73', fontSize: '13.5px', lineHeight: 1.5 }}>
-                    Customize the automated confirmation email sent to store owners when they submit the form. You can use{' '}
-                    <code>{'{{firstName}}'}</code>, <code>{'{{storeName}}'}</code>, and <code>{'{{websiteUrl}}'}</code>.
+                    Customize both confirmation emails sent when visitors choose either <strong>Step 1: Free 3D Demo</strong> or <strong>Direct Custom Quotation</strong>. Available variables: <code>{'{{firstName}}'}</code>, <code>{'{{storeName}}'}</code>, <code>{'{{packageScope}}'}</code>, <code>{'{{websiteUrl}}'}</code>.
                   </p>
                 </div>
                 <button
@@ -1334,46 +2351,89 @@ export default function AdminDashboard() {
                       ...smtpConfig,
                       confirmationSubject: DEFAULT_CONFIRMATION_SUBJECT,
                       confirmationBody: DEFAULT_CONFIRMATION_BODY,
+                      quotationSubject: DEFAULT_QUOTATION_SUBJECT,
+                      quotationBody: DEFAULT_QUOTATION_BODY,
                     })
                   }
                   className="btn-apple-secondary"
                   style={{ padding: '7px 14px', fontSize: '12.5px' }}
                 >
-                  Reset to Default Template
+                  Reset Both Templates to Default
                 </button>
               </div>
 
-              <form onSubmit={handleSaveSmtp} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
-                    Confirmation Email Subject
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={smtpConfig.confirmationSubject || DEFAULT_CONFIRMATION_SUBJECT}
-                    onChange={(e) => setSmtpConfig({ ...smtpConfig, confirmationSubject: e.target.value })}
-                    className="ios-input"
-                  />
-                </div>
+              <form onSubmit={handleSaveSmtp} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px' }}>
+                  {/* Template 1: Demo First */}
+                  <div style={{ background: '#F5F5F7', padding: '20px', borderRadius: '16px', border: '1px solid #E5E5EA' }}>
+                    <div style={{ fontSize: '12px', fontWeight: 600, color: '#0066CC', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px' }}>
+                      Visitor Type 1 · Free 3D Demo First (Step 1 → Step 2 Quote)
+                    </div>
+                    <div style={{ marginBottom: '12px' }}>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                        Demo Confirmation Subject
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={smtpConfig.confirmationSubject || DEFAULT_CONFIRMATION_SUBJECT}
+                        onChange={(e) => setSmtpConfig({ ...smtpConfig, confirmationSubject: e.target.value })}
+                        className="ios-input"
+                        style={{ background: '#FFFFFF' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                        Demo Confirmation Body
+                      </label>
+                      <textarea
+                        rows={10}
+                        required
+                        value={smtpConfig.confirmationBody || DEFAULT_CONFIRMATION_BODY}
+                        onChange={(e) => setSmtpConfig({ ...smtpConfig, confirmationBody: e.target.value })}
+                        className="ios-input"
+                        style={{ lineHeight: 1.55, fontFamily: 'inherit', background: '#FFFFFF' }}
+                      />
+                    </div>
+                  </div>
 
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
-                    Confirmation Email Message Body
-                  </label>
-                  <textarea
-                    rows={10}
-                    required
-                    value={smtpConfig.confirmationBody || DEFAULT_CONFIRMATION_BODY}
-                    onChange={(e) => setSmtpConfig({ ...smtpConfig, confirmationBody: e.target.value })}
-                    className="ios-input"
-                    style={{ lineHeight: 1.6, fontFamily: 'inherit' }}
-                  />
+                  {/* Template 2: Direct Quotation Request */}
+                  <div style={{ background: '#F5F5F7', padding: '20px', borderRadius: '16px', border: '1px solid #E5E5EA' }}>
+                    <div style={{ fontSize: '12px', fontWeight: 600, color: '#B25000', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px' }}>
+                      Visitor Type 2 · Direct Custom Quotation Request
+                    </div>
+                    <div style={{ marginBottom: '12px' }}>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                        Quotation Request Confirmation Subject
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={smtpConfig.quotationSubject || DEFAULT_QUOTATION_SUBJECT}
+                        onChange={(e) => setSmtpConfig({ ...smtpConfig, quotationSubject: e.target.value })}
+                        className="ios-input"
+                        style={{ background: '#FFFFFF' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
+                        Quotation Request Confirmation Body
+                      </label>
+                      <textarea
+                        rows={10}
+                        required
+                        value={smtpConfig.quotationBody || DEFAULT_QUOTATION_BODY}
+                        onChange={(e) => setSmtpConfig({ ...smtpConfig, quotationBody: e.target.value })}
+                        className="ios-input"
+                        style={{ lineHeight: 1.55, fontFamily: 'inherit', background: '#FFFFFF' }}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div>
                   <button type="submit" disabled={smtpLoading} className="btn-apple-blue" style={{ padding: '12px 24px' }}>
-                    {smtpLoading ? 'Saving...' : 'Save Confirmation Email Template'}
+                    {smtpLoading ? 'Saving...' : 'Save Both Confirmation Email Templates'}
                   </button>
                 </div>
               </form>

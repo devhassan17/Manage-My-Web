@@ -4,6 +4,8 @@ import {
   writeJsonData,
   DEFAULT_CONFIRMATION_SUBJECT,
   DEFAULT_CONFIRMATION_BODY,
+  DEFAULT_QUOTATION_SUBJECT,
+  DEFAULT_QUOTATION_BODY,
 } from '../../../utils/dataStore';
 
 export default function handler(req, res) {
@@ -21,7 +23,7 @@ export default function handler(req, res) {
     }
   }
 
-  // POST: Update SMTP config + confirmation email template
+  // POST: Update SMTP config + confirmation & quotation email templates
   if (req.method === 'POST') {
     try {
       const existing = getSmtpConfig();
@@ -35,6 +37,8 @@ export default function handler(req, res) {
         notifyEmail,
         confirmationSubject,
         confirmationBody,
+        quotationSubject,
+        quotationBody,
       } = req.body;
 
       const resolvedPort = port !== undefined ? Number(port) : existing.port || 465;
@@ -66,6 +70,14 @@ export default function handler(req, res) {
           confirmationBody !== undefined
             ? confirmationBody
             : existing.confirmationBody || DEFAULT_CONFIRMATION_BODY,
+        quotationSubject:
+          quotationSubject !== undefined
+            ? quotationSubject
+            : existing.quotationSubject || DEFAULT_QUOTATION_SUBJECT,
+        quotationBody:
+          quotationBody !== undefined
+            ? quotationBody
+            : existing.quotationBody || DEFAULT_QUOTATION_BODY,
         isConfigured: true,
       };
 
@@ -84,7 +96,7 @@ export default function handler(req, res) {
 
       return res.status(200).json({
         success: true,
-        message: 'Email settings and confirmation template saved.',
+        message: 'Email settings and both confirmation templates saved.',
         config: {
           ...updated,
           pass: updated.pass ? '••••••••' : '',

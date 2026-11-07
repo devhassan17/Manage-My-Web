@@ -2,18 +2,36 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 
-export const DEFAULT_CONFIRMATION_SUBJECT = 'Your 3D store preview for {{storeName}}';
+export const DEFAULT_CONFIRMATION_SUBJECT = 'Step 1: Your 3D store demo for {{storeName}}';
 
 export const DEFAULT_CONFIRMATION_BODY = [
   'Hi {{firstName}},',
   '',
-  'Thanks for reaching out to ManageMyWeb. I received your request for a 3D storefront preview for {{storeName}}.',
+  'Thanks for reaching out to ManageMyWeb. I received your request for Step 1: your complimentary 3D storefront demo for {{storeName}}.',
   '',
-  'Our team is reviewing your catalog right now and putting together a working 3D prototype so you can see how your products look inside an interactive showroom. I’ll send your private preview link over within 48 hours.',
+  'Here is how our 2-step process works:',
+  '1. Free 3D Demo (In Progress): Our team is building an interactive 3D preview featuring your products and will send your private walkthrough link within 48 hours.',
+  '2. Custom Quotation: Once you explore the 3D demo with your team and share any adjustments, we will prepare a custom quotation tailored to your exact catalog scope.',
   '',
   'Quick question while we set this up: are there 2 or 3 best-selling products on your site you’d especially like us to feature on the main display?',
   '',
   'You can reply directly to this email, or message me on WhatsApp (+92 317 4075023) anytime.',
+  '',
+  'Best regards,',
+  'ManageMyWeb',
+  'sales@managemyweb.co · +92 317 4075023',
+].join('\n');
+
+export const DEFAULT_QUOTATION_SUBJECT = 'Your custom quotation request for {{storeName}}';
+
+export const DEFAULT_QUOTATION_BODY = [
+  'Hi {{firstName}},',
+  '',
+  'Thanks for contacting ManageMyWeb. I received your request for a custom quotation for {{storeName}} ({{packageScope}}).',
+  '',
+  'Our engineering team is reviewing your store requirements right now and putting together an itemized proposal with scope, timeline, and investment options. I will send your custom quotation over within 24 hours.',
+  '',
+  'Also, if you would like us to include a complimentary 3D preview of 2 or 3 of your products alongside your quotation, just reply with the product links or message me on WhatsApp (+92 317 4075023).',
   '',
   'Best regards,',
   'ManageMyWeb',
@@ -112,6 +130,8 @@ export function getSmtpConfig() {
     notifyEmail: 'sales@managemyweb.co',
     confirmationSubject: DEFAULT_CONFIRMATION_SUBJECT,
     confirmationBody: DEFAULT_CONFIRMATION_BODY,
+    quotationSubject: DEFAULT_QUOTATION_SUBJECT,
+    quotationBody: DEFAULT_QUOTATION_BODY,
     isConfigured: true,
   });
 
@@ -124,6 +144,8 @@ export function getSmtpConfig() {
   const notifyEmail = process.env.SMTP_NOTIFY_EMAIL || saved.notifyEmail || fromEmail || user;
   const confirmationSubject = saved.confirmationSubject || DEFAULT_CONFIRMATION_SUBJECT;
   const confirmationBody = saved.confirmationBody || DEFAULT_CONFIRMATION_BODY;
+  const quotationSubject = saved.quotationSubject || DEFAULT_QUOTATION_SUBJECT;
+  const quotationBody = saved.quotationBody || DEFAULT_QUOTATION_BODY;
 
   return {
     host,
@@ -137,6 +159,8 @@ export function getSmtpConfig() {
     notifyEmail,
     confirmationSubject,
     confirmationBody,
+    quotationSubject,
+    quotationBody,
     isConfigured: Boolean(host && user && pass),
   };
 }
@@ -148,7 +172,8 @@ export function renderEmailTemplate(template, variables = {}) {
     .replace(/\{\{\s*name\s*\}\}/gi, variables.name || 'there')
     .replace(/\{\{\s*storeName\s*\}\}/gi, variables.storeName || 'your store')
     .replace(/\{\{\s*websiteUrl\s*\}\}/gi, variables.websiteUrl || '')
-    .replace(/\{\{\s*category\s*\}\}/gi, variables.category || 'E-Commerce');
+    .replace(/\{\{\s*category\s*\}\}/gi, variables.category || 'E-Commerce')
+    .replace(/\{\{\s*packageScope\s*\}\}/gi, variables.packageScope || 'Custom 3D Storefront & Web Operations');
 }
 
 export function getCookieStore() {
