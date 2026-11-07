@@ -1,0 +1,10 @@
+{
+  "host": "smtp.gmail.com",
+  "port": 587,
+  "secure": false,
+  "user": "concierge@managemyweb.co",
+  "pass": "",
+  "fromEmail": "concierge@managemyweb.co",
+  "fromName": "ManageMyWeb Studio Concierge",
+  "isConfigured": false
+}

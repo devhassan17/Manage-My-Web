@@ -1,0 +1,19 @@
+{
+  "companyName": "ManageMyWeb Studio",
+  "tagline": "Next-Gen 3D Virtual Stores & Autonomous Web Operations",
+  "whatsappNumber": "+1 (332) 291-0881",
+  "whatsappRaw": "13322910881",
+  "contactEmail": "hello@managemyweb.co",
+  "adminEmail": "admin@managemyweb.co",
+  "address": "San Francisco, CA & London, UK (Global Remote Studio)",
+  "promo": {
+    "enabled": true,
+    "badge": "Exclusive Founder Window",
+    "title": "Claim Your Free Custom 3D Store Prototype Demo",
+    "description": "If you reach out within our 60-day promotional window, our spatial engineers will build a bespoke, interactive 3D virtual prototype of your store at zero cost (normally $3,500).",
+    "deadlineDate": "2027-01-02T23:59:59Z",
+    "slotsTotal": 10,
+    "slotsRemaining": 3,
+    "promoCode": "FREE-3D-DEMO-60D"
+  }
+}
