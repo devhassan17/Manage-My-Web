@@ -2,9 +2,9 @@
   "host": "smtp.gmail.com",
   "port": 587,
   "secure": false,
-  "user": "concierge@managemyweb.co",
+  "user": "sales@managemyweb.co",
   "pass": "",
-  "fromEmail": "concierge@managemyweb.co",
-  "fromName": "ManageMyWeb Studio Concierge",
+  "fromEmail": "sales@managemyweb.co",
+  "fromName": "ManageMyWeb Sales",
   "isConfigured": false
 }

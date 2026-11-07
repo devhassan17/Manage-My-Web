@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
         canonicalUrl="https://managemyweb.co/privacy"
       />
 
-      <Navbar onOpenDemoModal={() => {}} />
+      <Navbar onOpenDemoModal={() => { }} />
 
       <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
         <div className="container" style={{ maxWidth: '760px' }}>
@@ -69,8 +69,8 @@ export default function PrivacyPolicy() {
               </h2>
               <p>
                 For questions regarding data privacy or record deletion, contact{' '}
-                <a href="mailto:privacy@managemyweb.co" style={{ color: '#0066CC', textDecoration: 'none' }}>
-                  privacy@managemyweb.co
+                <a href="mailto:sales@managemyweb.co" style={{ color: '#0066CC', textDecoration: 'none' }}>
+                  sales@managemyweb.co
                 </a>
                 .
               </p>
@@ -79,7 +79,7 @@ export default function PrivacyPolicy() {
         </div>
       </main>
 
-      <Footer onOpenDemoModal={() => {}} />
+      <Footer onOpenDemoModal={() => { }} />
     </>
   );
 }

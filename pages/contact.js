@@ -45,7 +45,7 @@ export default function Contact() {
     }
   };
 
-  const waRaw = '13322910881';
+  const waRaw = '923174075023';
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
     'Hello ManageMyWeb team, I would like to request a complimentary 3D store prototype for our e-commerce brand.'
   )}`;
@@ -239,7 +239,7 @@ export default function Contact() {
                       </label>
                       <input
                         type="text"
-                        placeholder="+1 (332) 291-0881"
+                        placeholder="+92 317 4075023"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         className="ios-input"
@@ -298,7 +298,7 @@ export default function Contact() {
                   className="btn-apple-dark"
                   style={{ width: '100%' }}
                 >
-                  WhatsApp · +1 (332) 291-0881
+                  WhatsApp · +92 317 4075023
                 </a>
               </div>
 
@@ -308,12 +308,12 @@ export default function Contact() {
                 </p>
                 <div style={{ fontSize: '14px', color: '#424245', marginBottom: '8px' }}>
                   <strong style={{ color: '#1D1D1F' }}>Email:</strong>{' '}
-                  <a href="mailto:hello@managemyweb.co" style={{ color: '#0066CC', textDecoration: 'none' }}>
-                    hello@managemyweb.co
+                  <a href="mailto:sales@managemyweb.co" style={{ color: '#0066CC', textDecoration: 'none' }}>
+                    sales@managemyweb.co
                   </a>
                 </div>
                 <div style={{ fontSize: '14px', color: '#424245', marginBottom: '8px' }}>
-                  <strong style={{ color: '#1D1D1F' }}>Locations:</strong> San Francisco & London
+                  <strong style={{ color: '#1D1D1F' }}>WhatsApp:</strong> +92 317 4075023
                 </div>
                 <div style={{ fontSize: '14px', color: '#1D7D3F', fontWeight: 500 }}>
                   Average response time under 2 hours

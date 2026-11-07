@@ -25,7 +25,7 @@ export default function Navbar({ onOpenDemoModal }) {
     { label: 'Journal', href: '/blog' },
   ];
 
-  const waRaw = '13322910881';
+  const waRaw = '923174075023';
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
     'Hello ManageMyWeb team, I would like to discuss a complimentary 3D store prototype for our brand.'
   )}`;

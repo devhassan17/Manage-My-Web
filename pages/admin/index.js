@@ -22,15 +22,15 @@ export default function AdminDashboard() {
     host: '',
     port: 587,
     secure: false,
-    user: '',
+    user: 'sales@managemyweb.co',
     pass: '',
-    fromEmail: '',
-    fromName: 'ManageMyWeb Studio Concierge',
+    fromEmail: 'sales@managemyweb.co',
+    fromName: 'ManageMyWeb Sales',
     isConfigured: false,
   });
   const [smtpLoading, setSmtpLoading] = useState(false);
   const [smtpMsg, setSmtpMsg] = useState({ type: '', text: '' });
-  const [testEmail, setTestEmail] = useState('');
+  const [testEmail, setTestEmail] = useState('sales@managemyweb.co');
   const [testingSmtp, setTestingSmtp] = useState(false);
   const [testResult, setTestResult] = useState(null);
 
@@ -39,7 +39,6 @@ export default function AdminDashboard() {
   const [settingsLoading, setSettingsLoading] = useState(false);
   const [settingsMsg, setSettingsMsg] = useState('');
 
-  // Check stored auth
   useEffect(() => {
     const auth = sessionStorage.getItem('mmw_admin_auth');
     if (auth === 'true') {
@@ -50,7 +49,6 @@ export default function AdminDashboard() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Default master admin password
     if (passcode === 'admin123' || passcode === 'manage2026') {
       sessionStorage.setItem('mmw_admin_auth', 'true');
       setIsAuthenticated(true);
@@ -108,7 +106,6 @@ export default function AdminDashboard() {
     }
   };
 
-  // Lead Actions
   const updateLeadStatus = async (id, newStatus) => {
     try {
       const res = await fetch('/api/admin/leads', {
@@ -177,7 +174,6 @@ export default function AdminDashboard() {
     document.body.removeChild(link);
   };
 
-  // SMTP Save
   const handleSaveSmtp = async (e) => {
     e.preventDefault();
     setSmtpLoading(true);
@@ -190,7 +186,7 @@ export default function AdminDashboard() {
       });
       const data = await res.json();
       if (res.ok) {
-        setSmtpMsg({ type: 'success', text: 'SMTP configuration saved successfully!' });
+        setSmtpMsg({ type: 'success', text: 'SMTP configuration saved.' });
         setSmtpConfig(data.config);
       } else {
         setSmtpMsg({ type: 'error', text: data.error || 'Failed to save SMTP settings.' });
@@ -202,7 +198,6 @@ export default function AdminDashboard() {
     }
   };
 
-  // SMTP Test Dispatch
   const handleTestSmtp = async () => {
     setTestingSmtp(true);
     setTestResult(null);
@@ -236,7 +231,6 @@ export default function AdminDashboard() {
     }
   };
 
-  // Campaign Save
   const handleSaveSettings = async (e) => {
     e.preventDefault();
     setSettingsLoading(true);
@@ -249,7 +243,7 @@ export default function AdminDashboard() {
       });
       const data = await res.json();
       if (res.ok) {
-        setSettingsMsg('Campaign settings updated successfully!');
+        setSettingsMsg('Campaign settings updated.');
       } else {
         setSettingsMsg(data.error || 'Failed to update settings.');
       }
@@ -260,7 +254,6 @@ export default function AdminDashboard() {
     }
   };
 
-  // Filtered Leads
   const filteredLeads = leads.filter((l) => {
     const matchesStatus = statusFilter === 'All' || l.status === statusFilter;
     const query = searchQuery.toLowerCase();
@@ -273,7 +266,23 @@ export default function AdminDashboard() {
     return matchesStatus && matchesSearch;
   });
 
-  // Login Screen
+  const getStatusBadgeStyle = (status) => {
+    switch (status) {
+      case 'New':
+        return { background: '#FFF4E5', color: '#B25000', border: '1px solid #FFD599' };
+      case 'Closed Won':
+        return { background: '#E8F5E9', color: '#1D7D3F', border: '1px solid #B7E1CD' };
+      case 'In Progress':
+      case 'Contacted':
+        return { background: '#EBF5FF', color: '#0066CC', border: '1px solid #B3D7FF' };
+      default:
+        return { background: '#F5F5F7', color: '#6E6E73', border: '1px solid #D2D2D7' };
+    }
+  };
+
+  // ==============================================================
+  // LOGIN SCREEN — CLASSIC APPLE MINIMAL CARD
+  // ==============================================================
   if (!isAuthenticated) {
     return (
       <div
@@ -282,57 +291,60 @@ export default function AdminDashboard() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#060709',
+          background: '#F5F5F7',
           padding: '20px',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+          color: '#1D1D1F',
         }}
       >
         <Head>
-          <title>Admin Portal Login | ManageMyWeb</title>
+          <title>Studio Admin Sign In | ManageMyWeb</title>
         </Head>
 
         <div
-          className="glass-panel"
           style={{
-            maxWidth: '420px',
+            maxWidth: '400px',
             width: '100%',
-            padding: '40px',
-            borderRadius: '32px',
+            padding: '40px 36px',
+            borderRadius: '22px',
+            background: '#FFFFFF',
+            border: '1px solid #D2D2D7',
+            boxShadow: '0 12px 36px rgba(0, 0, 0, 0.06)',
             textAlign: 'center',
-            border: '1px solid rgba(255, 255, 255, 0.14)',
           }}
         >
           <div
             style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '16px',
-              background: 'linear-gradient(135deg, #0A84FF 0%, #5E5CE6 100%)',
+              width: '44px',
+              height: '44px',
+              borderRadius: '12px',
+              background: '#1D1D1F',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '24px',
-              margin: '0 auto 16px auto',
+              margin: '0 auto 18px auto',
             }}
           >
-            🔒
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.8">
+              <rect x="5" y="11" width="14" height="10" rx="2" />
+              <path d="M8 11V7a4 4 0 018 0v4" />
+            </svg>
           </div>
 
-          <h2 style={{ fontSize: '24px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
+          <h1 style={{ fontSize: '22px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
             ManageMyWeb Admin
-          </h2>
-          <p style={{ color: '#86868B', fontSize: '13.5px', marginBottom: '24px' }}>
-            Enter your passcode to manage SMTP, client leads, and promo deadline settings.
+          </h1>
+          <p style={{ color: '#6E6E73', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '24px' }}>
+            Sign in to manage client prototype requests, SMTP email settings, and studio operations.
           </p>
 
           {authError && (
             <div
               style={{
-                background: 'rgba(255, 69, 58, 0.15)',
-                border: '1px solid rgba(255, 69, 58, 0.4)',
-                color: '#FF6B6B',
-                padding: '10px',
-                borderRadius: '12px',
+                background: '#FFF2F2',
+                border: '1px solid #FFD6D6',
+                color: '#D70015',
+                padding: '10px 12px',
+                borderRadius: '10px',
                 fontSize: '13px',
                 marginBottom: '16px',
               }}
@@ -341,23 +353,23 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <input
               type="password"
-              placeholder="Enter passcode (default: admin123)"
+              placeholder="Passcode (default: admin123)"
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
               className="ios-input"
               autoFocus
             />
 
-            <button type="submit" className="ios-btn-blue" style={{ width: '100%', padding: '13px' }}>
-              Unlock Dashboard →
+            <button type="submit" className="btn-apple-blue" style={{ width: '100%', padding: '12px' }}>
+              Sign In
             </button>
           </form>
 
           <div style={{ marginTop: '20px' }}>
-            <Link href="/" style={{ color: '#86868B', fontSize: '13px', textDecoration: 'none' }}>
+            <Link href="/" style={{ color: '#0066CC', fontSize: '13px', textDecoration: 'none' }}>
               ← Return to public website
             </Link>
           </div>
@@ -366,408 +378,527 @@ export default function AdminDashboard() {
     );
   }
 
-  // Dashboard Interface
+  // ==============================================================
+  // AUTHENTICATED STUDIO DASHBOARD
+  // ==============================================================
   return (
     <div
       style={{
         minHeight: '100vh',
-        background: '#060709',
-        color: '#FFFFFF',
-        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+        background: '#F5F5F7',
+        color: '#1D1D1F',
       }}
     >
       <Head>
-        <title>Studio Operations Dashboard | ManageMyWeb Admin</title>
+        <title>Studio Operations Dashboard | ManageMyWeb</title>
       </Head>
 
-      {/* Admin Top Header */}
+      {/* Top Sticky Apple-Style Bar */}
       <header
         style={{
-          background: 'rgba(12, 14, 22, 0.85)',
-          backdropFilter: 'blur(24px)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          padding: '14px 24px',
+          background: 'rgba(255, 255, 255, 0.88)',
+          backdropFilter: 'saturate(180%) blur(20px)',
+          WebkitBackdropFilter: 'saturate(180%) blur(20px)',
+          borderBottom: '1px solid #D2D2D7',
+          padding: '0 24px',
           position: 'sticky',
           top: 0,
           zIndex: 50,
         }}
       >
-        <div style={{ maxWidth: '1380px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div
+          style={{
+            maxWidth: '1320px',
+            margin: '0 auto',
+            height: '56px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '16px',
+          }}
+        >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect width="24" height="24" rx="6" fill="#1D1D1F" />
+              <path
+                d="M6.5 16.5V8.5L12 12.5L17.5 8.5V16.5"
+                stroke="#FFFFFF"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span style={{ fontWeight: 600, fontSize: '15px', color: '#1D1D1F', letterSpacing: '-0.015em' }}>
+              ManageMyWeb Control Center
+            </span>
+            <span
               style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: '10px',
-                background: 'linear-gradient(135deg, #0A84FF 0%, #5E5CE6 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '16px',
+                fontSize: '11.5px',
+                color: '#1D7D3F',
+                background: '#E8F5E9',
+                padding: '3px 10px',
+                borderRadius: '980px',
+                fontWeight: 500,
               }}
             >
-              ☕
-            </div>
-            <div>
-              <span style={{ fontWeight: 800, fontSize: '16px' }}>ManageMyWeb Control Center</span>
-              <span style={{ fontSize: '11px', color: '#30D158', marginLeft: '8px', fontWeight: 600 }}>
-                ● Admin Session Active
-              </span>
-            </div>
+              ● Active
+            </span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Link href="/" target="_blank" className="ios-btn-secondary" style={{ padding: '8px 16px', fontSize: '12.5px' }}>
-              View Public Website ↗
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Link
+              href="/"
+              target="_blank"
+              style={{
+                padding: '7px 14px',
+                fontSize: '12.5px',
+                fontWeight: 500,
+                color: '#1D1D1F',
+                background: '#F5F5F7',
+                border: '1px solid #D2D2D7',
+                borderRadius: '980px',
+                textDecoration: 'none',
+              }}
+            >
+              View Public Site ↗
             </Link>
-            <button onClick={handleLogout} className="ios-btn-secondary" style={{ padding: '8px 16px', fontSize: '12.5px', color: '#FF6B6B' }}>
-              Lock Dashboard
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: '7px 14px',
+                fontSize: '12.5px',
+                fontWeight: 500,
+                color: '#D70015',
+                background: '#FFFFFF',
+                border: '1px solid #D2D2D7',
+                borderRadius: '980px',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+              }}
+            >
+              Sign Out
             </button>
           </div>
         </div>
       </header>
 
-      <div style={{ maxWidth: '1380px', margin: '0 auto', padding: '32px 24px' }}>
-        {/* Navigation Tabs */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
+      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '32px 24px 72px 24px' }}>
+        {/* Top Summary KPI Cards */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+            gap: '16px',
+            marginBottom: '28px',
+          }}
+        >
           {[
-            { id: 'leads', label: `Contact Queries & 3D Leads (${leads.length})`, icon: '📬' },
-            { id: 'smtp', label: 'SMTP Email Configuration', icon: '✉️' },
-            { id: 'campaign', label: '60-Day Deadline & Campaign Settings', icon: '⏳' },
-            { id: 'overview', label: 'Studio Metrics & Health', icon: '📊' },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`segment-btn ${activeTab === tab.id ? 'active' : ''}`}
+            {
+              label: 'Total Client Leads',
+              value: leads.length,
+              sub: 'All submitted inquiries',
+            },
+            {
+              label: 'New / Unread',
+              value: leads.filter((l) => (l.status || 'New') === 'New').length,
+              sub: 'Awaiting prototype review',
+            },
+            {
+              label: 'Active Prototypes',
+              value: leads.filter((l) => l.status === 'In Progress' || l.status === 'Contacted').length,
+              sub: 'Currently in progress',
+            },
+            {
+              label: 'Email Dispatch (SMTP)',
+              value: smtpConfig.isConfigured ? 'Connected' : 'Not Configured',
+              sub: smtpConfig.fromEmail || 'sales@managemyweb.co',
+            },
+          ].map((kpi) => (
+            <div
+              key={kpi.label}
               style={{
-                padding: '10px 20px',
-                fontSize: '14px',
-                borderRadius: '980px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
+                background: '#FFFFFF',
+                border: '1px solid #D2D2D7',
+                borderRadius: '16px',
+                padding: '20px 22px',
               }}
             >
-              <span>{tab.icon}</span>
-              <span>{tab.label}</span>
-            </button>
+              <div style={{ fontSize: '12px', fontWeight: 500, color: '#6E6E73', marginBottom: '6px' }}>
+                {kpi.label}
+              </div>
+              <div style={{ fontSize: '26px', fontWeight: 600, color: '#1D1D1F', letterSpacing: '-0.02em', marginBottom: '4px' }}>
+                {kpi.value}
+              </div>
+              <div style={{ fontSize: '12px', color: '#86868B' }}>{kpi.sub}</div>
+            </div>
           ))}
         </div>
 
+        {/* Classic Apple Segmented Navigation */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '16px',
+            marginBottom: '24px',
+          }}
+        >
+          <div className="segmented-control" style={{ background: '#E5E5EA' }}>
+            {[
+              { id: 'leads', label: `Client Leads (${leads.length})` },
+              { id: 'smtp', label: 'SMTP Email Settings' },
+              { id: 'campaign', label: 'Onboarding & Contact Info' },
+              { id: 'overview', label: 'System Status' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`segment-btn ${activeTab === tab.id ? 'active' : ''}`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {activeTab === 'leads' && (
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <input
+                type="text"
+                placeholder="Search name, email, or store..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="ios-input"
+                style={{ width: '240px', padding: '8px 14px', fontSize: '13px', borderRadius: '980px' }}
+              />
+
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="ios-input"
+                style={{ width: '150px', padding: '8px 14px', fontSize: '13px', borderRadius: '980px', background: '#FFFFFF', color: '#1D1D1F' }}
+              >
+                <option value="All">All Statuses</option>
+                <option value="New">New</option>
+                <option value="Contacted">Contacted</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Closed Won">Closed Won</option>
+                <option value="Archived">Archived</option>
+              </select>
+
+              <button
+                onClick={fetchLeads}
+                className="btn-apple-secondary"
+                style={{ padding: '8px 16px', fontSize: '13px', background: '#FFFFFF', color: '#1D1D1F' }}
+              >
+                {leadsLoading ? 'Refreshing...' : 'Refresh'}
+              </button>
+
+              <button
+                onClick={exportLeadsCSV}
+                className="btn-apple-blue"
+                style={{ padding: '8px 16px', fontSize: '13px' }}
+              >
+                Export CSV
+              </button>
+            </div>
+          )}
+        </div>
+
         {/* ============================================================== */}
-        {/* TAB 1: LEADS & CONTACT FORM QUERIES                            */}
+        {/* TAB 1: CLIENT LEADS TABLE                                      */}
         {/* ============================================================== */}
         {activeTab === 'leads' && (
-          <div>
-            {/* Header & Controls */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '16px',
-                marginBottom: '20px',
-              }}
-            >
-              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <input
-                  type="text"
-                  placeholder="Search leads by name, email, store..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="ios-input"
-                  style={{ width: '280px', padding: '10px 16px', fontSize: '13.5px' }}
-                />
-
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="ios-input"
-                  style={{ width: '160px', padding: '10px 16px', fontSize: '13.5px', background: '#12141F' }}
-                >
-                  <option value="All">All Statuses</option>
-                  <option value="New">New</option>
-                  <option value="Contacted">Contacted</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Closed Won">Closed Won</option>
-                  <option value="Archived">Archived</option>
-                </select>
-              </div>
-
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button onClick={fetchLeads} className="ios-btn-secondary" style={{ padding: '9px 16px', fontSize: '13px' }}>
-                  Refresh 🔄
-                </button>
-                <button onClick={exportLeadsCSV} className="ios-btn-blue" style={{ padding: '9px 18px', fontSize: '13px' }}>
-                  Export CSV 📥
-                </button>
-              </div>
-            </div>
-
-            {/* Leads Table Card */}
-            <div
-              className="glass-panel"
-              style={{
-                borderRadius: '26px',
-                overflow: 'hidden',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-              }}
-            >
-              {filteredLeads.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '60px 20px', color: '#86868B' }}>
-                  <div style={{ fontSize: '36px', marginBottom: '10px' }}>📭</div>
-                  <div style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>No inquiries match criteria</div>
-                  <p style={{ fontSize: '13.5px' }}>Form submissions from the website will appear here in real time.</p>
+          <div
+            style={{
+              background: '#FFFFFF',
+              borderRadius: '18px',
+              border: '1px solid #D2D2D7',
+              overflow: 'hidden',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+            }}
+          >
+            {filteredLeads.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '64px 20px', color: '#6E6E73' }}>
+                <div style={{ fontSize: '16px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
+                  No matching inquiries
                 </div>
-              ) : (
-                <div style={{ overflowX: 'auto' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13.5px' }}>
-                    <thead>
-                      <tr
-                        style={{
-                          background: 'rgba(255, 255, 255, 0.04)',
-                          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-                          color: '#86868B',
-                          fontSize: '12px',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.6px',
-                        }}
-                      >
-                        <th style={{ padding: '16px 20px' }}>Founder & Store</th>
-                        <th style={{ padding: '16px 20px' }}>Contact Channels</th>
-                        <th style={{ padding: '16px 20px' }}>Category & Promo</th>
-                        <th style={{ padding: '16px 20px' }}>Message / Vision</th>
-                        <th style={{ padding: '16px 20px' }}>Status</th>
-                        <th style={{ padding: '16px 20px' }}>Actions & Notes</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredLeads.map((lead, idx) => {
-                        const waRaw = (lead.phone || '').replace(/[^0-9]/g, '');
-                        return (
-                          <tr
-                            key={lead.id}
-                            style={{
-                              borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-                              background: idx % 2 === 0 ? 'transparent' : 'rgba(255, 255, 255, 0.015)',
-                              verticalAlign: 'top',
-                            }}
-                          >
-                            {/* Founder & Store */}
-                            <td style={{ padding: '18px 20px' }}>
-                              <div style={{ fontWeight: 700, color: '#fff', fontSize: '15px' }}>{lead.name}</div>
-                              <div style={{ color: '#64D2FF', fontSize: '13px', marginTop: '2px' }}>
-                                {lead.storeName || 'Store not provided'}
+                <p style={{ fontSize: '13.5px' }}>
+                  Prototype requests submitted on the website appear here automatically.
+                </p>
+              </div>
+            ) : (
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13.5px' }}>
+                  <thead>
+                    <tr
+                      style={{
+                        background: '#F5F5F7',
+                        borderBottom: '1px solid #D2D2D7',
+                        color: '#6E6E73',
+                        fontSize: '11.5px',
+                        fontWeight: 600,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                      }}
+                    >
+                      <th style={{ padding: '14px 20px' }}>Client & Brand</th>
+                      <th style={{ padding: '14px 20px' }}>Direct Contact</th>
+                      <th style={{ padding: '14px 20px' }}>E-Commerce Category</th>
+                      <th style={{ padding: '14px 20px' }}>Project Notes</th>
+                      <th style={{ padding: '14px 20px' }}>Status</th>
+                      <th style={{ padding: '14px 20px' }}>Internal Notes & Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredLeads.map((lead, idx) => {
+                      const waDigits = (lead.phone || '').replace(/[^0-9]/g, '');
+                      const badgeStyle = getStatusBadgeStyle(lead.status || 'New');
+
+                      return (
+                        <tr
+                          key={lead.id}
+                          style={{
+                            borderBottom: idx !== filteredLeads.length - 1 ? '1px solid #E5E5EA' : 'none',
+                            verticalAlign: 'top',
+                            background: '#FFFFFF',
+                          }}
+                        >
+                          {/* Client & Brand */}
+                          <td style={{ padding: '18px 20px' }}>
+                            <div style={{ fontWeight: 600, color: '#1D1D1F', fontSize: '15px' }}>
+                              {lead.name}
+                            </div>
+                            <div style={{ color: '#0066CC', fontWeight: 500, fontSize: '13.5px', marginTop: '2px' }}>
+                              {lead.storeName || 'Store name not specified'}
+                            </div>
+                            {lead.websiteUrl && (
+                              <a
+                                href={lead.websiteUrl.startsWith('http') ? lead.websiteUrl : `https://${lead.websiteUrl}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                style={{
+                                  color: '#6E6E73',
+                                  fontSize: '12.5px',
+                                  textDecoration: 'none',
+                                  display: 'inline-block',
+                                  marginTop: '3px',
+                                }}
+                              >
+                                {lead.websiteUrl} ↗
+                              </a>
+                            )}
+                            <div style={{ fontSize: '11.5px', color: '#86868B', marginTop: '6px' }}>
+                              {new Date(lead.createdAt).toLocaleDateString()} ·{' '}
+                              {new Date(lead.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </div>
+                          </td>
+
+                          {/* Direct Contact */}
+                          <td style={{ padding: '18px 20px' }}>
+                            <a
+                              href={`mailto:${lead.email}`}
+                              style={{ color: '#1D1D1F', textDecoration: 'none', display: 'block', fontWeight: 500 }}
+                            >
+                              {lead.email}
+                            </a>
+                            {lead.phone && (
+                              <div style={{ color: '#6E6E73', fontSize: '12.5px', marginTop: '3px' }}>
+                                {lead.phone}
                               </div>
-                              {lead.websiteUrl && (
+                            )}
+                            <div style={{ display: 'flex', gap: '6px', marginTop: '10px' }}>
+                              {waDigits && (
                                 <a
-                                  href={lead.websiteUrl.startsWith('http') ? lead.websiteUrl : `https://${lead.websiteUrl}`}
+                                  href={`https://wa.me/${waDigits}?text=${encodeURIComponent(
+                                    `Hello ${lead.name}, this is ManageMyWeb regarding your 3D store prototype request.`
+                                  )}`}
                                   target="_blank"
                                   rel="noreferrer"
-                                  style={{ color: '#86868B', fontSize: '12px', textDecoration: 'none', display: 'block', marginTop: '2px' }}
-                                >
-                                  {lead.websiteUrl} ↗
-                                </a>
-                              )}
-                              <div style={{ fontSize: '11px', color: '#555', marginTop: '6px' }}>
-                                {new Date(lead.createdAt).toLocaleDateString()} at {new Date(lead.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                              </div>
-                            </td>
-
-                            {/* Contact Channels */}
-                            <td style={{ padding: '18px 20px' }}>
-                              <a href={`mailto:${lead.email}`} style={{ color: '#0A84FF', textDecoration: 'none', display: 'block', fontWeight: 600 }}>
-                                {lead.email}
-                              </a>
-                              {lead.phone && (
-                                <div style={{ color: '#CBD5E0', fontSize: '12.5px', marginTop: '4px' }}>
-                                  {lead.phone}
-                                </div>
-                              )}
-                              <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                                {waRaw && (
-                                  <a
-                                    href={`https://wa.me/${waRaw}?text=${encodeURIComponent(`Hi ${lead.name}, this is Hassan from ManageMyWeb regarding your 3D demo request!`)}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    style={{
-                                      background: 'rgba(37, 211, 102, 0.15)',
-                                      color: '#25D366',
-                                      padding: '3px 8px',
-                                      borderRadius: '6px',
-                                      fontSize: '11px',
-                                      fontWeight: 700,
-                                      textDecoration: 'none',
-                                    }}
-                                  >
-                                    WhatsApp 💬
-                                  </a>
-                                )}
-                                <a
-                                  href={`mailto:${lead.email}?subject=${encodeURIComponent('ManageMyWeb: Your 3D Virtual Store Prototype Demo')}`}
                                   style={{
-                                    background: 'rgba(10, 132, 255, 0.15)',
-                                    color: '#0A84FF',
-                                    padding: '3px 8px',
-                                    borderRadius: '6px',
-                                    fontSize: '11px',
-                                    fontWeight: 700,
+                                    background: '#E8F5E9',
+                                    color: '#1D7D3F',
+                                    border: '1px solid #B7E1CD',
+                                    padding: '4px 10px',
+                                    borderRadius: '980px',
+                                    fontSize: '11.5px',
+                                    fontWeight: 500,
                                     textDecoration: 'none',
                                   }}
                                 >
-                                  Email ✉️
+                                  WhatsApp
                                 </a>
-                              </div>
-                            </td>
-
-                            {/* Category & Promo */}
-                            <td style={{ padding: '18px 20px' }}>
-                              <span
+                              )}
+                              <a
+                                href={`mailto:${lead.email}?subject=${encodeURIComponent(
+                                  'ManageMyWeb: Your 3D Storefront Prototype'
+                                )}`}
                                 style={{
-                                  background: 'rgba(255, 255, 255, 0.08)',
-                                  color: '#E5E5EA',
-                                  padding: '3px 8px',
-                                  borderRadius: '6px',
-                                  fontSize: '12px',
-                                  fontWeight: 600,
-                                  display: 'inline-block',
-                                  marginBottom: '6px',
-                                }}
-                              >
-                                {lead.category}
-                              </span>
-                              <div style={{ fontSize: '11px', color: '#FFB340', fontWeight: 700 }}>
-                                Promo: {lead.promoCode || 'FREE-3D-DEMO-60D'}
-                              </div>
-                              <div style={{ fontSize: '11px', color: '#888', marginTop: '2px' }}>
-                                Rev: {lead.revenueRange || 'N/A'}
-                              </div>
-                            </td>
-
-                            {/* Message / Vision */}
-                            <td style={{ padding: '18px 20px', maxWidth: '320px' }}>
-                              <div
-                                style={{
-                                  background: 'rgba(255, 255, 255, 0.03)',
-                                  padding: '10px 12px',
-                                  borderRadius: '12px',
-                                  fontSize: '12.5px',
-                                  color: '#CBD5E0',
-                                  lineHeight: 1.5,
-                                  maxHeight: '120px',
-                                  overflowY: 'auto',
-                                }}
-                              >
-                                {lead.message || 'No additional message provided.'}
-                              </div>
-                            </td>
-
-                            {/* Status */}
-                            <td style={{ padding: '18px 20px' }}>
-                              <select
-                                value={lead.status || 'New'}
-                                onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
-                                style={{
-                                  background:
-                                    lead.status === 'New'
-                                      ? 'rgba(255, 159, 10, 0.2)'
-                                      : lead.status === 'Closed Won'
-                                      ? 'rgba(48, 209, 88, 0.2)'
-                                      : 'rgba(10, 132, 255, 0.2)',
-                                  color:
-                                    lead.status === 'New'
-                                      ? '#FF9F0A'
-                                      : lead.status === 'Closed Won'
-                                      ? '#30D158'
-                                      : '#64D2FF',
-                                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                                  background: '#EBF5FF',
+                                  color: '#0066CC',
+                                  border: '1px solid #B3D7FF',
+                                  padding: '4px 10px',
                                   borderRadius: '980px',
-                                  padding: '6px 12px',
-                                  fontSize: '12px',
-                                  fontWeight: 700,
-                                  outline: 'none',
-                                  cursor: 'pointer',
+                                  fontSize: '11.5px',
+                                  fontWeight: 500,
+                                  textDecoration: 'none',
                                 }}
                               >
-                                <option value="New" style={{ background: '#12141F', color: '#fff' }}>New</option>
-                                <option value="Contacted" style={{ background: '#12141F', color: '#fff' }}>Contacted</option>
-                                <option value="In Progress" style={{ background: '#12141F', color: '#fff' }}>In Progress</option>
-                                <option value="Closed Won" style={{ background: '#12141F', color: '#fff' }}>Closed Won</option>
-                                <option value="Archived" style={{ background: '#12141F', color: '#fff' }}>Archived</option>
-                              </select>
-                            </td>
+                                Email
+                              </a>
+                            </div>
+                          </td>
 
-                            {/* Actions & Notes */}
-                            <td style={{ padding: '18px 20px' }}>
-                              {editingNoteId === lead.id ? (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                                  <textarea
-                                    rows={2}
-                                    value={noteText}
-                                    onChange={(e) => setNoteText(e.target.value)}
-                                    className="ios-input"
-                                    style={{ fontSize: '12px', padding: '6px' }}
-                                  />
-                                  <div style={{ display: 'flex', gap: '6px' }}>
-                                    <button
-                                      onClick={() => saveLeadNote(lead.id)}
-                                      className="ios-btn-blue"
-                                      style={{ padding: '4px 8px', fontSize: '11px' }}
-                                    >
-                                      Save
-                                    </button>
-                                    <button
-                                      onClick={() => setEditingNoteId(null)}
-                                      className="ios-btn-secondary"
-                                      style={{ padding: '4px 8px', fontSize: '11px' }}
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <div>
-                                  <div
-                                    style={{
-                                      fontSize: '12px',
-                                      color: lead.notes ? '#CBD5E0' : '#666',
-                                      fontStyle: lead.notes ? 'normal' : 'italic',
-                                      marginBottom: '6px',
-                                      cursor: 'pointer',
-                                    }}
-                                    onClick={() => {
-                                      setEditingNoteId(lead.id);
-                                      setNoteText(lead.notes || '');
-                                    }}
-                                  >
-                                    {lead.notes || '+ Add private note'}
-                                  </div>
+                          {/* Category */}
+                          <td style={{ padding: '18px 20px' }}>
+                            <span
+                              style={{
+                                background: '#F5F5F7',
+                                color: '#1D1D1F',
+                                border: '1px solid #D2D2D7',
+                                padding: '4px 10px',
+                                borderRadius: '8px',
+                                fontSize: '12px',
+                                fontWeight: 500,
+                                display: 'inline-block',
+                                marginBottom: '6px',
+                              }}
+                            >
+                              {lead.category || 'E-Commerce'}
+                            </span>
+                            <div style={{ fontSize: '11.5px', color: '#6E6E73' }}>
+                              Code: <strong style={{ color: '#1D1D1F' }}>{lead.promoCode || 'FREE-3D-DEMO-60D'}</strong>
+                            </div>
+                            {lead.revenueRange && (
+                              <div style={{ fontSize: '11.5px', color: '#86868B', marginTop: '2px' }}>
+                                Scale: {lead.revenueRange}
+                              </div>
+                            )}
+                          </td>
+
+                          {/* Message */}
+                          <td style={{ padding: '18px 20px', maxWidth: '320px' }}>
+                            <div
+                              style={{
+                                background: '#F5F5F7',
+                                padding: '10px 12px',
+                                borderRadius: '10px',
+                                fontSize: '13px',
+                                color: '#1D1D1F',
+                                lineHeight: 1.5,
+                                maxHeight: '110px',
+                                overflowY: 'auto',
+                              }}
+                            >
+                              {lead.message || 'No additional notes provided.'}
+                            </div>
+                          </td>
+
+                          {/* Status */}
+                          <td style={{ padding: '18px 20px' }}>
+                            <select
+                              value={lead.status || 'New'}
+                              onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
+                              style={{
+                                ...badgeStyle,
+                                borderRadius: '980px',
+                                padding: '6px 12px',
+                                fontSize: '12px',
+                                fontWeight: 600,
+                                outline: 'none',
+                                cursor: 'pointer',
+                                fontFamily: 'inherit',
+                              }}
+                            >
+                              <option value="New" style={{ background: '#FFFFFF', color: '#1D1D1F' }}>
+                                New
+                              </option>
+                              <option value="Contacted" style={{ background: '#FFFFFF', color: '#1D1D1F' }}>
+                                Contacted
+                              </option>
+                              <option value="In Progress" style={{ background: '#FFFFFF', color: '#1D1D1F' }}>
+                                In Progress
+                              </option>
+                              <option value="Closed Won" style={{ background: '#FFFFFF', color: '#1D1D1F' }}>
+                                Closed Won
+                              </option>
+                              <option value="Archived" style={{ background: '#FFFFFF', color: '#1D1D1F' }}>
+                                Archived
+                              </option>
+                            </select>
+                          </td>
+
+                          {/* Notes & Actions */}
+                          <td style={{ padding: '18px 20px', minWidth: '210px' }}>
+                            {editingNoteId === lead.id ? (
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                <textarea
+                                  rows={2}
+                                  value={noteText}
+                                  onChange={(e) => setNoteText(e.target.value)}
+                                  className="ios-input"
+                                  style={{ fontSize: '12.5px', padding: '8px' }}
+                                  placeholder="Add internal studio note..."
+                                />
+                                <div style={{ display: 'flex', gap: '6px' }}>
                                   <button
-                                    onClick={() => deleteLead(lead.id)}
-                                    style={{
-                                      background: 'transparent',
-                                      border: 'none',
-                                      color: '#FF453A',
-                                      fontSize: '11px',
-                                      cursor: 'pointer',
-                                      opacity: 0.7,
-                                    }}
+                                    onClick={() => saveLeadNote(lead.id)}
+                                    className="btn-apple-blue"
+                                    style={{ padding: '5px 12px', fontSize: '11.5px' }}
                                   >
-                                    Delete Lead 🗑️
+                                    Save
+                                  </button>
+                                  <button
+                                    onClick={() => setEditingNoteId(null)}
+                                    className="btn-apple-secondary"
+                                    style={{ padding: '5px 12px', fontSize: '11.5px' }}
+                                  >
+                                    Cancel
                                   </button>
                                 </div>
-                              )}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
+                              </div>
+                            ) : (
+                              <div>
+                                <div
+                                  style={{
+                                    fontSize: '12.5px',
+                                    color: lead.notes ? '#1D1D1F' : '#0066CC',
+                                    marginBottom: '8px',
+                                    cursor: 'pointer',
+                                    lineHeight: 1.45,
+                                  }}
+                                  onClick={() => {
+                                    setEditingNoteId(lead.id);
+                                    setNoteText(lead.notes || '');
+                                  }}
+                                >
+                                  {lead.notes || '+ Add internal note'}
+                                </div>
+                                <button
+                                  onClick={() => deleteLead(lead.id)}
+                                  style={{
+                                    background: 'transparent',
+                                    border: 'none',
+                                    color: '#D70015',
+                                    fontSize: '12px',
+                                    cursor: 'pointer',
+                                    padding: 0,
+                                    fontFamily: 'inherit',
+                                  }}
+                                >
+                                  Delete Lead
+                                </button>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
 
@@ -775,27 +906,31 @@ export default function AdminDashboard() {
         {/* TAB 2: SMTP EMAIL CONFIGURATION                                */}
         {/* ============================================================== */}
         {activeTab === 'smtp' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '30px' }}>
-            {/* SMTP Settings Form */}
-            <div className="glass-panel" style={{ padding: '36px', borderRadius: '28px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '24px' }}>⚙️</span>
-                <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#fff' }}>
-                  SMTP Credentials Setup
-                </h3>
-              </div>
-              <p style={{ color: '#86868B', fontSize: '13.5px', marginBottom: '24px' }}>
-                Configure your SMTP server to receive instant email notifications whenever a customer submits an inquiry or claims the 60-day free 3D demo.
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '24px' }}>
+            <div
+              style={{
+                background: '#FFFFFF',
+                border: '1px solid #D2D2D7',
+                padding: '36px',
+                borderRadius: '20px',
+              }}
+            >
+              <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                SMTP Server Credentials
+              </h3>
+              <p style={{ color: '#6E6E73', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '24px' }}>
+                Configure your outbound mail server to receive instant notifications at{' '}
+                <strong style={{ color: '#1D1D1F' }}>sales@managemyweb.co</strong> whenever a client requests a 3D prototype.
               </p>
 
               {smtpMsg.text && (
                 <div
                   style={{
-                    background: smtpMsg.type === 'success' ? 'rgba(48, 209, 88, 0.15)' : 'rgba(255, 69, 58, 0.15)',
-                    border: `1px solid ${smtpMsg.type === 'success' ? 'rgba(48, 209, 88, 0.4)' : 'rgba(255, 69, 58, 0.4)'}`,
-                    color: smtpMsg.type === 'success' ? '#30D158' : '#FF6B6B',
-                    padding: '12px',
-                    borderRadius: '12px',
+                    background: smtpMsg.type === 'success' ? '#E8F5E9' : '#FFF2F2',
+                    border: `1px solid ${smtpMsg.type === 'success' ? '#B7E1CD' : '#FFD6D6'}`,
+                    color: smtpMsg.type === 'success' ? '#1D7D3F' : '#D70015',
+                    padding: '12px 14px',
+                    borderRadius: '10px',
                     fontSize: '13px',
                     marginBottom: '20px',
                   }}
@@ -807,20 +942,20 @@ export default function AdminDashboard() {
               <form onSubmit={handleSaveSmtp} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '12px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
+                    <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
                       SMTP Host *
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="smtp.gmail.com or smtp.sendgrid.net"
+                      placeholder="smtp.gmail.com"
                       value={smtpConfig.host || ''}
                       onChange={(e) => setSmtpConfig({ ...smtpConfig, host: e.target.value })}
                       className="ios-input"
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
+                    <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
                       Port *
                     </label>
                     <input
@@ -835,13 +970,13 @@ export default function AdminDashboard() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
                     SMTP Username / Email *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="concierge@managemyweb.co"
+                    placeholder="sales@managemyweb.co"
                     value={smtpConfig.user || ''}
                     onChange={(e) => setSmtpConfig({ ...smtpConfig, user: e.target.value })}
                     className="ios-input"
@@ -849,7 +984,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
                     SMTP Password / App Password *
                   </label>
                   <input
@@ -863,24 +998,24 @@ export default function AdminDashboard() {
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
-                      From Name
+                    <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                      Sender Name
                     </label>
                     <input
                       type="text"
-                      placeholder="ManageMyWeb Studio"
+                      placeholder="ManageMyWeb Sales"
                       value={smtpConfig.fromName || ''}
                       onChange={(e) => setSmtpConfig({ ...smtpConfig, fromName: e.target.value })}
                       className="ios-input"
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
-                      From Email (Sender)
+                    <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                      Sender Email
                     </label>
                     <input
                       type="text"
-                      placeholder="hello@managemyweb.co"
+                      placeholder="sales@managemyweb.co"
                       value={smtpConfig.fromEmail || ''}
                       onChange={(e) => setSmtpConfig({ ...smtpConfig, fromEmail: e.target.value })}
                       className="ios-input"
@@ -894,9 +1029,9 @@ export default function AdminDashboard() {
                     id="smtpSecure"
                     checked={smtpConfig.secure === true}
                     onChange={(e) => setSmtpConfig({ ...smtpConfig, secure: e.target.checked })}
-                    style={{ width: '18px', height: '18px', accentColor: '#0A84FF' }}
+                    style={{ width: '16px', height: '16px', accentColor: '#0071E3' }}
                   />
-                  <label htmlFor="smtpSecure" style={{ fontSize: '13px', color: '#CBD5E0', cursor: 'pointer' }}>
+                  <label htmlFor="smtpSecure" style={{ fontSize: '13px', color: '#424245', cursor: 'pointer' }}>
                     Use SSL / TLS (Required for port 465)
                   </label>
                 </div>
@@ -904,34 +1039,38 @@ export default function AdminDashboard() {
                 <button
                   type="submit"
                   disabled={smtpLoading}
-                  className="ios-btn-blue"
-                  style={{ marginTop: '10px', padding: '13px' }}
+                  className="btn-apple-blue"
+                  style={{ marginTop: '8px', padding: '12px' }}
                 >
-                  {smtpLoading ? 'Saving Settings...' : 'Save SMTP Configuration ✓'}
+                  {smtpLoading ? 'Saving...' : 'Save SMTP Configuration'}
                 </button>
               </form>
             </div>
 
-            {/* Test Email Diagnostic Panel */}
+            {/* Diagnostic Panel */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div className="glass-panel" style={{ padding: '36px', borderRadius: '28px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                  <span style={{ fontSize: '24px' }}>🧪</span>
-                  <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#fff' }}>
-                    Send Diagnostic Test Email
-                  </h3>
-                </div>
-                <p style={{ color: '#86868B', fontSize: '13.5px', marginBottom: '20px' }}>
-                  Verify your SMTP connection in real time by dispatching a test email to your inbox.
+              <div
+                style={{
+                  background: '#FFFFFF',
+                  border: '1px solid #D2D2D7',
+                  padding: '36px',
+                  borderRadius: '20px',
+                }}
+              >
+                <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                  Send Diagnostic Test Email
+                </h3>
+                <p style={{ color: '#6E6E73', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '20px' }}>
+                  Verify your outbound SMTP connection by sending a live test message.
                 </p>
 
                 <div style={{ marginBottom: '16px' }}>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
-                    Recipient Test Address
+                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                    Recipient Email Address
                   </label>
                   <input
                     type="email"
-                    placeholder="your-personal@email.com"
+                    placeholder="sales@managemyweb.co"
                     value={testEmail}
                     onChange={(e) => setTestEmail(e.target.value)}
                     className="ios-input"
@@ -942,40 +1081,54 @@ export default function AdminDashboard() {
                   type="button"
                   onClick={handleTestSmtp}
                   disabled={testingSmtp || !testEmail}
-                  className="ios-btn-primary"
-                  style={{ width: '100%', padding: '13px' }}
+                  className="btn-apple-dark"
+                  style={{ width: '100%', padding: '12px' }}
                 >
-                  {testingSmtp ? 'Verifying SMTP Connection...' : 'Send Live Test Email 🚀'}
+                  {testingSmtp ? 'Testing Connection...' : 'Send Test Email'}
                 </button>
 
                 {testResult && (
                   <div
                     style={{
-                      marginTop: '20px',
-                      background: testResult.success ? 'rgba(48, 209, 88, 0.15)' : 'rgba(255, 69, 58, 0.15)',
-                      border: `1px solid ${testResult.success ? 'rgba(48, 209, 88, 0.4)' : 'rgba(255, 69, 58, 0.4)'}`,
-                      color: testResult.success ? '#30D158' : '#FF6B6B',
-                      padding: '14px',
-                      borderRadius: '14px',
+                      marginTop: '18px',
+                      background: testResult.success ? '#E8F5E9' : '#FFF2F2',
+                      border: `1px solid ${testResult.success ? '#B7E1CD' : '#FFD6D6'}`,
+                      color: testResult.success ? '#1D7D3F' : '#D70015',
+                      padding: '12px 14px',
+                      borderRadius: '10px',
                       fontSize: '13px',
                       lineHeight: 1.5,
                     }}
                   >
-                    <strong>{testResult.success ? '✅ Success:' : '❌ Error:'}</strong> {testResult.message}
+                    <strong>{testResult.success ? 'Success:' : 'Error:'}</strong> {testResult.message}
                   </div>
                 )}
               </div>
 
-              {/* Provider Quick Setup Hints */}
-              <div className="glass-panel" style={{ padding: '28px', borderRadius: '24px' }}>
-                <h4 style={{ fontSize: '14px', fontWeight: 700, color: '#64D2FF', textTransform: 'uppercase', marginBottom: '10px' }}>
-                  Common SMTP Hostnames:
+              <div
+                style={{
+                  background: '#FFFFFF',
+                  border: '1px solid #D2D2D7',
+                  padding: '28px',
+                  borderRadius: '20px',
+                }}
+              >
+                <h4 style={{ fontSize: '12px', fontWeight: 600, color: '#6E6E73', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px' }}>
+                  Common Provider Settings
                 </h4>
-                <ul style={{ listStyle: 'none', fontSize: '12.5px', color: '#CBD5E0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <li>• <strong>Gmail / Google Workspace:</strong> <span style={{ fontFamily: 'monospace' }}>smtp.gmail.com</span> (Port 587, use Google App Password)</li>
-                  <li>• <strong>SendGrid:</strong> <span style={{ fontFamily: 'monospace' }}>smtp.sendgrid.net</span> (Port 587, user: apikey)</li>
-                  <li>• <strong>Mailgun:</strong> <span style={{ fontFamily: 'monospace' }}>smtp.mailgun.org</span> (Port 587)</li>
-                  <li>• <strong>Hostinger / cPanel:</strong> <span style={{ fontFamily: 'monospace' }}>smtp.hostinger.com</span> (Port 465 SSL)</li>
+                <ul style={{ listStyle: 'none', fontSize: '13px', color: '#424245', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <li>
+                    <strong style={{ color: '#1D1D1F' }}>Google Workspace / Gmail:</strong> smtp.gmail.com (Port 587)
+                  </li>
+                  <li>
+                    <strong style={{ color: '#1D1D1F' }}>SendGrid:</strong> smtp.sendgrid.net (Port 587, user: apikey)
+                  </li>
+                  <li>
+                    <strong style={{ color: '#1D1D1F' }}>Mailgun:</strong> smtp.mailgun.org (Port 587)
+                  </li>
+                  <li>
+                    <strong style={{ color: '#1D1D1F' }}>Hostinger / cPanel:</strong> smtp.hostinger.com (Port 465 SSL)
+                  </li>
                 </ul>
               </div>
             </div>
@@ -983,25 +1136,33 @@ export default function AdminDashboard() {
         )}
 
         {/* ============================================================== */}
-        {/* TAB 3: 60-DAY DEADLINE & CAMPAIGN CONTROLS                     */}
+        {/* TAB 3: CAMPAIGN & CONTACT SETTINGS                             */}
         {/* ============================================================== */}
         {activeTab === 'campaign' && settings && (
-          <div className="glass-panel" style={{ padding: '40px', borderRadius: '32px', maxWidth: '800px' }}>
-            <h3 style={{ fontSize: '24px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
-              60-Day Promotional Campaign Controls
+          <div
+            style={{
+              background: '#FFFFFF',
+              border: '1px solid #D2D2D7',
+              padding: '36px',
+              borderRadius: '20px',
+              maxWidth: '760px',
+            }}
+          >
+            <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+              Onboarding Program & Contact Channels
             </h3>
-            <p style={{ color: '#86868B', fontSize: '14px', marginBottom: '28px' }}>
-              Manage the 2-month deadline banner, remaining prototype demo spots, and promotional copy across the entire website.
+            <p style={{ color: '#6E6E73', fontSize: '13.5px', marginBottom: '24px' }}>
+              Manage the 60-day onboarding window, available prototype slots, WhatsApp number, and sales email.
             </p>
 
             {settingsMsg && (
               <div
                 style={{
-                  background: 'rgba(48, 209, 88, 0.15)',
-                  border: '1px solid rgba(48, 209, 88, 0.4)',
-                  color: '#30D158',
-                  padding: '12px',
-                  borderRadius: '12px',
+                  background: '#E8F5E9',
+                  border: '1px solid #B7E1CD',
+                  color: '#1D7D3F',
+                  padding: '12px 14px',
+                  borderRadius: '10px',
                   fontSize: '13px',
                   marginBottom: '20px',
                 }}
@@ -1010,10 +1171,10 @@ export default function AdminDashboard() {
               </div>
             )}
 
-            <form onSubmit={handleSaveSettings} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <form onSubmit={handleSaveSettings} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '12.5px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
-                  Campaign Title
+                <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                  Program Title
                 </label>
                 <input
                   type="text"
@@ -1029,8 +1190,8 @@ export default function AdminDashboard() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '12.5px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
-                  Campaign Description
+                <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                  Program Description
                 </label>
                 <textarea
                   rows={3}
@@ -1045,9 +1206,9 @@ export default function AdminDashboard() {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '12.5px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
                     Promotional Deadline Timestamp
                   </label>
                   <input
@@ -1064,12 +1225,12 @@ export default function AdminDashboard() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '12.5px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
-                    Demo Spots Remaining Counter
+                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                    Prototype Slots Remaining
                   </label>
                   <input
                     type="number"
-                    value={settings.promo?.slotsRemaining || 3}
+                    value={settings.promo?.slotsRemaining || 4}
                     onChange={(e) =>
                       setSettings({
                         ...settings,
@@ -1081,26 +1242,26 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '12.5px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
-                    WhatsApp Raw Number (digits only)
+                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                    WhatsApp Number (digits only)
                   </label>
                   <input
                     type="text"
-                    value={settings.whatsappRaw || ''}
+                    value={settings.whatsappRaw || '923174075023'}
                     onChange={(e) => setSettings({ ...settings, whatsappRaw: e.target.value })}
                     className="ios-input"
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '12.5px', color: '#CBD5E0', marginBottom: '6px', fontWeight: 600 }}>
-                    Contact Email Address
+                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                    Sales Contact Email
                   </label>
                   <input
                     type="email"
-                    value={settings.contactEmail || ''}
+                    value={settings.contactEmail || 'sales@managemyweb.co'}
                     onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
                     className="ios-input"
                   />
@@ -1110,70 +1271,52 @@ export default function AdminDashboard() {
               <button
                 type="submit"
                 disabled={settingsLoading}
-                className="ios-btn-blue"
-                style={{ padding: '14px', marginTop: '10px' }}
+                className="btn-apple-blue"
+                style={{ padding: '12px 24px', alignSelf: 'flex-start' }}
               >
-                {settingsLoading ? 'Saving Campaign...' : 'Update Promotional Campaign ✓'}
+                {settingsLoading ? 'Saving...' : 'Save Campaign Settings'}
               </button>
             </form>
           </div>
         )}
 
         {/* ============================================================== */}
-        {/* TAB 4: STUDIO METRICS & HEALTH                                 */}
+        {/* TAB 4: SYSTEM OVERVIEW                                         */}
         {/* ============================================================== */}
         {activeTab === 'overview' && (
-          <div>
+          <div
+            style={{
+              background: '#FFFFFF',
+              border: '1px solid #D2D2D7',
+              padding: '36px',
+              borderRadius: '20px',
+            }}
+          >
+            <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
+              Platform Architecture & Channels
+            </h3>
+            <p style={{ color: '#424245', fontSize: '15px', lineHeight: 1.6, marginBottom: '24px', maxWidth: '720px' }}>
+              ManageMyWeb runs on Next.js with embedded 3D WebGL storefront previews, automated lead persistence (`data/leads.json`), and configurable SMTP email dispatch.
+            </p>
+
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                gap: '24px',
-                marginBottom: '40px',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                gap: '16px',
               }}
             >
-              {[
-                { label: 'Total Inquiries', value: leads.length, icon: '📬', color: '#0A84FF' },
-                {
-                  label: 'Free 3D Demos Claimed',
-                  value: leads.filter((l) => l.promoCode?.includes('FREE')).length,
-                  icon: '🎁',
-                  color: '#30D158',
-                },
-                {
-                  label: 'SMTP Operational Status',
-                  value: smtpConfig.isConfigured ? 'Connected' : 'Action Required',
-                  icon: '✉️',
-                  color: smtpConfig.isConfigured ? '#30D158' : '#FF9F0A',
-                },
-                {
-                  label: 'Avg Response Time',
-                  value: '< 45 min',
-                  icon: '⚡',
-                  color: '#64D2FF',
-                },
-              ].map((stat) => (
-                <div key={stat.label} className="glass-panel" style={{ padding: '30px', borderRadius: '24px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                    <span style={{ fontSize: '13px', color: '#86868B', fontWeight: 600 }}>{stat.label}</span>
-                    <span style={{ fontSize: '24px' }}>{stat.icon}</span>
-                  </div>
-                  <div style={{ fontSize: '32px', fontWeight: 800, color: stat.color }}>{stat.value}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="glass-panel" style={{ padding: '36px', borderRadius: '28px' }}>
-              <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>
-                Next-Gen Spatial Web Architecture
-              </h3>
-              <p style={{ color: '#CBD5E0', fontSize: '14.5px', lineHeight: 1.6, marginBottom: '20px' }}>
-                ManageMyWeb is engineered using Next.js, Three.js WebGL rendering, and responsive glassmorphism designed to feel native on Apple Vision Pro and iOS devices.
-              </p>
-              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
-                <span className="ios-badge ios-badge-emerald">✓ Three.js 60 FPS GPU Acceleration</span>
-                <span className="ios-badge ios-badge-glow">✓ Next.js SSR SEO Indexing</span>
-                <span className="ios-badge ios-badge-amber">✓ Persistent Local Storage & SMTP Dispatch</span>
+              <div style={{ background: '#F5F5F7', padding: '18px 20px', borderRadius: '14px' }}>
+                <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '4px' }}>Primary Sales Email</div>
+                <div style={{ fontSize: '15px', fontWeight: 600, color: '#1D1D1F' }}>sales@managemyweb.co</div>
+              </div>
+              <div style={{ background: '#F5F5F7', padding: '18px 20px', borderRadius: '14px' }}>
+                <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '4px' }}>Direct WhatsApp Line</div>
+                <div style={{ fontSize: '15px', fontWeight: 600, color: '#1D1D1F' }}>+92 317 4075023</div>
+              </div>
+              <div style={{ background: '#F5F5F7', padding: '18px 20px', borderRadius: '14px' }}>
+                <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '4px' }}>Live 3D Preview Engine</div>
+                <div style={{ fontSize: '15px', fontWeight: 600, color: '#1D7D3F' }}>Operational</div>
               </div>
             </div>
           </div>

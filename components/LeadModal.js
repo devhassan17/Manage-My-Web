@@ -49,7 +49,7 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion,
     }
   };
 
-  const waRaw = '13322910881';
+  const waRaw = '923174075023';
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
     `Hello ManageMyWeb, I just requested a complimentary 3D store prototype for ${formData.storeName || 'our e-commerce brand'}.`
   )}`;

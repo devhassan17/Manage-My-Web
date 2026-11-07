@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Footer({ onOpenDemoModal }) {
   const currentYear = new Date().getFullYear();
-  const waRaw = '13322910881';
+  const waRaw = '923174075023';
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
     'Hello ManageMyWeb team, I would like to discuss a 3D store prototype and managed web operations.'
   )}`;
@@ -105,8 +105,13 @@ export default function Footer({ onOpenDemoModal }) {
             <p style={{ color: '#6E6E73', fontSize: '12px', lineHeight: 1.6, marginBottom: '14px' }}>
               Bespoke 3D retail storefronts and end-to-end web operations for modern commerce brands.
             </p>
-            <div style={{ color: '#1D1D1F', fontWeight: 500, fontSize: '12px' }}>
-              Direct Line: +1 (332) 291-0881
+            <div style={{ color: '#1D1D1F', fontWeight: 500, fontSize: '12px', marginBottom: '4px' }}>
+              WhatsApp: +92 317 4075023
+            </div>
+            <div style={{ color: '#424245', fontSize: '12px' }}>
+              <a href="mailto:sales@managemyweb.co" style={{ color: '#0066CC', textDecoration: 'none' }}>
+                sales@managemyweb.co
+              </a>
             </div>
           </div>
 
