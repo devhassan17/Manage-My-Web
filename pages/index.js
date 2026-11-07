@@ -140,8 +140,8 @@ export default function Home() {
       <Navbar onOpenDemoModal={() => openModalForCategory('Fashion, Apparel & Footwear', 'demo')} />
 
       <main>
-        {/* HERO SECTION */}
-        <section style={{ paddingTop: '56px', paddingBottom: '64px', background: '#FBFBFD' }}>
+        {/* HERO SECTION — CLEAR, SIMPLE EXPLANATION OF THE IDEA */}
+        <section style={{ paddingTop: '56px', paddingBottom: '56px', background: '#FBFBFD' }}>
           <div className="container" style={{ textAlign: 'center' }}>
             <p
               style={{
@@ -149,39 +149,93 @@ export default function Home() {
                 fontWeight: 600,
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
-                color: '#6E6E73',
-                marginBottom: '12px',
+                color: '#0066CC',
+                marginBottom: '14px',
               }}
             >
-              3D Flagship Storefronts · Managed Web Operations
+              3D Virtual Storefronts &amp; Complete Website Management
             </p>
 
             <h1
               style={{
-                fontSize: 'clamp(36px, 5.2vw, 62px)',
+                fontSize: 'clamp(34px, 5vw, 58px)',
                 fontWeight: 600,
                 letterSpacing: '-0.035em',
-                lineHeight: 1.06,
-                maxWidth: '860px',
-                margin: '0 auto 16px auto',
+                lineHeight: 1.08,
+                maxWidth: '940px',
+                margin: '0 auto 22px auto',
                 color: '#1D1D1F',
               }}
             >
-              Turn your online store into a{' '}
-              <span style={{ color: '#6E6E73' }}>walkable 3D flagship.</span>
+              Normal online stores are just flat grids of photos.{' '}
+              <span style={{ color: '#6E6E73' }}>
+                We turn yours into a real 3D shop customers can walk inside.
+              </span>
             </h1>
 
-            <p
+            {/* Simple, Plain-English Explanation of the Idea */}
+            <div
               style={{
-                fontSize: 'clamp(16px, 1.8vw, 19px)',
-                color: '#424245',
-                maxWidth: '620px',
+                maxWidth: '820px',
                 margin: '0 auto 28px auto',
-                lineHeight: 1.45,
+                color: '#424245',
+                fontSize: 'clamp(16px, 1.75vw, 18.5px)',
+                lineHeight: 1.65,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '14px',
               }}
             >
-              Custom 3D stores and full technical management for Shopify, WooCommerce, and custom brands.
-            </p>
+              <p style={{ margin: 0 }}>
+                When a customer visits a normal e-commerce website, they just scroll past small square pictures and leave within seconds—because every online store looks the same.
+              </p>
+              <p style={{ margin: 0 }}>
+                <strong style={{ color: '#1D1D1F', fontWeight: 600 }}>Here is the simple idea behind ManageMyWeb:</strong>{' '}
+                We transform your existing online store into an interactive <strong style={{ color: '#1D1D1F', fontWeight: 600 }}>3D virtual showroom</strong> that opens instantly in any mobile or desktop browser (no app needed). Instead of scrolling a boring page, your customers can walk around your store in 360°, pick up your products from 3D shelves, read your brand story on the walls, and check out at the counter in one tap—while our team handles all your hosting, speed, domains, and daily website updates behind the scenes.
+              </p>
+            </div>
+
+            {/* 3 Simple Explainer Cards right in the Hero */}
+            <div
+              style={{
+                maxWidth: '920px',
+                margin: '0 auto 30px auto',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                gap: '12px',
+                textAlign: 'left',
+              }}
+            >
+              {[
+                {
+                  badge: '1 · For Any Store Category',
+                  text: 'Whether you sell fashion, beauty, electronics, coffee, watches, or home goods—we custom-design a 3D shop around your products.',
+                },
+                {
+                  badge: '2 · Keeps Your Current Backend',
+                  text: 'No need to rebuild your business. Your 3D store connects directly to your existing Shopify, WooCommerce, or custom catalog.',
+                },
+                {
+                  badge: '3 · See Your Free 3D Demo First',
+                  text: 'Send us your website link and we build a working 3D preview with your own products in 48 hours for free—then send your custom quotation.',
+                },
+              ].map((point) => (
+                <div
+                  key={point.badge}
+                  style={{
+                    background: '#FFFFFF',
+                    border: '1px solid #E5E5EA',
+                    borderRadius: '14px',
+                    padding: '16px 18px',
+                  }}
+                >
+                  <div style={{ fontSize: '12px', fontWeight: 600, color: '#0066CC', marginBottom: '4px' }}>
+                    {point.badge}
+                  </div>
+                  <div style={{ fontSize: '13.5px', color: '#424245', lineHeight: 1.5 }}>{point.text}</div>
+                </div>
+              ))}
+            </div>
 
             {/* Primary CTAs */}
             <div
@@ -197,35 +251,47 @@ export default function Home() {
               <button
                 onClick={() => openModalForCategory('Fashion, Apparel & Footwear', 'demo')}
                 className="btn-apple-blue"
-                style={{ padding: '13px 24px', fontSize: '15px' }}
+                style={{ padding: '14px 26px', fontSize: '15px' }}
               >
-                Step 1: Free 3D Demo
+                Step 1: Request Free 3D Demo
               </button>
 
               <button
                 onClick={() => openModalForCategory('Fashion, Apparel & Footwear', 'quotation')}
                 className="btn-apple-secondary"
-                style={{ padding: '13px 24px', fontSize: '15px', color: '#1D1D1F' }}
+                style={{ padding: '14px 26px', fontSize: '15px', color: '#1D1D1F' }}
               >
                 Request Custom Quotation
               </button>
 
-              <Link href="/experience" className="apple-link" style={{ fontSize: '15px', marginLeft: '6px' }}>
-                <span>Fullscreen 3D demo</span>
-                <span aria-hidden="true">›</span>
-              </Link>
+              <a
+                href="https://crazy-3d-website-idea.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="apple-link"
+                style={{ fontSize: '15px', marginLeft: '6px' }}
+              >
+                <span>Open live 3D website in new tab</span>
+                <span aria-hidden="true">↗</span>
+              </a>
             </div>
 
-            <p style={{ fontSize: '12.5px', color: '#6E6E73', marginBottom: '40px' }}>
-              Step 1: Free 48h 3D Demo → Step 2: Custom Quotation · Or request a direct quote
+            <p style={{ fontSize: '13px', color: '#6E6E73', marginBottom: '36px' }}>
+              Option 1: Free 48h 3D Demo first → Step 2 Custom Quotation · Option 2: Direct Custom Quotation
             </p>
 
-            {/* Interactive Live 3D Showroom Preview */}
+            {/* Video Showcase of the 3D Storefront */}
             <div className="container-wide" style={{ padding: 0 }}>
               <VirtualCoffeeStore3D onOpenContact={() => openModalForCategory('Fashion, Apparel & Footwear', 'demo')} />
             </div>
           </div>
         </section>
+
+        {/* CLIENT LOGOS PORTFOLIO — PROMINENTLY ON HOME PAGE */}
+        <ClientLogos
+          title="Trusted by 14+ Global Client Brands"
+          subtitle="Websites & E-Commerce Platforms Delivered Across Netherlands, UK, Ireland, USA, Australia & Canada"
+        />
 
         {/* METRICS BAR */}
         <section
@@ -271,9 +337,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/*CLIENT LOGOS PORTFOLIO*/}
-        <ClientLogos />
 
         {/* 3-STEP HOW IT WORKS */}
         <section style={{ padding: '72px 0', background: '#FFFFFF', borderBottom: '1px solid #D2D2D7' }}>

@@ -16,18 +16,18 @@ export default function Navbar({ onOpenDemoModal }) {
   }, []);
 
   const navLinks = [
-    { label: '3D Storefronts', href: '/services/3d-virtual-stores' },
-    { label: 'Web Management', href: '/services/web-management' },
-    { label: 'Interactive Demo', href: '/experience' },
-    { label: 'Client Results', href: '/case-studies' },
-    { label: 'Get Quotation', href: '/pricing' },
+    { label: '3D Stores', href: '/services/3d-virtual-stores' },
+    { label: 'Web Ops', href: '/services/web-management' },
+    { label: 'Live Demo ↗', href: 'https://crazy-3d-website-idea.vercel.app/', external: true },
+    { label: 'Clients', href: '/case-studies' },
+    { label: 'Quotation', href: '/pricing' },
     { label: 'About', href: '/about' },
-    { label: 'Journal', href: '/blog' },
+    { label: 'Contact', href: '/contact' },
   ];
 
   const waRaw = '923174075023';
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
-    'Hello ManageMyWeb team, I would like to discuss a complimentary 3D store prototype for our brand.'
+    'Hello ManageMyWeb team, I would like to discuss a 3D store demo or quotation.'
   )}`;
 
   return (
@@ -36,7 +36,7 @@ export default function Navbar({ onOpenDemoModal }) {
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        background: scrolled ? 'rgba(251, 251, 253, 0.86)' : 'rgba(251, 251, 253, 0.8)',
+        background: scrolled ? 'rgba(251, 251, 253, 0.88)' : 'rgba(251, 251, 253, 0.82)',
         backdropFilter: 'saturate(180%) blur(20px)',
         WebkitBackdropFilter: 'saturate(180%) blur(20px)',
         borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
@@ -44,13 +44,14 @@ export default function Navbar({ onOpenDemoModal }) {
       }}
     >
       <nav
-        className="container"
+        className="container-wide"
         style={{
+          maxWidth: '1120px',
           height: '52px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: '24px',
+          gap: '16px',
         }}
       >
         {/* Minimal Apple-Style Wordmark */}
@@ -59,9 +60,11 @@ export default function Navbar({ onOpenDemoModal }) {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '9px',
+            gap: '8px',
             textDecoration: 'none',
             color: '#1D1D1F',
+            whiteSpace: 'nowrap',
+            flexShrink: 0,
           }}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -80,6 +83,7 @@ export default function Navbar({ onOpenDemoModal }) {
               fontSize: '15px',
               letterSpacing: '-0.02em',
               color: '#1D1D1F',
+              whiteSpace: 'nowrap',
             }}
           >
             ManageMyWeb
@@ -91,24 +95,29 @@ export default function Navbar({ onOpenDemoModal }) {
           style={{
             display: 'none',
             alignItems: 'center',
-            gap: '26px',
+            gap: '22px',
+            whiteSpace: 'nowrap',
           }}
           className="desktop-nav-menu"
         >
           {navLinks.map((link) => {
             const isActive =
-              router.pathname === link.href ||
-              (link.href !== '/' && router.pathname.startsWith(link.href));
+              !link.external &&
+              (router.pathname === link.href ||
+                (link.href !== '/' && router.pathname.startsWith(link.href)));
             return (
               <Link
                 key={link.href}
                 href={link.href}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
                 style={{
                   textDecoration: 'none',
                   fontSize: '12.5px',
-                  fontWeight: isActive ? 500 : 400,
+                  fontWeight: isActive ? 600 : 400,
                   color: isActive ? '#1D1D1F' : '#424245',
-                  opacity: isActive ? 1 : 0.85,
+                  opacity: isActive ? 1 : 0.88,
+                  whiteSpace: 'nowrap',
                   transition: 'color 0.15s ease, opacity 0.15s ease',
                 }}
                 onMouseOver={(e) => {
@@ -117,7 +126,7 @@ export default function Navbar({ onOpenDemoModal }) {
                 }}
                 onMouseOut={(e) => {
                   e.currentTarget.style.color = isActive ? '#1D1D1F' : '#424245';
-                  e.currentTarget.style.opacity = isActive ? '1' : '0.85';
+                  e.currentTarget.style.opacity = isActive ? '1' : '0.88';
                 }}
               >
                 {link.label}
@@ -127,7 +136,7 @@ export default function Navbar({ onOpenDemoModal }) {
         </div>
 
         {/* Right Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, whiteSpace: 'nowrap' }}>
           <Link
             href="/pricing"
             style={{
@@ -135,13 +144,14 @@ export default function Navbar({ onOpenDemoModal }) {
               color: '#1D1D1F',
               textDecoration: 'none',
               fontWeight: 500,
-              padding: '6px 12px',
+              padding: '6px 13px',
               borderRadius: '980px',
               border: '1px solid #D2D2D7',
+              whiteSpace: 'nowrap',
             }}
             className="desktop-only-link"
           >
-            Request Quotation
+            Get Quote
           </Link>
 
           <button
@@ -157,6 +167,7 @@ export default function Navbar({ onOpenDemoModal }) {
               cursor: 'pointer',
               fontFamily: 'inherit',
               letterSpacing: '-0.01em',
+              whiteSpace: 'nowrap',
               transition: 'background-color 0.15s ease',
             }}
             onMouseOver={(e) => (e.currentTarget.style.background = '#0077ED')}
@@ -210,6 +221,8 @@ export default function Navbar({ onOpenDemoModal }) {
             <Link
               key={link.href}
               href={link.href}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
               onClick={() => setMobileMenuOpen(false)}
               style={{
                 textDecoration: 'none',
@@ -232,7 +245,7 @@ export default function Navbar({ onOpenDemoModal }) {
               className="btn-apple-blue"
               style={{ width: '100%' }}
             >
-              Request Complimentary Prototype
+              Free 3D Demo / Quote
             </button>
             <a
               href={waUrl}
@@ -241,7 +254,7 @@ export default function Navbar({ onOpenDemoModal }) {
               className="btn-apple-secondary"
               style={{ width: '100%', textAlign: 'center' }}
             >
-              Message Studio on WhatsApp
+              WhatsApp Us
             </a>
           </div>
         </div>
@@ -251,7 +264,7 @@ export default function Navbar({ onOpenDemoModal }) {
         .desktop-only-link {
           display: none;
         }
-        @media (min-width: 920px) {
+        @media (min-width: 900px) {
           .desktop-nav-menu {
             display: flex !important;
           }

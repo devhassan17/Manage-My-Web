@@ -96,10 +96,16 @@ export default function ThreeDVirtualStores() {
               >
                 Free 3D Demo / Quotation
               </button>
-              <Link href="/experience" className="apple-link" style={{ fontSize: '15px' }}>
-                <span>Fullscreen showroom</span>
-                <span aria-hidden="true">›</span>
-              </Link>
+              <a
+                href="https://crazy-3d-website-idea.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="apple-link"
+                style={{ fontSize: '15px' }}
+              >
+                <span>Open live 3D website in new tab</span>
+                <span aria-hidden="true">↗</span>
+              </a>
             </div>
           </div>
 
