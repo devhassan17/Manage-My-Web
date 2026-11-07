@@ -13,8 +13,8 @@ export default function ThreeDVirtualStores() {
   return (
     <>
       <SEOHead
-        title="3D Virtual Storefronts & Spatial Retail | ManageMyWeb"
-        description="Transform your online catalog into a walkable 3D flagship storefront. Customers explore product shelves, express checkout counters, and brand provenance exhibits."
+        title="3D Virtual Storefronts for E-Commerce Brands | ManageMyWeb"
+        description="Transform any e-commerce catalog—fashion, beauty, electronics, luxury, home, or specialty goods—into a walkable 3D flagship storefront."
         canonicalUrl="https://managemyweb.co/services/3d-virtual-stores"
       />
 
@@ -26,7 +26,7 @@ export default function ThreeDVirtualStores() {
           {/* Header */}
           <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 52px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '12px' }}>
-              3D Storefront Architecture
+              3D Storefront Architecture for All E-Commerce Brands
             </p>
             <h1
               style={{
@@ -40,8 +40,8 @@ export default function ThreeDVirtualStores() {
             >
               A digital storefront that feels like a physical flagship.
             </h1>
-            <p style={{ fontSize: '18px', color: '#6E6E73', lineHeight: 1.55, maxWidth: '680px', margin: '0 auto' }}>
-              We replace flat thumbnail grids with architectural 3D retail spaces where visitors inspect shelves, check out in one tap, and connect with your brand story.
+            <p style={{ fontSize: '18px', color: '#6E6E73', lineHeight: 1.55, maxWidth: '700px', margin: '0 auto' }}>
+              Whether you sell apparel, cosmetics, electronics, watches, furniture, or specialty goods, we replace flat thumbnail grids with architectural 3D retail spaces where shoppers inspect products, check out in one tap, and connect with your brand story.
             </p>
 
             <div style={{ marginTop: '28px', display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
@@ -59,7 +59,7 @@ export default function ThreeDVirtualStores() {
             </div>
           </div>
 
-          {/* Embedded 3D Store Canvas */}
+          {/* Embedded Live 3D Storefront Preview */}
           <div style={{ marginBottom: '88px' }}>
             <VirtualCoffeeStore3D onOpenContact={() => setDemoModalOpen(true)} />
           </div>
@@ -85,14 +85,14 @@ export default function ThreeDVirtualStores() {
                   Zone 01
                 </p>
                 <h2 style={{ fontSize: '30px', fontWeight: 600, color: '#1D1D1F', marginBottom: '14px' }}>
-                  Interactive Product Shelving
+                  Interactive Product Displays, Racks & Shelving
                 </h2>
                 <p style={{ color: '#424245', fontSize: '16px', lineHeight: 1.65, marginBottom: '18px' }}>
-                  Instead of scrolling past tiny square images, customers step up to natural wood shelves. They can select individual bags or bottles, inspect origin details and tasting notes, and add products straight to their bag.
+                  Instead of scrolling past tiny square images, shoppers walk up to custom apparel racks, display tables, or shelving. They can pick up individual products, inspect materials and specifications in 360°, and add items straight to their bag.
                 </p>
                 <ul style={{ color: '#6E6E73', fontSize: '14.5px', lineHeight: 1.8, paddingLeft: '18px' }}>
-                  <li>Custom 3D product packaging tailored to your catalog</li>
-                  <li>Interactive product cards with tasting profiles and specifications</li>
+                  <li>Custom 3D product models and fixtures tailored to your industry</li>
+                  <li>Interactive product cards with variants, sizing, and specifications</li>
                   <li>Real-time inventory sync with Shopify and WooCommerce</li>
                 </ul>
               </div>
@@ -122,7 +122,7 @@ export default function ThreeDVirtualStores() {
               <div>
                 <img
                   src="/images/spatial_devices_preview.jpg"
-                  alt="Express Bar Checkout"
+                  alt="Express Counter Checkout"
                   style={{ width: '100%', borderRadius: '18px', display: 'block' }}
                 />
               </div>
@@ -131,10 +131,10 @@ export default function ThreeDVirtualStores() {
                   Zone 02
                 </p>
                 <h2 style={{ fontSize: '30px', fontWeight: 600, color: '#1D1D1F', marginBottom: '14px' }}>
-                  Express Bar Checkout
+                  Express Counter Checkout
                 </h2>
                 <p style={{ color: '#424245', fontSize: '16px', lineHeight: 1.65, marginBottom: '20px' }}>
-                  Multi-step form checkouts cause nearly 70% of shoppers to abandon their carts. Our express counter brings the simplicity of stepping up to a café register with one-tap Apple Pay, Google Pay, and Stripe checkout.
+                  Multi-step form checkouts cause nearly 70% of shoppers to abandon their carts. Our express counter brings the simplicity of stepping up to a flagship register with one-tap Apple Pay, Google Pay, and Stripe checkout.
                 </p>
                 <div style={{ display: 'flex', gap: '20px' }}>
                   <div style={{ background: '#F5F5F7', padding: '14px 20px', borderRadius: '14px' }}>
@@ -168,21 +168,21 @@ export default function ThreeDVirtualStores() {
                   Zone 03
                 </p>
                 <h2 style={{ fontSize: '30px', fontWeight: 600, color: '#1D1D1F', marginBottom: '14px' }}>
-                  Provenance & Brand Story Wall
+                  Brand Story & Craftsmanship Wall
                 </h2>
                 <p style={{ color: '#424245', fontSize: '16px', lineHeight: 1.65, marginBottom: '18px' }}>
-                  Your customers care about how your products are sourced and crafted, yet very few click a standard &ldquo;About&rdquo; link in the footer. Placing your provenance exhibit right inside the showroom turns your ethics into a tangible reason to buy.
+                  Shoppers care about how your products are designed, sourced, and built—yet very few click a standard &ldquo;About&rdquo; link in the footer. Placing your brand story exhibit right inside the showroom turns your quality into a tangible reason to buy.
                 </p>
                 <ul style={{ color: '#6E6E73', fontSize: '14.5px', lineHeight: 1.8, paddingLeft: '18px' }}>
-                  <li>85% origin value retention and direct-trade metrics</li>
-                  <li>Interactive sustainability and reforestation milestones</li>
-                  <li>Verified harvest origins and craftsmanship highlights</li>
+                  <li>Interactive material, engineering, and craftsmanship breakdowns</li>
+                  <li>Sustainability, provenance, and customer proof displays</li>
+                  <li>Custom editorial video or 3D storytelling panels</li>
                 </ul>
               </div>
               <div>
                 <img
                   src="/images/fairchain_harvest.jpg"
-                  alt="FairChain Provenance Wall"
+                  alt="Brand Story & Craftsmanship Wall"
                   style={{ width: '100%', borderRadius: '18px', display: 'block' }}
                 />
               </div>
@@ -205,7 +205,7 @@ export default function ThreeDVirtualStores() {
               <div>
                 <img
                   src="/images/coffee_post_office.jpg"
-                  alt="Concierge Dispatch Booth"
+                  alt="Concierge Dispatch Desk"
                   style={{ width: '100%', borderRadius: '18px', display: 'block' }}
                 />
               </div>
@@ -214,10 +214,10 @@ export default function ThreeDVirtualStores() {
                   Zone 04
                 </p>
                 <h2 style={{ fontSize: '30px', fontWeight: 600, color: '#1D1D1F', marginBottom: '14px' }}>
-                  Concierge Dispatch Booth
+                  VIP Client & Concierge Desk
                 </h2>
                 <p style={{ color: '#424245', fontSize: '16px', lineHeight: 1.65, marginBottom: '22px' }}>
-                  An architectural postal booth inside your storefront makes wholesale inquiries, corporate gifting requests, and customer correspondence feel warm and personal.
+                  An architectural concierge booth inside your storefront makes styling consultations, wholesale inquiries, corporate gifting requests, and customer correspondence feel warm and personal.
                 </p>
                 <button
                   onClick={() => setDemoModalOpen(true)}

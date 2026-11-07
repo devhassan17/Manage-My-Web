@@ -10,12 +10,12 @@ export default function ExperiencePage() {
   return (
     <>
       <SEOHead
-        title="Interactive 3D Flagship Roastery | ManageMyWeb"
-        description="Explore our interactive 3D retail storefront. Inspect product shelving, test one-tap bar checkout, view provenance displays, and visit the dispatch desk."
+        title="Interactive 3D Flagship Storefront Demo | ManageMyWeb"
+        description="Explore our live 3D e-commerce storefront demo. Walk around, inspect products in 360°, test express checkout, and request a custom 3D prototype for your brand."
         canonicalUrl="https://managemyweb.co/experience"
       />
 
-      <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', background: '#EBE9E4' }}>
+      <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', background: '#1D1D1F' }}>
         <VirtualCoffeeStore3D
           isFullscreen={true}
           onOpenContact={() => setDemoModalOpen(true)}
@@ -31,6 +31,7 @@ export default function ExperiencePage() {
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
+            flexWrap: 'wrap',
           }}
         >
           <Link
@@ -40,14 +41,14 @@ export default function ExperiencePage() {
               fontSize: '13px',
               fontWeight: 500,
               borderRadius: '980px',
-              background: 'rgba(255, 255, 255, 0.9)',
+              background: 'rgba(255, 255, 255, 0.92)',
               backdropFilter: 'saturate(180%) blur(20px)',
               border: '1px solid rgba(0, 0, 0, 0.1)',
               color: '#1D1D1F',
               textDecoration: 'none',
             }}
           >
-            ← Back to Overview
+            ← Back to ManageMyWeb
           </Link>
 
           <button
@@ -58,7 +59,7 @@ export default function ExperiencePage() {
               fontSize: '13px',
             }}
           >
-            Request Prototype for Your Brand
+            Build a 3D Store for Your Brand
           </button>
         </div>
       </div>
@@ -66,7 +67,7 @@ export default function ExperiencePage() {
       <LeadModal
         isOpen={demoModalOpen}
         onClose={() => setDemoModalOpen(false)}
-        initialCategory="Specialty Coffee & Roastery"
+        initialCategory="Fashion, Apparel & Footwear"
       />
     </>
   );

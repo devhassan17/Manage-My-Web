@@ -12,8 +12,8 @@ export default function About() {
   return (
     <>
       <SEOHead
-        title="About ManageMyWeb | Spatial Storefronts & FairChain Ethics"
-        description="Learn why we replace generic 2D e-commerce templates with architectural 3D storefronts and end-to-end web stewardship."
+        title="About ManageMyWeb | 3D Retail Architecture & Managed Web Operations"
+        description="Learn why we replace generic 2D e-commerce templates with architectural 3D storefronts and end-to-end web stewardship for modern brands."
         canonicalUrl="https://managemyweb.co/about"
       />
 
@@ -36,10 +36,10 @@ export default function About() {
                 marginBottom: '18px',
               }}
             >
-              Crafted brands deserve better than flat templates.
+              Great brands deserve better than flat templates.
             </h1>
             <p style={{ color: '#6E6E73', fontSize: '18px', lineHeight: 1.55 }}>
-              In 1999, online shopping was designed as a grid of small thumbnails to fit dial-up connections. Decades later, 99% of e-commerce websites still use the exact same layout. We founded ManageMyWeb to bring architectural warmth and human curation to digital retail.
+              In 1999, online shopping was designed as a grid of small thumbnails to fit dial-up connections. Decades later, 99% of e-commerce websites—across fashion, beauty, electronics, home goods, and specialty retail—still use the exact same layout. We founded ManageMyWeb to bring flagship architecture and human curation to digital commerce.
             </p>
           </div>
 
@@ -58,16 +58,16 @@ export default function About() {
           >
             <div>
               <p className="apple-eyebrow" style={{ marginBottom: '10px' }}>
-                Origin Story
+                Why We Built ManageMyWeb
               </p>
               <h2 style={{ fontSize: '30px', fontWeight: 600, color: '#1D1D1F', marginBottom: '16px', lineHeight: 1.15 }}>
-                How Ethiopian single-origin coffee inspired our 3D retail architecture.
+                Bridging the gap between physical flagship stores and online commerce.
               </h2>
               <p style={{ color: '#424245', fontSize: '16px', lineHeight: 1.65, marginBottom: '14px' }}>
-                Our work began alongside specialty coffee roasters in Sidama and Antioquia who were roasting microlots with 100% solar power and returning 85% of export value directly to farming families.
+                When a customer walks into an Apple Store, a Soho fashion boutique, or an artisanal roastery, the space itself communicates quality. Products are curated on tables and shelves, specialists are ready to help, and checkout is effortless.
               </p>
               <p style={{ color: '#424245', fontSize: '16px', lineHeight: 1.65, marginBottom: '24px' }}>
-                Yet online, those extraordinary roasts sat inside generic white thumbnail boxes indistinguishable from supermarket commodities. We built a 3D roastery where visitors could step up to the shelves, inspect origin data, and witness the harvest story firsthand.
+                Yet online, those same brands are flattened into identical four-column grids. We engineer interactive 3D storefronts for every e-commerce vertical—and manage the entire technical stack behind the scenes—so your digital presence finally matches the quality of your products.
               </p>
               <Link href="/services/3d-virtual-stores" className="btn-apple-dark">
                 Explore 3D Store Architecture
@@ -76,8 +76,8 @@ export default function About() {
 
             <div>
               <img
-                src="/images/fairchain_harvest.jpg"
-                alt="FairChain Coffee Harvest"
+                src="/images/spatial_devices_preview.jpg"
+                alt="3D Storefront Architecture"
                 style={{
                   width: '100%',
                   borderRadius: '18px',
@@ -98,17 +98,17 @@ export default function About() {
             {[
               {
                 num: '01',
-                title: 'FairChain Digital Stewardship',
-                desc: 'We allocate 5% of studio revenue to native shade-tree reforestation and direct-trade smallholder coffee co-operatives.',
+                title: 'Bespoke to Your Industry',
+                desc: 'Whether you sell streetwear, skincare, watches, hardware, or specialty foods, every 3D room is architected specifically around your catalog.',
               },
               {
                 num: '02',
-                title: 'Lightweight Engineering',
-                desc: 'We avoid bloated code and heavy plugins. Our WebGL scenes render at 60 frames per second on everyday mobile devices in under a second.',
+                title: 'Lightweight Mobile Engineering',
+                desc: 'We avoid bloated code and heavy plugins. Our WebGL scenes render at 60 frames per second on everyday iPhones and Android devices.',
               },
               {
                 num: '03',
-                title: 'Direct Engineer Access',
+                title: 'Direct Engineer Stewardship',
                 desc: 'No ticket queues or account middlemen. Every client communicates directly with the senior engineers managing their storefront.',
               },
             ].map((v) => (

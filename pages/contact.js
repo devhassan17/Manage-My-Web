@@ -11,7 +11,7 @@ export default function Contact() {
     phone: '',
     storeName: '',
     websiteUrl: '',
-    category: 'Specialty Coffee & Roastery',
+    category: 'Fashion, Apparel & Footwear',
     revenueRange: '$20k - $50k / mo',
     message: '',
     promoCode: 'FREE-3D-DEMO-60D',
@@ -47,19 +47,19 @@ export default function Contact() {
 
   const waRaw = '13322910881';
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
-    'Hello ManageMyWeb team, I would like to request a complimentary 3D store prototype for our brand.'
+    'Hello ManageMyWeb team, I would like to request a complimentary 3D store prototype for our e-commerce brand.'
   )}`;
 
   return (
     <>
       <SEOHead
-        title="Contact & Request Free 3D Prototype | ManageMyWeb"
+        title="Contact & Request Free 3D Store Prototype | ManageMyWeb"
         description="Contact ManageMyWeb to request a complimentary custom 3D prototype of your online store or discuss managed web operations."
         canonicalUrl="https://managemyweb.co/contact"
       />
 
-      <CountdownBanner onClaimDemo={() => {}} />
-      <Navbar onOpenDemoModal={() => {}} />
+      <CountdownBanner onClaimDemo={() => { }} />
+      <Navbar onOpenDemoModal={() => { }} />
 
       <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
         <div className="container" style={{ maxWidth: '1040px' }}>
@@ -80,7 +80,7 @@ export default function Contact() {
               Let’s build your 3D store preview.
             </h1>
             <p style={{ color: '#6E6E73', fontSize: '18px', lineHeight: 1.5 }}>
-              Share your current website below. Our engineers will prepare a custom interactive 3D walkthrough featuring your products within 48 hours at no cost.
+              Share your current website below. Whether you sell fashion, beauty, electronics, home goods, or specialty products, our engineers will prepare an interactive 3D walkthrough featuring your products within 48 hours at no cost.
             </p>
           </div>
 
@@ -176,7 +176,7 @@ export default function Contact() {
                       <input
                         type="email"
                         required
-                        placeholder="marcus@roastery.com"
+                        placeholder="marcus@brand.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="ios-input"
@@ -187,11 +187,11 @@ export default function Contact() {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
-                        Brand Name
+                        Brand / Store Name
                       </label>
                       <input
                         type="text"
-                        placeholder="Moka Roasters"
+                        placeholder="Atelier Studio"
                         value={formData.storeName}
                         onChange={(e) => setFormData({ ...formData, storeName: e.target.value })}
                         className="ios-input"
@@ -204,7 +204,7 @@ export default function Contact() {
                       </label>
                       <input
                         type="text"
-                        placeholder="mokaroasters.com"
+                        placeholder="yourstore.com"
                         value={formData.websiteUrl}
                         onChange={(e) => setFormData({ ...formData, websiteUrl: e.target.value })}
                         className="ios-input"
@@ -215,19 +215,21 @@ export default function Contact() {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
-                        Industry
+                        E-Commerce Category
                       </label>
                       <select
                         value={formData.category}
                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                         className="ios-input"
                       >
-                        <option value="Specialty Coffee & Roastery">Specialty Coffee & Roastery</option>
-                        <option value="Apparel & Streetwear">Apparel & Streetwear</option>
-                        <option value="Watches & Fine Jewelry">Watches & Fine Jewelry</option>
-                        <option value="Fragrance & Skincare">Fragrance & Skincare</option>
-                        <option value="Consumer Electronics">Consumer Electronics</option>
-                        <option value="Other Retail">Other Retail</option>
+                        <option value="Fashion, Apparel & Footwear">Fashion, Apparel & Footwear</option>
+                        <option value="Beauty, Cosmetics & Fragrance">Beauty, Cosmetics & Fragrance</option>
+                        <option value="Consumer Electronics & Audio">Consumer Electronics & Audio</option>
+                        <option value="Watches, Jewelry & Luxury Goods">Watches, Jewelry & Luxury Goods</option>
+                        <option value="Home, Furniture & Decor">Home, Furniture & Decor</option>
+                        <option value="Food, Beverage & Specialty Goods">Food, Beverage & Specialty Goods</option>
+                        <option value="Sports, Fitness & Outdoors">Sports, Fitness & Outdoors</option>
+                        <option value="Other E-Commerce Store">Other E-Commerce Store</option>
                       </select>
                     </div>
 
@@ -251,7 +253,7 @@ export default function Contact() {
                     </label>
                     <textarea
                       rows={4}
-                      placeholder="Tell us about your flagship products, brand story, or current website priorities..."
+                      placeholder="Tell us about your flagship products, store layout vision, or current website priorities..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="ios-input"
@@ -326,8 +328,8 @@ export default function Contact() {
                 }}
               >
                 <img
-                  src="/images/coffee_post_office.jpg"
-                  alt="Concierge Dispatch Desk"
+                  src="/images/spatial_devices_preview.jpg"
+                  alt="3D Storefront across devices"
                   style={{ width: '100%', height: '210px', objectFit: 'cover', display: 'block' }}
                 />
               </div>
@@ -336,7 +338,7 @@ export default function Contact() {
         </div>
       </main>
 
-      <Footer onOpenDemoModal={() => {}} />
+      <Footer onOpenDemoModal={() => { }} />
     </>
   );
 }

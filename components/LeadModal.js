@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function LeadModal({ isOpen, onClose, initialCategory = 'Specialty Coffee & Roastery' }) {
+export default function LeadModal({ isOpen, onClose, initialCategory = 'Fashion, Apparel & Footwear' }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -15,6 +15,12 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Specialt
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() => {
+    if (initialCategory) {
+      setFormData((prev) => ({ ...prev, category: initialCategory }));
+    }
+  }, [initialCategory]);
 
   if (!isOpen) return null;
 
@@ -45,7 +51,7 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Specialt
 
   const waRaw = '13322910881';
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
-    `Hello ManageMyWeb, I just requested a complimentary 3D store prototype for ${formData.storeName || 'our brand'}.`
+    `Hello ManageMyWeb, I just requested a complimentary 3D store prototype for ${formData.storeName || 'our e-commerce brand'}.`
   )}`;
 
   return (
@@ -142,7 +148,7 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Specialt
                 What to expect next
               </div>
               <ul style={{ margin: 0, paddingLeft: '18px', color: '#424245', fontSize: '13px', lineHeight: 1.6 }}>
-                <li>We select 3–5 hero products from your current site and model your 3D shelf layout.</li>
+                <li>We select 3–5 hero products from your current site and model your custom 3D showroom layout.</li>
                 <li>We send you a direct browser link you can test on iPhone, Mac, or desktop.</li>
                 <li>No invoice, retainer, or obligation unless you choose to move forward.</li>
               </ul>
@@ -186,10 +192,10 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Specialt
                 letterSpacing: '-0.02em',
               }}
             >
-              See your store in 3D before you commit.
+              See your products in 3D before you commit.
             </h2>
             <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5, marginBottom: '22px' }}>
-              Tell us where to find your current catalog. We will build a working 3D preview tailored to your brand within 48 hours at no cost.
+              Share your current store URL. We will build a working 3D preview tailored to your brand and product category within 48 hours at no cost.
             </p>
 
             {errorMsg && (
@@ -242,11 +248,11 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Specialt
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                    Brand Name
+                    Brand / Store Name
                   </label>
                   <input
                     type="text"
-                    placeholder="Aura Coffee Roasters"
+                    placeholder="e.g. Atelier Studio"
                     value={formData.storeName}
                     onChange={(e) => setFormData({ ...formData, storeName: e.target.value })}
                     className="ios-input"
@@ -259,7 +265,7 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Specialt
                   </label>
                   <input
                     type="text"
-                    placeholder="auracoffee.com"
+                    placeholder="yourstore.com"
                     value={formData.websiteUrl}
                     onChange={(e) => setFormData({ ...formData, websiteUrl: e.target.value })}
                     className="ios-input"
@@ -270,19 +276,21 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Specialt
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                    Industry
+                    E-Commerce Category
                   </label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     className="ios-input"
                   >
-                    <option value="Specialty Coffee & Roastery">Specialty Coffee & Roastery</option>
-                    <option value="Apparel & Footwear">Apparel & Footwear</option>
-                    <option value="Watches & Fine Jewelry">Watches & Fine Jewelry</option>
-                    <option value="Home & Architectural Goods">Home & Architectural Goods</option>
-                    <option value="Fragrance & Skincare">Fragrance & Skincare</option>
-                    <option value="Consumer Hardware & Audio">Consumer Hardware & Audio</option>
+                    <option value="Fashion, Apparel & Footwear">Fashion, Apparel & Footwear</option>
+                    <option value="Beauty, Cosmetics & Fragrance">Beauty, Cosmetics & Fragrance</option>
+                    <option value="Consumer Electronics & Audio">Consumer Electronics & Audio</option>
+                    <option value="Watches, Jewelry & Luxury Goods">Watches, Jewelry & Luxury Goods</option>
+                    <option value="Home, Furniture & Decor">Home, Furniture & Decor</option>
+                    <option value="Food, Beverage & Specialty Goods">Food, Beverage & Specialty Goods</option>
+                    <option value="Sports, Fitness & Outdoors">Sports, Fitness & Outdoors</option>
+                    <option value="Other E-Commerce Store">Other E-Commerce Store</option>
                   </select>
                 </div>
 
@@ -306,7 +314,7 @@ export default function LeadModal({ isOpen, onClose, initialCategory = 'Specialt
                 </label>
                 <textarea
                   rows={3}
-                  placeholder="Tell us about your flagship products, brand story, or current website challenges..."
+                  placeholder="Tell us about your flagship products, store layout ideas, or current website challenges..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="ios-input"
