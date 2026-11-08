@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import {
-  readJsonData,
-  writeJsonData,
+  readDataAsync,
+  writeDataAsync,
   getSmtpConfig,
   renderEmailTemplate,
   DEFAULT_CONFIRMATION_SUBJECT,
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
     }
 
     const isQuotationRequest = requestType === 'quotation';
-    const leads = readJsonData('leads.json', []);
+    const leads = await readDataAsync('leads.json', []);
 
     const newLead = {
       id: `lead-${Date.now()}`,
@@ -112,11 +112,11 @@ export default async function handler(req, res) {
     };
 
     leads.unshift(newLead);
-    writeJsonData('leads.json', leads);
+    await writeDataAsync('leads.json', leads);
 
     // Automatically pre-create an adjustable Draft Quotation in quotations.json when a user requests a quotation
     if (isQuotationRequest) {
-      const quotations = readJsonData('quotations.json', []);
+      const quotations = await readDataAsync('quotations.json', []);
       const defaultItems = getPreDesignedItemsForPackage(newLead.requestedPackage);
       const subtotal = defaultItems.reduce((s, i) => s + (Number(i.qty) || 1) * (Number(i.price) || 0), 0);
       const draftQuote = {
@@ -145,7 +145,7 @@ export default async function handler(req, res) {
         notes: `Platform: ${newLead.platform} · Estimated SKUs: ${newLead.productCount}. ${newLead.message || ''}`.trim(),
       };
       quotations.unshift(draftQuote);
-      writeJsonData('quotations.json', quotations);
+      await writeDataAsync('quotations.json', quotations);
     }
 
     // Attempt SMTP dispatch if configured
@@ -154,7 +154,7 @@ export default async function handler(req, res) {
 
     try {
       const smtpConfig = getSmtpConfig();
-      const siteSettings = readJsonData('site-settings.json', {});
+      const siteSettings = await readDataAsync('site-settings.json', {});
       const configuredSupportEmail = siteSettings?.contact?.supportEmail;
 
       if (smtpConfig && smtpConfig.isConfigured && smtpConfig.host && smtpConfig.user && smtpConfig.pass) {

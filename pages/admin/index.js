@@ -113,10 +113,20 @@ const PRE_DESIGNED_QUOTE_TEMPLATES = {
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState('');
   const [passcode, setPasscode] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState('');
+  const [loginLoading, setLoginLoading] = useState(false);
 
-  const [activeTab, setActiveTab] = useState('leads'); // 'leads' | 'quotations' | 'smtp' | 'cookies' | 'campaign' | 'overview'
+  // Cloud Database & Security State
+  const [dbInfo, setDbInfo] = useState(null);
+  const [dbLoading, setDbLoading] = useState(false);
+  const [dbMsg, setDbMsg] = useState({ type: '', text: '' });
+  const [passwordChange, setPasswordChange] = useState({ current: '', next: '', confirm: '' });
+  const [pwdMsg, setPwdMsg] = useState({ type: '', text: '' });
+
+  const [activeTab, setActiveTab] = useState('leads'); // 'leads' | 'quotations' | 'cookies' | 'smtp' | 'campaign' | 'overview'
 
   // Leads State
   const [leads, setLeads] = useState([]);
@@ -137,7 +147,7 @@ export default function AdminDashboard() {
   });
   const [activeQuote, setActiveQuote] = useState({
     id: '',
-    quoteNumber: 'QT-2026-103',
+    quoteNumber: 'QT-2026-101',
     leadId: '',
     clientName: '',
     clientEmail: '',
@@ -214,42 +224,226 @@ export default function AdminDashboard() {
   const [cookieLoading, setCookieLoading] = useState(false);
   const [cookieMsg, setCookieMsg] = useState('');
 
+  // Authorized Fetch Helper
+  const authFetch = async (url, options = {}) => {
+    const currentToken =
+      token || (typeof window !== 'undefined' ? sessionStorage.getItem('mmw_admin_token') : '');
+    const headers = {
+      ...(options.headers || {}),
+      ...(currentToken ? { Authorization: `Bearer ${currentToken}` } : {}),
+    };
+    const res = await fetch(url, { ...options, headers });
+    if (res.status === 401 && !url.includes('/api/admin/auth')) {
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('mmw_admin_token');
+      }
+      setIsAuthenticated(false);
+      setToken('');
+      setAuthError('Your session has expired. Please enter your admin password.');
+    }
+    return res;
+  };
+
   useEffect(() => {
-    const auth = sessionStorage.getItem('mmw_admin_auth');
-    if (auth === 'true') {
-      setIsAuthenticated(true);
-      fetchAllData();
+    const savedToken = sessionStorage.getItem('mmw_admin_token');
+    if (savedToken) {
+      fetch('/api/admin/auth', {
+        headers: { Authorization: `Bearer ${savedToken}` },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.authenticated) {
+            setToken(savedToken);
+            setIsAuthenticated(true);
+            fetchAllData(savedToken);
+            fetchDbInfo(savedToken);
+          } else {
+            sessionStorage.removeItem('mmw_admin_token');
+          }
+        })
+        .catch(() => {
+          sessionStorage.removeItem('mmw_admin_token');
+        });
     }
   }, []);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (passcode === 'admin123' || passcode === 'manage2026') {
-      sessionStorage.setItem('mmw_admin_auth', 'true');
-      setIsAuthenticated(true);
-      setAuthError('');
-      fetchAllData();
-    } else {
-      setAuthError('Incorrect passcode. Default passcode is "admin123"');
+    if (!passcode) {
+      setAuthError('Please enter the admin password');
+      return;
+    }
+
+    setLoginLoading(true);
+    setAuthError('');
+
+    try {
+      const res = await fetch('/api/admin/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: passcode }),
+      });
+      const data = await res.json();
+      if (res.ok && data.token) {
+        sessionStorage.setItem('mmw_admin_token', data.token);
+        setToken(data.token);
+        setIsAuthenticated(true);
+        setPasscode('');
+        fetchAllData(data.token);
+        fetchDbInfo(data.token);
+      } else {
+        setAuthError(data.error || 'Incorrect admin password.');
+      }
+    } catch (err) {
+      setAuthError('Sign-in failed. Please check your network connection.');
+    } finally {
+      setLoginLoading(false);
     }
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem('mmw_admin_auth');
+    sessionStorage.removeItem('mmw_admin_token');
+    setToken('');
     setIsAuthenticated(false);
   };
 
-  const fetchAllData = async () => {
-    fetchLeads();
-    fetchQuotations();
-    fetchSmtp();
-    fetchSettings();
+  const fetchAllData = async (explicitToken) => {
+    fetchLeads(explicitToken);
+    fetchQuotations(explicitToken);
+    fetchSmtp(explicitToken);
+    fetchSettings(explicitToken);
     fetchCookies();
+    fetchDbInfo(explicitToken);
+  };
+
+  const fetchDbInfo = async (explicitToken) => {
+    setDbLoading(true);
+    try {
+      const currentToken =
+        explicitToken || token || (typeof window !== 'undefined' ? sessionStorage.getItem('mmw_admin_token') : '');
+      const res = await fetch('/api/admin/db', {
+        headers: currentToken ? { Authorization: `Bearer ${currentToken}` } : {},
+      });
+      const data = await res.json();
+      if (res.ok) setDbInfo(data);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDbLoading(false);
+    }
+  };
+
+  const handleExportBackup = async () => {
+    try {
+      const res = await authFetch('/api/admin/db', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'backup' }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        const blob = new Blob([JSON.stringify(data.data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `managemyweb-db-backup-${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        setDbMsg({ type: 'success', text: 'Full database snapshot downloaded successfully.' });
+      } else {
+        setDbMsg({ type: 'error', text: data.error || 'Failed to generate backup.' });
+      }
+    } catch (e) {
+      setDbMsg({ type: 'error', text: 'Error downloading backup.' });
+    }
+  };
+
+  const handleRestoreBackup = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (
+      !confirm(
+        'Are you sure you want to restore the database from this JSON file? This will merge and restore leads, quotations, and settings.'
+      )
+    ) {
+      e.target.value = '';
+      return;
+    }
+    try {
+      const reader = new FileReader();
+      reader.onload = async (evt) => {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          const res = await authFetch('/api/admin/db', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'restore', backupData: parsed }),
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            setDbMsg({ type: 'success', text: 'Database restored successfully! Reloading data...' });
+            fetchAllData();
+            fetchDbInfo();
+          } else {
+            setDbMsg({ type: 'error', text: data.error || 'Restore failed.' });
+          }
+        } catch (parseErr) {
+          setDbMsg({ type: 'error', text: 'Invalid JSON backup file.' });
+        }
+      };
+      reader.readAsText(file);
+    } catch (err) {
+      setDbMsg({ type: 'error', text: 'Failed to read file.' });
+    } finally {
+      e.target.value = '';
+    }
+  };
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    if (!passwordChange.current || !passwordChange.next) {
+      setPwdMsg({ type: 'error', text: 'Please fill in current and new password.' });
+      return;
+    }
+    if (passwordChange.next !== passwordChange.confirm) {
+      setPwdMsg({ type: 'error', text: 'New password and confirmation do not match.' });
+      return;
+    }
+    if (passwordChange.next.length < 10) {
+      setPwdMsg({ type: 'error', text: 'New password must be at least 10 characters long.' });
+      return;
+    }
+    try {
+      const res = await authFetch('/api/admin/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'change_password',
+          currentPassword: passwordChange.current,
+          newPassword: passwordChange.next,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setPwdMsg({ type: 'success', text: 'Admin password updated successfully!' });
+        setPasswordChange({ current: '', next: '', confirm: '' });
+        if (data.token) {
+          sessionStorage.setItem('mmw_admin_token', data.token);
+          setToken(data.token);
+        }
+      } else {
+        setPwdMsg({ type: 'error', text: data.error || 'Failed to update password.' });
+      }
+    } catch (err) {
+      setPwdMsg({ type: 'error', text: 'Network error updating password.' });
+    }
   };
 
   const fetchQuotations = async () => {
     try {
-      const res = await fetch('/api/admin/quotations');
+      const res = await authFetch('/api/admin/quotations');
       const data = await res.json();
       if (res.ok && data) {
         setQuotations(data.quotations || []);
@@ -318,7 +512,7 @@ export default function AdminDashboard() {
     setQuoteLoading(true);
     setQuoteMsg({ type: '', text: '' });
     try {
-      const res = await fetch('/api/admin/quotations', {
+      const res = await authFetch('/api/admin/quotations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -361,7 +555,7 @@ export default function AdminDashboard() {
 
   const updateQuoteStatus = async (id, status) => {
     try {
-      const res = await fetch('/api/admin/quotations', {
+      const res = await authFetch('/api/admin/quotations', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, status }),
@@ -375,7 +569,7 @@ export default function AdminDashboard() {
   const deleteQuotation = async (id) => {
     if (!confirm('Delete this quotation?')) return;
     try {
-      const res = await fetch(`/api/admin/quotations?id=${id}`, { method: 'DELETE' });
+      const res = await authFetch(`/api/admin/quotations?id=${id}`, { method: 'DELETE' });
       if (res.ok) fetchQuotations();
     } catch (e) {
       console.error(e);
@@ -384,7 +578,7 @@ export default function AdminDashboard() {
 
   const fetchCookies = async () => {
     try {
-      const res = await fetch('/api/cookies');
+      const res = await authFetch('/api/cookies');
       const data = await res.json();
       if (res.ok && data) setCookieStore(data);
     } catch (e) {
@@ -397,7 +591,7 @@ export default function AdminDashboard() {
     setCookieLoading(true);
     setCookieMsg('');
     try {
-      const res = await fetch('/api/cookies', {
+      const res = await authFetch('/api/cookies', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ config: cookieStore.config }),
@@ -419,7 +613,7 @@ export default function AdminDashboard() {
   const handleResetCookieStats = async () => {
     if (!confirm('Reset all visitor cookie consent statistics and logs?')) return;
     try {
-      const res = await fetch('/api/cookies', { method: 'DELETE' });
+      const res = await authFetch('/api/cookies', { method: 'DELETE' });
       const data = await res.json();
       if (res.ok && data.store) {
         setCookieStore(data.store);
@@ -433,7 +627,7 @@ export default function AdminDashboard() {
   const fetchLeads = async () => {
     setLeadsLoading(true);
     try {
-      const res = await fetch('/api/admin/leads');
+      const res = await authFetch('/api/admin/leads');
       const data = await res.json();
       if (data.leads) setLeads(data.leads);
     } catch (e) {
@@ -445,7 +639,7 @@ export default function AdminDashboard() {
 
   const fetchSmtp = async () => {
     try {
-      const res = await fetch('/api/admin/smtp');
+      const res = await authFetch('/api/admin/smtp');
       const data = await res.json();
       if (res.ok) {
         setSmtpConfig(data);
@@ -458,7 +652,7 @@ export default function AdminDashboard() {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch('/api/admin/settings');
+      const res = await authFetch('/api/admin/settings');
       const data = await res.json();
       if (res.ok) setSettings(data);
     } catch (e) {
@@ -468,7 +662,7 @@ export default function AdminDashboard() {
 
   const updateLeadStatus = async (id, newStatus) => {
     try {
-      const res = await fetch('/api/admin/leads', {
+      const res = await authFetch('/api/admin/leads', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, status: newStatus }),
@@ -483,7 +677,7 @@ export default function AdminDashboard() {
 
   const saveLeadNote = async (id) => {
     try {
-      const res = await fetch('/api/admin/leads', {
+      const res = await authFetch('/api/admin/leads', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, notes: noteText }),
@@ -500,7 +694,7 @@ export default function AdminDashboard() {
   const deleteLead = async (id) => {
     if (!confirm('Are you sure you want to delete this lead?')) return;
     try {
-      const res = await fetch(`/api/admin/leads?id=${id}`, { method: 'DELETE' });
+      const res = await authFetch(`/api/admin/leads?id=${id}`, { method: 'DELETE' });
       if (res.ok) {
         setLeads(leads.filter((l) => l.id !== id));
       }
@@ -539,7 +733,7 @@ export default function AdminDashboard() {
     setSmtpLoading(true);
     setSmtpMsg({ type: '', text: '' });
     try {
-      const res = await fetch('/api/admin/smtp', {
+      const res = await authFetch('/api/admin/smtp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(smtpConfig),
@@ -562,7 +756,7 @@ export default function AdminDashboard() {
     setTestingSmtp(true);
     setTestResult(null);
     try {
-      const res = await fetch('/api/admin/test-smtp', {
+      const res = await authFetch('/api/admin/test-smtp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -596,7 +790,7 @@ export default function AdminDashboard() {
     setSettingsLoading(true);
     setSettingsMsg('');
     try {
-      const res = await fetch('/api/admin/settings', {
+      const res = await authFetch('/api/admin/settings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(settings),
@@ -714,20 +908,85 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <input
-              type="password"
-              placeholder="Passcode (default: admin123)"
-              value={passcode}
-              onChange={(e) => setPasscode(e.target.value)}
-              className="ios-input"
-              autoFocus
-            />
+          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <div style={{ position: 'relative', width: '100%' }}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Admin Password"
+                value={passcode}
+                onChange={(e) => setPasscode(e.target.value)}
+                className="ios-input"
+                autoFocus
+                style={{
+                  width: '100%',
+                  padding: '12px 44px 12px 14px',
+                  fontSize: '14px',
+                  borderRadius: '12px',
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  color: '#6E6E73',
+                  fontSize: '12.5px',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  padding: '4px 6px',
+                }}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
 
-            <button type="submit" className="btn-apple-blue" style={{ width: '100%', padding: '12px' }}>
-              Sign In
+            <button
+              type="submit"
+              className="btn-apple-blue"
+              style={{ width: '100%', padding: '12px', fontWeight: 600, fontSize: '14px' }}
+              disabled={loginLoading}
+            >
+              {loginLoading ? 'Authenticating...' : 'Sign In'}
             </button>
           </form>
+
+          <div
+            style={{
+              marginTop: '18px',
+              padding: '12px 14px',
+              background: '#F5F5F7',
+              borderRadius: '10px',
+              fontSize: '12px',
+              color: '#6E6E73',
+              lineHeight: 1.5,
+              textAlign: 'left',
+            }}
+          >
+            <div style={{ fontWeight: 600, color: '#1D1D1F', marginBottom: '3px' }}>Default Studio Password:</div>
+            <code
+              style={{
+                display: 'inline-block',
+                background: '#FFFFFF',
+                border: '1px solid #D2D2D7',
+                padding: '3px 7px',
+                borderRadius: '6px',
+                fontFamily: 'monospace',
+                fontSize: '11px',
+                color: '#0066CC',
+                userSelect: 'all',
+              }}
+            >
+              MMW_Studio_2026!#SecureAdmin99
+            </code>
+            <div style={{ marginTop: '5px', fontSize: '11px', color: '#86868B' }}>
+              Override anytime via <code>ADMIN_PASSWORD</code> environment variable in Vercel or under System Settings.
+            </div>
+          </div>
 
           <div style={{ marginTop: '20px' }}>
             <Link href="/" style={{ color: '#0066CC', fontSize: '13px', textDecoration: 'none' }}>
@@ -913,7 +1172,7 @@ export default function AdminDashboard() {
               { id: 'cookies', label: `Cookies, Traffic & SEO (${cookieStore.stats?.totalDecisions || 0})` },
               { id: 'smtp', label: 'SMTP & Confirmation Emails' },
               { id: 'campaign', label: 'Site Config & Contact Info' },
-              { id: 'overview', label: 'System Status' },
+              { id: 'overview', label: 'Cloud Database & Security' },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -3001,42 +3260,381 @@ export default function AdminDashboard() {
         )}
 
         {/* ============================================================== */}
-        {/* TAB 4: SYSTEM OVERVIEW                                         */}
+        {/* TAB 6: CLOUD DATABASE PERSISTENCE & SECURITY                   */}
         {/* ============================================================== */}
         {activeTab === 'overview' && (
-          <div
-            style={{
-              background: '#FFFFFF',
-              border: '1px solid #D2D2D7',
-              padding: '36px',
-              borderRadius: '20px',
-            }}
-          >
-            <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
-              Platform Architecture & Channels
-            </h3>
-            <p style={{ color: '#424245', fontSize: '15px', lineHeight: 1.6, marginBottom: '24px', maxWidth: '720px' }}>
-              ManageMyWeb runs on Next.js with embedded 3D WebGL storefront previews, automated lead persistence (`data/leads.json`), and configurable SMTP email dispatch.
-            </p>
-
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* Database Persistence Card */}
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-                gap: '16px',
+                background: '#FFFFFF',
+                border: '1px solid #D2D2D7',
+                padding: '32px',
+                borderRadius: '20px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
               }}
             >
-              <div style={{ background: '#F5F5F7', padding: '18px 20px', borderRadius: '14px' }}>
-                <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '4px' }}>Primary Sales Email</div>
-                <div style={{ fontSize: '15px', fontWeight: 600, color: '#1D1D1F' }}>sales@managemyweb.co</div>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  flexWrap: 'wrap',
+                  gap: '16px',
+                  marginBottom: '16px',
+                }}
+              >
+                <div>
+                  <div
+                    style={{
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.06em',
+                      color: '#0066CC',
+                      marginBottom: '4px',
+                    }}
+                  >
+                    Storage Architecture
+                  </div>
+                  <h3 style={{ fontSize: '22px', fontWeight: 600, color: '#1D1D1F', margin: 0 }}>
+                    Persistent Cloud Database
+                  </h3>
+                </div>
+
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '6px 14px',
+                    borderRadius: '980px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    background: dbInfo?.storage?.isCloudConfigured ? '#E8F5E9' : '#FFF3E0',
+                    color: dbInfo?.storage?.isCloudConfigured ? '#1B5E20' : '#E65100',
+                    border: `1px solid ${dbInfo?.storage?.isCloudConfigured ? '#C8E6C9' : '#FFE0B2'}`,
+                  }}
+                >
+                  <span
+                    style={{
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '50%',
+                      background: dbInfo?.storage?.isCloudConfigured ? '#2E7D32' : '#F57C00',
+                    }}
+                  />
+                  {dbInfo?.storage?.isCloudConfigured
+                    ? `Connected: ${dbInfo?.storage?.provider || 'Cloud KV'}`
+                    : 'Local Disk & Tmp (Development Mode)'}
+                </div>
               </div>
-              <div style={{ background: '#F5F5F7', padding: '18px 20px', borderRadius: '14px' }}>
-                <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '4px' }}>Direct WhatsApp Line</div>
-                <div style={{ fontSize: '15px', fontWeight: 600, color: '#1D1D1F' }}>+92 317 4075023</div>
+
+              <p style={{ color: '#424245', fontSize: '14.5px', lineHeight: 1.6, marginBottom: '24px', maxWidth: '800px' }}>
+                On serverless platforms (Vercel / Netlify), local file systems are read-only and ephemeral containers are wiped on every new deployment or rebuild.
+                Connecting <strong>Vercel KV</strong> or <strong>Upstash Redis</strong> ensures every new client lead, custom quotation, and setting is permanently saved to cloud storage and never lost when the site rebuilds.
+              </p>
+
+              {/* Status and Counts Grid */}
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                  gap: '14px',
+                  marginBottom: '28px',
+                }}
+              >
+                <div style={{ background: '#F5F5F7', padding: '16px 18px', borderRadius: '12px' }}>
+                  <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '3px' }}>Leads in Database</div>
+                  <div style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F' }}>
+                    {dbInfo?.counts?.leads !== undefined ? dbInfo.counts.leads : leads.length}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#86868B', marginTop: '2px' }}>
+                    {leads.length === 0 ? 'Zero dummy records' : 'Live submissions'}
+                  </div>
+                </div>
+
+                <div style={{ background: '#F5F5F7', padding: '16px 18px', borderRadius: '12px' }}>
+                  <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '3px' }}>Quotations in Database</div>
+                  <div style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F' }}>
+                    {dbInfo?.counts?.quotations !== undefined ? dbInfo.counts.quotations : quotations.length}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#86868B', marginTop: '2px' }}>
+                    {quotations.length === 0 ? 'Zero dummy records' : 'Active proposals'}
+                  </div>
+                </div>
+
+                <div style={{ background: '#F5F5F7', padding: '16px 18px', borderRadius: '12px' }}>
+                  <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '3px' }}>Cookie Decisions</div>
+                  <div style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F' }}>
+                    {dbInfo?.counts?.cookieDecisions !== undefined
+                      ? dbInfo.counts.cookieDecisions
+                      : cookieStore?.stats?.totalDecisions || 0}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#86868B', marginTop: '2px' }}>Visitor consents</div>
+                </div>
+
+                <div style={{ background: '#F5F5F7', padding: '16px 18px', borderRadius: '12px' }}>
+                  <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '3px' }}>Persistence Target</div>
+                  <div style={{ fontSize: '15px', fontWeight: 600, color: dbInfo?.storage?.isCloudConfigured ? '#2E7D32' : '#1D1D1F' }}>
+                    {dbInfo?.storage?.provider || 'Local / Tmp'}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#86868B', marginTop: '2px' }}>
+                    {dbInfo?.storage?.isCloudConfigured ? 'Survives all rebuilds' : 'Configure KV for Vercel'}
+                  </div>
+                </div>
               </div>
-              <div style={{ background: '#F5F5F7', padding: '18px 20px', borderRadius: '14px' }}>
-                <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '4px' }}>Live 3D Preview Engine</div>
-                <div style={{ fontSize: '15px', fontWeight: 600, color: '#1D7D3F' }}>Operational</div>
+
+              {/* Database Backup & Restore Toolbar */}
+              <div
+                style={{
+                  padding: '20px',
+                  background: '#FBFBFD',
+                  border: '1px solid #E5E5EA',
+                  borderRadius: '14px',
+                  marginBottom: '28px',
+                }}
+              >
+                <div style={{ fontWeight: 600, color: '#1D1D1F', fontSize: '15px', marginBottom: '4px' }}>
+                  Database Backup &amp; Disaster Recovery
+                </div>
+                <p style={{ color: '#6E6E73', fontSize: '13px', margin: '0 0 16px 0', lineHeight: 1.5 }}>
+                  Download an offline JSON snapshot of all client leads, quotations, and studio settings anytime, or restore from a previously exported backup file.
+                </p>
+
+                {dbMsg.text && (
+                  <div
+                    style={{
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      fontSize: '13px',
+                      marginBottom: '14px',
+                      background: dbMsg.type === 'success' ? '#E8F5E9' : '#FFF2F2',
+                      color: dbMsg.type === 'success' ? '#1B5E20' : '#D70015',
+                      border: `1px solid ${dbMsg.type === 'success' ? '#C8E6C9' : '#FFD6D6'}`,
+                    }}
+                  >
+                    {dbMsg.text}
+                  </div>
+                )}
+
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={handleExportBackup}
+                    className="btn-apple-secondary"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '9px 18px',
+                      fontSize: '13px',
+                    }}
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Download Full Database Backup (.json)
+                  </button>
+
+                  <label
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '9px 18px',
+                      fontSize: '13px',
+                      background: '#FFFFFF',
+                      border: '1px solid #D2D2D7',
+                      borderRadius: '980px',
+                      cursor: 'pointer',
+                      color: '#1D1D1F',
+                      fontWeight: 500,
+                    }}
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    Restore Database from JSON File
+                    <input
+                      type="file"
+                      accept=".json,application/json"
+                      onChange={handleRestoreBackup}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                </div>
+              </div>
+
+              {/* 1-Minute Setup Guide */}
+              {!dbInfo?.storage?.isCloudConfigured && (
+                <div
+                  style={{
+                    padding: '20px 24px',
+                    background: '#F0F7FF',
+                    border: '1px solid #CCE5FF',
+                    borderRadius: '14px',
+                  }}
+                >
+                  <div style={{ fontWeight: 600, color: '#004085', fontSize: '15px', marginBottom: '8px' }}>
+                    How to enable Permanent Cloud Storage in 1 minute on Vercel:
+                  </div>
+                  <ol
+                    style={{
+                      margin: 0,
+                      paddingLeft: '20px',
+                      color: '#004085',
+                      fontSize: '13.5px',
+                      lineHeight: 1.7,
+                    }}
+                  >
+                    <li>Open your project in the <strong>Vercel Dashboard</strong>.</li>
+                    <li>Navigate to the <strong>Storage</strong> tab and click <strong>Create Database</strong>.</li>
+                    <li>Select <strong>KV (powered by Upstash Redis)</strong> and click <strong>Create</strong> (free tier included).</li>
+                    <li>Click <strong>Connect Project</strong> to link it to your Production and Preview environments.</li>
+                    <li>Vercel automatically provisions <code>KV_REST_API_URL</code> and <code>KV_REST_API_TOKEN</code>.</li>
+                    <li>Trigger a redeploy — your database layer automatically connects and preserves all data across every build!</li>
+                  </ol>
+                </div>
+              )}
+            </div>
+
+            {/* Admin Security & Password Change Card */}
+            <div
+              style={{
+                background: '#FFFFFF',
+                border: '1px solid #D2D2D7',
+                padding: '32px',
+                borderRadius: '20px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                  color: '#0066CC',
+                  marginBottom: '4px',
+                }}
+              >
+                Access Control
+              </div>
+              <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
+                Admin Authentication &amp; Password
+              </h3>
+              <p style={{ color: '#424245', fontSize: '14px', lineHeight: 1.55, marginBottom: '20px', maxWidth: '720px' }}>
+                All administrative endpoints (leads, quotes, SMTP credentials) are protected by cryptographic HMAC-SHA256 signed bearer tokens with 7-day automatic rotation.
+              </p>
+
+              {pwdMsg.text && (
+                <div
+                  style={{
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    marginBottom: '18px',
+                    background: pwdMsg.type === 'success' ? '#E8F5E9' : '#FFF2F2',
+                    color: pwdMsg.type === 'success' ? '#1B5E20' : '#D70015',
+                    border: `1px solid ${pwdMsg.type === 'success' ? '#C8E6C9' : '#FFD6D6'}`,
+                  }}
+                >
+                  {pwdMsg.text}
+                </div>
+              )}
+
+              <form onSubmit={handleChangePassword} style={{ maxWidth: '480px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                    Current Admin Password
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="Enter current password"
+                    value={passwordChange.current}
+                    onChange={(e) => setPasswordChange({ ...passwordChange, current: e.target.value })}
+                    className="ios-input"
+                    style={{ width: '100%', padding: '10px 14px', fontSize: '13.5px', borderRadius: '10px' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                    New Strong Password (min 10 characters)
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="e.g. MMW_Studio_2026!#SecureAdmin99"
+                    value={passwordChange.next}
+                    onChange={(e) => setPasswordChange({ ...passwordChange, next: e.target.value })}
+                    className="ios-input"
+                    style={{ width: '100%', padding: '10px 14px', fontSize: '13.5px', borderRadius: '10px' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                    Confirm New Password
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="Re-type new password"
+                    value={passwordChange.confirm}
+                    onChange={(e) => setPasswordChange({ ...passwordChange, confirm: e.target.value })}
+                    className="ios-input"
+                    style={{ width: '100%', padding: '10px 14px', fontSize: '13.5px', borderRadius: '10px' }}
+                  />
+                </div>
+
+                <div style={{ marginTop: '6px' }}>
+                  <button type="submit" className="btn-apple-blue" style={{ padding: '10px 24px', fontSize: '13.5px' }}>
+                    Update Admin Password
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            {/* Channels & Architecture Overview */}
+            <div
+              style={{
+                background: '#FFFFFF',
+                border: '1px solid #D2D2D7',
+                padding: '32px',
+                borderRadius: '20px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+              }}
+            >
+              <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
+                Platform Architecture &amp; Channels
+              </h3>
+              <p style={{ color: '#424245', fontSize: '14.5px', lineHeight: 1.6, marginBottom: '24px', maxWidth: '720px' }}>
+                ManageMyWeb runs on Next.js with embedded 3D WebGL storefront previews, persistent cloud database storage, and configurable Zoho SMTP email dispatch.
+              </p>
+
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                  gap: '16px',
+                }}
+              >
+                <div style={{ background: '#F5F5F7', padding: '18px 20px', borderRadius: '14px' }}>
+                  <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '4px' }}>Primary Sales Email</div>
+                  <div style={{ fontSize: '15px', fontWeight: 600, color: '#1D1D1F' }}>sales@managemyweb.co</div>
+                </div>
+                <div style={{ background: '#F5F5F7', padding: '18px 20px', borderRadius: '14px' }}>
+                  <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '4px' }}>Direct WhatsApp Line</div>
+                  <div style={{ fontSize: '15px', fontWeight: 600, color: '#1D1D1F' }}>+92 317 4075023</div>
+                </div>
+                <div style={{ background: '#F5F5F7', padding: '18px 20px', borderRadius: '14px' }}>
+                  <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '4px' }}>Live 3D Preview Engine</div>
+                  <div style={{ fontSize: '15px', fontWeight: 600, color: '#1D7D3F' }}>Operational (WebGL / 60fps)</div>
+                </div>
               </div>
             </div>
           </div>

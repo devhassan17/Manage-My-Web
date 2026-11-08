@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { readJsonData, writeJsonData } from '../../../utils/dataStore';
+import { verifyAdmin } from '../../../utils/auth';
+import { readDataAsync, writeDataAsync } from '../../../utils/dataStore';
 
 function cleanAnalyticsId(raw = '') {
   const str = String(raw || '').trim();
@@ -34,7 +35,10 @@ function cleanVerificationFileName(raw = '') {
   return '';
 }
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
+  // Enforce server-side admin authentication
+  if (!verifyAdmin(req, res)) return;
+
   const defaultSettings = {
     promo: {
       enabled: true,
@@ -63,7 +67,7 @@ export default function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
-      const data = readJsonData('site-settings.json', defaultSettings);
+      const data = await readDataAsync('site-settings.json', defaultSettings);
       return res.status(200).json({
         ...defaultSettings,
         ...data,
@@ -83,7 +87,7 @@ export default function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const current = readJsonData('site-settings.json', defaultSettings);
+      const current = await readDataAsync('site-settings.json', defaultSettings);
       const incomingSeo = req.body.seo || {};
 
       const fileName =
@@ -140,11 +144,12 @@ export default function handler(req, res) {
         seo: updatedSeo,
       };
 
-      const result = writeJsonData('site-settings.json', updated);
+      const result = await writeDataAsync('site-settings.json', updated);
       return res.status(200).json({
         success: true,
         settings: updated,
         persistedTo: result.persistedTo,
+        cloudPersisted: result.cloudPersisted,
       });
     } catch (e) {
       return res.status(500).json({ error: 'Failed to save settings: ' + e.message });

@@ -1,4 +1,10 @@
-import { getCookieStore, writeJsonData, DEFAULT_COOKIE_DATA } from '../../utils/dataStore';
+import { verifyAdmin } from '../../utils/auth';
+import {
+  getCookieStore,
+  readDataAsync,
+  writeDataAsync,
+  DEFAULT_COOKIE_DATA,
+} from '../../utils/dataStore';
 
 function parseDeviceLabel(userAgent = '') {
   const ua = userAgent.toLowerCase();
@@ -25,15 +31,34 @@ function parseDeviceLabel(userAgent = '') {
   return `${isMobile ? 'Mobile' : 'Desktop'} · ${os} / ${browser}`;
 }
 
-export default function handler(req, res) {
-  const store = getCookieStore();
+async function resolveCookieStore() {
+  const raw = await readDataAsync('cookie-stats.json', DEFAULT_COOKIE_DATA);
+  return {
+    config: {
+      ...DEFAULT_COOKIE_DATA.config,
+      ...(raw?.config || {}),
+    },
+    stats: {
+      ...DEFAULT_COOKIE_DATA.stats,
+      ...(raw?.stats || {}),
+      pageViewsByPath: {
+        ...DEFAULT_COOKIE_DATA.stats.pageViewsByPath,
+        ...(raw?.stats?.pageViewsByPath || {}),
+      },
+    },
+    recentConsents: Array.isArray(raw?.recentConsents) ? raw.recentConsents : [],
+  };
+}
+
+export default async function handler(req, res) {
+  const store = await resolveCookieStore();
 
   // GET: Return cookie config + stats + recent logs
   if (req.method === 'GET') {
     return res.status(200).json(store);
   }
 
-  // POST: Record visitor consent decision OR pageview event
+  // POST: Record visitor consent decision OR pageview event (public endpoint)
   if (req.method === 'POST') {
     try {
       const { eventType = 'consent', decision, categories, path = '/', visitorId } = req.body || {};
@@ -42,7 +67,7 @@ export default function handler(req, res) {
         const cleanPath = (path || '/').split('?')[0] || '/';
         store.stats.totalPageViews = (store.stats.totalPageViews || 0) + 1;
         store.stats.pageViewsByPath[cleanPath] = (store.stats.pageViewsByPath[cleanPath] || 0) + 1;
-        writeJsonData('cookie-stats.json', store);
+        await writeDataAsync('cookie-stats.json', store);
         return res.status(200).json({ success: true });
       }
 
@@ -93,7 +118,7 @@ export default function handler(req, res) {
         store.recentConsents = store.recentConsents.slice(0, 100);
       }
 
-      writeJsonData('cookie-stats.json', store);
+      await writeDataAsync('cookie-stats.json', store);
 
       return res.status(200).json({
         success: true,
@@ -105,15 +130,16 @@ export default function handler(req, res) {
     }
   }
 
-  // PUT: Update cookie banner configuration from Admin Dashboard
+  // PUT: Update cookie banner configuration from Admin Dashboard (Admin Only)
   if (req.method === 'PUT') {
+    if (!verifyAdmin(req, res)) return;
     try {
       const { config } = req.body || {};
       store.config = {
         ...store.config,
         ...(config || {}),
       };
-      writeJsonData('cookie-stats.json', store);
+      await writeDataAsync('cookie-stats.json', store);
       return res.status(200).json({
         success: true,
         message: 'Cookie banner configuration updated.',
@@ -124,8 +150,9 @@ export default function handler(req, res) {
     }
   }
 
-  // DELETE: Reset cookie statistics from Admin Dashboard
+  // DELETE: Reset cookie statistics from Admin Dashboard (Admin Only)
   if (req.method === 'DELETE') {
+    if (!verifyAdmin(req, res)) return;
     try {
       const resetStore = {
         config: store.config,
@@ -135,7 +162,7 @@ export default function handler(req, res) {
         },
         recentConsents: [],
       };
-      writeJsonData('cookie-stats.json', resetStore);
+      await writeDataAsync('cookie-stats.json', resetStore);
       return res.status(200).json({
         success: true,
         message: 'Cookie consent statistics reset.',
@@ -148,4 +175,3 @@ export default function handler(req, res) {
 
   return res.status(405).json({ error: 'Method not allowed' });
 }
-

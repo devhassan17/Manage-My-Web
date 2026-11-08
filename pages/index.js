@@ -7,7 +7,6 @@ import VirtualCoffeeStore3D from '../components/VirtualCoffeeStore3D';
 import ClientLogos from '../components/ClientLogos';
 import LeadModal from '../components/LeadModal';
 import Footer from '../components/Footer';
-import { readJsonData } from '../utils/dataStore';
 
 export default function Home({ serverSeo }) {
   const [demoModalOpen, setDemoModalOpen] = useState(false);
@@ -802,7 +801,8 @@ export default function Home({ serverSeo }) {
 }
 
 export async function getServerSideProps() {
-  const settings = readJsonData('site-settings.json', {});
+  const { readDataAsync } = await import('../utils/dataStore');
+  const settings = await readDataAsync('site-settings.json', {});
   return {
     props: {
       serverSeo: settings?.seo || null,

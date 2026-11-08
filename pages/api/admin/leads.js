@@ -1,7 +1,11 @@
-import { readJsonData, writeJsonData } from '../../../utils/dataStore';
+import { verifyAdmin } from '../../../utils/auth';
+import { readDataAsync, writeDataAsync } from '../../../utils/dataStore';
 
-export default function handler(req, res) {
-  let leads = readJsonData('leads.json', []);
+export default async function handler(req, res) {
+  // Enforce server-side admin authentication
+  if (!verifyAdmin(req, res)) return;
+
+  let leads = await readDataAsync('leads.json', []);
   if (!Array.isArray(leads)) leads = [];
 
   // GET: Fetch all leads
@@ -11,7 +15,7 @@ export default function handler(req, res) {
 
   // PATCH: Update lead status or notes
   if (req.method === 'PATCH') {
-    const { id, status, notes } = req.body;
+    const { id, status, notes } = req.body || {};
     if (!id) {
       return res.status(400).json({ error: 'Lead ID required' });
     }
@@ -25,7 +29,7 @@ export default function handler(req, res) {
     if (notes !== undefined) leads[index].notes = notes;
     leads[index].updatedAt = new Date().toISOString();
 
-    writeJsonData('leads.json', leads);
+    await writeDataAsync('leads.json', leads);
     return res.status(200).json({ success: true, lead: leads[index] });
   }
 
@@ -42,7 +46,7 @@ export default function handler(req, res) {
       return res.status(404).json({ error: 'Lead not found' });
     }
 
-    writeJsonData('leads.json', leads);
+    await writeDataAsync('leads.json', leads);
     return res.status(200).json({ success: true, message: 'Lead deleted successfully' });
   }
 

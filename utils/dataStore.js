@@ -63,6 +63,9 @@ export const DEFAULT_COOKIE_DATA = {
   recentConsents: [],
 };
 
+// In-memory cache for ultra-fast serverless execution
+const memoryCache = new Map();
+
 function getBundledPath(filename) {
   return path.join(process.cwd(), 'data', filename);
 }
@@ -71,23 +74,170 @@ function getTmpPath(filename) {
   return path.join(os.tmpdir(), `mmw_${filename}`);
 }
 
-export function readJsonData(filename, fallback = {}) {
-  const tmpPath = getTmpPath(filename);
-  const bundledPath = getBundledPath(filename);
+export function getKvCredentials() {
+  const url =
+    process.env.KV_REST_API_URL ||
+    process.env.UPSTASH_REDIS_REST_URL ||
+    process.env.DATABASE_REST_URL ||
+    '';
+  const token =
+    process.env.KV_REST_API_TOKEN ||
+    process.env.UPSTASH_REDIS_REST_TOKEN ||
+    process.env.DATABASE_REST_TOKEN ||
+    '';
 
-  // 1. Prefer runtime-updated file in /tmp if it exists (used on Vercel serverless)
-  if (fs.existsSync(tmpPath)) {
+  const isConfigured = Boolean(url && token);
+  const provider = process.env.KV_REST_API_URL
+    ? 'Vercel KV'
+    : process.env.UPSTASH_REDIS_REST_URL
+    ? 'Upstash Redis'
+    : isConfigured
+    ? 'Cloud KV REST'
+    : 'Local Disk & Tmp';
+
+  return { url, token, isConfigured, provider };
+}
+
+/**
+ * Execute a command against Cloud Redis KV (Upstash / Vercel KV)
+ */
+async function executeKvCommand(commandArray) {
+  const { url, token, isConfigured } = getKvCredentials();
+  if (!isConfigured) return null;
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(commandArray),
+    });
+
+    if (!res.ok) {
+      console.warn(`[Cloud KV Error] HTTP ${res.status}: ${res.statusText}`);
+      return null;
+    }
+
+    const data = await res.json();
+    return data?.result !== undefined ? data.result : data;
+  } catch (err) {
+    console.warn('[Cloud KV Fetch Error]', err.message);
+    return null;
+  }
+}
+
+/**
+ * Read data asynchronously from Cloud KV if available, with fallback to /tmp, memory cache, and local disk.
+ */
+export async function readDataAsync(filename, fallback = {}) {
+  const cacheKey = `mmw_${filename}`;
+  const { isConfigured } = getKvCredentials();
+
+  // 1. Try reading from Cloud KV if configured
+  if (isConfigured) {
     try {
-      return JSON.parse(fs.readFileSync(tmpPath, 'utf8'));
+      const rawResult = await executeKvCommand(['GET', cacheKey]);
+      if (rawResult !== null && rawResult !== undefined) {
+        let parsed = null;
+        if (typeof rawResult === 'string') {
+          try {
+            parsed = JSON.parse(rawResult);
+          } catch (e) {
+            parsed = rawResult;
+          }
+        } else {
+          parsed = rawResult;
+        }
+
+        if (parsed !== null && parsed !== undefined) {
+          // Update local memory and /tmp cache
+          memoryCache.set(filename, parsed);
+          try {
+            fs.writeFileSync(getTmpPath(filename), JSON.stringify(parsed, null, 2), 'utf8');
+          } catch (e) {}
+          return parsed;
+        }
+      }
     } catch (e) {
-      // fall through to bundled file
+      console.warn('[Cloud KV readDataAsync error]', e.message);
     }
   }
 
-  // 2. Read from bundled data/ directory
+  // 2. Read from local cache (synchronous fallback)
+  const localData = readJsonData(filename, fallback);
+
+  // If Cloud KV is configured but the key was empty, seed Cloud KV with localData
+  if (isConfigured && localData !== undefined) {
+    try {
+      await executeKvCommand(['SET', cacheKey, JSON.stringify(localData)]);
+    } catch (e) {}
+  }
+
+  return localData;
+}
+
+/**
+ * Write data asynchronously to Cloud KV (persisting across rebuilds) and local caches.
+ */
+export async function writeDataAsync(filename, data) {
+  const cacheKey = `mmw_${filename}`;
+  const jsonString = JSON.stringify(data, null, 2);
+
+  // 1. Update memory cache
+  memoryCache.set(filename, data);
+
+  // 2. Update local files (/tmp and bundled data/ if writable)
+  const localRes = writeJsonData(filename, data);
+
+  // 3. Update Cloud KV if configured (survives site rebuilds!)
+  const { isConfigured, provider } = getKvCredentials();
+  let cloudSuccess = false;
+
+  if (isConfigured) {
+    try {
+      const setResult = await executeKvCommand(['SET', cacheKey, jsonString]);
+      cloudSuccess = setResult === 'OK' || Boolean(setResult);
+    } catch (e) {
+      console.warn('[Cloud KV write error]', e.message);
+    }
+  }
+
+  return {
+    ...localRes,
+    cloudPersisted: cloudSuccess,
+    cloudProvider: isConfigured ? provider : null,
+  };
+}
+
+/**
+ * Synchronous read fallback (used by initial static rendering and sync routes)
+ */
+export function readJsonData(filename, fallback = {}) {
+  // Check memory cache first
+  if (memoryCache.has(filename)) {
+    return memoryCache.get(filename);
+  }
+
+  const tmpPath = getTmpPath(filename);
+  const bundledPath = getBundledPath(filename);
+
+  // 1. Runtime-updated file in /tmp
+  if (fs.existsSync(tmpPath)) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(tmpPath, 'utf8'));
+      memoryCache.set(filename, parsed);
+      return parsed;
+    } catch (e) {}
+  }
+
+  // 2. Bundled data/ directory
   if (fs.existsSync(bundledPath)) {
     try {
-      return JSON.parse(fs.readFileSync(bundledPath, 'utf8'));
+      const parsed = JSON.parse(fs.readFileSync(bundledPath, 'utf8'));
+      memoryCache.set(filename, parsed);
+      return parsed;
     } catch (e) {
       return fallback;
     }
@@ -96,24 +246,25 @@ export function readJsonData(filename, fallback = {}) {
   return fallback;
 }
 
+/**
+ * Synchronous write fallback
+ */
 export function writeJsonData(filename, data) {
+  memoryCache.set(filename, data);
   const jsonString = JSON.stringify(data, null, 2);
   const bundledPath = getBundledPath(filename);
   const tmpPath = getTmpPath(filename);
 
-  // Always write to /tmp so serverless invocations in the same instance see the latest data
+  // Always write to /tmp for current serverless instance
   try {
     fs.writeFileSync(tmpPath, jsonString, 'utf8');
-  } catch (e) {
-    // ignore tmp write errors
-  }
+  } catch (e) {}
 
-  // Also write to data/ directory when running locally (writable filesystem)
+  // Write to data/ directory if writable (e.g. local dev environment)
   try {
     fs.writeFileSync(bundledPath, jsonString, 'utf8');
     return { persistedTo: 'disk' };
   } catch (err) {
-    // On Vercel (/var/task is EROFS read-only), /tmp succeeded above
     return { persistedTo: 'tmp' };
   }
 }
@@ -150,7 +301,6 @@ export function getSmtpConfig() {
   return {
     host,
     port,
-    // Port 465 always uses implicit SSL (secure: true); Port 587 uses STARTTLS (secure: false)
     secure: port === 465,
     user,
     pass,

@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
-import { readJsonData, writeJsonData, getSmtpConfig } from '../../../utils/dataStore';
+import { verifyAdmin } from '../../../utils/auth';
+import { readDataAsync, writeDataAsync, getSmtpConfig } from '../../../utils/dataStore';
 
 function calculateTotals(items = [], discount = 0, taxRate = 0) {
   const subtotal = (items || []).reduce((sum, item) => {
@@ -68,86 +69,107 @@ function buildQuotationEmailHtml(quote, senderEmail) {
         </table>
       </div>
 
-      <!-- Body -->
-      <div style="padding: 32px;">
-        <p style="font-size: 15px; line-height: 1.6; color: #1D1D1F; margin: 0 0 14px 0;">
+      <!-- Client & Project Info -->
+      <div style="padding: 24px 32px; border-bottom: 1px solid #E5E5EA; background: #FAFAFA;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="vertical-align: top; width: 50%;">
+              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #86868B; margin-bottom: 3px;">Prepared For</div>
+              <div style="font-size: 15px; font-weight: 600; color: #1D1D1F;">${quote.clientName}</div>
+              ${quote.storeName ? `<div style="font-size: 13px; color: #424245;">${quote.storeName}</div>` : ''}
+              <div style="font-size: 12.5px; color: #6E6E73; margin-top: 2px;">${quote.clientEmail}</div>
+              ${quote.clientPhone ? `<div style="font-size: 12.5px; color: #6E6E73;">${quote.clientPhone}</div>` : ''}
+            </td>
+            <td style="vertical-align: top; width: 50%; text-align: right;">
+              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #86868B; margin-bottom: 3px;">Solution Package</div>
+              <div style="font-size: 14.5px; font-weight: 600; color: #0066CC;">${quote.packageTitle}</div>
+              <div style="font-size: 12px; color: #6E6E73; margin-top: 3px;">Terms: ${quote.paymentTerms}</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Personal Message -->
+      <div style="padding: 24px 32px; border-bottom: 1px solid #E5E5EA;">
+        <p style="margin: 0 0 12px 0; font-size: 14.5px; line-height: 1.55; color: #1D1D1F;">
           Hi ${firstName},
         </p>
-        <p style="font-size: 14.5px; line-height: 1.6; color: #424245; margin: 0 0 24px 0;">
-          Thank you for exploring a 3D storefront and web operations partnership with ManageMyWeb. Below is your customized quotation prepared for <strong style="color: #1D1D1F;">${quote.storeName || quote.clientName}</strong>.
+        <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #424245;">
+          ${
+            quote.notes ||
+            `Following our review of your store requirements, here is the itemized scope and proposal for your custom 3D storefront and web operations.`
+          }
         </p>
+      </div>
 
-        <!-- Client Summary Pill -->
-        <div style="background: #F5F5F7; border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; font-size: 13px; color: #424245;">
-          <strong style="color: #1D1D1F;">Prepared For:</strong> ${quote.clientName} (${quote.storeName || 'Brand Storefront'})<br/>
-          <strong style="color: #1D1D1F;">Scope:</strong> ${quote.packageTitle || 'Custom 3D Storefront & Web Operations'}
-        </div>
-
-        <!-- Line Items Table -->
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+      <!-- Line Items Table -->
+      <div style="padding: 16px 32px;">
+        <table style="width: 100%; border-collapse: collapse;">
           <thead>
-            <tr style="background: #F5F5F7; border-bottom: 1px solid #D2D2D7;">
-              <th style="padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 600; color: #6E6E73; text-transform: uppercase;">Deliverable &amp; Scope</th>
-              <th style="padding: 10px 12px; text-align: center; font-size: 11px; font-weight: 600; color: #6E6E73; text-transform: uppercase; width: 55px;">Qty</th>
-              <th style="padding: 10px 12px; text-align: right; font-size: 11px; font-weight: 600; color: #6E6E73; text-transform: uppercase; width: 100px;">Amount</th>
+            <tr style="border-bottom: 1px solid #D2D2D7;">
+              <th style="padding: 10px 12px; text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; color: #86868B;">Deliverable</th>
+              <th style="padding: 10px 12px; text-align: center; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; color: #86868B;">Qty</th>
+              <th style="padding: 10px 12px; text-align: right; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; color: #86868B;">Amount</th>
             </tr>
           </thead>
           <tbody>
             ${rowsHtml}
           </tbody>
         </table>
+      </div>
 
-        <!-- Totals Box -->
-        <div style="background: #F5F5F7; border-radius: 14px; padding: 18px 20px; margin-bottom: 24px;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 13.5px;">
-            <tr>
-              <td style="padding: 4px 0; color: #6E6E73;">Subtotal</td>
-              <td style="padding: 4px 0; text-align: right; color: #1D1D1F; font-weight: 500;">${cur}${Number(quote.subtotal || 0).toLocaleString()}</td>
-            </tr>
-            ${
-              Number(quote.discount) > 0
-                ? `<tr>
-                    <td style="padding: 4px 0; color: #1D7D3F;">Onboarding Program Discount</td>
-                    <td style="padding: 4px 0; text-align: right; color: #1D7D3F; font-weight: 500;">-${cur}${Number(quote.discount).toLocaleString()}</td>
-                  </tr>`
-                : ''
-            }
-            ${
-              Number(quote.taxRate) > 0
-                ? `<tr>
-                    <td style="padding: 4px 0; color: #6E6E73;">Tax (${quote.taxRate}%)</td>
-                    <td style="padding: 4px 0; text-align: right; color: #1D1D1F;">${cur}${Math.round(((quote.subtotal - (quote.discount || 0)) * quote.taxRate) / 100).toLocaleString()}</td>
-                  </tr>`
-                : ''
-            }
-            <tr>
-              <td style="padding: 10px 0 2px 0; border-top: 1px solid #D2D2D7; font-size: 16px; font-weight: 600; color: #1D1D1F;">Total Investment</td>
-              <td style="padding: 10px 0 2px 0; border-top: 1px solid #D2D2D7; text-align: right; font-size: 20px; font-weight: 600; color: #0066CC;">${cur}${Number(quote.totalAmount || 0).toLocaleString()}</td>
-            </tr>
-          </table>
-        </div>
+      <!-- Totals -->
+      <div style="padding: 20px 32px; background: #FBFBFD; border-top: 1px solid #E5E5EA;">
+        <table style="width: 100%; max-width: 280px; margin-left: auto; border-collapse: collapse; font-size: 13.5px;">
+          <tr>
+            <td style="padding: 4px 0; color: #6E6E73;">Subtotal:</td>
+            <td style="padding: 4px 0; text-align: right; font-weight: 500;">${cur}${quote.subtotal.toLocaleString()}</td>
+          </tr>
+          ${
+            quote.discount > 0
+              ? `
+              <tr>
+                <td style="padding: 4px 0; color: #34C759;">Studio Onboarding Credit:</td>
+                <td style="padding: 4px 0; text-align: right; color: #34C759; font-weight: 600;">-${cur}${quote.discount.toLocaleString()}</td>
+              </tr>
+            `
+              : ''
+          }
+          ${
+            quote.tax > 0
+              ? `
+              <tr>
+                <td style="padding: 4px 0; color: #6E6E73;">Tax (${quote.taxRate}%):</td>
+                <td style="padding: 4px 0; text-align: right; font-weight: 500;">+${cur}${quote.tax.toLocaleString()}</td>
+              </tr>
+            `
+              : ''
+          }
+          <tr style="border-top: 2px solid #1D1D1F;">
+            <td style="padding: 10px 0 0 0; font-size: 16px; font-weight: 600; color: #1D1D1F;">Total Investment:</td>
+            <td style="padding: 10px 0 0 0; text-align: right; font-size: 20px; font-weight: 700; color: #0066CC;">
+              ${cur}${quote.totalAmount.toLocaleString()}
+            </td>
+          </tr>
+        </table>
+      </div>
 
-        ${
-          quote.notes
-            ? `<div style="margin-bottom: 22px; font-size: 13.5px; color: #424245; line-height: 1.55;">
-                <strong style="color: #1D1D1F; display: block; margin-bottom: 4px;">Notes &amp; Included Terms:</strong>
-                ${quote.notes}
-              </div>`
-            : ''
-        }
-
-        <div style="font-size: 13px; color: #6E6E73; margin-bottom: 24px;">
-          <strong style="color: #1D1D1F;">Payment Schedule:</strong> ${quote.paymentTerms || '50% Kickoff Deposit · 50% Upon Storefront Launch'}
-        </div>
-
-        <p style="font-size: 14px; color: #1D1D1F; line-height: 1.6; margin: 0 0 24px 0;">
-          To approve this quotation or request any adjustments to the scope, simply reply to this email or message us directly on <a href="https://wa.me/923174075023" style="color: #0066CC; text-decoration: none; font-weight: 500;">WhatsApp (+92 317 4075023)</a>.
+      <!-- Accept CTA & Next Steps -->
+      <div style="padding: 28px 32px; background: #FFFFFF; text-align: center; border-top: 1px solid #E5E5EA;">
+        <p style="margin: 0 0 16px 0; font-size: 13.5px; color: #6E6E73;">
+          To approve this scope or request any timeline adjustments, reply directly to this email or message on WhatsApp:
         </p>
+        <a href="https://wa.me/923174075023?text=Hi%20ManageMyWeb,%20I'm%20approving%20Quotation%20${quote.quoteNumber}" 
+           style="display: inline-block; background: #0066CC; color: #FFFFFF; padding: 12px 28px; border-radius: 980px; text-decoration: none; font-weight: 600; font-size: 14px; box-shadow: 0 4px 14px rgba(0,102,204,0.25);">
+          Approve Quotation on WhatsApp
+        </a>
+      </div>
 
-        <div style="border-top: 1px solid #E5E5EA; padding-top: 16px; font-size: 12.5px; color: #6E6E73; line-height: 1.5;">
-          <strong style="color: #1D1D1F;">ManageMyWeb Studio</strong><br/>
-          <a href="mailto:${senderEmail}" style="color: #0066CC; text-decoration: none;">${senderEmail}</a> · WhatsApp: +92 317 4075023<br/>
-          https://managemyweb.co
+      <!-- Footer -->
+      <div style="background: #F5F5F7; padding: 20px 32px; text-align: center; font-size: 11.5px; color: #86868B; border-top: 1px solid #E5E5EA;">
+        <div>ManageMyWeb Studio · E-Commerce Engineering &amp; 3D Virtual Flagships</div>
+        <div style="margin-top: 4px;">
+          sales@managemyweb.co · +92 317 4075023 · https://managemyweb.co
         </div>
       </div>
     </div>
@@ -155,7 +177,10 @@ function buildQuotationEmailHtml(quote, senderEmail) {
 }
 
 export default async function handler(req, res) {
-  let quotations = readJsonData('quotations.json', []);
+  // Enforce server-side admin authentication
+  if (!verifyAdmin(req, res)) return;
+
+  let quotations = await readDataAsync('quotations.json', []);
   if (!Array.isArray(quotations)) quotations = [];
 
   // GET: Return all quotations + summary statistics
@@ -249,17 +274,17 @@ export default async function handler(req, res) {
         quotations.unshift(quoteRecord);
       }
 
-      writeJsonData('quotations.json', quotations);
+      await writeDataAsync('quotations.json', quotations);
 
       // Update associated lead status if leadId is linked
       if (leadId) {
-        const leads = readJsonData('leads.json', []);
+        const leads = await readDataAsync('leads.json', []);
         const leadIdx = leads.findIndex((l) => l.id === leadId);
         if (leadIdx >= 0) {
           leads[leadIdx].status = sendEmail ? 'Quotation Sent' : leads[leadIdx].status;
           leads[leadIdx].quotedAmount = totals.totalAmount;
           leads[leadIdx].quoteNumber = resolvedNumber;
-          writeJsonData('leads.json', leads);
+          await writeDataAsync('leads.json', leads);
         }
       }
 
@@ -325,7 +350,7 @@ export default async function handler(req, res) {
 
     quotations[idx].status = status;
     quotations[idx].updatedAt = new Date().toISOString();
-    writeJsonData('quotations.json', quotations);
+    await writeDataAsync('quotations.json', quotations);
     return res.status(200).json({ success: true, quotation: quotations[idx], quotations });
   }
 
@@ -333,10 +358,9 @@ export default async function handler(req, res) {
   if (req.method === 'DELETE') {
     const { id } = req.query;
     quotations = quotations.filter((q) => q.id !== id);
-    writeJsonData('quotations.json', quotations);
+    await writeDataAsync('quotations.json', quotations);
     return res.status(200).json({ success: true, quotations });
   }
 
   return res.status(405).json({ error: 'Method not allowed' });
 }
-

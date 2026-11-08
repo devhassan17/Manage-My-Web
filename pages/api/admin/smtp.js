@@ -1,14 +1,18 @@
+import { verifyAdmin } from '../../../utils/auth';
 import {
   getSmtpConfig,
-  readJsonData,
-  writeJsonData,
+  readDataAsync,
+  writeDataAsync,
   DEFAULT_CONFIRMATION_SUBJECT,
   DEFAULT_CONFIRMATION_BODY,
   DEFAULT_QUOTATION_SUBJECT,
   DEFAULT_QUOTATION_BODY,
 } from '../../../utils/dataStore';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
+  // Enforce server-side admin authentication
+  if (!verifyAdmin(req, res)) return;
+
   // GET: Return current SMTP config (mask password)
   if (req.method === 'GET') {
     try {
@@ -39,7 +43,7 @@ export default function handler(req, res) {
         confirmationBody,
         quotationSubject,
         quotationBody,
-      } = req.body;
+      } = req.body || {};
 
       const resolvedPort = port !== undefined ? Number(port) : existing.port || 465;
       const resolvedSecure = resolvedPort === 465;
@@ -81,14 +85,14 @@ export default function handler(req, res) {
         isConfigured: true,
       };
 
-      writeJsonData('smtp-config.json', updated);
+      await writeDataAsync('smtp-config.json', updated);
 
       // Keep public site contact email in sync if notifyEmail was updated
       try {
-        const currentSettings = readJsonData('site-settings.json', {});
+        const currentSettings = await readDataAsync('site-settings.json', {});
         if (currentSettings && currentSettings.contact) {
           currentSettings.contact.supportEmail = resolvedNotifyEmail;
-          writeJsonData('site-settings.json', currentSettings);
+          await writeDataAsync('site-settings.json', currentSettings);
         }
       } catch (e) {
         // non-blocking
