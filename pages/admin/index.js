@@ -955,39 +955,6 @@ export default function AdminDashboard() {
             </button>
           </form>
 
-          <div
-            style={{
-              marginTop: '18px',
-              padding: '12px 14px',
-              background: '#F5F5F7',
-              borderRadius: '10px',
-              fontSize: '12px',
-              color: '#6E6E73',
-              lineHeight: 1.5,
-              textAlign: 'left',
-            }}
-          >
-            <div style={{ fontWeight: 600, color: '#1D1D1F', marginBottom: '3px' }}>Default Studio Password:</div>
-            <code
-              style={{
-                display: 'inline-block',
-                background: '#FFFFFF',
-                border: '1px solid #D2D2D7',
-                padding: '3px 7px',
-                borderRadius: '6px',
-                fontFamily: 'monospace',
-                fontSize: '11px',
-                color: '#0066CC',
-                userSelect: 'all',
-              }}
-            >
-              MMW_Studio_2026!#SecureAdmin99
-            </code>
-            <div style={{ marginTop: '5px', fontSize: '11px', color: '#86868B' }}>
-              Override anytime via <code>ADMIN_PASSWORD</code> environment variable in Vercel or under System Settings.
-            </div>
-          </div>
-
           <div style={{ marginTop: '20px' }}>
             <Link href="/" style={{ color: '#0066CC', fontSize: '13px', textDecoration: 'none' }}>
               ← Return to public website
@@ -3569,7 +3536,7 @@ export default function AdminDashboard() {
                   </label>
                   <input
                     type="password"
-                    placeholder="e.g. MMW_Studio_2026!#SecureAdmin99"
+                    placeholder="Enter new strong password"
                     value={passwordChange.next}
                     onChange={(e) => setPasswordChange({ ...passwordChange, next: e.target.value })}
                     className="ios-input"
