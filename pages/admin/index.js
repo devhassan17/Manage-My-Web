@@ -968,6 +968,13 @@ export default function AdminDashboard() {
   };
 
   const handleTestSmtp = async () => {
+    if (!smtpConfig.pass && !smtpConfig.hasPasswordSet) {
+      setTestResult({
+        success: false,
+        message: 'Please enter your Zoho App Password in the field on the left and click "Save SMTP Configuration" first.',
+      });
+      return;
+    }
     setTestingSmtp(true);
     setTestResult(null);
     try {
