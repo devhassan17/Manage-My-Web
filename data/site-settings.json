@@ -6,6 +6,16 @@
   "contactEmail": "sales@managemyweb.co",
   "adminEmail": "sales@managemyweb.co",
   "address": "Global E-Commerce Engineering Studio",
+  "contact": {
+    "whatsappNumber": "+92 317 4075023",
+    "supportEmail": "sales@managemyweb.co",
+    "studioLocation": "Global E-Commerce Engineering"
+  },
+  "seo": {
+    "googleAnalyticsId": "",
+    "googleSiteVerification": "",
+    "googleTagManagerId": ""
+  },
   "promo": {
     "enabled": true,
     "badge": "Q4 Studio Onboarding",

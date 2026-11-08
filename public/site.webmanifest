@@ -12,11 +12,6 @@
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
-    },
-    {
-      "src": "/images/coffee_store_hero.jpg",
-      "sizes": "512x512",
-      "type": "image/jpeg"
     }
   ]
 }

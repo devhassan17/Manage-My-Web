@@ -72,12 +72,34 @@ export default function About() {
               </Link>
             </div>
 
-            <div>
-              <img
-                src="/images/spatial_devices_preview.jpg"
-                alt="3D Storefront Architecture"
-                style={{ width: '100%', borderRadius: '16px', display: 'block' }}
-              />
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '14px',
+              }}
+            >
+              {[
+                { stat: '14+', label: 'Global Client Stores' },
+                { stat: '6', label: 'Countries Served' },
+                { stat: '60 fps', label: 'Mobile WebGL Engine' },
+                { stat: '99.99%', label: 'Managed Uptime SLA' },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  style={{
+                    background: '#F5F5F7',
+                    borderRadius: '16px',
+                    padding: '22px 18px',
+                    textAlign: 'center',
+                  }}
+                >
+                  <div style={{ fontSize: '26px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
+                    {item.stat}
+                  </div>
+                  <div style={{ fontSize: '12.5px', color: '#6E6E73', fontWeight: 500 }}>{item.label}</div>
+                </div>
+              ))}
             </div>
           </div>
 

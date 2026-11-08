@@ -1,5 +1,27 @@
 import { readJsonData, writeJsonData } from '../../../utils/dataStore';
 
+function cleanAnalyticsId(raw = '') {
+  const str = String(raw || '').trim();
+  if (!str) return '';
+  const match = str.match(/\b(G-[A-Z0-9]+|UA-[0-9]+-[0-9]+|AW-[A-Z0-9]+)\b/i);
+  return match ? match[1].toUpperCase() : str;
+}
+
+function cleanGscToken(raw = '') {
+  const str = String(raw || '').trim();
+  if (!str) return '';
+  const contentMatch = str.match(/content=["']([^"']+)["']/i);
+  if (contentMatch) return contentMatch[1].trim();
+  return str.replace(/^google-site-verification=/i, '').trim();
+}
+
+function cleanGtmId(raw = '') {
+  const str = String(raw || '').trim();
+  if (!str) return '';
+  const match = str.match(/\b(GTM-[A-Z0-9]+)\b/i);
+  return match ? match[1].toUpperCase() : str;
+}
+
 export default function handler(req, res) {
   const defaultSettings = {
     promo: {
@@ -18,22 +40,52 @@ export default function handler(req, res) {
       supportEmail: 'sales@managemyweb.co',
       studioLocation: 'Global E-Commerce Engineering',
     },
+    seo: {
+      googleAnalyticsId: '',
+      googleSiteVerification: '',
+      googleTagManagerId: '',
+    },
   };
 
-  // GET: Fetch settings
   if (req.method === 'GET') {
     try {
       const data = readJsonData('site-settings.json', defaultSettings);
-      return res.status(200).json(data);
+      return res.status(200).json({
+        ...defaultSettings,
+        ...data,
+        contact: {
+          ...defaultSettings.contact,
+          ...(data.contact || {}),
+        },
+        seo: {
+          ...defaultSettings.seo,
+          ...(data.seo || {}),
+        },
+      });
     } catch (e) {
       return res.status(500).json({ error: 'Failed to read settings' });
     }
   }
 
-  // POST: Update settings
   if (req.method === 'POST') {
     try {
       const current = readJsonData('site-settings.json', defaultSettings);
+      const incomingSeo = req.body.seo || {};
+
+      const updatedSeo = {
+        ...defaultSettings.seo,
+        ...(current.seo || {}),
+        ...(incomingSeo.googleAnalyticsId !== undefined
+          ? { googleAnalyticsId: cleanAnalyticsId(incomingSeo.googleAnalyticsId) }
+          : {}),
+        ...(incomingSeo.googleSiteVerification !== undefined
+          ? { googleSiteVerification: cleanGscToken(incomingSeo.googleSiteVerification) }
+          : {}),
+        ...(incomingSeo.googleTagManagerId !== undefined
+          ? { googleTagManagerId: cleanGtmId(incomingSeo.googleTagManagerId) }
+          : {}),
+      };
+
       const updated = {
         ...current,
         ...req.body,
@@ -41,10 +93,20 @@ export default function handler(req, res) {
           ...current.promo,
           ...(req.body.promo || {}),
         },
+        contact: {
+          ...defaultSettings.contact,
+          ...(current.contact || {}),
+          ...(req.body.contact || {}),
+        },
+        seo: updatedSeo,
       };
 
-      writeJsonData('site-settings.json', updated);
-      return res.status(200).json({ success: true, settings: updated });
+      const result = writeJsonData('site-settings.json', updated);
+      return res.status(200).json({
+        success: true,
+        settings: updated,
+        persistedTo: result.persistedTo,
+      });
     } catch (e) {
       return res.status(500).json({ error: 'Failed to save settings: ' + e.message });
     }

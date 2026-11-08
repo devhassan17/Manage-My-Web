@@ -12,7 +12,7 @@ const articles = {
     date: 'November 2, 2026',
     readTime: '6 min read',
     category: 'Spatial Retail',
-    image: '/images/coffee_store_hero.jpg',
+    image: '/favicon.svg',
     author: 'Dev Hassan, Lead Spatial Architect',
     lead: 'For over twenty years, online shopping has been confined to static grids of square thumbnails. Modern retail brands are moving to interactive 3D showrooms that restore the warmth and curation of a physical flagship.',
     sections: [
@@ -42,7 +42,7 @@ Across our client deployments, we consistently observe three measurable shifts:
     date: 'October 28, 2026',
     readTime: '5 min read',
     category: 'Brand Provenance',
-    image: '/images/fairchain_harvest.jpg',
+    image: '/favicon.svg',
     author: 'Elena Rostova, Brand Story Lead',
     lead: 'Specialty roasters invest heavily in direct-trade sourcing and solar roasting, yet less than 4% of visitors ever read a traditional About Us page.',
     sections: [
@@ -65,7 +65,7 @@ When buyers experience provenance visually alongside the product, price sensitiv
     date: 'October 21, 2026',
     readTime: '7 min read',
     category: 'Conversion Engineering',
-    image: '/images/spatial_devices_preview.jpg',
+    image: '/favicon.svg',
     author: 'Marcus Vance, Growth Director',
     lead: 'Multi-page checkout forms suffer from nearly 70% cart abandonment. Replacing cold forms with an express bar register transforms conversion.',
     sections: [
@@ -151,17 +151,6 @@ export default function ArticlePage({ article, slug }) {
             <div style={{ fontSize: '14px', color: '#6E6E73' }}>
               By <strong style={{ color: '#1D1D1F', fontWeight: 500 }}>{article.author}</strong>
             </div>
-          </div>
-
-          <div
-            style={{
-              borderRadius: '20px',
-              overflow: 'hidden',
-              marginBottom: '36px',
-              border: '1px solid #D2D2D7',
-            }}
-          >
-            <img src={article.image} alt={article.title} style={{ width: '100%', height: 'auto', display: 'block' }} />
           </div>
 
           <div

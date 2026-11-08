@@ -281,8 +281,8 @@ export default function AdminDashboard() {
     const tplKey = pkgLower.includes('launchpad')
       ? 'launchpad'
       : pkgLower.includes('managed') && !pkgLower.includes('3d')
-      ? 'concierge'
-      : 'flagship';
+        ? 'concierge'
+        : 'flagship';
     const tpl = PRE_DESIGNED_QUOTE_TEMPLATES[tplKey];
 
     setActiveQuote({
@@ -592,7 +592,7 @@ export default function AdminDashboard() {
   };
 
   const handleSaveSettings = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     setSettingsLoading(true);
     setSettingsMsg('');
     try {
@@ -603,7 +603,8 @@ export default function AdminDashboard() {
       });
       const data = await res.json();
       if (res.ok) {
-        setSettingsMsg('Campaign settings updated.');
+        if (data.settings) setSettings(data.settings);
+        setSettingsMsg('Configuration saved and live across the website.');
       } else {
         setSettingsMsg(data.error || 'Failed to update settings.');
       }
@@ -909,9 +910,9 @@ export default function AdminDashboard() {
             {[
               { id: 'leads', label: `Client Leads (${leads.length})` },
               { id: 'quotations', label: `Quotations & Proposals (${quotations.length})` },
+              { id: 'cookies', label: `Google Analytics, Search Console & Cookies` },
               { id: 'smtp', label: 'SMTP & Confirmation Emails' },
-              { id: 'cookies', label: `Cookies, Traffic & SEO (${cookieStore.stats?.totalDecisions || 0})` },
-              { id: 'campaign', label: 'Onboarding & Contact Info' },
+              { id: 'campaign', label: 'Site Config & Contact Info' },
               { id: 'overview', label: 'System Status' },
             ].map((tab) => (
               <button
@@ -2584,23 +2585,301 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
+              <div style={{ borderTop: '1px solid #E5E5EA', paddingTop: '18px', marginTop: '4px' }}>
+                <div style={{ fontSize: '14px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
+                  Google Analytics 4 &amp; Google Search Console
+                </div>
+                <p style={{ fontSize: '12.5px', color: '#6E6E73', marginBottom: '14px' }}>
+                  Paste your GA4 Measurement ID (or full gtag script) and Google Search Console verification tag or token.
+                </p>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '12px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                      Google Analytics 4 ID (e.g. G-XXXXXXXXXX)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="G-XXXXXXXXXX or paste full <script>"
+                      value={settings.seo?.googleAnalyticsId || ''}
+                      onChange={(e) =>
+                        setSettings({
+                          ...settings,
+                          seo: { ...(settings.seo || {}), googleAnalyticsId: e.target.value },
+                        })
+                      }
+                      className="ios-input"
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                      Google Search Console Verification Code / Meta Tag
+                    </label>
+                    <input
+                      type="text"
+                      placeholder='Paste verification code or <meta name="google-site-verification" ... />'
+                      value={settings.seo?.googleSiteVerification || ''}
+                      onChange={(e) =>
+                        setSettings({
+                          ...settings,
+                          seo: { ...(settings.seo || {}), googleSiteVerification: e.target.value },
+                        })
+                      }
+                      className="ios-input"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 500 }}>
+                    Google Tag Manager ID (Optional, e.g. GTM-XXXXXXX)
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="GTM-XXXXXXX (optional)"
+                    value={settings.seo?.googleTagManagerId || ''}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        seo: { ...(settings.seo || {}), googleTagManagerId: e.target.value },
+                      })
+                    }
+                    className="ios-input"
+                  />
+                </div>
+              </div>
+
               <button
                 type="submit"
                 disabled={settingsLoading}
                 className="btn-apple-blue"
                 style={{ padding: '12px 24px', alignSelf: 'flex-start' }}
               >
-                {settingsLoading ? 'Saving...' : 'Save Campaign & Contact Settings'}
+                {settingsLoading ? 'Saving...' : 'Save Site, Google & Contact Settings'}
               </button>
             </form>
           </div>
         )}
 
         {/* ============================================================== */}
-        {/* TAB: COOKIES, VISITOR TRAFFIC & SITE SEO AUDIT                 */}
+        {/* TAB: GOOGLE ANALYTICS, SEARCH CONSOLE & COOKIES                */}
         {/* ============================================================== */}
         {activeTab === 'cookies' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* GOOGLE ANALYTICS & GOOGLE SEARCH CONSOLE CONFIGURATION CARD */}
+            {settings && (
+              <div
+                style={{
+                  background: '#FFFFFF',
+                  border: '1px solid #D2D2D7',
+                  borderRadius: '20px',
+                  padding: '32px',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.03)',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', marginBottom: '20px' }}>
+                  <div>
+                    <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#0071E3', marginBottom: '4px' }}>
+                      GOOGLE INTEGRATION &amp; INDEXING SETUP
+                    </div>
+                    <h3 style={{ fontSize: '21px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                      Connect Google Analytics 4 &amp; Google Search Console
+                    </h3>
+                    <p style={{ fontSize: '13.5px', color: '#6E6E73', maxWidth: '680px', lineHeight: 1.55 }}>
+                      Paste your <strong>Google Analytics Measurement ID</strong> (<code>G-XXXXXXXXXX</code>) and your <strong>Google Search Console HTML Tag</strong> below. Once saved, the verification tag and tracking script are automatically injected across all pages of <strong>managemyweb.co</strong>.
+                    </p>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '6px 12px',
+                        borderRadius: '980px',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        background: settings.seo?.googleAnalyticsId ? '#E8F5E9' : '#F5F5F7',
+                        color: settings.seo?.googleAnalyticsId ? '#1D7D3F' : '#6E6E73',
+                        border: settings.seo?.googleAnalyticsId ? '1px solid #B7E1CD' : '1px solid #D2D2D7',
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: '7px',
+                          height: '7px',
+                          borderRadius: '50%',
+                          background: settings.seo?.googleAnalyticsId ? '#34C759' : '#86868B',
+                        }}
+                      />
+                      GA4: {settings.seo?.googleAnalyticsId ? `Connected (${settings.seo.googleAnalyticsId})` : 'Not Connected'}
+                    </span>
+
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '6px 12px',
+                        borderRadius: '980px',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        background: settings.seo?.googleSiteVerification ? '#E8F5E9' : '#F5F5F7',
+                        color: settings.seo?.googleSiteVerification ? '#1D7D3F' : '#6E6E73',
+                        border: settings.seo?.googleSiteVerification ? '1px solid #B7E1CD' : '1px solid #D2D2D7',
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: '7px',
+                          height: '7px',
+                          borderRadius: '50%',
+                          background: settings.seo?.googleSiteVerification ? '#34C759' : '#86868B',
+                        }}
+                      />
+                      Search Console: {settings.seo?.googleSiteVerification ? 'Verified Tag Active' : 'Not Connected'}
+                    </span>
+                  </div>
+                </div>
+
+                {settingsMsg && (
+                  <div
+                    style={{
+                      background: '#E8F5E9',
+                      border: '1px solid #B7E1CD',
+                      color: '#1D7D3F',
+                      padding: '12px 16px',
+                      borderRadius: '12px',
+                      fontSize: '13px',
+                      fontWeight: 500,
+                      marginBottom: '20px',
+                    }}
+                  >
+                    {settingsMsg}
+                  </div>
+                )}
+
+                <form onSubmit={handleSaveSettings} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+                    <div
+                      style={{
+                        background: '#F5F5F7',
+                        borderRadius: '14px',
+                        padding: '18px',
+                        border: '1px solid rgba(0,0,0,0.06)',
+                      }}
+                    >
+                      <label style={{ display: 'block', fontSize: '13px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 600 }}>
+                        1. Google Analytics 4 (GA4) Measurement ID
+                      </label>
+                      <p style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '10px', lineHeight: 1.45 }}>
+                        Found in Google Analytics → Admin → Data Streams → Web → Measurement ID (starts with <code>G-</code>). You can paste either the ID or the entire <code>&lt;script&gt;</code> block.
+                      </p>
+                      <input
+                        type="text"
+                        placeholder="G-XXXXXXXXXX"
+                        value={settings.seo?.googleAnalyticsId || ''}
+                        onChange={(e) =>
+                          setSettings({
+                            ...settings,
+                            seo: { ...(settings.seo || {}), googleAnalyticsId: e.target.value },
+                          })
+                        }
+                        className="ios-input"
+                        style={{ background: '#FFFFFF', fontFamily: 'monospace' }}
+                      />
+                    </div>
+
+                    <div
+                      style={{
+                        background: '#F5F5F7',
+                        borderRadius: '14px',
+                        padding: '18px',
+                        border: '1px solid rgba(0,0,0,0.06)',
+                      }}
+                    >
+                      <label style={{ display: 'block', fontSize: '13px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 600 }}>
+                        2. Google Search Console HTML Verification Tag
+                      </label>
+                      <p style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '10px', lineHeight: 1.45 }}>
+                        In Search Console → Ownership Verification → HTML Tag, copy and paste either the full <code>&lt;meta name=&quot;google-site-verification&quot; ... /&gt;</code> tag or just the content token.
+                      </p>
+                      <input
+                        type="text"
+                        placeholder='<meta name="google-site-verification" content="..." />'
+                        value={settings.seo?.googleSiteVerification || ''}
+                        onChange={(e) =>
+                          setSettings({
+                            ...settings,
+                            seo: { ...(settings.seo || {}), googleSiteVerification: e.target.value },
+                          })
+                        }
+                        className="ios-input"
+                        style={{ background: '#FFFFFF', fontFamily: 'monospace' }}
+                      />
+                    </div>
+
+                    <div
+                      style={{
+                        background: '#F5F5F7',
+                        borderRadius: '14px',
+                        padding: '18px',
+                        border: '1px solid rgba(0,0,0,0.06)',
+                      }}
+                    >
+                      <label style={{ display: 'block', fontSize: '13px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 600 }}>
+                        3. Google Tag Manager ID (Optional)
+                      </label>
+                      <p style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '10px', lineHeight: 1.45 }}>
+                        Optional container ID if you also use Google Tag Manager (starts with <code>GTM-</code>). Leave blank if using GA4 directly.
+                      </p>
+                      <input
+                        type="text"
+                        placeholder="GTM-XXXXXXX"
+                        value={settings.seo?.googleTagManagerId || ''}
+                        onChange={(e) =>
+                          setSettings({
+                            ...settings,
+                            seo: { ...(settings.seo || {}), googleTagManagerId: e.target.value },
+                          })
+                        }
+                        className="ios-input"
+                        style={{ background: '#FFFFFF', fontFamily: 'monospace' }}
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      gap: '14px',
+                      paddingTop: '6px',
+                    }}
+                  >
+                    <div style={{ fontSize: '12.5px', color: '#6E6E73' }}>
+                      <strong>Sitemap URL to submit in Google Search Console:</strong>{' '}
+                      <code style={{ background: '#F5F5F7', padding: '4px 8px', borderRadius: '6px', color: '#1D1D1F' }}>
+                        https://managemyweb.co/sitemap.xml
+                      </code>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={settingsLoading}
+                      className="btn-apple-blue"
+                      style={{ padding: '11px 24px', fontSize: '13.5px', fontWeight: 600 }}
+                    >
+                      {settingsLoading ? 'Saving Google Config...' : 'Save Google Analytics & Search Console'}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
             {/* Cookie Consent KPI Cards */}
             <div
               style={{
@@ -2617,11 +2896,10 @@ export default function AdminDashboard() {
                 },
                 {
                   label: 'Accepted All Cookies',
-                  value: `${cookieStore.stats?.acceptedAll || 0} (${
-                    cookieStore.stats?.totalDecisions
+                  value: `${cookieStore.stats?.acceptedAll || 0} (${cookieStore.stats?.totalDecisions
                       ? Math.round((cookieStore.stats.acceptedAll / cookieStore.stats.totalDecisions) * 100)
                       : 0
-                  }%)`,
+                    }%)`,
                   sub: 'Full Analytics + Marketing + 3D',
                 },
                 {
@@ -2880,21 +3158,21 @@ export default function AdminDashboard() {
                                   item.decision === 'accepted_all'
                                     ? '#E8F5E9'
                                     : item.decision === 'custom'
-                                    ? '#EBF5FF'
-                                    : '#F5F5F7',
+                                      ? '#EBF5FF'
+                                      : '#F5F5F7',
                                 color:
                                   item.decision === 'accepted_all'
                                     ? '#1D7D3F'
                                     : item.decision === 'custom'
-                                    ? '#0066CC'
-                                    : '#6E6E73',
+                                      ? '#0066CC'
+                                      : '#6E6E73',
                               }}
                             >
                               {item.decision === 'accepted_all'
                                 ? 'Accepted All'
                                 : item.decision === 'custom'
-                                ? 'Customized'
-                                : 'Essential Only'}
+                                  ? 'Customized'
+                                  : 'Essential Only'}
                             </span>
                           </td>
                           <td style={{ padding: '14px 20px', color: '#424245' }}>

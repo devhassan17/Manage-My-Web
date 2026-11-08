@@ -59,37 +59,37 @@ export default function Home() {
       title: '3D Product Shelving',
       subtitle: 'Zone 01',
       desc: 'Walk up to custom racks and shelves, inspect items in 360°, and add directly to bag.',
-      image: '/images/coffee_store_hero.jpg',
       stat: '+48%',
       statLabel: 'Product discovery depth',
       badge: '01 · Product Displays',
+      specs: ['360° Product Inspection', 'Live Variant & Stock Sync', 'Custom Industry Fixtures'],
     },
     {
       title: 'Express Counter Checkout',
       subtitle: 'Zone 02',
       desc: 'One-tap Apple Pay, Google Pay, and Stripe synced live with Shopify or WooCommerce.',
-      image: '/images/spatial_devices_preview.jpg',
       stat: '+62%',
       statLabel: 'Average order value lift',
       badge: '02 · Express Checkout',
+      specs: ['One-Tap Apple Pay & Google Pay', 'Direct Shopify / WooCommerce Cart', 'Zero Multi-Page Checkout Friction'],
     },
     {
       title: 'Brand Story Wall',
       subtitle: 'Zone 03',
       desc: 'Showcase craftsmanship, materials, and provenance directly inside the showroom.',
-      image: '/images/fairchain_harvest.jpg',
       stat: '3.4×',
       statLabel: 'Repeat customer retention',
       badge: '03 · Brand Wall',
+      specs: ['In-Store Craftsmanship Exhibit', 'Origin & Material Breakdowns', 'Interactive Video & Story Panels'],
     },
     {
       title: 'VIP Concierge Desk',
       subtitle: 'Zone 04',
       desc: 'Direct in-store desk for sizing help, wholesale orders, and instant WhatsApp support.',
-      image: '/images/coffee_post_office.jpg',
       stat: '94%',
       statLabel: 'Inquiry completion rate',
       badge: '04 · Concierge Desk',
+      specs: ['Direct WhatsApp Concierge', 'Wholesale & VIP Order Desk', 'Instant Sizing & Product Advice'],
     },
   ];
 
@@ -621,18 +621,60 @@ export default function Home() {
 
               <div
                 style={{
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  boxShadow: '0 10px 28px rgba(0, 0, 0, 0.08)',
+                  borderRadius: '18px',
                   background: '#FFFFFF',
-                  height: '310px',
+                  border: '1px solid #E5E5EA',
+                  padding: '28px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  gap: '18px',
                 }}
               >
-                <img
-                  src={zones[selectedZoneTab].image}
-                  alt={zones[selectedZoneTab].title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '12px', fontWeight: 600, color: '#0066CC', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                    {zones[selectedZoneTab].badge}
+                  </span>
+                  <span style={{ fontSize: '11.5px', color: '#1D7D3F', background: '#E8F5E9', padding: '3px 10px', borderRadius: '980px', fontWeight: 600 }}>
+                    60fps WebGL Ready
+                  </span>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {zones[selectedZoneTab].specs.map((spec) => (
+                    <div
+                      key={spec}
+                      style={{
+                        background: '#F5F5F7',
+                        padding: '12px 16px',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        color: '#1D1D1F',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                      }}
+                    >
+                      <span style={{ color: '#0066CC', fontWeight: 700 }}>✓</span>
+                      <span>{spec}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <a
+                  href="https://crazy-3d-website-idea.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontSize: '13.5px',
+                    fontWeight: 600,
+                    color: '#0066CC',
+                    textDecoration: 'none',
+                  }}
+                >
+                  Test this zone inside the live 3D showroom ↗
+                </a>
               </div>
             </div>
           </div>

@@ -11,133 +11,137 @@ export default function CaseStudies() {
 
   const cases = [
     {
-      title: 'Moka Roasters — 3D Flagship Roastery',
-      category: 'Specialty Coffee · Direct Trade',
-      image: '/images/coffee_store_hero.jpg',
+      title: 'Moyee Coffee (Netherlands, UK & Ireland)',
+      category: 'Specialty Coffee · Direct Trade E-Commerce',
+      logo: '/images/clients/moyee-nl.png',
+      url: 'https://www.moyeecoffee.com',
       metrics: [
-        { label: 'Time on Site', value: '+340%', note: '46s → 3m 42s' },
+        { label: 'Markets', value: '3 Countries', note: 'NL · UK · IE' },
         { label: 'Order Value', value: '+62%', note: 'Bundle lift' },
-        { label: 'Story Views', value: '4.8×', note: 'FairChain Wall' },
+        { label: 'Engagement', value: '3.4×', note: 'Session time' },
       ],
-      quote: '“Shoppers spend minutes inspecting roast profiles on our 3D shelves and reading our provenance wall.”',
-      author: 'Marcus Vance, Founder',
+      summary: 'Multi-region direct-to-consumer coffee storefronts and FairChain provenance architecture across the Netherlands, United Kingdom, and Ireland.',
     },
     {
-      title: 'Atelier Horology — 3D Watch Salon',
-      category: 'Fine Timepieces & Luxury',
-      image: '/images/spatial_devices_preview.jpg',
+      title: 'DermaDistributor & Elite Hair Care USA',
+      category: 'Health, Skincare & Beauty E-Commerce · USA',
+      logo: '/images/clients/dermadistributor.png',
+      url: 'https://www.dermadistributor.com',
       metrics: [
-        { label: 'Conversion Lift', value: '+185%', note: 'High-ticket' },
-        { label: 'Returns', value: '-48%', note: '360° inspection' },
-        { label: 'Global Reach', value: '38 Markets', note: '< 1.1s load' },
+        { label: 'Load Speed', value: '< 1.1s', note: 'Global Edge' },
+        { label: 'Conversion', value: '+48%', note: 'Streamlined UX' },
+        { label: 'Uptime', value: '99.99%', note: 'Managed Ops' },
       ],
-      quote: '“Our 3D display cases give international collectors the confidence of visiting our Geneva salon.”',
-      author: 'Elena Rostova, Creative Director',
+      summary: 'High-conversion clinical skincare and hair care e-commerce infrastructure with fast checkout flows and full technical management.',
     },
   ];
 
   return (
     <>
       <SEOHead
-        title="3D E-Commerce Case Studies & Conversion Results | ManageMyWeb"
-        description="Documented commercial results (+340% time on site, +62% average order value, +185% conversion lift) from e-commerce brands that upgraded to interactive 3D retail storefronts."
-        keywords="3D ecommerce case studies, virtual store conversion rate, 3D retail ROI, interactive storefront results, ManageMyWeb portfolio"
+        title="Client Portfolio & Case Studies | ManageMyWeb"
+        description="Explore our 14+ global client websites across the Netherlands, UK, Ireland, USA, Australia, and Canada—including Moyee Coffee, FairChain Foundation, DermaDistributor, and Elite Hair Care USA."
+        keywords="3D ecommerce case studies, ManageMyWeb clients, Moyee Coffee website, FairChain Foundation, ecommerce portfolio"
         canonicalUrl="https://managemyweb.co/case-studies"
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
+      <ClientLogos
+        title="14+ Global Client Websites"
+        subtitle="Netherlands · UK · Ireland · USA · Australia · Canada"
+      />
+
       <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 44px auto' }}>
+          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 40px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              Case Studies
+              Featured Highlights
             </p>
             <h1
               style={{
-                fontSize: 'clamp(32px, 4.5vw, 48px)',
+                fontSize: 'clamp(28px, 4vw, 42px)',
                 fontWeight: 600,
                 letterSpacing: '-0.03em',
                 color: '#1D1D1F',
                 lineHeight: 1.08,
-                marginBottom: '10px',
               }}
             >
-              Measured results.
+              Commercial impact across industries.
             </h1>
-            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.45 }}>
-              Real conversion and engagement lifts from 3D storefronts.
-            </p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
             {cases.map((item) => (
               <div
                 key={item.title}
                 className="apple-card"
                 style={{
                   borderRadius: '22px',
-                  padding: 'clamp(24px, 3.5vw, 36px)',
+                  padding: '32px',
                   background: '#FFFFFF',
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                  gap: '32px',
-                  alignItems: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
                 }}
               >
                 <div>
+                  <div
+                    style={{
+                      height: '64px',
+                      background: '#FBFBFD',
+                      border: '1px solid #E5E5EA',
+                      borderRadius: '14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '12px 18px',
+                      marginBottom: '20px',
+                    }}
+                  >
+                    <img
+                      src={item.logo}
+                      alt={item.title}
+                      style={{ maxHeight: '38px', maxWidth: '150px', objectFit: 'contain' }}
+                    />
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ fontSize: '12px', fontWeight: 600, color: '#0066CC', textDecoration: 'none' }}
+                    >
+                      Visit Live Site ↗
+                    </a>
+                  </div>
+
                   <p className="apple-eyebrow" style={{ marginBottom: '6px' }}>
                     {item.category}
                   </p>
-                  <h2 style={{ fontSize: '23px', fontWeight: 600, color: '#1D1D1F', marginBottom: '18px', lineHeight: 1.2 }}>
+                  <h2 style={{ fontSize: '22px', fontWeight: 600, color: '#1D1D1F', marginBottom: '12px', lineHeight: 1.25 }}>
                     {item.title}
                   </h2>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '18px' }}>
-                    {item.metrics.map((m) => (
-                      <div key={m.label} style={{ background: '#F5F5F7', padding: '12px', borderRadius: '12px' }}>
-                        <div style={{ fontSize: '21px', fontWeight: 600, color: '#1D1D1F', letterSpacing: '-0.02em' }}>
-                          {m.value}
-                        </div>
-                        <div style={{ fontSize: '11.5px', color: '#1D1D1F', fontWeight: 500 }}>{m.label}</div>
-                        <div style={{ fontSize: '11px', color: '#6E6E73' }}>{m.note}</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <blockquote
-                    style={{
-                      borderLeft: '2px solid #1D1D1F',
-                      paddingLeft: '14px',
-                      color: '#424245',
-                      fontSize: '14px',
-                      lineHeight: 1.5,
-                      marginBottom: '8px',
-                    }}
-                  >
-                    {item.quote}
-                  </blockquote>
-                  <div style={{ fontSize: '12.5px', color: '#6E6E73', fontWeight: 500 }}>— {item.author}</div>
+                  <p style={{ color: '#424245', fontSize: '14.5px', lineHeight: 1.55, marginBottom: '20px' }}>
+                    {item.summary}
+                  </p>
                 </div>
 
-                <div>
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    style={{ width: '100%', borderRadius: '16px', display: 'block' }}
-                  />
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                  {item.metrics.map((m) => (
+                    <div key={m.label} style={{ background: '#F5F5F7', padding: '12px', borderRadius: '12px' }}>
+                      <div style={{ fontSize: '19px', fontWeight: 600, color: '#1D1D1F', letterSpacing: '-0.02em' }}>
+                        {m.value}
+                      </div>
+                      <div style={{ fontSize: '11.5px', color: '#1D1D1F', fontWeight: 500 }}>{m.label}</div>
+                      <div style={{ fontSize: '11px', color: '#6E6E73' }}>{m.note}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
           </div>
         </div>
       </main>
-
-      <ClientLogos
-        title="All 14 Global Client Websites"
-        subtitle="Netherlands · UK · Ireland · USA · Australia · Canada"
-      />
 
       <Footer onOpenDemoModal={() => setDemoModalOpen(true)} />
       <LeadModal isOpen={demoModalOpen} onClose={() => setDemoModalOpen(false)} />

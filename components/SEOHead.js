@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import siteSettings from '../data/site-settings.json';
 
 const SITE_URL = 'https://managemyweb.co';
 
@@ -57,7 +58,7 @@ export default function SEOHead({
   title = 'ManageMyWeb | Custom 3D Virtual Stores & Managed E-Commerce Operations',
   description = 'Turn your online store into an interactive 3D retail showroom. ManageMyWeb builds bespoke 3D virtual storefronts and manages hosting, speed, and conversion growth for fashion, beauty, electronics, home, and luxury brands.',
   keywords = '3D virtual store, 3D ecommerce website, interactive 3D Shopify store, virtual retail showroom, spatial commerce agency, WebGL online store, 3D product configurator ecommerce, managed web operations, Shopify speed optimization, ecommerce conversion rate optimization, ManageMyWeb',
-  ogImage = '/images/coffee_store_hero.jpg',
+  ogImage = '/favicon.svg',
   ogType = 'website',
   canonicalUrl = 'https://managemyweb.co',
   noIndex = false,
@@ -70,7 +71,14 @@ export default function SEOHead({
   const cleanCanonical = canonicalUrl.startsWith('http')
     ? canonicalUrl
     : `${SITE_URL}${canonicalUrl.startsWith('/') ? '' : '/'}${canonicalUrl}`;
-  const gscVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '';
+  const gscVerification =
+    process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
+    siteSettings?.seo?.googleSiteVerification ||
+    '';
+  const gaMeasurementId =
+    process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
+    siteSettings?.seo?.googleAnalyticsId ||
+    '';
 
   const organizationSchema = {
     '@type': ['Organization', 'ProfessionalService'],
@@ -240,6 +248,16 @@ export default function SEOHead({
       <meta name="author" content="ManageMyWeb" />
       <meta name="publisher" content="ManageMyWeb" />
       {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
+      {gaMeasurementId && (
+        <>
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${gaMeasurementId}', { page_path: window.location.pathname });`,
+            }}
+          />
+        </>
+      )}
       <meta
         name="robots"
         content={

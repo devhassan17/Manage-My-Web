@@ -16,28 +16,28 @@ export default function ThreeDVirtualStores() {
       zone: 'Zone 01',
       title: '3D Product Displays & Shelving',
       desc: 'Shoppers walk up to racks and shelves, inspect items in 360°, and add directly to bag.',
-      image: '/images/coffee_store_hero.jpg',
+      stat: '+48% Discovery Depth',
     },
     {
       id: 'spatial-checkout',
       zone: 'Zone 02',
       title: 'Express Counter Checkout',
-      desc: 'One-tap Apple Pay, Google Pay, and Stripe synced with Shopify or WooCommerce (+62% AOV).',
-      image: '/images/spatial_devices_preview.jpg',
+      desc: 'One-tap Apple Pay, Google Pay, and Stripe synced with Shopify or WooCommerce.',
+      stat: '+62% Order Value Lift',
     },
     {
       id: 'fairchain-story',
       zone: 'Zone 03',
       title: 'Brand Story & Provenance Wall',
       desc: 'Highlight craftsmanship, materials, and origin stories directly inside the showroom.',
-      image: '/images/fairchain_harvest.jpg',
+      stat: '3.4× Repeat Retention',
     },
     {
       id: 'postal-dispatch',
       zone: 'Zone 04',
       title: 'VIP Client & Concierge Desk',
       desc: 'In-store desk for sizing questions, wholesale inquiries, and instant support.',
-      image: '/images/coffee_post_office.jpg',
+      stat: '94% Inquiry Completion',
     },
   ];
 
@@ -131,14 +131,14 @@ export default function ThreeDVirtualStores() {
                   background: '#FFFFFF',
                 }}
               >
-                <img
-                  src={z.image}
-                  alt={z.title}
-                  style={{ width: '100%', height: '200px', objectFit: 'cover', display: 'block' }}
-                />
-                <div style={{ padding: '24px' }}>
-                  <div style={{ fontSize: '11px', fontWeight: 600, color: '#0066CC', textTransform: 'uppercase', marginBottom: '6px' }}>
-                    {z.zone}
+                <div style={{ padding: '26px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 600, color: '#0066CC', textTransform: 'uppercase' }}>
+                      {z.zone}
+                    </span>
+                    <span style={{ fontSize: '11.5px', fontWeight: 600, color: '#1D1D1F', background: '#F5F5F7', padding: '3px 10px', borderRadius: '980px' }}>
+                      {z.stat}
+                    </span>
                   </div>
                   <h2 style={{ fontSize: '19px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
                     {z.title}

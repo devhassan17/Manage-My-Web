@@ -14,7 +14,6 @@ export default function ExperiencePage() {
         description="Explore our live 3D e-commerce storefront demo. Walk around in 360°, inspect products on the shelves, test express checkout, and request a custom 3D prototype for your brand."
         keywords="interactive 3D store demo, live 3D ecommerce showroom, 360 virtual store walkthrough, WebGL retail demo, Three.js online store example, ManageMyWeb demo"
         canonicalUrl="https://managemyweb.co/experience"
-        ogImage="/images/spatial_devices_preview.jpg"
       />
 
       <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', background: '#1D1D1F' }}>

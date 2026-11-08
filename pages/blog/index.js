@@ -14,7 +14,7 @@ export const blogPosts = [
     date: 'Nov 2, 2026',
     readTime: '4 min read',
     category: 'Spatial Retail',
-    image: '/images/coffee_store_hero.jpg',
+    metric: '3.4× Session Lift',
   },
   {
     slug: 'fairchain-coffee-story-in-spatial-web',
@@ -23,7 +23,7 @@ export const blogPosts = [
     date: 'Oct 28, 2026',
     readTime: '3 min read',
     category: 'Brand Story',
-    image: '/images/fairchain_harvest.jpg',
+    metric: '4.8× Story Views',
   },
   {
     slug: 'why-traditional-ecommerce-grids-are-dying',
@@ -32,7 +32,7 @@ export const blogPosts = [
     date: 'Oct 21, 2026',
     readTime: '4 min read',
     category: 'Conversion',
-    image: '/images/spatial_devices_preview.jpg',
+    metric: '+62% Order Value',
   },
 ];
 
@@ -83,47 +83,43 @@ export default function BlogIndex() {
                 className="apple-card apple-card-interactive"
                 style={{
                   borderRadius: '18px',
-                  overflow: 'hidden',
                   background: '#FFFFFF',
+                  padding: '28px',
                   display: 'flex',
                   flexDirection: 'column',
+                  justifyContent: 'space-between',
                 }}
               >
-                <div style={{ height: '195px' }}>
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                  />
-                </div>
-
-                <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', color: '#0066CC', marginBottom: '4px' }}>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', color: '#0066CC' }}>
                       {post.category} · {post.readTime}
-                    </div>
-                    <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px', lineHeight: 1.3 }}>
-                      <Link href={`/blog/${post.slug}`} style={{ color: '#1D1D1F', textDecoration: 'none' }}>
-                        {post.title}
-                      </Link>
-                    </h2>
-                    <p style={{ color: '#6E6E73', fontSize: '13.5px', lineHeight: 1.5, marginBottom: '16px' }}>
-                      {post.excerpt}
-                    </p>
+                    </span>
+                    <span style={{ fontSize: '11px', fontWeight: 600, background: '#F5F5F7', padding: '3px 9px', borderRadius: '980px', color: '#1D1D1F' }}>
+                      {post.metric}
+                    </span>
                   </div>
-
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    style={{
-                      color: '#0066CC',
-                      fontSize: '13.5px',
-                      fontWeight: 500,
-                      textDecoration: 'none',
-                    }}
-                  >
-                    Read ›
-                  </Link>
+                  <h2 style={{ fontSize: '19px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px', lineHeight: 1.3 }}>
+                    <Link href={`/blog/${post.slug}`} style={{ color: '#1D1D1F', textDecoration: 'none' }}>
+                      {post.title}
+                    </Link>
+                  </h2>
+                  <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5, marginBottom: '18px' }}>
+                    {post.excerpt}
+                  </p>
                 </div>
+
+                <Link
+                  href={`/blog/${post.slug}`}
+                  style={{
+                    color: '#0066CC',
+                    fontSize: '13.5px',
+                    fontWeight: 500,
+                    textDecoration: 'none',
+                  }}
+                >
+                  Read article ›
+                </Link>
               </article>
             ))}
           </div>

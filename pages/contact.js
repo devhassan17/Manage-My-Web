@@ -21,7 +21,7 @@ export default function Contact() {
           });
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const [formData, setFormData] = useState({
@@ -88,8 +88,8 @@ export default function Contact() {
         }}
       />
 
-      <CountdownBanner onClaimDemo={() => {}} />
-      <Navbar onOpenDemoModal={() => {}} />
+      <CountdownBanner onClaimDemo={() => { }} />
+      <Navbar onOpenDemoModal={() => { }} />
 
       <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container" style={{ maxWidth: '980px' }}>
@@ -370,8 +370,8 @@ export default function Contact() {
                     {loading
                       ? 'Submitting...'
                       : formData.requestType === 'quotation'
-                      ? 'Request Custom Quotation'
-                      : 'Start Step 1: Request Free 3D Demo'}
+                        ? 'Request Custom Quotation'
+                        : 'Start Step 1: Request Free 3D Demo'}
                   </button>
                 </form>
               )}
@@ -414,20 +414,12 @@ export default function Contact() {
                   Replies in under 2 hours
                 </div>
               </div>
-
-              <div style={{ borderRadius: '18px', overflow: 'hidden', border: '1px solid #D2D2D7' }}>
-                <img
-                  src="/images/spatial_devices_preview.jpg"
-                  alt="3D Storefront across devices"
-                  style={{ width: '100%', height: '190px', objectFit: 'cover', display: 'block' }}
-                />
-              </div>
             </div>
           </div>
         </div>
       </main>
 
-      <Footer onOpenDemoModal={() => {}} />
+      <Footer onOpenDemoModal={() => { }} />
     </>
   );
 }
