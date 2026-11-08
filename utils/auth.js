@@ -1,5 +1,7 @@
 import crypto from 'crypto';
-import { readJsonData, writeJsonData } from './dataStore';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
 
 // Default strong password for ManageMyWeb Admin Dashboard
 // Can be customized via ADMIN_PASSWORD environment variable in Vercel / .env.local
@@ -14,6 +16,20 @@ const TOKEN_SECRET =
 // Token lifetime: 7 days in milliseconds
 const TOKEN_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
 
+function readLocalSettings() {
+  try {
+    const tmpPath = path.join(os.tmpdir(), 'mmw_site-settings.json');
+    if (fs.existsSync(tmpPath)) {
+      return JSON.parse(fs.readFileSync(tmpPath, 'utf8'));
+    }
+    const bundledPath = path.join(process.cwd(), 'data', 'site-settings.json');
+    if (fs.existsSync(bundledPath)) {
+      return JSON.parse(fs.readFileSync(bundledPath, 'utf8'));
+    }
+  } catch (e) {}
+  return {};
+}
+
 export function getAdminPassword() {
   // 1. Check environment variable
   if (process.env.ADMIN_PASSWORD && process.env.ADMIN_PASSWORD.trim()) {
@@ -22,8 +38,8 @@ export function getAdminPassword() {
 
   // 2. Check saved password in settings if user updated it from admin panel
   try {
-    const settings = readJsonData('site-settings.json', {});
-    if (settings.security?.adminPassword && settings.security.adminPassword.trim()) {
+    const settings = readLocalSettings();
+    if (settings?.security?.adminPassword && settings.security.adminPassword.trim()) {
       return settings.security.adminPassword.trim();
     }
   } catch (e) {
@@ -110,11 +126,6 @@ export function extractBearerToken(req) {
 
 /**
  * Server-side middleware helper for protecting admin API routes.
- * Usage:
- *   export default async function handler(req, res) {
- *     if (!verifyAdmin(req, res)) return;
- *     ...
- *   }
  */
 export function verifyAdmin(req, res) {
   const token = extractBearerToken(req);
@@ -135,4 +146,3 @@ export function verifyAdmin(req, res) {
 
   return true;
 }
-

@@ -74,6 +74,64 @@ function getTmpPath(filename) {
   return path.join(os.tmpdir(), `mmw_${filename}`);
 }
 
+/**
+ * Synchronous read fallback (used by initial static rendering and sync routes)
+ */
+export function readJsonData(filename, fallback = {}) {
+  // Check memory cache first
+  if (memoryCache.has(filename)) {
+    return memoryCache.get(filename);
+  }
+
+  const tmpPath = getTmpPath(filename);
+  const bundledPath = getBundledPath(filename);
+
+  // 1. Runtime-updated file in /tmp
+  if (fs.existsSync(tmpPath)) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(tmpPath, 'utf8'));
+      memoryCache.set(filename, parsed);
+      return parsed;
+    } catch (e) {}
+  }
+
+  // 2. Bundled data/ directory
+  if (fs.existsSync(bundledPath)) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(bundledPath, 'utf8'));
+      memoryCache.set(filename, parsed);
+      return parsed;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  return fallback;
+}
+
+/**
+ * Synchronous write fallback
+ */
+export function writeJsonData(filename, data) {
+  memoryCache.set(filename, data);
+  const jsonString = JSON.stringify(data, null, 2);
+  const bundledPath = getBundledPath(filename);
+  const tmpPath = getTmpPath(filename);
+
+  // Always write to /tmp for current serverless instance
+  try {
+    fs.writeFileSync(tmpPath, jsonString, 'utf8');
+  } catch (e) {}
+
+  // Write to data/ directory if writable (e.g. local dev environment)
+  try {
+    fs.writeFileSync(bundledPath, jsonString, 'utf8');
+    return { persistedTo: 'disk' };
+  } catch (err) {
+    return { persistedTo: 'tmp' };
+  }
+}
+
 export function getKvCredentials() {
   const url =
     process.env.KV_REST_API_URL ||
@@ -161,7 +219,6 @@ export async function readDataAsync(filename, fallback = {}) {
         }
 
         if (parsed !== null && parsed !== undefined) {
-          // Update local memory and /tmp cache
           memoryCache.set(filename, parsed);
           try {
             fs.writeFileSync(getTmpPath(filename), JSON.stringify(parsed, null, 2), 'utf8');
@@ -218,64 +275,6 @@ export async function writeDataAsync(filename, data) {
     cloudPersisted: cloudSuccess,
     cloudProvider: isConfigured ? provider : null,
   };
-}
-
-/**
- * Synchronous read fallback (used by initial static rendering and sync routes)
- */
-export function readJsonData(filename, fallback = {}) {
-  // Check memory cache first
-  if (memoryCache.has(filename)) {
-    return memoryCache.get(filename);
-  }
-
-  const tmpPath = getTmpPath(filename);
-  const bundledPath = getBundledPath(filename);
-
-  // 1. Runtime-updated file in /tmp
-  if (fs.existsSync(tmpPath)) {
-    try {
-      const parsed = JSON.parse(fs.readFileSync(tmpPath, 'utf8'));
-      memoryCache.set(filename, parsed);
-      return parsed;
-    } catch (e) {}
-  }
-
-  // 2. Bundled data/ directory
-  if (fs.existsSync(bundledPath)) {
-    try {
-      const parsed = JSON.parse(fs.readFileSync(bundledPath, 'utf8'));
-      memoryCache.set(filename, parsed);
-      return parsed;
-    } catch (e) {
-      return fallback;
-    }
-  }
-
-  return fallback;
-}
-
-/**
- * Synchronous write fallback
- */
-export function writeJsonData(filename, data) {
-  memoryCache.set(filename, data);
-  const jsonString = JSON.stringify(data, null, 2);
-  const bundledPath = getBundledPath(filename);
-  const tmpPath = getTmpPath(filename);
-
-  // Always write to /tmp for current serverless instance
-  try {
-    fs.writeFileSync(tmpPath, jsonString, 'utf8');
-  } catch (e) {}
-
-  // Write to data/ directory if writable (e.g. local dev environment)
-  try {
-    fs.writeFileSync(bundledPath, jsonString, 'utf8');
-    return { persistedTo: 'disk' };
-  } catch (err) {
-    return { persistedTo: 'tmp' };
-  }
 }
 
 export function getSmtpConfig() {
@@ -340,16 +339,16 @@ export function getCookieStore() {
   return {
     config: {
       ...DEFAULT_COOKIE_DATA.config,
-      ...(raw.config || {}),
+      ...(raw?.config || {}),
     },
     stats: {
       ...DEFAULT_COOKIE_DATA.stats,
-      ...(raw.stats || {}),
+      ...(raw?.stats || {}),
       pageViewsByPath: {
         ...DEFAULT_COOKIE_DATA.stats.pageViewsByPath,
-        ...(raw.stats?.pageViewsByPath || {}),
+        ...(raw?.stats?.pageViewsByPath || {}),
       },
     },
-    recentConsents: Array.isArray(raw.recentConsents) ? raw.recentConsents : [],
+    recentConsents: Array.isArray(raw?.recentConsents) ? raw.recentConsents : [],
   };
 }
