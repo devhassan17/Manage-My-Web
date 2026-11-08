@@ -7,8 +7,9 @@ import VirtualCoffeeStore3D from '../components/VirtualCoffeeStore3D';
 import ClientLogos from '../components/ClientLogos';
 import LeadModal from '../components/LeadModal';
 import Footer from '../components/Footer';
+import { readJsonData } from '../utils/dataStore';
 
-export default function Home() {
+export default function Home({ serverSeo }) {
   const [demoModalOpen, setDemoModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState('demo');
   const [selectedCategory, setSelectedCategory] = useState('Fashion, Apparel & Footwear');
@@ -123,6 +124,7 @@ export default function Home() {
         description="Turn your online store into an interactive 3D flagship showroom. We build custom 3D storefronts for fashion, beauty, electronics, luxury, and retail brands—and manage your entire web infrastructure. Request a free 48-hour prototype."
         keywords="3D virtual store, 3D ecommerce website, interactive 3D Shopify store, virtual retail showroom, spatial commerce agency, WebGL online store, 3D storefront builder, managed web operations, ecommerce conversion rate optimization, Shopify 3D store, ManageMyWeb"
         canonicalUrl="https://managemyweb.co"
+        serverSeo={serverSeo}
         schemaData={{
           '@type': 'FAQPage',
           mainEntity: faqs.map((item) => ({
@@ -140,7 +142,7 @@ export default function Home() {
       <Navbar onOpenDemoModal={() => openModalForCategory('Fashion, Apparel & Footwear', 'demo')} />
 
       <main>
-        {/* HERO SECTION — SIMPLE, EASY TO UNDERSTAND AT A GLANCE */}
+        {/* HERO SECTION — SIMPLE, CLEAR E-COMMERCE EXPLANATION */}
         <section style={{ paddingTop: '56px', paddingBottom: '56px', background: '#FBFBFD' }}>
           <div className="container" style={{ textAlign: 'center' }}>
             <p
@@ -153,60 +155,66 @@ export default function Home() {
                 marginBottom: '12px',
               }}
             >
-              3D Online Stores &amp; Full Website Management
+              3D E-Commerce Websites &amp; Full Store Management
             </p>
 
             <h1
               style={{
-                fontSize: 'clamp(36px, 5.2vw, 60px)',
+                fontSize: 'clamp(34px, 5vw, 58px)',
                 fontWeight: 600,
                 letterSpacing: '-0.035em',
                 lineHeight: 1.08,
-                maxWidth: '820px',
-                margin: '0 auto 18px auto',
+                maxWidth: '900px',
+                margin: '0 auto 20px auto',
                 color: '#1D1D1F',
               }}
             >
-              Turn your website into a{' '}
-              <span style={{ color: '#0066CC' }}>3D store</span> customers can walk inside.
+              Turn your <span style={{ color: '#0066CC' }}>E-Commerce Website</span> into a 3D store customers can walk inside.
             </h1>
 
-            <p
-              style={{
-                maxWidth: '660px',
-                margin: '0 auto 26px auto',
-                color: '#424245',
-                fontSize: 'clamp(17px, 1.8vw, 20px)',
-                lineHeight: 1.55,
-                fontWeight: 400,
-              }}
-            >
-              Instead of scrolling boring product photos, customers walk through your virtual 3D shop on their phone or laptop, click items on the shelves, and buy in one tap.
-            </p>
-
-            {/* 3 Short, Easy Pills */}
             <div
               style={{
-                maxWidth: '840px',
+                maxWidth: '780px',
+                margin: '0 auto 28px auto',
+                color: '#424245',
+                fontSize: 'clamp(16.5px, 1.75vw, 19px)',
+                lineHeight: 1.6,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+              }}
+            >
+              <p style={{ margin: 0 }}>
+                On a normal <strong style={{ color: '#1D1D1F', fontWeight: 600 }}>e-commerce website</strong>, shoppers only scroll flat product photos and leave in seconds because every online store feels the same.
+              </p>
+              <p style={{ margin: 0 }}>
+                We upgrade your online store into an <strong style={{ color: '#1D1D1F', fontWeight: 600 }}>interactive 3D e-commerce showroom</strong> right in the browser. Your customers walk through virtual aisles on their phone or laptop, view your products in 360° on the shelves, add items to their cart, and pay at the counter in one tap—just like shopping in a real flagship store.
+              </p>
+            </div>
+
+            {/* 3 Clear E-Commerce Pillars */}
+            <div
+              style={{
+                maxWidth: '900px',
                 margin: '0 auto 28px auto',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
                 gap: '12px',
                 textAlign: 'left',
               }}
             >
               {[
                 {
-                  step: '1 · Keep Your Current Website',
-                  text: 'Connects directly to your existing Shopify, WooCommerce, or custom store.',
+                  step: '1 · Works for Any E-Commerce Brand',
+                  text: 'Selling clothing, shoes, cosmetics, coffee, electronics, or home decor? We custom-build a 3D shop around your products.',
                 },
                 {
-                  step: '2 · Works on Any Phone or Laptop',
-                  text: 'Opens fast in any browser—no app download needed.',
+                  step: '2 · Syncs with Shopify & WooCommerce',
+                  text: 'Keep your current e-commerce backend, inventory, and checkout—while our team manages your hosting, speed, and daily store updates.',
                 },
                 {
-                  step: '3 · Free 3D Demo First',
-                  text: 'See your own products inside a 3D store in 48 hours before you pay anything.',
+                  step: '3 · Free 48-Hour 3D Demo First',
+                  text: 'Share your e-commerce website URL and we will build a free working 3D preview with your real products before sending your quotation.',
                 },
               ].map((item) => (
                 <div
@@ -215,13 +223,13 @@ export default function Home() {
                     background: '#FFFFFF',
                     border: '1px solid #E5E5EA',
                     borderRadius: '14px',
-                    padding: '14px 16px',
+                    padding: '16px 18px',
                   }}
                 >
-                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
+                  <div style={{ fontSize: '13.5px', fontWeight: 600, color: '#0066CC', marginBottom: '5px' }}>
                     {item.step}
                   </div>
-                  <div style={{ fontSize: '13px', color: '#6E6E73', lineHeight: 1.45 }}>{item.text}</div>
+                  <div style={{ fontSize: '13.5px', color: '#424245', lineHeight: 1.5 }}>{item.text}</div>
                 </div>
               ))}
             </div>
@@ -242,7 +250,7 @@ export default function Home() {
                 className="btn-apple-blue"
                 style={{ padding: '14px 26px', fontSize: '15px' }}
               >
-                Get Free 3D Demo
+                Get Free 3D Store Demo
               </button>
 
               <button
@@ -250,7 +258,7 @@ export default function Home() {
                 className="btn-apple-secondary"
                 style={{ padding: '14px 26px', fontSize: '15px', color: '#1D1D1F' }}
               >
-                Get a Custom Quote
+                Request E-Commerce Quote
               </button>
 
               <a
@@ -260,13 +268,13 @@ export default function Home() {
                 className="apple-link"
                 style={{ fontSize: '15px', marginLeft: '6px' }}
               >
-                <span>Try live 3D store</span>
+                <span>Open live 3D e-commerce store</span>
                 <span aria-hidden="true">↗</span>
               </a>
             </div>
 
             <p style={{ fontSize: '13px', color: '#6E6E73', marginBottom: '36px' }}>
-              Start with a free 48-hour 3D demo first, or ask for a direct price quote.
+              Step 1: Free 48-hour 3D demo of your e-commerce store → Step 2: Custom quotation (or request a direct quote)
             </p>
 
             {/* Video Showcase of the 3D Storefront */}
@@ -752,4 +760,13 @@ export default function Home() {
       />
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const settings = readJsonData('site-settings.json', {});
+  return {
+    props: {
+      serverSeo: settings?.seo || null,
+    },
+  };
 }

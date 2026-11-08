@@ -4,6 +4,14 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   allowedDevOrigins: ['127.0.0.1', 'localhost'],
+  async rewrites() {
+    return [
+      {
+        source: '/google:token.html',
+        destination: '/api/google-verify?token=:token',
+      },
+    ];
+  },
   async headers() {
     return [
       {

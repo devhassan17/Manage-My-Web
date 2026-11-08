@@ -2830,7 +2830,51 @@ export default function AdminDashboard() {
                       }}
                     >
                       <label style={{ display: 'block', fontSize: '13px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 600 }}>
-                        3. Google Tag Manager ID (Optional)
+                        3. Google Search Console HTML File Upload
+                      </label>
+                      <p style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '10px', lineHeight: 1.45 }}>
+                        Or upload the <code>googleXXXXXXXX.html</code> file downloaded from Google Search Console.
+                      </p>
+                      <input
+                        type="file"
+                        accept=".html"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          const reader = new FileReader();
+                          reader.onload = (ev) => {
+                            const content = String(ev.target?.result || '').trim();
+                            setSettings({
+                              ...settings,
+                              seo: {
+                                ...(settings.seo || {}),
+                                googleVerificationFileName: file.name,
+                                googleVerificationFileContent: content || `google-site-verification: ${file.name}`,
+                              },
+                            });
+                          };
+                          reader.readAsText(file);
+                        }}
+                        className="ios-input"
+                        style={{ background: '#FFFFFF', fontSize: '12px', padding: '8px 10px' }}
+                      />
+                      {settings.seo?.googleVerificationFileName && (
+                        <div style={{ marginTop: '8px', fontSize: '11.5px', color: '#1D7D3F', fontWeight: 600 }}>
+                          ✓ Ready: <code>/{settings.seo.googleVerificationFileName}</code>
+                        </div>
+                      )}
+                    </div>
+
+                    <div
+                      style={{
+                        background: '#F5F5F7',
+                        borderRadius: '14px',
+                        padding: '18px',
+                        border: '1px solid rgba(0,0,0,0.06)',
+                      }}
+                    >
+                      <label style={{ display: 'block', fontSize: '13px', color: '#1D1D1F', marginBottom: '6px', fontWeight: 600 }}>
+                        4. Google Tag Manager ID (Optional)
                       </label>
                       <p style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '10px', lineHeight: 1.45 }}>
                         Optional container ID if you also use Google Tag Manager (starts with <code>GTM-</code>). Leave blank if using GA4 directly.

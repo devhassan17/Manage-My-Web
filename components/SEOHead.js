@@ -63,6 +63,7 @@ export default function SEOHead({
   canonicalUrl = 'https://managemyweb.co',
   noIndex = false,
   schemaData = null,
+  serverSeo = null,
 }) {
   const fullTitle = title.includes('ManageMyWeb') ? title : `${title} | ManageMyWeb`;
   const absoluteOgImage = ogImage.startsWith('http')
@@ -72,10 +73,12 @@ export default function SEOHead({
     ? canonicalUrl
     : `${SITE_URL}${canonicalUrl.startsWith('/') ? '' : '/'}${canonicalUrl}`;
   const gscVerification =
+    serverSeo?.googleSiteVerification ||
     process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
     siteSettings?.seo?.googleSiteVerification ||
     '';
   const gaMeasurementId =
+    serverSeo?.googleAnalyticsId ||
     process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
     siteSettings?.seo?.googleAnalyticsId ||
     '';

@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { readJsonData, writeJsonData } from '../../../utils/dataStore';
 
 function cleanAnalyticsId(raw = '') {
@@ -22,6 +24,16 @@ function cleanGtmId(raw = '') {
   return match ? match[1].toUpperCase() : str;
 }
 
+function cleanVerificationFileName(raw = '') {
+  const str = String(raw || '').trim();
+  if (!str) return '';
+  const base = path.basename(str);
+  if (/^google[a-zA-Z0-9_-]+\.html$/i.test(base)) {
+    return base;
+  }
+  return '';
+}
+
 export default function handler(req, res) {
   const defaultSettings = {
     promo: {
@@ -44,6 +56,8 @@ export default function handler(req, res) {
       googleAnalyticsId: '',
       googleSiteVerification: '',
       googleTagManagerId: '',
+      googleVerificationFileName: '',
+      googleVerificationFileContent: '',
     },
   };
 
@@ -72,6 +86,29 @@ export default function handler(req, res) {
       const current = readJsonData('site-settings.json', defaultSettings);
       const incomingSeo = req.body.seo || {};
 
+      const fileName =
+        incomingSeo.googleVerificationFileName !== undefined
+          ? cleanVerificationFileName(incomingSeo.googleVerificationFileName)
+          : current.seo?.googleVerificationFileName || '';
+
+      const fileContent =
+        incomingSeo.googleVerificationFileContent !== undefined
+          ? String(incomingSeo.googleVerificationFileContent || '').trim()
+          : current.seo?.googleVerificationFileContent || (fileName ? `google-site-verification: ${fileName}` : '');
+
+      if (fileName) {
+        try {
+          const publicFilePath = path.join(process.cwd(), 'public', fileName);
+          fs.writeFileSync(
+            publicFilePath,
+            fileContent || `google-site-verification: ${fileName}`,
+            'utf8'
+          );
+        } catch (err) {
+          // On read-only serverless filesystems, /api/google-verify handles it via next.config.js rewrite
+        }
+      }
+
       const updatedSeo = {
         ...defaultSettings.seo,
         ...(current.seo || {}),
@@ -84,6 +121,8 @@ export default function handler(req, res) {
         ...(incomingSeo.googleTagManagerId !== undefined
           ? { googleTagManagerId: cleanGtmId(incomingSeo.googleTagManagerId) }
           : {}),
+        googleVerificationFileName: fileName,
+        googleVerificationFileContent: fileContent,
       };
 
       const updated = {
