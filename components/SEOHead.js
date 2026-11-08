@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import siteSettings from '../data/site-settings.json';
 
-const SITE_URL = 'https://managemyweb.co';
+const SITE_URL = 'https://www.managemyweb.co';
 
 const BREADCRUMB_LABELS = {
   services: 'Services',
@@ -20,7 +20,8 @@ const BREADCRUMB_LABELS = {
 };
 
 function buildBreadcrumbs(canonicalUrl, pageTitle) {
-  const cleanPath = (canonicalUrl || SITE_URL).replace(SITE_URL, '').split('?')[0].replace(/\/$/, '');
+  const normalizedUrl = (canonicalUrl || SITE_URL).replace('https://managemyweb.co', SITE_URL);
+  const cleanPath = normalizedUrl.replace(SITE_URL, '').split('?')[0].replace(/\/$/, '');
   const segments = cleanPath.split('/').filter(Boolean);
 
   const items = [
@@ -60,18 +61,20 @@ export default function SEOHead({
   keywords = '3D virtual store, 3D ecommerce website, interactive 3D Shopify store, virtual retail showroom, spatial commerce agency, WebGL online store, 3D product configurator ecommerce, managed web operations, Shopify speed optimization, ecommerce conversion rate optimization, ManageMyWeb',
   ogImage = '/favicon.svg',
   ogType = 'website',
-  canonicalUrl = 'https://managemyweb.co',
+  canonicalUrl = 'https://www.managemyweb.co',
   noIndex = false,
   schemaData = null,
   serverSeo = null,
 }) {
   const fullTitle = title.includes('ManageMyWeb') ? title : `${title} | ManageMyWeb`;
   const absoluteOgImage = ogImage.startsWith('http')
-    ? ogImage
+    ? ogImage.replace('https://managemyweb.co', SITE_URL)
     : `${SITE_URL}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`;
-  const cleanCanonical = canonicalUrl.startsWith('http')
-    ? canonicalUrl
-    : `${SITE_URL}${canonicalUrl.startsWith('/') ? '' : '/'}${canonicalUrl}`;
+  const cleanCanonical = (
+    canonicalUrl.startsWith('http')
+      ? canonicalUrl
+      : `${SITE_URL}${canonicalUrl.startsWith('/') ? '' : '/'}${canonicalUrl}`
+  ).replace('https://managemyweb.co', SITE_URL);
   const gscVerification =
     serverSeo?.googleSiteVerification ||
     process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
@@ -251,16 +254,6 @@ export default function SEOHead({
       <meta name="author" content="ManageMyWeb" />
       <meta name="publisher" content="ManageMyWeb" />
       {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
-      {gaMeasurementId && (
-        <>
-          <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${gaMeasurementId}', { page_path: window.location.pathname });`,
-            }}
-          />
-        </>
-      )}
       <meta
         name="robots"
         content={

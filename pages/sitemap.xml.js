@@ -1,4 +1,4 @@
-const BASE_URL = 'https://managemyweb.co';
+const BASE_URL = 'https://www.managemyweb.co';
 
 const SITEMAP_ROUTES = [
   { path: '', priority: '1.0', changefreq: 'daily', image: '/favicon.svg', title: 'ManageMyWeb 3D Virtual Stores & Managed E-Commerce' },

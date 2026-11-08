@@ -31,5 +31,5 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://managemyweb.co/sitemap.xml
-Host: https://managemyweb.co
+Sitemap: https://www.managemyweb.co/sitemap.xml
+Host: https://www.managemyweb.co
