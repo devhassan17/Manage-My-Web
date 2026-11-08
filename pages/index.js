@@ -140,7 +140,7 @@ export default function Home() {
       <Navbar onOpenDemoModal={() => openModalForCategory('Fashion, Apparel & Footwear', 'demo')} />
 
       <main>
-        {/* HERO SECTION — CLEAR, SIMPLE EXPLANATION OF THE IDEA */}
+        {/* HERO SECTION — SIMPLE, EASY TO UNDERSTAND AT A GLANCE */}
         <section style={{ paddingTop: '56px', paddingBottom: '56px', background: '#FBFBFD' }}>
           <div className="container" style={{ textAlign: 'center' }}>
             <p
@@ -150,89 +150,78 @@ export default function Home() {
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
                 color: '#0066CC',
-                marginBottom: '14px',
+                marginBottom: '12px',
               }}
             >
-              3D Virtual Storefronts &amp; Complete Website Management
+              3D Online Stores &amp; Full Website Management
             </p>
 
             <h1
               style={{
-                fontSize: 'clamp(34px, 5vw, 58px)',
+                fontSize: 'clamp(36px, 5.2vw, 60px)',
                 fontWeight: 600,
                 letterSpacing: '-0.035em',
                 lineHeight: 1.08,
-                maxWidth: '940px',
-                margin: '0 auto 22px auto',
+                maxWidth: '820px',
+                margin: '0 auto 18px auto',
                 color: '#1D1D1F',
               }}
             >
-              Normal online stores are just flat grids of photos.{' '}
-              <span style={{ color: '#6E6E73' }}>
-                We turn yours into a real 3D shop customers can walk inside.
-              </span>
+              Turn your website into a{' '}
+              <span style={{ color: '#0066CC' }}>3D store</span> customers can walk inside.
             </h1>
 
-            {/* Simple, Plain-English Explanation of the Idea */}
-            <div
+            <p
               style={{
-                maxWidth: '820px',
-                margin: '0 auto 28px auto',
+                maxWidth: '660px',
+                margin: '0 auto 26px auto',
                 color: '#424245',
-                fontSize: 'clamp(16px, 1.75vw, 18.5px)',
-                lineHeight: 1.65,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '14px',
+                fontSize: 'clamp(17px, 1.8vw, 20px)',
+                lineHeight: 1.55,
+                fontWeight: 400,
               }}
             >
-              <p style={{ margin: 0 }}>
-                When a customer visits a normal e-commerce website, they just scroll past small square pictures and leave within seconds—because every online store looks the same.
-              </p>
-              <p style={{ margin: 0 }}>
-                <strong style={{ color: '#1D1D1F', fontWeight: 600 }}>Here is the simple idea behind ManageMyWeb:</strong>{' '}
-                We transform your existing online store into an interactive <strong style={{ color: '#1D1D1F', fontWeight: 600 }}>3D virtual showroom</strong> that opens instantly in any mobile or desktop browser (no app needed). Instead of scrolling a boring page, your customers can walk around your store in 360°, pick up your products from 3D shelves, read your brand story on the walls, and check out at the counter in one tap—while our team handles all your hosting, speed, domains, and daily website updates behind the scenes.
-              </p>
-            </div>
+              Instead of scrolling boring product photos, customers walk through your virtual 3D shop on their phone or laptop, click items on the shelves, and buy in one tap.
+            </p>
 
-            {/* 3 Simple Explainer Cards right in the Hero */}
+            {/* 3 Short, Easy Pills */}
             <div
               style={{
-                maxWidth: '920px',
-                margin: '0 auto 30px auto',
+                maxWidth: '840px',
+                margin: '0 auto 28px auto',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
                 gap: '12px',
                 textAlign: 'left',
               }}
             >
               {[
                 {
-                  badge: '1 · For Any Store Category',
-                  text: 'Whether you sell fashion, beauty, electronics, coffee, watches, or home goods—we custom-design a 3D shop around your products.',
+                  step: '1 · Keep Your Current Website',
+                  text: 'Connects directly to your existing Shopify, WooCommerce, or custom store.',
                 },
                 {
-                  badge: '2 · Keeps Your Current Backend',
-                  text: 'No need to rebuild your business. Your 3D store connects directly to your existing Shopify, WooCommerce, or custom catalog.',
+                  step: '2 · Works on Any Phone or Laptop',
+                  text: 'Opens fast in any browser—no app download needed.',
                 },
                 {
-                  badge: '3 · See Your Free 3D Demo First',
-                  text: 'Send us your website link and we build a working 3D preview with your own products in 48 hours for free—then send your custom quotation.',
+                  step: '3 · Free 3D Demo First',
+                  text: 'See your own products inside a 3D store in 48 hours before you pay anything.',
                 },
-              ].map((point) => (
+              ].map((item) => (
                 <div
-                  key={point.badge}
+                  key={item.step}
                   style={{
                     background: '#FFFFFF',
                     border: '1px solid #E5E5EA',
                     borderRadius: '14px',
-                    padding: '16px 18px',
+                    padding: '14px 16px',
                   }}
                 >
-                  <div style={{ fontSize: '12px', fontWeight: 600, color: '#0066CC', marginBottom: '4px' }}>
-                    {point.badge}
+                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
+                    {item.step}
                   </div>
-                  <div style={{ fontSize: '13.5px', color: '#424245', lineHeight: 1.5 }}>{point.text}</div>
+                  <div style={{ fontSize: '13px', color: '#6E6E73', lineHeight: 1.45 }}>{item.text}</div>
                 </div>
               ))}
             </div>
@@ -245,7 +234,7 @@ export default function Home() {
                 justifyContent: 'center',
                 gap: '12px',
                 flexWrap: 'wrap',
-                marginBottom: '14px',
+                marginBottom: '12px',
               }}
             >
               <button
@@ -253,7 +242,7 @@ export default function Home() {
                 className="btn-apple-blue"
                 style={{ padding: '14px 26px', fontSize: '15px' }}
               >
-                Step 1: Request Free 3D Demo
+                Get Free 3D Demo
               </button>
 
               <button
@@ -261,7 +250,7 @@ export default function Home() {
                 className="btn-apple-secondary"
                 style={{ padding: '14px 26px', fontSize: '15px', color: '#1D1D1F' }}
               >
-                Request Custom Quotation
+                Get a Custom Quote
               </button>
 
               <a
@@ -271,13 +260,13 @@ export default function Home() {
                 className="apple-link"
                 style={{ fontSize: '15px', marginLeft: '6px' }}
               >
-                <span>Open live 3D website in new tab</span>
+                <span>Try live 3D store</span>
                 <span aria-hidden="true">↗</span>
               </a>
             </div>
 
             <p style={{ fontSize: '13px', color: '#6E6E73', marginBottom: '36px' }}>
-              Option 1: Free 48h 3D Demo first → Step 2 Custom Quotation · Option 2: Direct Custom Quotation
+              Start with a free 48-hour 3D demo first, or ask for a direct price quote.
             </p>
 
             {/* Video Showcase of the 3D Storefront */}

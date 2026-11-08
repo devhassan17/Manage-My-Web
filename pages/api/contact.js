@@ -187,9 +187,8 @@ export default async function handler(req, res) {
           from: `"${smtpConfig.fromName || 'ManageMyWeb'}" <${senderAddress}>`,
           to: adminReceiverAddress,
           replyTo: newLead.email,
-          subject: `${isQuotationRequest ? '[Quotation Request]' : '[3D Demo Request]'}: ${
-            newLead.storeName || newLead.name
-          }`,
+          subject: `${isQuotationRequest ? '[Quotation Request]' : '[3D Demo Request]'}: ${newLead.storeName || newLead.name
+            }`,
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; max-width: 560px; padding: 28px; background: #FFFFFF; color: #1D1D1F; border: 1px solid #D2D2D7; border-radius: 14px;">
               <p style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #0066CC; margin: 0 0 6px 0;">${inquiryBadge}</p>
