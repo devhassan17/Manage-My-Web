@@ -77,23 +77,32 @@ function getTmpPath(filename) {
 export function getKvCredentials() {
   const url =
     process.env.KV_REST_API_URL ||
+    process.env.STORAGE_REST_API_URL ||
     process.env.UPSTASH_REDIS_REST_URL ||
+    process.env.UPSTASH_REDIS_REST_API_URL ||
     process.env.DATABASE_REST_URL ||
+    process.env.KV_URL ||
+    process.env.STORAGE_URL ||
     '';
   const token =
     process.env.KV_REST_API_TOKEN ||
+    process.env.STORAGE_REST_API_TOKEN ||
     process.env.UPSTASH_REDIS_REST_TOKEN ||
+    process.env.UPSTASH_REDIS_REST_API_TOKEN ||
     process.env.DATABASE_REST_TOKEN ||
     '';
 
   const isConfigured = Boolean(url && token);
-  const provider = process.env.KV_REST_API_URL
-    ? 'Vercel KV'
-    : process.env.UPSTASH_REDIS_REST_URL
-    ? 'Upstash Redis'
-    : isConfigured
-    ? 'Cloud KV REST'
-    : 'Local Disk & Tmp';
+  const provider =
+    process.env.KV_REST_API_URL || process.env.KV_URL
+      ? 'Vercel KV'
+      : process.env.STORAGE_REST_API_URL || process.env.STORAGE_URL
+      ? 'Upstash KV'
+      : process.env.UPSTASH_REDIS_REST_URL || process.env.UPSTASH_REDIS_REST_API_URL
+      ? 'Upstash Redis'
+      : isConfigured
+      ? 'Cloud KV REST'
+      : 'Local Disk & Tmp';
 
   return { url, token, isConfigured, provider };
 }
