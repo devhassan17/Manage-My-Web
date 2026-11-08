@@ -111,6 +111,133 @@ const PRE_DESIGNED_QUOTE_TEMPLATES = {
   },
 };
 
+const SHORTCUT_PRESETS = [
+  {
+    title: 'Google Analytics (GA4)',
+    url: 'https://analytics.google.com/analytics/web/',
+    category: 'Analytics',
+    icon: '📊',
+    description: 'Real-time traffic, active visitors, user acquisition, and events',
+  },
+  {
+    title: 'Microsoft Clarity',
+    url: 'https://clarity.microsoft.com/projects',
+    category: 'Heatmaps & UX',
+    icon: '🔥',
+    description: 'Session recordings, click heatmaps, and scroll behavior',
+  },
+  {
+    title: 'Google Search Console',
+    url: 'https://search.google.com/search-console',
+    category: 'SEO & Ranking',
+    icon: '🔍',
+    description: 'Index status, sitemaps, search keywords, and crawl diagnostics',
+  },
+  {
+    title: 'Zoho Webmail',
+    url: 'https://mail.zoho.com/zm/',
+    category: 'Email & Sales',
+    icon: '✉️',
+    description: 'Inbound leads, client communications, and quotation dispatches',
+  },
+  {
+    title: 'Vercel Dashboard & KV',
+    url: 'https://vercel.com/dashboard',
+    category: 'Infrastructure',
+    icon: '▲',
+    description: 'Deployments, edge function logs, and Upstash KV database',
+  },
+  {
+    title: 'WhatsApp Web',
+    url: 'https://web.whatsapp.com',
+    category: 'Direct Messaging',
+    icon: '💬',
+    description: 'Real-time chat with store owners and quotation sign-offs',
+  },
+  {
+    title: 'Stripe Dashboard',
+    url: 'https://dashboard.stripe.com',
+    category: 'Payments & Finance',
+    icon: '💳',
+    description: 'Payments, client payouts, transactions, and deposit management',
+  },
+  {
+    title: 'Shopify Partners / Admin',
+    url: 'https://partners.shopify.com',
+    category: 'E-Commerce Store',
+    icon: '🛍️',
+    description: 'Store developments, collaborator access, themes, and apps',
+  },
+  {
+    title: 'Meta Ads Manager',
+    url: 'https://adsmanager.facebook.com',
+    category: 'Social & Ads',
+    icon: '📱',
+    description: 'Campaign tracking, ROAS, and conversion event monitoring',
+  },
+  {
+    title: 'Google Tag Manager',
+    url: 'https://tagmanager.google.com',
+    category: 'Analytics',
+    icon: '🏷️',
+    description: 'Container tags, triggers, custom JavaScript, and conversion pixels',
+  },
+  {
+    title: 'Cloudflare Dashboard',
+    url: 'https://dash.cloudflare.com',
+    category: 'Infrastructure',
+    icon: '☁️',
+    description: 'DNS management, SSL/TLS, edge caching, and DDoS firewall',
+  },
+];
+
+const CATEGORY_DEFAULT_ICONS = {
+  Analytics: '📊',
+  'Heatmaps & UX': '🔥',
+  'SEO & Ranking': '🔍',
+  'Email & Sales': '✉️',
+  Infrastructure: '▲',
+  'Direct Messaging': '💬',
+  'Payments & Finance': '💳',
+  'E-Commerce Store': '🛍️',
+  'Social & Ads': '📱',
+  'Custom Tool': '🌐',
+};
+
+const normalizeShortcutUrl = (raw) => {
+  let u = (raw || '').trim();
+  if (!u) return '';
+  if (!/^https?:\/\//i.test(u)) {
+    u = 'https://' + u;
+  }
+  return u;
+};
+
+const getDomainFromUrl = (url) => {
+  try {
+    const parsed = new URL(url);
+    return parsed.hostname.replace(/^www\./, '');
+  } catch (e) {
+    return url;
+  }
+};
+
+const deriveTitleFromUrl = (rawUrl) => {
+  try {
+    const formatted = normalizeShortcutUrl(rawUrl);
+    const parsed = new URL(formatted);
+    const host = parsed.hostname.replace(/^www\./, '');
+    const parts = host.split('.');
+    if (parts.length >= 2) {
+      const main = parts[0];
+      return main.charAt(0).toUpperCase() + main.slice(1);
+    }
+    return host;
+  } catch (e) {
+    return 'Quick Tool';
+  }
+};
+
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState('');
@@ -225,6 +352,20 @@ export default function AdminDashboard() {
   const [cookieMsg, setCookieMsg] = useState('');
   const [selectedAuditItem, setSelectedAuditItem] = useState(null);
   const [auditSearch, setAuditSearch] = useState('');
+
+  // Quick Links & Tools Shortcuts State
+  const [newShortcut, setNewShortcut] = useState({
+    title: '',
+    url: '',
+    category: 'Analytics',
+    icon: '📊',
+    description: '',
+  });
+  const [shortcutSearch, setShortcutSearch] = useState('');
+  const [shortcutFilter, setShortcutFilter] = useState('All');
+  const [shortcutMsg, setShortcutMsg] = useState({ type: '', text: '' });
+  const [copiedShortcutId, setCopiedShortcutId] = useState(null);
+  const [shortcutSaving, setShortcutSaving] = useState(false);
 
   // Authorized Fetch Helper
   const authFetch = async (url, options = {}) => {
@@ -909,6 +1050,117 @@ export default function AdminDashboard() {
     }
   };
 
+  // Quick Links & Tools Shortcut Handlers
+  const persistShortcuts = async (updatedList) => {
+    const updatedSettings = {
+      ...(settings || {}),
+      shortcuts: updatedList,
+    };
+    setSettings(updatedSettings);
+    setShortcutSaving(true);
+    try {
+      const res = await authFetch('/api/admin/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedSettings),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        if (data.settings) setSettings(data.settings);
+        setShortcutMsg({ type: 'success', text: 'Shortcut configuration saved and synced to cloud KV database.' });
+        setTimeout(() => setShortcutMsg({ type: '', text: '' }), 4000);
+      } else {
+        setShortcutMsg({ type: 'error', text: data.error || 'Failed to sync shortcuts.' });
+      }
+    } catch (err) {
+      setShortcutMsg({ type: 'error', text: 'Network error saving shortcuts.' });
+    } finally {
+      setShortcutSaving(false);
+    }
+  };
+
+  const handleAddShortcut = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (!newShortcut.url.trim()) {
+      setShortcutMsg({ type: 'error', text: 'Please enter a destination URL.' });
+      return;
+    }
+    const formattedUrl = normalizeShortcutUrl(newShortcut.url);
+    const computedTitle = newShortcut.title.trim() || deriveTitleFromUrl(formattedUrl);
+    const currentList = Array.isArray(settings?.shortcuts) ? settings.shortcuts : [];
+    const newItem = {
+      id: `sc-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      title: computedTitle,
+      url: formattedUrl,
+      category: newShortcut.category || 'Analytics',
+      icon: newShortcut.icon || CATEGORY_DEFAULT_ICONS[newShortcut.category] || '🌐',
+      description: newShortcut.description.trim() || '',
+      createdAt: new Date().toISOString(),
+    };
+    const updatedList = [newItem, ...currentList];
+    persistShortcuts(updatedList);
+    setNewShortcut({
+      title: '',
+      url: '',
+      category: newShortcut.category || 'Analytics',
+      icon: CATEGORY_DEFAULT_ICONS[newShortcut.category] || '📊',
+      description: '',
+    });
+  };
+
+  const handleDeleteShortcut = (id) => {
+    const currentList = Array.isArray(settings?.shortcuts) ? settings.shortcuts : [];
+    const target = currentList.find((s) => s.id === id);
+    if (!confirm(`Are you sure you want to delete shortcut "${target?.title || 'this tool'}"?`)) return;
+    const updatedList = currentList.filter((s) => s.id !== id);
+    persistShortcuts(updatedList);
+  };
+
+  const handleAddPreset = (preset) => {
+    const currentList = Array.isArray(settings?.shortcuts) ? settings.shortcuts : [];
+    const exists = currentList.some((s) => s.url.toLowerCase() === preset.url.toLowerCase());
+    if (exists) {
+      setShortcutMsg({ type: 'error', text: `"${preset.title}" is already in your shortcuts list!` });
+      setTimeout(() => setShortcutMsg({ type: '', text: '' }), 3000);
+      return;
+    }
+    const newItem = {
+      id: `sc-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      ...preset,
+      createdAt: new Date().toISOString(),
+    };
+    persistShortcuts([newItem, ...currentList]);
+  };
+
+  const handleRestoreDefaultShortcuts = () => {
+    if (!confirm('Restore the default curated shortcuts (GA4, Clarity, GSC, Zoho, Vercel, WhatsApp)?')) return;
+    persistShortcuts(SHORTCUT_PRESETS.slice(0, 6));
+  };
+
+  const handleCopyShortcutUrl = (id, url) => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(url);
+      setCopiedShortcutId(id);
+      setTimeout(() => setCopiedShortcutId(null), 2000);
+    }
+  };
+
+  const currentShortcutsList = Array.isArray(settings?.shortcuts) && settings.shortcuts.length > 0
+    ? settings.shortcuts
+    : SHORTCUT_PRESETS.slice(0, 6);
+
+  const filteredShortcuts = currentShortcutsList.filter((sc) => {
+    const matchesFilter = shortcutFilter === 'All' || sc.category === shortcutFilter;
+    const q = shortcutSearch.toLowerCase().trim();
+    const matchesSearch =
+      !q ||
+      (sc.title && sc.title.toLowerCase().includes(q)) ||
+      (sc.url && sc.url.toLowerCase().includes(q)) ||
+      (sc.category && sc.category.toLowerCase().includes(q)) ||
+      (sc.description && sc.description.toLowerCase().includes(q));
+    return matchesFilter && matchesSearch;
+  });
+
   // ==============================================================
   // LOGIN SCREEN — CLASSIC APPLE MINIMAL CARD
   // ==============================================================
@@ -1211,6 +1463,7 @@ export default function AdminDashboard() {
               { id: 'leads', label: `Client Leads (${leads.length})` },
               { id: 'quotations', label: `Quotations & Proposals (${quotations.length})` },
               { id: 'cookies', label: `Cookies, Traffic & SEO (${cookieStore.stats?.totalDecisions || 0})` },
+              { id: 'shortcuts', label: `Quick Tools & Links (${currentShortcutsList.length})` },
               { id: 'smtp', label: 'SMTP & Confirmation Emails' },
               { id: 'campaign', label: 'Site Config & Contact Info' },
               { id: 'overview', label: 'Cloud Database & Security' },
@@ -3726,6 +3979,685 @@ export default function AdminDashboard() {
                 ))}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB 4: QUICK TOOLS & NAVIGATION SHORTCUTS                      */}
+        {/* ============================================================== */}
+        {activeTab === 'shortcuts' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* Header Banner */}
+            <div
+              style={{
+                background: '#FFFFFF',
+                border: '1px solid #D2D2D7',
+                padding: '28px 32px',
+                borderRadius: '20px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '20px',
+                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.02)',
+              }}
+            >
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                  <span style={{ fontSize: '24px' }}>⚡</span>
+                  <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', margin: 0 }}>
+                    Quick Tools & Navigation Shortcuts
+                  </h3>
+                  <span
+                    style={{
+                      background: '#EBF5FF',
+                      color: '#0066CC',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      padding: '3px 10px',
+                      borderRadius: '980px',
+                    }}
+                  >
+                    {currentShortcutsList.length} Active
+                  </span>
+                </div>
+                <p style={{ color: '#6E6E73', fontSize: '13.5px', margin: 0, maxWidth: '780px', lineHeight: 1.5 }}>
+                  Add any website or dashboard URL below to generate instant one-click launch buttons. Click any button to open the external tool directly in a secure new tab. Synced in real-time with your Cloud KV database.
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                <button
+                  onClick={handleRestoreDefaultShortcuts}
+                  className="ios-btn"
+                  style={{
+                    fontSize: '13px',
+                    padding: '8px 16px',
+                    borderRadius: '980px',
+                    background: '#F5F5F7',
+                    color: '#1D1D1F',
+                    border: '1px solid #D2D2D7',
+                    cursor: 'pointer',
+                    fontWeight: 500,
+                  }}
+                  title="Restore default curated shortcuts"
+                >
+                  ↺ Restore Default Presets
+                </button>
+              </div>
+            </div>
+
+            {/* Notification Banner */}
+            {shortcutMsg.text && (
+              <div
+                style={{
+                  background: shortcutMsg.type === 'error' ? '#FFEBEE' : '#E8F5E9',
+                  border: `1px solid ${shortcutMsg.type === 'error' ? '#FFCDD2' : '#B7E1CD'}`,
+                  color: shortcutMsg.type === 'error' ? '#D32F2F' : '#1D7D3F',
+                  padding: '12px 18px',
+                  borderRadius: '12px',
+                  fontSize: '13.5px',
+                  fontWeight: 500,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <span>{shortcutMsg.type === 'error' ? '⚠️ ' : '✓ '}{shortcutMsg.text}</span>
+                <button
+                  onClick={() => setShortcutMsg({ type: '', text: '' })}
+                  style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: '16px' }}
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+
+            {/* URL to Button Generator Card */}
+            <div
+              style={{
+                background: '#FFFFFF',
+                border: '1px solid #D2D2D7',
+                padding: '32px',
+                borderRadius: '20px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+              }}
+            >
+              <div style={{ marginBottom: '20px' }}>
+                <h4 style={{ fontSize: '17px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                  ⚡ Generate New Shortcut Button
+                </h4>
+                <p style={{ color: '#6E6E73', fontSize: '13px', margin: 0 }}>
+                  Enter any URL or domain (e.g., <code style={{ background: '#F5F5F7', padding: '2px 6px', borderRadius: '4px' }}>clarity.ms</code>, <code style={{ background: '#F5F5F7', padding: '2px 6px', borderRadius: '4px' }}>analytics.google.com</code>, or <code style={{ background: '#F5F5F7', padding: '2px 6px', borderRadius: '4px' }}>mail.zoho.com</code>). When submitted, an instant launch button will appear below.
+                </p>
+              </div>
+
+              <form onSubmit={handleAddShortcut} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+                {/* URL & Title row */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                      Destination Web URL <span style={{ color: '#D70015' }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="https://analytics.google.com/analytics/web/ or clarity.ms"
+                      value={newShortcut.url}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setNewShortcut((prev) => ({
+                          ...prev,
+                          url: val,
+                          title: prev.title ? prev.title : deriveTitleFromUrl(val),
+                        }));
+                      }}
+                      onBlur={(e) => {
+                        const normalized = normalizeShortcutUrl(e.target.value);
+                        setNewShortcut((prev) => ({
+                          ...prev,
+                          url: normalized,
+                          title: prev.title.trim() ? prev.title : deriveTitleFromUrl(normalized),
+                        }));
+                      }}
+                      className="ios-input"
+                      required
+                      style={{ width: '100%', fontSize: '13.5px' }}
+                    />
+                    <div style={{ fontSize: '11.5px', color: '#86868B', marginTop: '4px' }}>
+                      Auto-detects https:// and suggests button name automatically.
+                    </div>
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                      Button Label / Tool Name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Google Analytics (GA4) or Microsoft Clarity"
+                      value={newShortcut.title}
+                      onChange={(e) => setNewShortcut({ ...newShortcut, title: e.target.value })}
+                      className="ios-input"
+                      style={{ width: '100%', fontSize: '13.5px' }}
+                    />
+                    <div style={{ fontSize: '11.5px', color: '#86868B', marginTop: '4px' }}>
+                      Display title on your shortcut button and dashboard card.
+                    </div>
+                  </div>
+                </div>
+
+                {/* Category & Emoji row */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                      Tool Category
+                    </label>
+                    <select
+                      value={newShortcut.category}
+                      onChange={(e) => {
+                        const cat = e.target.value;
+                        setNewShortcut((prev) => ({
+                          ...prev,
+                          category: cat,
+                          icon: CATEGORY_DEFAULT_ICONS[cat] || prev.icon,
+                        }));
+                      }}
+                      className="ios-input"
+                      style={{ width: '100%', fontSize: '13.5px' }}
+                    >
+                      <option value="Analytics">📊 Analytics & Traffic</option>
+                      <option value="Heatmaps & UX">🔥 Heatmaps, Recordings & UX</option>
+                      <option value="SEO & Ranking">🔍 Search Console & SEO</option>
+                      <option value="Email & Sales">✉️ Webmail & Inbound Leads</option>
+                      <option value="Infrastructure">▲ Hosting, Vercel & Cloud KV</option>
+                      <option value="Direct Messaging">💬 WhatsApp & Live Messaging</option>
+                      <option value="Payments & Finance">💳 Stripe, Banking & Payouts</option>
+                      <option value="E-Commerce Store">🛍️ Shopify Admin & Products</option>
+                      <option value="Social & Ads">📱 Meta Ads & Social</option>
+                      <option value="Custom Tool">🌐 Custom External Tool</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                      Icon / Emoji
+                    </label>
+                    <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                      <input
+                        type="text"
+                        maxLength={4}
+                        value={newShortcut.icon}
+                        onChange={(e) => setNewShortcut({ ...newShortcut, icon: e.target.value })}
+                        className="ios-input"
+                        style={{ width: '60px', textAlign: 'center', fontSize: '18px', padding: '8px' }}
+                      />
+                      <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                        {['📊', '🔥', '🔍', '✉️', '▲', '💬', '💳', '🛍️', '📱', '🏷️', '☁️', '⚡'].map((emoji) => (
+                          <button
+                            key={emoji}
+                            type="button"
+                            onClick={() => setNewShortcut({ ...newShortcut, icon: emoji })}
+                            style={{
+                              background: newShortcut.icon === emoji ? '#0071E3' : '#F5F5F7',
+                              color: newShortcut.icon === emoji ? '#FFFFFF' : '#1D1D1F',
+                              border: 'none',
+                              borderRadius: '8px',
+                              padding: '6px 8px',
+                              fontSize: '14px',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            {emoji}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                    Description / Purpose (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Real-time visitor recordings, heatmaps, and rage clicks"
+                    value={newShortcut.description}
+                    onChange={(e) => setNewShortcut({ ...newShortcut, description: e.target.value })}
+                    className="ios-input"
+                    style={{ width: '100%', fontSize: '13.5px' }}
+                  />
+                </div>
+
+                {/* Live Button Preview Box */}
+                {newShortcut.url.trim() && (
+                  <div
+                    style={{
+                      background: '#F5F5F7',
+                      border: '1px dashed #D2D2D7',
+                      padding: '16px 20px',
+                      borderRadius: '14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      flexWrap: 'wrap',
+                      gap: '12px',
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#86868B', fontWeight: 600, marginBottom: '4px' }}>
+                        Live Button Preview (What it will look like)
+                      </div>
+                      <div style={{ fontSize: '13px', color: '#1D1D1F' }}>
+                        Target URL: <code style={{ color: '#0066CC' }}>{normalizeShortcutUrl(newShortcut.url)}</code>
+                      </div>
+                    </div>
+
+                    <a
+                      href={normalizeShortcutUrl(newShortcut.url)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '10px 18px',
+                        background: '#0071E3',
+                        color: '#FFFFFF',
+                        borderRadius: '12px',
+                        fontSize: '13.5px',
+                        fontWeight: 600,
+                        textDecoration: 'none',
+                        boxShadow: '0 2px 8px rgba(0, 113, 227, 0.25)',
+                      }}
+                    >
+                      <span>{newShortcut.icon || '🌐'}</span>
+                      <span>Open {newShortcut.title.trim() || deriveTitleFromUrl(newShortcut.url)} in New Tab</span>
+                      <span>↗</span>
+                    </a>
+                  </div>
+                )}
+
+                {/* Form submit button */}
+                <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: '6px' }}>
+                  <button
+                    type="submit"
+                    disabled={shortcutSaving}
+                    className="ios-primary-btn"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '12px 24px',
+                      borderRadius: '980px',
+                      fontSize: '14px',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <span>⚡</span>
+                    <span>{shortcutSaving ? 'Generating & Saving...' : 'Generate Shortcut Button'}</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            {/* Quick Preset Library */}
+            <div
+              style={{
+                background: '#FFFFFF',
+                border: '1px solid #D2D2D7',
+                padding: '24px 28px',
+                borderRadius: '20px',
+                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.02)',
+              }}
+            >
+              <div style={{ marginBottom: '14px' }}>
+                <h4 style={{ fontSize: '15px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
+                  💡 Quick Presets Library (1-Click Instant Add)
+                </h4>
+                <p style={{ color: '#6E6E73', fontSize: '12.5px', margin: 0 }}>
+                  Click any popular tool below to immediately generate and save its launch button to your shortcuts dashboard:
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {SHORTCUT_PRESETS.map((preset) => {
+                  const isAdded = currentShortcutsList.some(
+                    (s) => s.url.toLowerCase() === preset.url.toLowerCase()
+                  );
+                  return (
+                    <button
+                      key={preset.title}
+                      onClick={() => handleAddPreset(preset)}
+                      disabled={isAdded}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '8px 14px',
+                        background: isAdded ? '#F5F5F7' : '#FFFFFF',
+                        border: `1px solid ${isAdded ? '#E5E5EA' : '#D2D2D7'}`,
+                        borderRadius: '980px',
+                        fontSize: '12.5px',
+                        fontWeight: 500,
+                        color: isAdded ? '#86868B' : '#1D1D1F',
+                        cursor: isAdded ? 'default' : 'pointer',
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      <span>{preset.icon}</span>
+                      <span>{preset.title}</span>
+                      <span style={{ fontSize: '11px', color: isAdded ? '#1D7D3F' : '#0071E3', fontWeight: 600 }}>
+                        {isAdded ? '✓ Added' : '+ Add'}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Filter & Search Bar */}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '14px',
+              }}
+            >
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                {[
+                  'All',
+                  'Analytics',
+                  'Heatmaps & UX',
+                  'SEO & Ranking',
+                  'Email & Sales',
+                  'Infrastructure',
+                  'Direct Messaging',
+                  'Payments & Finance',
+                  'E-Commerce Store',
+                  'Social & Ads',
+                  'Custom Tool',
+                ].map((cat) => {
+                  const count =
+                    cat === 'All'
+                      ? currentShortcutsList.length
+                      : currentShortcutsList.filter((s) => s.category === cat).length;
+                  if (cat !== 'All' && count === 0) return null;
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => setShortcutFilter(cat)}
+                      style={{
+                        padding: '6px 14px',
+                        borderRadius: '980px',
+                        fontSize: '12.5px',
+                        fontWeight: 500,
+                        border: shortcutFilter === cat ? '1px solid #0071E3' : '1px solid #D2D2D7',
+                        background: shortcutFilter === cat ? '#0071E3' : '#FFFFFF',
+                        color: shortcutFilter === cat ? '#FFFFFF' : '#1D1D1F',
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      {cat} ({count})
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div>
+                <input
+                  type="text"
+                  placeholder="Search shortcuts..."
+                  value={shortcutSearch}
+                  onChange={(e) => setShortcutSearch(e.target.value)}
+                  className="ios-input"
+                  style={{ width: '220px', padding: '7px 14px', fontSize: '13px', borderRadius: '980px' }}
+                />
+              </div>
+            </div>
+
+            {/* Generated Shortcuts Grid */}
+            {filteredShortcuts.length === 0 ? (
+              <div
+                style={{
+                  background: '#FFFFFF',
+                  border: '1px solid #D2D2D7',
+                  borderRadius: '20px',
+                  padding: '48px 24px',
+                  textAlign: 'center',
+                }}
+              >
+                <div style={{ fontSize: '32px', marginBottom: '8px' }}>🔍</div>
+                <h4 style={{ fontSize: '17px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                  No shortcuts match your filter
+                </h4>
+                <p style={{ color: '#6E6E73', fontSize: '13px', marginBottom: '16px' }}>
+                  Try clearing the search query or generate a new shortcut button above.
+                </p>
+                <button
+                  onClick={() => {
+                    setShortcutFilter('All');
+                    setShortcutSearch('');
+                  }}
+                  className="ios-btn"
+                  style={{
+                    padding: '8px 18px',
+                    borderRadius: '980px',
+                    background: '#0071E3',
+                    color: '#FFFFFF',
+                    fontWeight: 600,
+                    fontSize: '13px',
+                    border: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Reset Filters
+                </button>
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+                  gap: '20px',
+                }}
+              >
+                {filteredShortcuts.map((sc) => (
+                  <div
+                    key={sc.id}
+                    style={{
+                      background: '#FFFFFF',
+                      border: '1px solid #D2D2D7',
+                      borderRadius: '18px',
+                      padding: '24px',
+                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.03)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      gap: '16px',
+                      transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.06)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.03)';
+                    }}
+                  >
+                    <div>
+                      {/* Top row: Icon, Title, Category & Delete */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px', marginBottom: '10px' }}>
+                        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                          <div
+                            style={{
+                              width: '44px',
+                              height: '44px',
+                              borderRadius: '12px',
+                              background: '#F5F5F7',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '22px',
+                              flexShrink: 0,
+                              border: '1px solid #E5E5EA',
+                            }}
+                          >
+                            {sc.icon || '🌐'}
+                          </div>
+                          <div>
+                            <h4 style={{ fontSize: '15.5px', fontWeight: 600, color: '#1D1D1F', margin: 0, lineHeight: 1.3 }}>
+                              {sc.title}
+                            </h4>
+                            <span
+                              style={{
+                                display: 'inline-block',
+                                marginTop: '4px',
+                                fontSize: '11px',
+                                fontWeight: 600,
+                                color: '#0066CC',
+                                background: '#EBF5FF',
+                                padding: '2px 8px',
+                                borderRadius: '980px',
+                              }}
+                            >
+                              {sc.category || 'Tool'}
+                            </span>
+                          </div>
+                        </div>
+
+                        <button
+                          onClick={() => handleDeleteShortcut(sc.id)}
+                          title="Delete Shortcut"
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#86868B',
+                            cursor: 'pointer',
+                            fontSize: '15px',
+                            padding: '4px 6px',
+                            borderRadius: '6px',
+                            transition: 'color 0.15s ease',
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.color = '#D70015')}
+                          onMouseLeave={(e) => (e.currentTarget.style.color = '#86868B')}
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      {/* Domain Pill */}
+                      <div
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          background: '#F5F5F7',
+                          padding: '4px 10px',
+                          borderRadius: '6px',
+                          fontSize: '12px',
+                          color: '#1D1D1F',
+                          fontFamily: 'monospace',
+                          marginBottom: '10px',
+                        }}
+                      >
+                        <span style={{ color: '#1D7D3F', fontSize: '10px' }}>🔒</span>
+                        <span>{getDomainFromUrl(sc.url)}</span>
+                      </div>
+
+                      {/* Description (if present) */}
+                      {sc.description && (
+                        <p style={{ fontSize: '12.5px', color: '#6E6E73', margin: '0 0 14px 0', lineHeight: 1.45 }}>
+                          {sc.description}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Interactive Button to Open in New Tab */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <a
+                        href={sc.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '8px',
+                          width: '100%',
+                          padding: '12px 18px',
+                          background: '#0071E3',
+                          color: '#FFFFFF',
+                          borderRadius: '12px',
+                          fontSize: '14px',
+                          fontWeight: 600,
+                          textDecoration: 'none',
+                          boxShadow: '0 2px 8px rgba(0, 113, 227, 0.25)',
+                          transition: 'all 0.15s ease',
+                          boxSizing: 'border-box',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = '#0077ED';
+                          e.currentTarget.style.transform = 'translateY(-1px)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = '#0071E3';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                        }}
+                      >
+                        <span>Open {sc.title} in New Tab</span>
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                      </a>
+
+                      {/* Secondary Utilities: Copy URL & Direct Link */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <button
+                          onClick={() => handleCopyShortcutUrl(sc.id, sc.url)}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: copiedShortcutId === sc.id ? '#1D7D3F' : '#0066CC',
+                            fontSize: '11.5px',
+                            fontWeight: 500,
+                            cursor: 'pointer',
+                            padding: '4px 0',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                          }}
+                        >
+                          <span>{copiedShortcutId === sc.id ? '✓' : '📋'}</span>
+                          <span>{copiedShortcutId === sc.id ? 'Copied to Clipboard!' : 'Copy Direct URL'}</span>
+                        </button>
+
+                        <span style={{ fontSize: '11px', color: '#86868B' }}>
+                          Opens secure tab ↗
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

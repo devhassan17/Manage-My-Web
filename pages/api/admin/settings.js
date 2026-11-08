@@ -63,6 +63,56 @@ export default async function handler(req, res) {
       googleVerificationFileName: '',
       googleVerificationFileContent: '',
     },
+    shortcuts: [
+      {
+        id: 'sc-1',
+        title: 'Google Analytics (GA4)',
+        url: 'https://analytics.google.com/analytics/web/',
+        category: 'Analytics',
+        icon: '📊',
+        description: 'Real-time traffic, active visitors, user acquisition, and events',
+      },
+      {
+        id: 'sc-2',
+        title: 'Microsoft Clarity',
+        url: 'https://clarity.microsoft.com/projects',
+        category: 'Heatmaps & UX',
+        icon: '🔥',
+        description: 'Session recordings, click heatmaps, and scroll behavior',
+      },
+      {
+        id: 'sc-3',
+        title: 'Google Search Console',
+        url: 'https://search.google.com/search-console',
+        category: 'SEO & Ranking',
+        icon: '🔍',
+        description: 'Index status, sitemaps, search keywords, and crawl diagnostics',
+      },
+      {
+        id: 'sc-4',
+        title: 'Zoho Webmail',
+        url: 'https://mail.zoho.com/zm/',
+        category: 'Email & Sales',
+        icon: '✉️',
+        description: 'Inbound leads, client communications, and quotation dispatches',
+      },
+      {
+        id: 'sc-5',
+        title: 'Vercel Dashboard & KV',
+        url: 'https://vercel.com/dashboard',
+        category: 'Infrastructure',
+        icon: '▲',
+        description: 'Deployments, edge function logs, and Upstash KV database',
+      },
+      {
+        id: 'sc-6',
+        title: 'WhatsApp Web',
+        url: 'https://web.whatsapp.com',
+        category: 'Direct Messaging',
+        icon: '💬',
+        description: 'Real-time chat with store owners and quotation sign-offs',
+      },
+    ],
   };
 
   if (req.method === 'GET') {
@@ -79,6 +129,7 @@ export default async function handler(req, res) {
           ...defaultSettings.seo,
           ...(data.seo || {}),
         },
+        shortcuts: Array.isArray(data.shortcuts) && data.shortcuts.length > 0 ? data.shortcuts : defaultSettings.shortcuts,
       });
     } catch (e) {
       return res.status(500).json({ error: 'Failed to read settings' });
@@ -142,6 +193,9 @@ export default async function handler(req, res) {
           ...(req.body.contact || {}),
         },
         seo: updatedSeo,
+        shortcuts: Array.isArray(req.body.shortcuts)
+          ? req.body.shortcuts
+          : current.shortcuts || defaultSettings.shortcuts,
       };
 
       const result = await writeDataAsync('site-settings.json', updated);
