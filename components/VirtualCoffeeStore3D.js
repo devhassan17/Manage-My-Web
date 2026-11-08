@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = false }) {
   const demoUrl = 'https://crazy-3d-website-idea.vercel.app/';
   const videoSrc = '/videos/3d-store-preview.mp4';
+  const videoRef = useRef(null);
+  const [isMuted, setIsMuted] = useState(true);
+
+  const toggleAudio = () => {
+    if (!videoRef.current) return;
+    const nextMuted = !videoRef.current.muted;
+    videoRef.current.muted = nextMuted;
+    if (!nextMuted) {
+      videoRef.current.volume = 1.0;
+      videoRef.current.play().catch(() => { });
+    }
+    setIsMuted(nextMuted);
+  };
 
   if (isFullscreen) {
     return (
@@ -19,10 +32,11 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
         }}
       >
         <video
+          ref={videoRef}
           src={videoSrc}
           autoPlay
           loop
-          muted
+          muted={isMuted}
           playsInline
           controls
           style={{
@@ -39,8 +53,28 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
             top: '20px',
             right: '20px',
             zIndex: 50,
+            display: 'flex',
+            gap: '10px',
           }}
         >
+          <button
+            type="button"
+            onClick={toggleAudio}
+            style={{
+              background: isMuted ? '#0066CC' : '#1D1D1F',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: '980px',
+              padding: '10px 18px',
+              fontSize: '13.5px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.28)',
+            }}
+          >
+            {isMuted ? '🔊 Turn On Voiceover Audio' : '🔇 Mute Audio'}
+          </button>
+
           <a
             href={demoUrl}
             target="_blank"
@@ -95,12 +129,30 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
           <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
             <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#1D7D3F', display: 'inline-block' }} />
             <span style={{ fontSize: '12.5px', fontWeight: 600, color: '#1D1D1F' }}>
-              3D Storefront Walkthrough Preview
+              30-Second 3D E-Commerce Store Explainer (With Voiceover)
             </span>
           </div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            onClick={toggleAudio}
+            style={{
+              background: isMuted ? '#E8F0FE' : '#E8F5E9',
+              color: isMuted ? '#0066CC' : '#1D7D3F',
+              border: isMuted ? '1px solid #B8D4FE' : '1px solid #B7E1CD',
+              padding: '6px 14px',
+              borderRadius: '980px',
+              fontSize: '12px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {isMuted ? '🔊 Turn On Voiceover Audio' : '🔊 Voiceover Playing (Tap to Mute)'}
+          </button>
+
           <a
             href={demoUrl}
             target="_blank"
@@ -145,10 +197,11 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
         }}
       >
         <video
+          ref={videoRef}
           src={videoSrc}
           autoPlay
           loop
-          muted
+          muted={isMuted}
           playsInline
           controls
           style={{
