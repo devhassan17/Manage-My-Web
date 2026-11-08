@@ -12,7 +12,7 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
     videoRef.current.muted = nextMuted;
     if (!nextMuted) {
       videoRef.current.volume = 1.0;
-      videoRef.current.play().catch(() => { });
+      videoRef.current.play().catch(() => {});
     }
     setIsMuted(nextMuted);
   };
