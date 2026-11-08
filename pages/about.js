@@ -15,7 +15,7 @@ export default function About() {
         title="About ManageMyWeb | 3D Retail Architecture & Managed Web Engineering"
         description="Learn why ManageMyWeb replaces generic 2D e-commerce templates with architectural 3D storefronts and end-to-end web stewardship for modern brands worldwide."
         keywords="about ManageMyWeb, 3D ecommerce agency, spatial web engineering studio, managed web operations team"
-        canonicalUrl="https://managemyweb.co/about"
+        canonicalUrl="https://www.managemyweb.co/about"
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />

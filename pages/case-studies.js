@@ -42,7 +42,7 @@ export default function CaseStudies() {
         title="Client Portfolio & Case Studies | ManageMyWeb"
         description="Explore our 14+ global client websites across the Netherlands, UK, Ireland, USA, Australia, and Canada—including Moyee Coffee, FairChain Foundation, DermaDistributor, and Elite Hair Care USA."
         keywords="3D ecommerce case studies, ManageMyWeb clients, Moyee Coffee website, FairChain Foundation, ecommerce portfolio"
-        canonicalUrl="https://managemyweb.co/case-studies"
+        canonicalUrl="https://www.managemyweb.co/case-studies"
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />

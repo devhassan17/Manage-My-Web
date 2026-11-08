@@ -70,7 +70,7 @@ export default function Pricing() {
         title="Custom Quotation & 3D Storefront Engagement Plans | ManageMyWeb"
         description="Request a tailored quotation for your custom 3D virtual storefront and managed web operations—or start with Step 1: a complimentary 48-hour 3D demo prototype."
         keywords="3D virtual store quotation, custom 3D website quote, 3D Shopify store proposal, managed web hosting retainer quote, free 3D store prototype"
-        canonicalUrl="https://managemyweb.co/pricing"
+        canonicalUrl="https://www.managemyweb.co/pricing"
         schemaData={{
           '@type': 'OfferCatalog',
           name: 'ManageMyWeb Custom 3D Storefront & Managed Operations Scopes',

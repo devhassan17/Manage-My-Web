@@ -8,7 +8,7 @@ export default function TermsOfService() {
       <SEOHead
         title="Terms of Use | ManageMyWeb"
         description="Terms and service level agreements for bespoke 3D storefront builds and managed web operations."
-        canonicalUrl="https://managemyweb.co/terms"
+        canonicalUrl="https://www.managemyweb.co/terms"
       />
 
       <Navbar onOpenDemoModal={() => {}} />

@@ -33,6 +33,26 @@ export default function ExperiencePage() {
           onOpenContact={() => setDemoModalOpen(true)}
         />
 
+        <h1
+          style={{
+            position: 'absolute',
+            top: '20px',
+            left: '20px',
+            zIndex: 100,
+            margin: 0,
+            padding: '9px 16px',
+            fontSize: '14px',
+            fontWeight: 600,
+            color: '#1D1D1F',
+            background: 'rgba(255, 255, 255, 0.92)',
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: '980px',
+            maxWidth: 'calc(100vw - 340px)',
+          }}
+        >
+          3D E-Commerce Store Demo: Walk Inside an Online Shop
+        </h1>
+
         {/* Floating Minimal Exit / Action Bar */}
         <div
           style={{

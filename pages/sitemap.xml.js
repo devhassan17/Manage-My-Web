@@ -98,6 +98,27 @@ const SITEMAP_ROUTES = [
     title: 'Spatial Commerce & E-Commerce Engineering Journal',
   },
   {
+    path: '/blog/can-you-add-a-3d-store-to-shopify',
+    priority: '0.85',
+    changefreq: 'monthly',
+    image: '/images/og-cover.png',
+    title: 'Can You Add a 3D Store to Shopify or WooCommerce?',
+  },
+  {
+    path: '/blog/3d-virtual-store-vs-normal-ecommerce-website',
+    priority: '0.85',
+    changefreq: 'monthly',
+    image: '/images/og-cover.png',
+    title: '3D Virtual Store vs. Normal E-Commerce Website: What Is the Difference?',
+  },
+  {
+    path: '/blog/what-affects-the-cost-of-a-3d-ecommerce-website',
+    priority: '0.85',
+    changefreq: 'monthly',
+    image: '/images/og-cover.png',
+    title: 'What Affects the Cost of a 3D E-Commerce Website?',
+  },
+  {
     path: '/blog/future-of-ecommerce-3d-virtual-stores',
     priority: '0.75',
     changefreq: 'monthly',

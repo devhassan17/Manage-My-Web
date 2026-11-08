@@ -194,8 +194,8 @@ export default function Footer({ onOpenDemoModal }) {
                 </Link>
               </li>
               <li>
-                <Link href="/admin" style={{ color: '#6E6E73', textDecoration: 'none' }}>
-                  Admin
+                <Link href="/blog" style={{ color: '#424245', textDecoration: 'none' }}>
+                  Journal
                 </Link>
               </li>
             </ul>

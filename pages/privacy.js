@@ -8,7 +8,7 @@ export default function PrivacyPolicy() {
       <SEOHead
         title="Privacy Policy | ManageMyWeb"
         description="How ManageMyWeb protects your brand data, e-commerce credentials, and customer analytics."
-        canonicalUrl="https://managemyweb.co/privacy"
+        canonicalUrl="https://www.managemyweb.co/privacy"
       />
 
       <Navbar onOpenDemoModal={() => { }} />

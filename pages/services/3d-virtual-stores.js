@@ -47,7 +47,7 @@ export default function ThreeDVirtualStores() {
         title="Custom 3D Virtual Storefronts for E-Commerce Brands | ManageMyWeb"
         description="Transform any e-commerce catalog—fashion, beauty, electronics, luxury watches, home furniture, or specialty goods—into a walkable 60fps 3D flagship storefront synced with Shopify or WooCommerce."
         keywords="3D virtual store builder, custom 3D Shopify store, 3D fashion boutique online, 3D beauty showroom, 3D electronics store, spatial retail website, WebGL ecommerce development"
-        canonicalUrl="https://managemyweb.co/services/3d-virtual-stores"
+        canonicalUrl="https://www.managemyweb.co/services/3d-virtual-stores"
         schemaData={{
           '@type': 'Service',
           name: 'Custom 3D Virtual Storefront Development',
@@ -55,7 +55,7 @@ export default function ThreeDVirtualStores() {
           provider: {
             '@type': 'Organization',
             name: 'ManageMyWeb',
-            url: 'https://managemyweb.co',
+            url: 'https://www.managemyweb.co',
           },
           areaServed: 'Worldwide',
           description:

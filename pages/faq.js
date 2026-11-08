@@ -11,9 +11,19 @@ export default function FAQPage() {
 
   const faqs = [
     {
+      category: 'Basics',
+      q: 'What is a 3D e-commerce website?',
+      a: 'A 3D e-commerce website is an online store you can walk through like a real shop. Instead of scrolling a grid of flat photos, customers move around a virtual store in their browser, click products on the shelves, and buy—on phone or laptop, with no app download.',
+    },
+    {
       category: 'Demo & Quotation',
       q: 'How does the Free 3D Demo and Custom Quotation work?',
       a: 'Choose Step 1 to receive a free 48-hour 3D preview of your products before getting your Step 2 quotation—or request a direct itemized quotation within 24 hours.',
+    },
+    {
+      category: 'Cost',
+      q: 'How much does a 3D online store cost?',
+      a: 'Every store is quoted individually because the cost depends on how many products you have, how custom the 3D space is, and whether you also want us to manage hosting and updates. You can see a free 48-hour demo with your own products first, then receive an itemized quotation.',
     },
     {
       category: 'Mobile Speed',
@@ -24,6 +34,16 @@ export default function FAQPage() {
       category: 'Integrations',
       q: 'Does it connect to our existing Shopify or WooCommerce catalog?',
       a: 'Yes. Your products, variants, stock, and order fulfillment remain 100% synced with your current store.',
+    },
+    {
+      category: 'Integrations',
+      q: 'Do I need to rebuild my current website to get a 3D store?',
+      a: 'No. Your 3D store is added on top of your existing Shopify, WooCommerce, or custom website. Your products, checkout, and orders stay where they are today.',
+    },
+    {
+      category: 'Industries',
+      q: 'Which types of online stores can be turned into 3D?',
+      a: 'Any product-based store: fashion and footwear, beauty and skincare, coffee and food, watches and jewelry, electronics, and home goods. We design the 3D space around your products and brand.',
     },
     {
       category: 'SEO',
@@ -45,9 +65,21 @@ export default function FAQPage() {
   return (
     <>
       <SEOHead
-        title="Frequently Asked Questions | ManageMyWeb"
-        description="Answers regarding bespoke 3D retail storefronts, mobile browser performance, Shopify integration, and managed web operations."
-        canonicalUrl="https://managemyweb.co/faq"
+        title="3D E-Commerce Website FAQ: Cost, Shopify, Speed & Setup | ManageMyWeb"
+        description="Answers to common questions about 3D e-commerce websites: what they are, how much they cost, Shopify and WooCommerce integration, mobile speed, and how the free 48-hour 3D demo works."
+        keywords="what is a 3D ecommerce website, 3D online store cost, 3D Shopify store, WooCommerce 3D store, 3D virtual store FAQ"
+        canonicalUrl="https://www.managemyweb.co/faq"
+        schemaData={{
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((item) => ({
+            '@type': 'Question',
+            name: item.q,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: item.a,
+            },
+          })),
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />

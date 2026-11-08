@@ -79,11 +79,11 @@ export default function Contact() {
         title="Contact & Request Free 3D Store Prototype | ManageMyWeb"
         description="Request a complimentary custom 3D prototype of your online store delivered in 48 hours, or speak directly with ManageMyWeb engineers on WhatsApp (+92 317 4075023) and sales@managemyweb.co."
         keywords="request 3D store prototype, free 3D ecommerce demo, hire 3D web developer, contact ManageMyWeb, custom 3D Shopify store quote, managed web operations contact"
-        canonicalUrl="https://managemyweb.co/contact"
+        canonicalUrl="https://www.managemyweb.co/contact"
         schemaData={{
           '@type': 'ContactPage',
           name: 'Contact ManageMyWeb Studio',
-          url: 'https://managemyweb.co/contact',
+          url: 'https://www.managemyweb.co/contact',
           description: 'Request a complimentary 48-hour 3D virtual store prototype for your e-commerce brand.',
         }}
       />

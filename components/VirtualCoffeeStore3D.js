@@ -199,13 +199,20 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
         <video
           ref={videoRef}
           src={videoSrc}
+          poster="/images/og-cover.png"
+          preload="metadata"
           autoPlay
           loop
           muted={isMuted}
           playsInline
           controls
+          aria-label="30-second explainer: how a 3D e-commerce store works"
+          width={1280}
+          height={720}
           style={{
             width: '100%',
+            height: 'auto',
+            aspectRatio: '16 / 9',
             maxHeight: '620px',
             objectFit: 'cover',
             display: 'block',

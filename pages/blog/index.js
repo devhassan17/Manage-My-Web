@@ -8,6 +8,33 @@ import Footer from '../../components/Footer';
 
 export const blogPosts = [
   {
+    slug: 'can-you-add-a-3d-store-to-shopify',
+    title: 'Can You Add a 3D Store to Shopify or WooCommerce?',
+    excerpt: 'Yes—without rebuilding your store. Here is how it works, step by step.',
+    date: 'Nov 8, 2026',
+    readTime: '5 min read',
+    category: 'Guides',
+    metric: 'Keep Your Checkout',
+  },
+  {
+    slug: '3d-virtual-store-vs-normal-ecommerce-website',
+    title: '3D Virtual Store vs. Normal E-Commerce Website: What Is the Difference?',
+    excerpt: 'A side-by-side, plain-English comparison for store owners.',
+    date: 'Nov 7, 2026',
+    readTime: '5 min read',
+    category: 'Guides',
+    metric: 'Side-by-Side',
+  },
+  {
+    slug: 'what-affects-the-cost-of-a-3d-ecommerce-website',
+    title: 'What Affects the Cost of a 3D E-Commerce Website?',
+    excerpt: 'The 5 factors that decide your quotation—and how to see a free demo first.',
+    date: 'Nov 6, 2026',
+    readTime: '4 min read',
+    category: 'Pricing',
+    metric: '5 Cost Factors',
+  },
+  {
     slug: 'future-of-ecommerce-3d-virtual-stores',
     title: 'Why 3D Flagship Storefronts Are Replacing Flat Product Grids',
     excerpt: 'How interactive 3D retail spaces drive 3.4× longer customer sessions.',
@@ -42,9 +69,19 @@ export default function BlogIndex() {
   return (
     <>
       <SEOHead
-        title="Editorial Journal & Retail Insights | ManageMyWeb"
-        description="Essays and benchmarks on 3D retail architecture, conversion psychology, FairChain provenance, and modern web operations."
-        canonicalUrl="https://managemyweb.co/blog"
+        title="3D E-Commerce Guides & Retail Insights | ManageMyWeb Journal"
+        description="Plain-English guides on 3D e-commerce websites: adding a 3D store to Shopify or WooCommerce, how 3D stores compare to normal online stores, and what affects the cost."
+        canonicalUrl="https://www.managemyweb.co/blog"
+        schemaData={{
+          '@type': 'Blog',
+          name: 'ManageMyWeb Journal',
+          url: 'https://www.managemyweb.co/blog',
+          blogPost: blogPosts.map((p) => ({
+            '@type': 'BlogPosting',
+            headline: p.title,
+            url: `https://www.managemyweb.co/blog/${p.slug}`,
+          })),
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />

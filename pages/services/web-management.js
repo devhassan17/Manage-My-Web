@@ -14,7 +14,7 @@ export default function WebManagement() {
         title="Managed Web Operations, Cloud Hosting & Technical Stewardship | ManageMyWeb"
         description="Hand off your cloud edge hosting, domains, DNS records, DMARC/SPF email deliverability, Core Web Vitals optimization, and daily website updates to a dedicated engineering team."
         keywords="managed web operations, ecommerce website management service, managed cloud hosting, Core Web Vitals optimization, DNS and DMARC management, website maintenance retainer"
-        canonicalUrl="https://managemyweb.co/services/web-management"
+        canonicalUrl="https://www.managemyweb.co/services/web-management"
         schemaData={{
           '@type': 'Service',
           name: 'Managed Web Operations & Cloud Infrastructure',
@@ -22,7 +22,7 @@ export default function WebManagement() {
           provider: {
             '@type': 'Organization',
             name: 'ManageMyWeb',
-            url: 'https://managemyweb.co',
+            url: 'https://www.managemyweb.co',
           },
           areaServed: 'Worldwide',
         }}

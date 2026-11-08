@@ -57,7 +57,7 @@ export default function ServicesHub() {
         title="3D Storefront & Managed Web Services | ManageMyWeb"
         description="Explore our full suite of e-commerce engineering services: bespoke 3D virtual retail storefronts, managed web operations, global edge hosting, and conversion rate optimization."
         keywords="3D ecommerce services, custom 3D store development, managed web operations agency, Shopify speed optimization service, ecommerce conversion optimization"
-        canonicalUrl="https://managemyweb.co/services"
+        canonicalUrl="https://www.managemyweb.co/services"
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />

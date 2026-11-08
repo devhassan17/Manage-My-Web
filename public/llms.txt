@@ -19,6 +19,10 @@
 - [Client Portfolio & Case Studies](https://www.managemyweb.co/case-studies): 14+ global client brands across the Netherlands, UK, Ireland, USA, Australia, and Canada.
 - [Request Custom Quotation or Free 3D Demo](https://www.managemyweb.co/pricing): Compare engagement scopes (3D Storefront Launchpad, 3D Flagship + Managed Ops, Managed Web Concierge) and request a quote.
 - [Frequently Asked Questions (FAQ)](https://www.managemyweb.co/faq): Direct answers on Shopify/WooCommerce integration, mobile speed, custom quotations, and 48-hour free demos.
+- [Journal & Guides](https://www.managemyweb.co/blog): Educational articles for e-commerce brands:
+  - [Can You Add a 3D Store to Shopify or WooCommerce?](https://www.managemyweb.co/blog/can-you-add-a-3d-store-to-shopify): How 3D stores connect to Shopify/WooCommerce without changing your existing checkout or backend.
+  - [3D Virtual Store vs. Normal E-Commerce Website](https://www.managemyweb.co/blog/3d-virtual-store-vs-normal-ecommerce-website): Side-by-side comparison of walking through a 3D store vs. scrolling a flat photo grid.
+  - [What Affects the Cost of a 3D E-Commerce Website?](https://www.managemyweb.co/blog/what-affects-the-cost-of-a-3d-ecommerce-website): The 5 factors that dictate 3D store pricing and how to get a free 48h demo first.
 - [Contact ManageMyWeb](https://www.managemyweb.co/contact): Request a free 48-hour 3D store demo or custom quotation.
 
 ## Verified Global Client Portfolio (14+ Brands)

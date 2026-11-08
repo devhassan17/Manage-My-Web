@@ -14,7 +14,7 @@ export default function EcommerceGrowth() {
         title="E-Commerce Conversion Rate Optimization & Checkout Engineering | ManageMyWeb"
         description="Turn existing store traffic into higher-value orders with frictionless Apple Pay & Stripe express checkouts, spatial shelf bundling, and server-side GA4 attribution."
         keywords="ecommerce conversion rate optimization, Shopify checkout optimization, increase average order value, Apple Pay express checkout integration, ecommerce CRO agency"
-        canonicalUrl="https://managemyweb.co/services/ecommerce-growth"
+        canonicalUrl="https://www.managemyweb.co/services/ecommerce-growth"
         schemaData={{
           '@type': 'Service',
           name: 'E-Commerce Conversion & Checkout Engineering',
@@ -22,7 +22,7 @@ export default function EcommerceGrowth() {
           provider: {
             '@type': 'Organization',
             name: 'ManageMyWeb',
-            url: 'https://managemyweb.co',
+            url: 'https://www.managemyweb.co',
           },
           areaServed: 'Worldwide',
         }}
