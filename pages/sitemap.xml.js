@@ -27,20 +27,21 @@ export async function getServerSideProps({ res }) {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${SITEMAP_ROUTES.map(
-    (route) => `  <url>
+  (route) => `  <url>
     <loc>${BASE_URL}${route.path}</loc>
     <lastmod>${nowIso}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
-    <priority>${route.priority}</priority>${route.image
+    <priority>${route.priority}</priority>${
+      route.image
         ? `
     <image:image>
       <image:loc>${BASE_URL}${route.image}</image:loc>
       <image:title>${route.title.replace(/&/g, '&amp;')}</image:title>
     </image:image>`
         : ''
-      }
+    }
   </url>`
-  ).join('\n')}
+).join('\n')}
 </urlset>`;
 
   res.setHeader('Content-Type', 'text/xml; charset=utf-8');

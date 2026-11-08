@@ -21,7 +21,7 @@ export default function Contact() {
           });
         }
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   const [formData, setFormData] = useState({
@@ -88,8 +88,8 @@ export default function Contact() {
         }}
       />
 
-      <CountdownBanner onClaimDemo={() => { }} />
-      <Navbar onOpenDemoModal={() => { }} />
+      <CountdownBanner onClaimDemo={() => {}} />
+      <Navbar onOpenDemoModal={() => {}} />
 
       <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container" style={{ maxWidth: '980px' }}>
@@ -370,8 +370,8 @@ export default function Contact() {
                     {loading
                       ? 'Submitting...'
                       : formData.requestType === 'quotation'
-                        ? 'Request Custom Quotation'
-                        : 'Start Step 1: Request Free 3D Demo'}
+                      ? 'Request Custom Quotation'
+                      : 'Start Step 1: Request Free 3D Demo'}
                   </button>
                 </form>
               )}
@@ -419,7 +419,7 @@ export default function Contact() {
         </div>
       </main>
 
-      <Footer onOpenDemoModal={() => { }} />
+      <Footer onOpenDemoModal={() => {}} />
     </>
   );
 }

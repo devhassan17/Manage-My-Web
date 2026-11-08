@@ -281,8 +281,8 @@ export default function AdminDashboard() {
     const tplKey = pkgLower.includes('launchpad')
       ? 'launchpad'
       : pkgLower.includes('managed') && !pkgLower.includes('3d')
-        ? 'concierge'
-        : 'flagship';
+      ? 'concierge'
+      : 'flagship';
     const tpl = PRE_DESIGNED_QUOTE_TEMPLATES[tplKey];
 
     setActiveQuote({
@@ -2896,10 +2896,11 @@ export default function AdminDashboard() {
                 },
                 {
                   label: 'Accepted All Cookies',
-                  value: `${cookieStore.stats?.acceptedAll || 0} (${cookieStore.stats?.totalDecisions
+                  value: `${cookieStore.stats?.acceptedAll || 0} (${
+                    cookieStore.stats?.totalDecisions
                       ? Math.round((cookieStore.stats.acceptedAll / cookieStore.stats.totalDecisions) * 100)
                       : 0
-                    }%)`,
+                  }%)`,
                   sub: 'Full Analytics + Marketing + 3D',
                 },
                 {
@@ -3158,21 +3159,21 @@ export default function AdminDashboard() {
                                   item.decision === 'accepted_all'
                                     ? '#E8F5E9'
                                     : item.decision === 'custom'
-                                      ? '#EBF5FF'
-                                      : '#F5F5F7',
+                                    ? '#EBF5FF'
+                                    : '#F5F5F7',
                                 color:
                                   item.decision === 'accepted_all'
                                     ? '#1D7D3F'
                                     : item.decision === 'custom'
-                                      ? '#0066CC'
-                                      : '#6E6E73',
+                                    ? '#0066CC'
+                                    : '#6E6E73',
                               }}
                             >
                               {item.decision === 'accepted_all'
                                 ? 'Accepted All'
                                 : item.decision === 'custom'
-                                  ? 'Customized'
-                                  : 'Essential Only'}
+                                ? 'Customized'
+                                : 'Essential Only'}
                             </span>
                           </td>
                           <td style={{ padding: '14px 20px', color: '#424245' }}>
