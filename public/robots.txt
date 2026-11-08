@@ -1,21 +1,43 @@
-# ManageMyWeb Robots & Crawler Directives
+# ManageMyWeb SEO, AEO & GEO Crawler Directives
 User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /api/
 
-# Search Engine Crawlers
+# Traditional Search Engines (SEO)
 User-agent: Googlebot
 Allow: /
 Disallow: /admin
 Disallow: /api/
+
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /favicon.svg
+
+User-agent: Googlebot-Video
+Allow: /videos/
 
 User-agent: Bingbot
 Allow: /
 Disallow: /admin
 Disallow: /api/
 
-# AI Answer Engines (AEO / GEO Optimization)
+User-agent: Applebot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+# Generative AI & Answer Engines (GEO & AEO)
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
 User-agent: GPTBot
 Allow: /
 Disallow: /admin
@@ -26,10 +48,28 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
 User-agent: ClaudeBot
 Allow: /
 Disallow: /admin
 Disallow: /api/
 
+User-agent: anthropic-ai
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+# Sitemaps & LLM Knowledge Files
 Sitemap: https://www.managemyweb.co/sitemap.xml
 Host: https://www.managemyweb.co
+# LLMs Reference: https://www.managemyweb.co/llms.txt
+# LLMs Full Guide: https://www.managemyweb.co/llms-full.txt

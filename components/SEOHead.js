@@ -10,9 +10,9 @@ const BREADCRUMB_LABELS = {
   'ecommerce-growth': 'E-Commerce Conversion Growth',
   experience: 'Interactive 3D Showroom',
   'case-studies': 'Client Case Studies',
-  pricing: 'Pricing & Retainers',
+  pricing: 'Custom Quotation & 3D Demo',
   about: 'About ManageMyWeb',
-  contact: 'Contact & Free Prototype',
+  contact: 'Contact & Free 3D Demo',
   faq: 'Frequently Asked Questions',
   blog: 'Editorial Journal',
   privacy: 'Privacy Policy',
@@ -56,10 +56,10 @@ function buildBreadcrumbs(canonicalUrl, pageTitle) {
 }
 
 export default function SEOHead({
-  title = 'ManageMyWeb | Custom 3D Virtual Stores & Managed E-Commerce Operations',
-  description = 'Turn your online store into an interactive 3D retail showroom. ManageMyWeb builds bespoke 3D virtual storefronts and manages hosting, speed, and conversion growth for fashion, beauty, electronics, home, and luxury brands.',
-  keywords = '3D virtual store, 3D ecommerce website, interactive 3D Shopify store, virtual retail showroom, spatial commerce agency, WebGL online store, 3D product configurator ecommerce, managed web operations, Shopify speed optimization, ecommerce conversion rate optimization, ManageMyWeb',
-  ogImage = '/favicon.svg',
+  title = 'ManageMyWeb | 3D E-Commerce Websites & Full Store Management',
+  description = 'Turn your e-commerce website into a walkable 3D online store. ManageMyWeb builds custom 3D storefronts for Shopify, WooCommerce, and custom brands—and manages your hosting, speed, and daily store updates.',
+  keywords = '3D virtual store, 3D ecommerce website, interactive 3D Shopify store, WooCommerce 3D store, virtual retail showroom, spatial commerce agency, WebGL online store, 3D product configurator ecommerce, managed web operations, Shopify speed optimization, ecommerce conversion rate optimization, ManageMyWeb',
+  ogImage = '/images/og-cover.png',
   ogType = 'website',
   canonicalUrl = 'https://www.managemyweb.co',
   noIndex = false,
@@ -104,8 +104,19 @@ export default function SEOHead({
       'Bespoke 3D virtual storefront engineering and full-stack managed web operations for modern e-commerce brands across fashion, beauty, electronics, jewelry, home goods, and specialty retail.',
     email: 'sales@managemyweb.co',
     telephone: '+92-317-4075023',
-    priceRange: '$$$',
-    areaServed: 'Worldwide',
+    priceRange: 'Custom Quotation',
+    areaServed: ['NL', 'GB', 'IE', 'US', 'AU', 'CA', 'Worldwide'],
+    knowsAbout: [
+      '3D E-Commerce Websites',
+      '3D Virtual Storefronts',
+      'Shopify 3D Store Integration',
+      'WooCommerce 3D Virtual Showroom',
+      'WebGL and Three.js Retail Architecture',
+      'Spatial Commerce',
+      'Managed Web Operations',
+      'E-Commerce Conversion Rate Optimization',
+      'Core Web Vitals Speed Optimization',
+    ],
     contactPoint: [
       {
         '@type': 'ContactPoint',
@@ -122,27 +133,27 @@ export default function SEOHead({
     ],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: '3D Virtual Storefront & Web Management Services',
+      name: '3D E-Commerce Storefront & Web Management Services',
       itemListElement: [
         {
           '@type': 'Offer',
           price: '0.00',
           priceCurrency: 'USD',
-          name: 'Complimentary 3D Storefront Prototype (48-Hour Turnaround)',
+          name: 'Step 1: Complimentary 48-Hour 3D Store Demo',
           description:
-            'Custom working 3D virtual showroom preview built with your actual e-commerce products before committing to a retainer.',
+            'Custom working 3D virtual showroom preview built with your actual e-commerce products in 48 hours before receiving your custom quotation.',
         },
         {
           '@type': 'Offer',
-          name: 'Custom 3D Virtual Store Architecture',
+          name: 'Step 2: Custom 3D Virtual Store Architecture (Custom Quotation)',
           description:
-            'Interactive 60fps WebGL / Three.js 3D retail storefronts integrated directly with Shopify, WooCommerce, and headless commerce.',
+            'Interactive 60fps WebGL / Three.js 3D retail storefronts integrated directly with Shopify, WooCommerce, and custom e-commerce catalogs.',
         },
         {
           '@type': 'Offer',
-          name: 'Managed Web Operations & Conversion Engineering',
+          name: 'Managed Web Operations & Conversion Engineering (Custom Quotation)',
           description:
-            '24/7 cloud hosting, Core Web Vitals optimization, security patching, and conversion rate optimization.',
+            '24/7 cloud hosting, Core Web Vitals optimization, domain/DNS management, security backups, and same-day store updates via WhatsApp.',
         },
       ],
     },
@@ -154,7 +165,7 @@ export default function SEOHead({
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
     name: 'ManageMyWeb',
-    alternateName: ['Manage My Web', 'ManageMyWeb Studio', 'managemyweb.co'],
+    alternateName: ['Manage My Web', 'ManageMyWeb Studio', 'managemyweb.co', 'www.managemyweb.co'],
     publisher: {
       '@id': `${SITE_URL}/#organization`,
     },
@@ -169,37 +180,37 @@ export default function SEOHead({
       {
         '@type': 'SiteNavigationElement',
         position: 1,
-        name: '3D Virtual Storefronts',
+        name: '3D Storefronts',
         description: 'Walkable 3D flagship retail stores for Shopify, WooCommerce, and custom e-commerce brands.',
         url: `${SITE_URL}/services/3d-virtual-stores`,
       },
       {
         '@type': 'SiteNavigationElement',
         position: 2,
-        name: 'Interactive 3D Showroom Demo',
-        description: 'Explore our live 360° interactive 3D storefront preview right in your browser.',
+        name: 'Interactive 3D Demo',
+        description: 'Watch the 30-second voiceover walkthrough or explore our live 360° interactive 3D storefront.',
         url: `${SITE_URL}/experience`,
       },
       {
         '@type': 'SiteNavigationElement',
         position: 3,
-        name: 'Managed Web Operations',
+        name: 'Web Management',
         description: '24/7 cloud hosting, DNS, speed optimization, and technical stewardship.',
         url: `${SITE_URL}/services/web-management`,
       },
       {
         '@type': 'SiteNavigationElement',
         position: 4,
-        name: 'Pricing & Retainers',
-        description: 'Transparent one-time 3D storefront builds and monthly managed web retainers.',
-        url: `${SITE_URL}/pricing`,
+        name: 'Client Results',
+        description: '14+ global client e-commerce websites across the Netherlands, UK, Ireland, USA, Australia, and Canada.',
+        url: `${SITE_URL}/case-studies`,
       },
       {
         '@type': 'SiteNavigationElement',
         position: 5,
-        name: 'Request Free 3D Prototype',
-        description: 'Get a complimentary working 3D preview of your online store within 48 hours.',
-        url: `${SITE_URL}/contact`,
+        name: 'Get Quotation & Free 3D Demo',
+        description: 'Start with a complimentary 48-hour 3D store demo or request a direct custom quotation.',
+        url: `${SITE_URL}/pricing`,
       },
     ],
   };
@@ -215,6 +226,10 @@ export default function SEOHead({
     },
     about: {
       '@id': `${SITE_URL}/#organization`,
+    },
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', 'h2', 'main p'],
     },
     inLanguage: 'en-US',
   };
@@ -274,6 +289,8 @@ export default function SEOHead({
       <link rel="canonical" href={cleanCanonical} />
       <link rel="alternate" hrefLang="en" href={cleanCanonical} />
       <link rel="alternate" hrefLang="x-default" href={cleanCanonical} />
+      <link rel="alternate" type="text/plain" href={`${SITE_URL}/llms.txt`} title="LLMs.txt Knowledge Base" />
+      <link rel="alternate" type="text/plain" href={`${SITE_URL}/llms-full.txt`} title="LLMs Full Reference Guide" />
 
       {/* Open Graph / Facebook / LinkedIn / WhatsApp */}
       <meta property="og:type" content={ogType} />

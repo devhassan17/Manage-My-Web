@@ -120,22 +120,61 @@ export default function Home({ serverSeo }) {
   return (
     <>
       <SEOHead
-        title="ManageMyWeb | 3D Virtual Storefronts & Managed Web Operations for E-Commerce"
-        description="Turn your online store into an interactive 3D flagship showroom. We build custom 3D storefronts for fashion, beauty, electronics, luxury, and retail brands—and manage your entire web infrastructure. Request a free 48-hour prototype."
-        keywords="3D virtual store, 3D ecommerce website, interactive 3D Shopify store, virtual retail showroom, spatial commerce agency, WebGL online store, 3D storefront builder, managed web operations, ecommerce conversion rate optimization, Shopify 3D store, ManageMyWeb"
-        canonicalUrl="https://managemyweb.co"
+        title="ManageMyWeb | 3D E-Commerce Websites & Full Store Management"
+        description="Turn your e-commerce website into a walkable 3D online store. We build custom 3D storefronts for Shopify, WooCommerce, and custom brands—and manage your hosting, speed, and daily updates. Get a free 48-hour 3D demo."
+        keywords="3D virtual store, 3D ecommerce website, interactive 3D Shopify store, WooCommerce 3D store, virtual retail showroom, spatial commerce agency, WebGL online store, 3D storefront builder, managed web operations, ecommerce conversion rate optimization, ManageMyWeb"
+        canonicalUrl="https://www.managemyweb.co"
         serverSeo={serverSeo}
-        schemaData={{
-          '@type': 'FAQPage',
-          mainEntity: faqs.map((item) => ({
-            '@type': 'Question',
-            name: item.q,
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: item.a,
-            },
-          })),
-        }}
+        schemaData={[
+          {
+            '@type': 'FAQPage',
+            mainEntity: faqs.map((item) => ({
+              '@type': 'Question',
+              name: item.q,
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: item.a,
+              },
+            })),
+          },
+          {
+            '@type': 'VideoObject',
+            name: 'Turn Your E-Commerce Website Into a Walkable 3D Store — 30-Second Explainer',
+            description:
+              'Watch how ManageMyWeb transforms standard flat Shopify, WooCommerce, and custom e-commerce websites into interactive 3D virtual stores customers can walk inside on any phone or laptop.',
+            thumbnailUrl: ['https://www.managemyweb.co/images/og-cover.png'],
+            uploadDate: '2026-11-08T00:00:00+00:00',
+            duration: 'PT30S',
+            contentUrl: 'https://www.managemyweb.co/videos/3d-store-preview.mp4',
+            embedUrl: 'https://www.managemyweb.co/experience',
+          },
+          {
+            '@type': 'HowTo',
+            name: 'How to Turn Your E-Commerce Website Into a Walkable 3D Store',
+            description:
+              'Step-by-step process to preview your own products inside an interactive 3D online store and launch with full technical web management.',
+            step: [
+              {
+                '@type': 'HowToStep',
+                position: 1,
+                name: 'Send Your E-Commerce Website Link',
+                text: 'Share your existing Shopify, WooCommerce, or custom online store URL to request your free 3D store demo.',
+              },
+              {
+                '@type': 'HowToStep',
+                position: 2,
+                name: 'Explore Your Free 48-Hour 3D Demo',
+                text: 'Receive a private working 3D storefront preview featuring your own products within 48 hours at zero cost.',
+              },
+              {
+                '@type': 'HowToStep',
+                position: 3,
+                name: 'Receive Your Custom Quotation & Launch',
+                text: 'Review an itemized custom quotation tailored to your catalog size and launch your 3D store synced with your existing checkout.',
+              },
+            ],
+          },
+        ]}
       />
 
       <CountdownBanner onClaimDemo={() => openModalForCategory('Fashion, Apparel & Footwear', 'demo')} />
