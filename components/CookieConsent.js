@@ -2,6 +2,45 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+function getClientTelemetry() {
+  if (typeof window === 'undefined') return {};
+  let webgl = 'WebGL 2.0 (Active)';
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+    if (gl) {
+      const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+      if (debugInfo) {
+        webgl = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) || 'WebGL 2.0 (Active)';
+      }
+    }
+  } catch (e) {}
+
+  const params = new URLSearchParams(window.location.search || '');
+  return {
+    referrer: document.referrer || 'Direct / Bookmark',
+    screenResolution: `${window.screen?.width || 0} × ${window.screen?.height || 0}`,
+    viewportSize: `${window.innerWidth || 0} × ${window.innerHeight || 0}`,
+    pixelRatio: window.devicePixelRatio ? `${window.devicePixelRatio}x (Retina)` : '1x',
+    colorScheme:
+      window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'Dark Mode'
+        : 'Light Mode',
+    language: navigator.language || navigator.userLanguage || 'en-US',
+    touchPoints: (navigator.maxTouchPoints || 0) > 0 ? 'Touchscreen' : 'Mouse / Trackpad',
+    hardwareConcurrency: navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency} CPU Cores` : '',
+    deviceMemory: navigator.deviceMemory ? `${navigator.deviceMemory} GB RAM` : '',
+    networkType: navigator.connection?.effectiveType ? navigator.connection.effectiveType.toUpperCase() : '',
+    timezone: Intl?.DateTimeFormat ? Intl.DateTimeFormat().resolvedOptions().timeZone : '',
+    webgl,
+    utm: {
+      source: params.get('utm_source') || '',
+      medium: params.get('utm_medium') || '',
+      campaign: params.get('utm_campaign') || '',
+    },
+  };
+}
+
 export default function CookieConsent() {
   const router = useRouter();
   const [visible, setVisible] = useState(false);
@@ -119,6 +158,7 @@ export default function CookieConsent() {
     setShowCustomize(false);
 
     try {
+      const telemetry = getClientTelemetry();
       await fetch('/api/cookies', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -128,6 +168,7 @@ export default function CookieConsent() {
           categories: selectedCategories,
           path: router.asPath || '/',
           visitorId,
+          telemetry,
         }),
       });
     } catch (e) {
