@@ -4,6 +4,21 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   allowedDevOrigins: ['127.0.0.1', 'localhost'],
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'managemyweb.co',
+          },
+        ],
+        destination: 'https://www.managemyweb.co/:path*',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
