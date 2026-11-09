@@ -61,6 +61,8 @@ export default async function handler(req, res) {
       isConfigured: true,
     });
 
+    const testReference = `diag-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 7)}`;
+
     const info = await transporter.sendMail({
       from: `"${finalFromName}" <${finalFromEmail}>`,
       to: targetEmail,
@@ -78,7 +80,7 @@ export default async function handler(req, res) {
             <div><strong>Host:</strong> ${finalHost}:${finalPort} (${isImplicitSsl ? 'SSL' : 'STARTTLS'})</div>
             <div><strong>Sender:</strong> ${finalFromName} &lt;${finalFromEmail}&gt;</div>
             <div><strong>Delivered To:</strong> ${targetEmail}</div>
-            <div style="margin-top: 6px; font-size: 11.5px;">Message ID: ${info.messageId || 'verified'}</div>
+            <div style="margin-top: 6px; font-size: 11.5px;">Diagnostic Ref: ${testReference}</div>
           </div>
         </div>
       `,
