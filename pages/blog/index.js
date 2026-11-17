@@ -5,80 +5,35 @@ import CountdownBanner from '../../components/CountdownBanner';
 import Navbar from '../../components/Navbar';
 import LeadModal from '../../components/LeadModal';
 import Footer from '../../components/Footer';
+import { BLOG_POSTS_LIST } from '../../data/blogPosts';
 
-export const blogPosts = [
-  {
-    slug: 'can-you-add-a-3d-store-to-shopify',
-    title: 'Can You Add a 3D Store to Shopify or WooCommerce?',
-    excerpt: 'Yes—without rebuilding your store. Here is how it works, step by step.',
-    date: 'Nov 8, 2026',
-    readTime: '5 min read',
-    category: 'Guides',
-    metric: 'Keep Your Checkout',
-  },
-  {
-    slug: '3d-virtual-store-vs-normal-ecommerce-website',
-    title: '3D Virtual Store vs. Normal E-Commerce Website: What Is the Difference?',
-    excerpt: 'A side-by-side, plain-English comparison for store owners.',
-    date: 'Nov 7, 2026',
-    readTime: '5 min read',
-    category: 'Guides',
-    metric: 'Side-by-Side',
-  },
-  {
-    slug: 'what-affects-the-cost-of-a-3d-ecommerce-website',
-    title: 'What Affects the Cost of a 3D E-Commerce Website?',
-    excerpt: 'The 5 factors that decide your quotation—and how to see a free demo first.',
-    date: 'Nov 6, 2026',
-    readTime: '4 min read',
-    category: 'Pricing',
-    metric: '5 Cost Factors',
-  },
-  {
-    slug: 'future-of-ecommerce-3d-virtual-stores',
-    title: 'Why 3D Flagship Storefronts Are Replacing Flat Product Grids',
-    excerpt: 'How interactive 3D retail spaces drive 3.4× longer customer sessions.',
-    date: 'Nov 2, 2026',
-    readTime: '4 min read',
-    category: 'Spatial Retail',
-    metric: '3.4× Session Lift',
-  },
-  {
-    slug: 'fairchain-coffee-story-in-spatial-web',
-    title: 'How Visual Provenance Walls Build Instant Buyer Trust',
-    excerpt: 'Placing craftsmanship and origin data directly inside the showroom.',
-    date: 'Oct 28, 2026',
-    readTime: '3 min read',
-    category: 'Brand Story',
-    metric: '4.8× Story Views',
-  },
-  {
-    slug: 'why-traditional-ecommerce-grids-are-dying',
-    title: 'Lifting Average Order Value by 62% with Express Counters',
-    excerpt: 'Why one-tap express registers and 3D shelf bundles convert higher.',
-    date: 'Oct 21, 2026',
-    readTime: '4 min read',
-    category: 'Conversion',
-    metric: '+62% Order Value',
-  },
-];
+export const blogPosts = BLOG_POSTS_LIST;
 
 export default function BlogIndex() {
   const [demoModalOpen, setDemoModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const categories = ['All', ...Array.from(new Set(BLOG_POSTS_LIST.map((p) => p.category)))];
+  const visiblePosts =
+    selectedCategory === 'All'
+      ? BLOG_POSTS_LIST
+      : BLOG_POSTS_LIST.filter((p) => p.category === selectedCategory);
 
   return (
     <>
       <SEOHead
-        title="3D E-Commerce Guides & Retail Insights | ManageMyWeb Journal"
-        description="Plain-English guides on 3D e-commerce websites: adding a 3D store to Shopify or WooCommerce, how 3D stores compare to normal online stores, and what affects the cost."
+        title="3D Online Store & Website Management Guides | ManageMyWeb Blog"
+        description="Plain-English guides for store owners: how to make a 3D website, connect 3D to Shopify or WooCommerce, speed up mobile pages, and reduce cart abandonment."
+        keywords="how to make a 3d website, 3d shopify store guide, website maintenance checklist, ecommerce speed optimization, reduce cart abandonment"
         canonicalUrl="https://www.managemyweb.co/blog"
         schemaData={{
           '@type': 'Blog',
-          name: 'ManageMyWeb Journal',
+          name: 'ManageMyWeb Guides & Blog',
           url: 'https://www.managemyweb.co/blog',
-          blogPost: blogPosts.map((p) => ({
+          blogPost: BLOG_POSTS_LIST.map((p) => ({
             '@type': 'BlogPosting',
             headline: p.title,
+            datePublished: p.isoDate,
             url: `https://www.managemyweb.co/blog/${p.slug}`,
           })),
         }}
@@ -89,9 +44,9 @@ export default function BlogIndex() {
 
       <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 44px auto' }}>
+          <div style={{ textAlign: 'center', maxWidth: '660px', margin: '0 auto 36px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              Journal
+              Guides &amp; Resources
             </p>
             <h1
               style={{
@@ -100,11 +55,49 @@ export default function BlogIndex() {
                 letterSpacing: '-0.03em',
                 color: '#1D1D1F',
                 lineHeight: 1.08,
-                marginBottom: '10px',
+                marginBottom: '12px',
               }}
             >
-              Notes on 3D retail.
+              Plain-English guides for store owners.
             </h1>
+            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.5 }}>
+              Honest answers on 3D websites, Shopify &amp; WooCommerce setup, website costs, faster mobile speed, and monthly site care.
+            </p>
+          </div>
+
+          {/* Category Filter Pills */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              gap: '8px',
+              marginBottom: '36px',
+            }}
+          >
+            {categories.map((cat) => {
+              const active = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat)}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '980px',
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    border: active ? '1px solid #0071E3' : '1px solid #D2D2D7',
+                    background: active ? '#0071E3' : '#FFFFFF',
+                    color: active ? '#FFFFFF' : '#1D1D1F',
+                  }}
+                >
+                  {cat}
+                </button>
+              );
+            })}
           </div>
 
           <div
@@ -114,7 +107,7 @@ export default function BlogIndex() {
               gap: '22px',
             }}
           >
-            {blogPosts.map((post) => (
+            {visiblePosts.map((post) => (
               <article
                 key={post.slug}
                 className="apple-card apple-card-interactive"
@@ -155,7 +148,7 @@ export default function BlogIndex() {
                     textDecoration: 'none',
                   }}
                 >
-                  Read article ›
+                  Read guide ›
                 </Link>
               </article>
             ))}

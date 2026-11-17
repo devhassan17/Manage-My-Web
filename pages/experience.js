@@ -10,15 +10,15 @@ export default function ExperiencePage() {
   return (
     <>
       <SEOHead
-        title="Interactive 3D E-Commerce Storefront Demo & Video Walkthrough | ManageMyWeb"
-        description="Watch our 30-second voiceover explainer or open the live 3D e-commerce storefront demo. Walk around in 360°, inspect products on the shelves, test express checkout, and request a free 48-hour 3D demo."
-        keywords="interactive 3D store demo, live 3D ecommerce showroom, 360 virtual store walkthrough, WebGL retail demo, Three.js online store example, ManageMyWeb demo"
+        title="Live 3D Online Store Demo & Video Walkthrough | ManageMyWeb"
+        description="Watch our 30-second video walkthrough or open the live 3D online store demo. Walk around in 360°, click items off the shelves, and ask for a free 48-hour 3D preview of your own store."
+        keywords="live 3D online store demo, 3D ecommerce website example, 360 virtual store walkthrough, 3D Shopify store demo, ManageMyWeb"
         canonicalUrl="https://www.managemyweb.co/experience"
         schemaData={{
           '@type': 'VideoObject',
-          name: '30-Second 3D E-Commerce Storefront Walkthrough & Voiceover Explainer',
+          name: '30-Second Walkthrough: How a 3D Online Store Works',
           description:
-            'See how customers walk inside a 3D online store on their phone or laptop, click products on the shelves, add to bag, and pay in one tap.',
+            'See how customers walk inside a 3D online store on their phone or laptop, click products on the shelves, add to cart, and check out in one tap.',
           thumbnailUrl: ['https://www.managemyweb.co/images/og-cover.png'],
           uploadDate: '2026-11-08T00:00:00+00:00',
           duration: 'PT30S',

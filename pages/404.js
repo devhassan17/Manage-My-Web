@@ -9,14 +9,14 @@ export default function Custom404() {
   const [demoModalOpen, setDemoModalOpen] = useState(false);
 
   const quickLinks = [
-    { href: '/', title: 'Home', desc: 'Overview of 3D e-commerce stores & operations' },
-    { href: '/experience', title: 'Interactive 3D Demo', desc: 'Walk inside our 360° virtual showroom' },
-    { href: '/services/3d-virtual-stores', title: '3D Storefronts', desc: 'Custom 3D retail spaces for Shopify & WooCommerce' },
-    { href: '/case-studies', title: 'Client Portfolio', desc: 'Explore 14+ global client brand websites' },
-    { href: '/pricing', title: 'Pricing & Quotations', desc: 'Request a custom quotation or free 48h demo' },
-    { href: '/faq', title: 'FAQ', desc: 'Answers about cost, speed, Shopify, and setup' },
-    { href: '/blog', title: 'Journal', desc: 'Guides and benchmarks on 3D e-commerce' },
-    { href: '/contact', title: 'Contact Us', desc: 'Get in touch with our engineering team directly' },
+    { href: '/', title: 'Home', desc: 'Turn your online store into a walkable 3D shop' },
+    { href: '/experience', title: 'Live 3D Demo', desc: 'Watch our 30-second store demo video' },
+    { href: '/shopify-3d-store', title: '3D Store for Shopify', desc: 'Add a 3D shop without changing Shopify checkout' },
+    { href: '/woocommerce-3d-store', title: '3D Store for WooCommerce', desc: 'Speed up WooCommerce & add 3D browsing' },
+    { href: '/3d-store-examples', title: '3D Store Examples', desc: 'See 3D examples across fashion, coffee, beauty & more' },
+    { href: '/services/web-management', title: 'Monthly Website Care', desc: 'Hosting, backups, speed fixes & WhatsApp updates' },
+    { href: '/pricing', title: 'Pricing & Free Demo', desc: 'Try a free 48h 3D demo or ask for a quote' },
+    { href: '/blog', title: 'Guides & FAQ', desc: 'Plain-English guides on 3D websites & store speed' },
   ];
 
   return (

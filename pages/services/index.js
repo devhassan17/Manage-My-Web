@@ -12,41 +12,41 @@ export default function ServicesHub() {
   const services = [
     {
       num: '01',
-      title: '3D Retail Storefronts',
+      title: 'Custom 3D Online Stores',
       slug: '/services/3d-virtual-stores',
-      badge: 'Flagship Architecture',
-      desc: 'Walkable 3D storefronts with interactive product shelves, express checkout, and brand walls.',
+      badge: '3D Store Design',
+      desc: 'Turn your flat Shopify, WooCommerce, or custom product grid into an interactive 3D shop customers can walk through right on their phone or laptop.',
       features: [
-        'Custom 3D WebGL Storefront',
-        '360° Product Shelving',
-        'Express Apple Pay & Stripe Checkout',
-        'Shopify & WooCommerce Sync',
+        'Walkable 3D shop built around your brand',
+        'Spin & zoom products on 3D shelves',
+        'One-tap Apple Pay, Google Pay & Shop Pay checkout',
+        'Connects live to your existing Shopify or WooCommerce store',
       ],
     },
     {
       num: '02',
-      title: 'Managed Web Operations',
+      title: 'Monthly Website Management & Hosting',
       slug: '/services/web-management',
-      badge: 'Full Tech Management',
-      desc: 'We run your cloud hosting, DNS, domains, business email, backups, and daily site edits.',
+      badge: 'Monthly Care',
+      desc: 'Hand off all the messy technical work—fast cloud hosting, domains, DNS, business email, daily security backups, and same-day updates over WhatsApp.',
       features: [
-        'Sub-Second Global Edge Hosting',
-        'Domain, DNS & SSL Management',
-        'DMARC, DKIM & SPF Email Setup',
-        'Same-Day Updates via WhatsApp',
+        'Fast global cloud hosting (< 1.1s load time)',
+        'Domain renewal, DNS & SSL certificates handled',
+        'SPF, DKIM & DMARC business email setup',
+        'Same-day banner & product edits via WhatsApp',
       ],
     },
     {
       num: '03',
-      title: 'Conversion Engineering',
+      title: 'Speed Fixes & Higher Store Sales',
       slug: '/services/ecommerce-growth',
-      badge: 'Revenue Lift',
-      desc: 'Turn traffic into higher-value orders with one-tap checkouts and 3D shelf bundling.',
+      badge: 'Speed & Conversion',
+      desc: 'Stop losing visitors to slow mobile pages and clunky checkout steps. Make more money from the traffic you already have.',
       features: [
-        'One-Tap Apple Pay & Stripe Flows',
-        '3D Shelf Bundling & Upsells',
-        'GA4 & Server-Side Attribution',
-        'Cart Abandonment Reduction',
+        'Mobile speed cleanup for green Google Core Web Vitals',
+        'One-tap express mobile checkout setup',
+        'Smart product bundling & shelf upsells',
+        'Clean Google Analytics & Microsoft Clarity tracking',
       ],
     },
   ];
@@ -54,9 +54,9 @@ export default function ServicesHub() {
   return (
     <>
       <SEOHead
-        title="3D Storefront & Managed Web Services | ManageMyWeb"
-        description="Explore our full suite of e-commerce engineering services: bespoke 3D virtual retail storefronts, managed web operations, global edge hosting, and conversion rate optimization."
-        keywords="3D ecommerce services, custom 3D store development, managed web operations agency, Shopify speed optimization service, ecommerce conversion optimization"
+        title="3D Online Store Design & Monthly Website Management | ManageMyWeb"
+        description="Get a walkable 3D online store connected to Shopify or WooCommerce, plus fast cloud hosting, speed fixes, security backups, and same-day website updates."
+        keywords="3D online store service, Shopify 3D store builder, monthly website management service, ecommerce speed optimization, website maintenance company"
         canonicalUrl="https://www.managemyweb.co/services"
       />
 
@@ -65,9 +65,9 @@ export default function ServicesHub() {
 
       <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '620px', margin: '0 auto 44px auto' }}>
+          <div style={{ textAlign: 'center', maxWidth: '660px', margin: '0 auto 44px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              Services
+              What We Do
             </p>
             <h1
               style={{
@@ -79,14 +79,14 @@ export default function ServicesHub() {
                 marginBottom: '12px',
               }}
             >
-              3D design &amp; managed operations.
+              3D store design &amp; full website care under one roof.
             </h1>
-            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.45 }}>
-              Everything your online store needs under one roof.
+            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.55 }}>
+              Hire us to build a standout 3D online store, take over your monthly website tech, or both.
             </p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '48px' }}>
             {services.map((s) => (
               <div
                 key={s.title}
@@ -110,18 +110,18 @@ export default function ServicesHub() {
                     {s.title}
                   </h2>
 
-                  <p style={{ color: '#424245', fontSize: '14.5px', lineHeight: 1.55, marginBottom: '18px' }}>
+                  <p style={{ color: '#424245', fontSize: '14.5px', lineHeight: 1.6, marginBottom: '18px' }}>
                     {s.desc}
                   </p>
 
                   <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                     <Link href={s.slug} className="btn-apple-dark" style={{ padding: '10px 18px', fontSize: '13.5px' }}>
-                      Explore
+                      See how it works
                     </Link>
                     <button
                       onClick={() => setDemoModalOpen(true)}
                       className="btn-apple-secondary"
-                      style={{ padding: '10px 18px', fontSize: '13.5px' }}
+                      style={{ padding: '10px 18px', fontSize: '13.5px', color: '#1D1D1F' }}
                     >
                       Free 3D Demo / Quote
                     </button>
@@ -140,6 +140,27 @@ export default function ServicesHub() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Quick Platform Selector */}
+          <div style={{ background: '#FFFFFF', border: '1px solid #D2D2D7', borderRadius: '20px', padding: '32px', textAlign: 'center' }}>
+            <h2 style={{ fontSize: '22px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
+              Already running on Shopify or WooCommerce?
+            </h2>
+            <p style={{ color: '#6E6E73', fontSize: '14.5px', marginBottom: '20px' }}>
+              See exactly how our 3D store and speed tools connect with your platform:
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+              <Link href="/shopify-3d-store" className="btn-apple-secondary" style={{ color: '#1D1D1F' }}>
+                3D Store for Shopify →
+              </Link>
+              <Link href="/woocommerce-3d-store" className="btn-apple-secondary" style={{ color: '#1D1D1F' }}>
+                3D Store for WooCommerce →
+              </Link>
+              <Link href="/3d-store-examples" className="btn-apple-secondary" style={{ color: '#1D1D1F' }}>
+                See 3D Store Examples →
+              </Link>
+            </div>
           </div>
         </div>
       </main>

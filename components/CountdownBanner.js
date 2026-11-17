@@ -61,7 +61,7 @@ export default function CountdownBanner({ onClaimDemo }) {
         }}
       >
         <span>
-          <strong style={{ fontWeight: 600 }}>Free 48h 3D Demo:</strong> Preview your store in 3D before you invest.
+          <strong style={{ fontWeight: 600 }}>Free 48-Hour 3D Demo:</strong> See your own store in 3D before you spend a dollar.
         </span>
 
         <span style={{ color: '#6E6E73', fontVariantNumeric: 'tabular-nums' }}>
@@ -69,6 +69,7 @@ export default function CountdownBanner({ onClaimDemo }) {
         </span>
 
         <button
+          type="button"
           onClick={onClaimDemo}
           style={{
             background: 'none',

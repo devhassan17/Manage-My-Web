@@ -129,7 +129,7 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
           <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
             <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#1D7D3F', display: 'inline-block' }} />
             <span style={{ fontSize: '12.5px', fontWeight: 600, color: '#1D1D1F' }}>
-              30-Second 3D E-Commerce Store Explainer (With Voiceover)
+              30-Second Walkthrough: How a 3D Store Works (With Audio)
             </span>
           </div>
         </div>
@@ -235,7 +235,7 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
           color: '#6E6E73',
         }}
       >
-        <span>Custom-built for Fashion, Beauty, Electronics, Luxury, Home &amp; Food brands</span>
+        <span>Works for clothing, shoes, beauty, coffee, electronics, watches &amp; home stores</span>
         <a
           href={demoUrl}
           target="_blank"
@@ -246,7 +246,7 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
             textDecoration: 'none',
           }}
         >
-          Try Interactive 3D Demo in New Tab ↗
+          Walk through the live 3D store demo ↗
         </a>
       </div>
     </div>

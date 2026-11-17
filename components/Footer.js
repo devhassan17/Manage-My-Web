@@ -1,30 +1,11 @@
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePublicContact } from '../utils/usePublicConfig';
 
 export default function Footer({ onOpenDemoModal }) {
   const currentYear = new Date().getFullYear();
-  const [contactInfo, setContactInfo] = useState({
-    whatsappNumber: '+92 317 4075023',
-    supportEmail: 'sales@managemyweb.co',
-  });
-
-  useEffect(() => {
-    fetch('/api/admin/settings')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (data && data.contact) {
-          setContactInfo({
-            whatsappNumber: data.contact.whatsappNumber || '+92 317 4075023',
-            supportEmail: data.contact.supportEmail || 'sales@managemyweb.co',
-          });
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  const waRaw = (contactInfo.whatsappNumber || '923174075023').replace(/[^0-9]/g, '');
+  const { contactInfo, waRaw } = usePublicContact();
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
-    'Hello ManageMyWeb team, I would like to discuss a 3D store demo and quotation.'
+    'Hello ManageMyWeb team, I would like a free 3D store demo or quote.'
   )}`;
 
   return (
@@ -66,10 +47,10 @@ export default function Footer({ onOpenDemoModal }) {
                 marginBottom: '6px',
               }}
             >
-              Ready to see your store in 3D?
+              Want to see your real store in 3D?
             </h3>
             <p style={{ color: '#6E6E73', fontSize: '14.5px' }}>
-              Start with a free 48-hour 3D demo or request a custom quotation today.
+              Send us your store link for a free 48-hour 3D preview—no commitment required.
             </p>
           </div>
 
@@ -79,7 +60,7 @@ export default function Footer({ onOpenDemoModal }) {
               className="btn-apple-blue"
               style={{ padding: '11px 22px', fontSize: '14px' }}
             >
-              Free 3D Demo / Quote
+              Get Free 3D Demo
             </button>
             <a
               href={waUrl}
@@ -88,13 +69,13 @@ export default function Footer({ onOpenDemoModal }) {
               className="btn-apple-secondary"
               style={{ padding: '11px 20px', fontSize: '14px', color: '#1D1D1F' }}
             >
-              WhatsApp Us
+              Chat on WhatsApp
             </a>
           </div>
         </div>
       </div>
 
-      {/* Directory */}
+      {/* Directory Links (Strong Internal SEO Link Graph) */}
       <div className="container" style={{ paddingTop: '36px', paddingBottom: '28px' }}>
         <div
           style={{
@@ -110,7 +91,7 @@ export default function Footer({ onOpenDemoModal }) {
               ManageMyWeb
             </div>
             <p style={{ color: '#6E6E73', fontSize: '12px', lineHeight: 1.5, marginBottom: '10px' }}>
-              3D storefronts &amp; managed web operations.
+              Custom 3D online stores &amp; full monthly website care.
             </p>
             <div style={{ color: '#1D1D1F', fontWeight: 500, fontSize: '12px', marginBottom: '2px' }}>
               WhatsApp: {contactInfo.whatsappNumber}
@@ -124,7 +105,7 @@ export default function Footer({ onOpenDemoModal }) {
 
           <div>
             <h4 style={{ fontSize: '12px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
-              3D Storefronts
+              3D Online Stores
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <li>
@@ -133,36 +114,51 @@ export default function Footer({ onOpenDemoModal }) {
                 </Link>
               </li>
               <li>
+                <Link href="/shopify-3d-store" style={{ color: '#424245', textDecoration: 'none' }}>
+                  3D Store for Shopify
+                </Link>
+              </li>
+              <li>
+                <Link href="/woocommerce-3d-store" style={{ color: '#424245', textDecoration: 'none' }}>
+                  3D Store for WooCommerce
+                </Link>
+              </li>
+              <li>
+                <Link href="/3d-store-examples" style={{ color: '#424245', textDecoration: 'none' }}>
+                  3D Store Examples
+                </Link>
+              </li>
+              <li>
                 <Link href="/experience" style={{ color: '#424245', textDecoration: 'none' }}>
                   Live 3D Demo
                 </Link>
               </li>
-              <li>
-                <Link href="/pricing" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Get Quotation
-                </Link>
-              </li>
             </ul>
           </div>
 
           <div>
             <h4 style={{ fontSize: '12px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
-              Services
+              Website Services
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <li>
                 <Link href="/services" style={{ color: '#424245', textDecoration: 'none' }}>
-                  All Capabilities
+                  All Services
                 </Link>
               </li>
               <li>
                 <Link href="/services/web-management" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Managed Hosting &amp; DNS
+                  Website Hosting &amp; Care
                 </Link>
               </li>
               <li>
                 <Link href="/services/ecommerce-growth" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Conversion Engineering
+                  Speed &amp; Sales Growth
+                </Link>
+              </li>
+              <li>
+                <Link href="/pricing" style={{ color: '#424245', textDecoration: 'none' }}>
+                  Pricing &amp; Free Quote
                 </Link>
               </li>
             </ul>
@@ -170,17 +166,17 @@ export default function Footer({ onOpenDemoModal }) {
 
           <div>
             <h4 style={{ fontSize: '12px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
-              Company
+              Resources &amp; Company
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <li>
                 <Link href="/case-studies" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Case Studies
+                  Client Websites
                 </Link>
               </li>
               <li>
-                <Link href="/about" style={{ color: '#424245', textDecoration: 'none' }}>
-                  About
+                <Link href="/blog" style={{ color: '#424245', textDecoration: 'none' }}>
+                  Guides &amp; Blog
                 </Link>
               </li>
               <li>
@@ -189,13 +185,13 @@ export default function Footer({ onOpenDemoModal }) {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Contact
+                <Link href="/about" style={{ color: '#424245', textDecoration: 'none' }}>
+                  About Us
                 </Link>
               </li>
               <li>
-                <Link href="/blog" style={{ color: '#424245', textDecoration: 'none' }}>
-                  Journal
+                <Link href="/contact" style={{ color: '#424245', textDecoration: 'none' }}>
+                  Contact Us
                 </Link>
               </li>
             </ul>

@@ -12,9 +12,9 @@ export default function About() {
   return (
     <>
       <SEOHead
-        title="About ManageMyWeb | 3D Retail Architecture & Managed Web Engineering"
-        description="Learn why ManageMyWeb replaces generic 2D e-commerce templates with architectural 3D storefronts and end-to-end web stewardship for modern brands worldwide."
-        keywords="about ManageMyWeb, 3D ecommerce agency, spatial web engineering studio, managed web operations team"
+        title="About ManageMyWeb | Who Builds Your 3D Stores & Manages Your Site"
+        description="Learn why we started ManageMyWeb: most online stores look identical, and most founders are tired of dealing with broken hosting, slow pages, and unreliable freelancers."
+        keywords="about ManageMyWeb, 3D online store team, website management company, Shopify developers, WooCommerce experts"
         canonicalUrl="https://www.managemyweb.co/about"
       />
 
@@ -23,9 +23,9 @@ export default function About() {
 
       <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 44px auto' }}>
+          <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 44px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              About ManageMyWeb
+              About Us
             </p>
             <h1
               style={{
@@ -37,10 +37,10 @@ export default function About() {
                 marginBottom: '12px',
               }}
             >
-              Great brands deserve better than flat templates.
+              Great brands deserve better than cookie-cutter websites.
             </h1>
-            <p style={{ color: '#6E6E73', fontSize: '16.5px', lineHeight: 1.5 }}>
-              We build interactive 3D storefronts for modern e-commerce brands—and manage their entire web stack year-round.
+            <p style={{ color: '#424245', fontSize: '16.5px', lineHeight: 1.55 }}>
+              We started ManageMyWeb to fix two problems every online store faces: boring identical website templates, and the endless headache of hosting, slow pages, and technical updates.
             </p>
           </div>
 
@@ -59,17 +59,25 @@ export default function About() {
           >
             <div>
               <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-                Our Mission
+                Why We Exist
               </p>
               <h2 style={{ fontSize: '26px', fontWeight: 600, color: '#1D1D1F', marginBottom: '12px', lineHeight: 1.15 }}>
-                Flagship retail architecture on the web.
+                Your store design team + your full-time tech team.
               </h2>
-              <p style={{ color: '#424245', fontSize: '15px', lineHeight: 1.6, marginBottom: '20px' }}>
-                99% of online stores use the same 2D grid. We turn your catalog into a walkable 3D showroom and handle your hosting, speed, DNS, and daily edits under one roof.
+              <p style={{ color: '#424245', fontSize: '15px', lineHeight: 1.65, marginBottom: '16px' }}>
+                99% of online shops look exactly alike—a banner and rows of square photos. We help brands stand out by turning their products into a walkable 3D shop customers can explore right inside Safari or Chrome.
               </p>
-              <Link href="/services/3d-virtual-stores" className="btn-apple-dark" style={{ padding: '11px 22px', fontSize: '14px' }}>
-                Explore 3D Storefronts
-              </Link>
+              <p style={{ color: '#424245', fontSize: '15px', lineHeight: 1.65, marginBottom: '22px' }}>
+                And unlike hit-and-run agencies that vanish after launch day, our engineers stay on hand every day—watching server uptime, boosting speed, setting up DNS and email, and shipping small site changes the very day you message us on WhatsApp.
+              </p>
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                <Link href="/services/3d-virtual-stores" className="btn-apple-dark" style={{ padding: '11px 22px', fontSize: '14px' }}>
+                  See How 3D Stores Work
+                </Link>
+                <Link href="/case-studies" className="btn-apple-secondary" style={{ padding: '11px 22px', fontSize: '14px', color: '#1D1D1F' }}>
+                  See Client Websites
+                </Link>
+              </div>
             </div>
 
             <div
@@ -80,10 +88,10 @@ export default function About() {
               }}
             >
               {[
-                { stat: '14+', label: 'Global Client Stores' },
+                { stat: '14+', label: 'Live Client Brands' },
                 { stat: '6', label: 'Countries Served' },
-                { stat: '60 fps', label: 'Mobile WebGL Engine' },
-                { stat: '99.99%', label: 'Managed Uptime SLA' },
+                { stat: '< 1.1s', label: 'Average Page Load' },
+                { stat: '48h', label: 'Free 3D Demo Turnaround' },
               ].map((item) => (
                 <div
                   key={item.label}
@@ -113,24 +121,24 @@ export default function About() {
             {[
               {
                 num: '01',
-                title: 'Built for Any Industry',
-                desc: 'Tailored 3D rooms for fashion, beauty, electronics, watches, home, and food.',
+                title: 'Made For Real Store Owners',
+                desc: 'Everything we build speaks plain English and connects cleanly with Shopify, WooCommerce, and custom backends.',
               },
               {
                 num: '02',
-                title: '60fps Mobile Speed',
-                desc: 'Instant loading on iPhone and Android browsers with zero app downloads.',
+                title: 'Zero App Downloads',
+                desc: 'Your customers open a normal website link on their phone or laptop and walk inside right away.',
               },
               {
                 num: '03',
-                title: 'Direct Engineer Access',
-                desc: 'Message our senior engineers directly on WhatsApp for same-day updates.',
+                title: 'Talk Directly to Engineers',
+                desc: 'No ticket queues. Message the exact people building and running your store on WhatsApp whenever you need help.',
               },
             ].map((v) => (
               <div key={v.title} className="apple-card" style={{ padding: '28px', borderRadius: '18px', background: '#FFFFFF' }}>
                 <div style={{ fontSize: '12px', fontWeight: 600, color: '#0066CC', marginBottom: '8px' }}>{v.num}</div>
                 <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>{v.title}</h3>
-                <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5 }}>{v.desc}</p>
+                <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.55 }}>{v.desc}</p>
               </div>
             ))}
           </div>

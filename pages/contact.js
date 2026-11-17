@@ -1,28 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import SEOHead from '../components/SEOHead';
 import CountdownBanner from '../components/CountdownBanner';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { usePublicContact } from '../utils/usePublicConfig';
 
 export default function Contact() {
-  const [contactInfo, setContactInfo] = useState({
-    whatsappNumber: '+92 317 4075023',
-    supportEmail: 'sales@managemyweb.co',
-  });
-
-  useEffect(() => {
-    fetch('/api/admin/settings')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (data && data.contact) {
-          setContactInfo({
-            whatsappNumber: data.contact.whatsappNumber || '+92 317 4075023',
-            supportEmail: data.contact.supportEmail || 'sales@managemyweb.co',
-          });
-        }
-      })
-      .catch(() => {});
-  }, []);
+  const { contactInfo, waRaw } = usePublicContact();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -68,23 +52,22 @@ export default function Contact() {
     }
   };
 
-  const waRaw = (contactInfo.whatsappNumber || '923174075023').replace(/[^0-9]/g, '');
   const waUrl = `https://wa.me/${waRaw}?text=${encodeURIComponent(
-    'Hello ManageMyWeb team, I would like to request a 3D store demo / custom quotation.'
+    'Hello ManageMyWeb team, I would like to request a free 3D store demo or custom quote.'
   )}`;
 
   return (
     <>
       <SEOHead
-        title="Contact & Request Free 3D Store Prototype | ManageMyWeb"
-        description="Request a complimentary custom 3D prototype of your online store delivered in 48 hours, or speak directly with ManageMyWeb engineers on WhatsApp (+92 317 4075023) and sales@managemyweb.co."
-        keywords="request 3D store prototype, free 3D ecommerce demo, hire 3D web developer, contact ManageMyWeb, custom 3D Shopify store quote, managed web operations contact"
+        title="Contact ManageMyWeb | Request Free 3D Demo or Quote"
+        description="Send us your store link for a free 48-hour 3D preview of your products, or message our team directly on WhatsApp (+92 317 4075023) and sales@managemyweb.co."
+        keywords="contact ManageMyWeb, free 3D store demo, 3D Shopify website quote, website management support"
         canonicalUrl="https://www.managemyweb.co/contact"
         schemaData={{
           '@type': 'ContactPage',
-          name: 'Contact ManageMyWeb Studio',
+          name: 'Contact ManageMyWeb',
           url: 'https://www.managemyweb.co/contact',
-          description: 'Request a complimentary 48-hour 3D virtual store prototype for your e-commerce brand.',
+          description: 'Request a free 48-hour 3D demo of your online store or a clear monthly website care quote.',
         }}
       />
 
@@ -93,9 +76,9 @@ export default function Contact() {
 
       <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container" style={{ maxWidth: '980px' }}>
-          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 40px auto' }}>
+          <div style={{ textAlign: 'center', maxWidth: '620px', margin: '0 auto 40px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              Get Started
+              Get In Touch
             </p>
             <h1
               style={{
@@ -107,10 +90,10 @@ export default function Contact() {
                 marginBottom: '10px',
               }}
             >
-              Free 3D Demo or Custom Quote.
+              Get a Free 3D Demo or Quote.
             </h1>
             <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.45 }}>
-              Share your store URL below—or message our engineers directly on WhatsApp.
+              Share your store link below—or message our engineers directly on WhatsApp.
             </p>
           </div>
 
@@ -229,7 +212,7 @@ export default function Contact() {
                       <input
                         type="text"
                         required
-                        placeholder="Marcus Vance"
+                        placeholder="Alex Morgan"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className="ios-input"
@@ -238,12 +221,12 @@ export default function Contact() {
 
                     <div>
                       <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                        Work Email *
+                        Email Address *
                       </label>
                       <input
                         type="email"
                         required
-                        placeholder="marcus@brand.com"
+                        placeholder="alex@yourstore.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="ios-input"
@@ -254,11 +237,11 @@ export default function Contact() {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                        Store Name
+                        Store or Brand Name
                       </label>
                       <input
                         type="text"
-                        placeholder="Atelier Studio"
+                        placeholder="My Online Store"
                         value={formData.storeName}
                         onChange={(e) => setFormData({ ...formData, storeName: e.target.value })}
                         className="ios-input"
@@ -267,7 +250,7 @@ export default function Contact() {
 
                     <div>
                       <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                        Website URL
+                        Website Link
                       </label>
                       <input
                         type="text"
@@ -316,33 +299,33 @@ export default function Contact() {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                        Package
+                        What do you need?
                       </label>
                       <select
                         value={formData.requestedPackage}
                         onChange={(e) => setFormData({ ...formData, requestedPackage: e.target.value })}
                         className="ios-input"
                       >
-                        <option value="Spatial Retail Flagship">Spatial Retail Flagship</option>
-                        <option value="3D Storefront Launchpad">3D Storefront Launchpad</option>
-                        <option value="Managed Web Concierge">Managed Web Concierge</option>
-                        <option value="Full 3D Store + Managed Web Bundle">3D Store + Managed Bundle</option>
+                        <option value="Spatial Retail Flagship">Full 3D Flagship Store</option>
+                        <option value="3D Storefront Launchpad">Starter 3D Storefront</option>
+                        <option value="Managed Web Concierge">Monthly Website Care</option>
+                        <option value="Full 3D Store + Managed Web Bundle">3D Store + Monthly Care</option>
                       </select>
                     </div>
 
                     <div>
                       <label style={{ display: 'block', fontSize: '12px', color: '#1D1D1F', marginBottom: '5px', fontWeight: 500 }}>
-                        Catalog SKUs
+                        Number of Products
                       </label>
                       <select
                         value={formData.productCount}
                         onChange={(e) => setFormData({ ...formData, productCount: e.target.value })}
                         className="ios-input"
                       >
-                        <option value="Up to 15 Products">Up to 15 SKUs</option>
-                        <option value="15 - 50 Products">15 – 50 SKUs</option>
-                        <option value="50 - 200 Products">50 – 200 SKUs</option>
-                        <option value="200+ Products">200+ SKUs</option>
+                        <option value="Up to 15 Products">Up to 15 Products</option>
+                        <option value="15 - 50 Products">15 – 50 Products</option>
+                        <option value="50 - 200 Products">50 – 200 Products</option>
+                        <option value="200+ Products">200+ Products</option>
                       </select>
                     </div>
                   </div>
@@ -353,7 +336,7 @@ export default function Contact() {
                     </label>
                     <textarea
                       rows={2}
-                      placeholder="Products to highlight or specific requirements..."
+                      placeholder="Optional: Tell us 2 or 3 top products you want in 3D..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="ios-input"
@@ -370,8 +353,8 @@ export default function Contact() {
                     {loading
                       ? 'Submitting...'
                       : formData.requestType === 'quotation'
-                      ? 'Request Custom Quotation'
-                      : 'Start Step 1: Request Free 3D Demo'}
+                      ? 'Request Custom Quote'
+                      : 'Get My Free 3D Demo'}
                   </button>
                 </form>
               )}

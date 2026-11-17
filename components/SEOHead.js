@@ -5,23 +5,25 @@ const SITE_URL = 'https://www.managemyweb.co';
 
 const BREADCRUMB_LABELS = {
   services: 'Services',
-  '3d-virtual-stores': '3D Virtual Storefronts',
-  'web-management': 'Managed Web Operations',
-  'ecommerce-growth': 'E-Commerce Conversion Growth',
-  experience: 'Interactive 3D Showroom',
-  'case-studies': 'Client Case Studies',
-  pricing: 'Custom Quotation & 3D Demo',
-  about: 'About ManageMyWeb',
-  contact: 'Contact & Free 3D Demo',
-  faq: 'Frequently Asked Questions',
-  blog: 'Editorial Journal',
+  '3d-virtual-stores': '3D Online Stores',
+  'web-management': 'Website Management',
+  'ecommerce-growth': 'Store Speed & Sales Growth',
+  'shopify-3d-store': 'Shopify 3D Store',
+  'woocommerce-3d-store': 'WooCommerce 3D Store',
+  '3d-store-examples': '3D Store Examples',
+  experience: 'Live 3D Store Demo',
+  'case-studies': 'Client Websites',
+  pricing: 'Pricing & Free Demo',
+  about: 'About Us',
+  contact: 'Contact & Free Demo',
+  faq: 'Questions & Answers',
+  blog: 'Guides & Blog',
   privacy: 'Privacy Policy',
   terms: 'Terms of Service',
 };
 
-function buildBreadcrumbs(canonicalUrl, pageTitle) {
-  const normalizedUrl = (canonicalUrl || SITE_URL).replace('https://managemyweb.co', SITE_URL);
-  const cleanPath = normalizedUrl.replace(SITE_URL, '').split('?')[0].replace(/\/$/, '');
+function buildBreadcrumbs(cleanCanonical, pageTitle) {
+  const cleanPath = (cleanCanonical || SITE_URL).replace(SITE_URL, '').split('?')[0].replace(/\/$/, '');
   const segments = cleanPath.split('/').filter(Boolean);
 
   const items = [
@@ -50,18 +52,18 @@ function buildBreadcrumbs(canonicalUrl, pageTitle) {
 
   return {
     '@type': 'BreadcrumbList',
-    '@id': `${canonicalUrl}#breadcrumb`,
+    '@id': `${cleanCanonical}#breadcrumb`,
     itemListElement: items,
   };
 }
 
 export default function SEOHead({
-  title = 'ManageMyWeb | 3D E-Commerce Websites & Full Store Management',
-  description = 'Turn your e-commerce website into a walkable 3D online store. ManageMyWeb builds custom 3D storefronts for Shopify, WooCommerce, and custom brands—and manages your hosting, speed, and daily store updates.',
-  keywords = '3D virtual store, 3D ecommerce website, interactive 3D Shopify store, WooCommerce 3D store, virtual retail showroom, spatial commerce agency, WebGL online store, 3D product configurator ecommerce, managed web operations, Shopify speed optimization, ecommerce conversion rate optimization, ManageMyWeb',
+  title = 'ManageMyWeb | 3D Online Stores & Monthly Website Management',
+  description = 'Turn your Shopify, WooCommerce, or custom website into a 3D online store shoppers can walk through. Plus full hosting, speed fixes, and daily updates. Try a free 3D demo in 48 hours.',
+  keywords = '3D online store, 3D Shopify store, WooCommerce 3D store, interactive 3D website, virtual store builder, website management service, monthly website maintenance, Shopify speed optimization, ManageMyWeb',
   ogImage = '/images/og-cover.png',
   ogType = 'website',
-  canonicalUrl = 'https://www.managemyweb.co',
+  canonicalUrl = SITE_URL,
   noIndex = false,
   schemaData = null,
   serverSeo = null,
@@ -75,15 +77,11 @@ export default function SEOHead({
       ? canonicalUrl
       : `${SITE_URL}${canonicalUrl.startsWith('/') ? '' : '/'}${canonicalUrl}`
   ).replace('https://managemyweb.co', SITE_URL);
+
   const gscVerification =
     serverSeo?.googleSiteVerification ||
     process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
     siteSettings?.seo?.googleSiteVerification ||
-    '';
-  const gaMeasurementId =
-    serverSeo?.googleAnalyticsId ||
-    process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
-    siteSettings?.seo?.googleAnalyticsId ||
     '';
 
   const organizationSchema = {
@@ -91,7 +89,7 @@ export default function SEOHead({
     '@id': `${SITE_URL}/#organization`,
     name: 'ManageMyWeb',
     alternateName: ['Manage My Web', 'ManageMyWeb Studio'],
-    legalName: 'ManageMyWeb Studio Inc.',
+    legalName: 'ManageMyWeb Studio',
     url: SITE_URL,
     logo: {
       '@type': 'ImageObject',
@@ -101,21 +99,20 @@ export default function SEOHead({
     },
     image: absoluteOgImage,
     description:
-      'Bespoke 3D virtual storefront engineering and full-stack managed web operations for modern e-commerce brands across fashion, beauty, electronics, jewelry, home goods, and specialty retail.',
+      'ManageMyWeb builds custom interactive 3D online stores for Shopify, WooCommerce, and custom e-commerce brands, and handles hosting, speed, backups, and daily store updates.',
     email: 'sales@managemyweb.co',
     telephone: '+92-317-4075023',
-    priceRange: 'Custom Quotation',
+    priceRange: 'Free Demo · Custom Quote',
     areaServed: ['NL', 'GB', 'IE', 'US', 'AU', 'CA', 'Worldwide'],
     knowsAbout: [
-      '3D E-Commerce Websites',
-      '3D Virtual Storefronts',
-      'Shopify 3D Store Integration',
-      'WooCommerce 3D Virtual Showroom',
-      'WebGL and Three.js Retail Architecture',
-      'Spatial Commerce',
-      'Managed Web Operations',
-      'E-Commerce Conversion Rate Optimization',
-      'Core Web Vitals Speed Optimization',
+      '3D Online Stores',
+      '3D Shopify Stores',
+      '3D WooCommerce Stores',
+      'Interactive 3D Websites',
+      'Website Management Services',
+      'Monthly Website Maintenance',
+      'Online Store Speed Optimization',
+      'Shopify Checkout & Conversion Improvement',
     ],
     contactPoint: [
       {
@@ -126,46 +123,41 @@ export default function SEOHead({
         availableLanguage: ['English'],
       },
     ],
-    sameAs: [
-      'https://twitter.com/managemyweb',
-      'https://linkedin.com/company/managemyweb',
-      'https://github.com/devhassan17/Manage-My-Web',
-    ],
+    sameAs: ['https://github.com/devhassan17/Manage-My-Web'],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: '3D E-Commerce Storefront & Web Management Services',
+      name: '3D Store Design & Monthly Website Management',
       itemListElement: [
         {
           '@type': 'Offer',
           price: '0.00',
           priceCurrency: 'USD',
-          name: 'Step 1: Complimentary 48-Hour 3D Store Demo',
+          name: 'Free 48-Hour 3D Store Demo',
           description:
-            'Custom working 3D virtual showroom preview built with your actual e-commerce products in 48 hours before receiving your custom quotation.',
+            'Send your online store link and get a free working 3D store demo featuring your actual products within 48 hours.',
         },
         {
           '@type': 'Offer',
-          name: 'Step 2: Custom 3D Virtual Store Architecture (Custom Quotation)',
+          name: 'Custom 3D Online Store Build',
           description:
-            'Interactive 60fps WebGL / Three.js 3D retail storefronts integrated directly with Shopify, WooCommerce, and custom e-commerce catalogs.',
+            'Walkable 3D online shop connected directly to your Shopify, WooCommerce, or custom checkout and inventory.',
         },
         {
           '@type': 'Offer',
-          name: 'Managed Web Operations & Conversion Engineering (Custom Quotation)',
+          name: 'Monthly Website Management & Care',
           description:
-            '24/7 cloud hosting, Core Web Vitals optimization, domain/DNS management, security backups, and same-day store updates via WhatsApp.',
+            'Hosting, domain & DNS care, SSL, business email setup, speed tuning, daily backups, and same-day edits over WhatsApp.',
         },
       ],
     },
   };
 
-  // Google Search Site Name & Sitelinks Schema
   const websiteSchema = {
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
     name: 'ManageMyWeb',
-    alternateName: ['Manage My Web', 'ManageMyWeb Studio', 'managemyweb.co', 'www.managemyweb.co'],
+    alternateName: ['Manage My Web', 'managemyweb.co', 'www.managemyweb.co'],
     publisher: {
       '@id': `${SITE_URL}/#organization`,
     },
@@ -180,37 +172,44 @@ export default function SEOHead({
       {
         '@type': 'SiteNavigationElement',
         position: 1,
-        name: '3D Storefronts',
-        description: 'Walkable 3D flagship retail stores for Shopify, WooCommerce, and custom e-commerce brands.',
+        name: '3D Online Stores',
+        description: 'Turn your Shopify, WooCommerce, or custom store into a walkable 3D shop.',
         url: `${SITE_URL}/services/3d-virtual-stores`,
       },
       {
         '@type': 'SiteNavigationElement',
         position: 2,
-        name: 'Interactive 3D Demo',
-        description: 'Watch the 30-second voiceover walkthrough or explore our live 360° interactive 3D storefront.',
-        url: `${SITE_URL}/experience`,
+        name: 'Shopify 3D Store',
+        description: 'Add an interactive 3D shopping experience directly onto your Shopify store.',
+        url: `${SITE_URL}/shopify-3d-store`,
       },
       {
         '@type': 'SiteNavigationElement',
         position: 3,
-        name: 'Web Management',
-        description: '24/7 cloud hosting, DNS, speed optimization, and technical stewardship.',
+        name: 'Website Management',
+        description: 'Monthly hosting, speed fixes, security backups, and same-day WhatsApp updates.',
         url: `${SITE_URL}/services/web-management`,
       },
       {
         '@type': 'SiteNavigationElement',
         position: 4,
-        name: 'Client Results',
-        description: '14+ global client e-commerce websites across the Netherlands, UK, Ireland, USA, Australia, and Canada.',
-        url: `${SITE_URL}/case-studies`,
+        name: 'Live 3D Demo & Examples',
+        description: 'Watch the 30-second store demo or try our interactive 3D showroom.',
+        url: `${SITE_URL}/experience`,
       },
       {
         '@type': 'SiteNavigationElement',
         position: 5,
-        name: 'Get Quotation & Free 3D Demo',
-        description: 'Start with a complimentary 48-hour 3D store demo or request a direct custom quotation.',
+        name: 'Pricing & Free Demo',
+        description: 'Start with a free 48-hour 3D demo or ask for a custom quote.',
         url: `${SITE_URL}/pricing`,
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        position: 6,
+        name: 'Guides & FAQ',
+        description: 'Plain-English guides on 3D stores, costs, Shopify setup, and SEO.',
+        url: `${SITE_URL}/blog`,
       },
     ],
   };
@@ -221,6 +220,10 @@ export default function SEOHead({
     url: cleanCanonical,
     name: fullTitle,
     description,
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: absoluteOgImage,
+    },
     isPartOf: {
       '@id': `${SITE_URL}/#website`,
     },
@@ -289,8 +292,8 @@ export default function SEOHead({
       <link rel="canonical" href={cleanCanonical} />
       <link rel="alternate" hrefLang="en" href={cleanCanonical} />
       <link rel="alternate" hrefLang="x-default" href={cleanCanonical} />
-      <link rel="alternate" type="text/plain" href={`${SITE_URL}/llms.txt`} title="LLMs.txt Knowledge Base" />
-      <link rel="alternate" type="text/plain" href={`${SITE_URL}/llms-full.txt`} title="LLMs Full Reference Guide" />
+      <link rel="alternate" type="text/plain" href={`${SITE_URL}/llms.txt`} title="ManageMyWeb AI Guide" />
+      <link rel="alternate" type="text/plain" href={`${SITE_URL}/llms-full.txt`} title="ManageMyWeb Full Guide" />
 
       {/* Open Graph / Facebook / LinkedIn / WhatsApp */}
       <meta property="og:type" content={ogType} />
@@ -306,7 +309,6 @@ export default function SEOHead({
 
       {/* Twitter / X Cards */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@managemyweb" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={absoluteOgImage} />

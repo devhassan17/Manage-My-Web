@@ -129,7 +129,7 @@ export const CLIENTS_LIST = [
   },
 ];
 
-export default function ClientLogos({ title = 'Trusted by Global Brands', subtitle = '14+ E-Commerce & Digital Platforms Delivered Across 6 Countries' }) {
+export default function ClientLogos({ title = 'Stores & Brands We Work With', subtitle = 'Real websites and online stores built and managed across 6 countries.' }) {
   return (
     <section
       style={{
@@ -141,7 +141,7 @@ export default function ClientLogos({ title = 'Trusted by Global Brands', subtit
       <div className="container">
         <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 36px auto' }}>
           <p className="apple-eyebrow" style={{ marginBottom: '6px' }}>
-            Client Portfolio
+            Clients &amp; Live Websites
           </p>
           <h2
             style={{

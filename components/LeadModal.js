@@ -217,17 +217,17 @@ export default function LeadModal({
                   fontFamily: 'inherit',
                 }}
               >
-                2. Custom Quotation
+                2. Request Custom Quote
               </button>
             </div>
 
             <h2 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
-              {isQuotation ? 'Request Custom Quotation' : 'Step 1: Free 3D Demo → Step 2: Quote'}
+              {isQuotation ? 'Get Your Custom Quote' : 'Try a Free 3D Store Demo'}
             </h2>
             <p style={{ color: '#6E6E73', fontSize: '13px', marginBottom: '14px' }}>
               {isQuotation
-                ? 'Receive a tailored quotation in 24 hours.'
-                : 'Preview your store in 3D in 48 hours at zero cost.'}
+                ? 'We will send a clear, itemized quote within 24 hours.'
+                : 'Send your store link and we will build a free 3D preview of your products in 48 hours.'}
             </p>
 
             {errorMsg && (
@@ -255,7 +255,7 @@ export default function LeadModal({
                   <input
                     type="text"
                     required
-                    placeholder="Alex Thorne"
+                    placeholder="Alex Morgan"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="ios-input"
@@ -264,12 +264,12 @@ export default function LeadModal({
 
                 <div>
                   <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
-                    Work Email *
+                    Email Address *
                   </label>
                   <input
                     type="email"
                     required
-                    placeholder="alex@brand.com"
+                    placeholder="alex@yourstore.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="ios-input"
@@ -280,11 +280,11 @@ export default function LeadModal({
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
-                    Store Name
+                    Store or Brand Name
                   </label>
                   <input
                     type="text"
-                    placeholder="Atelier Studio"
+                    placeholder="My Online Store"
                     value={formData.storeName}
                     onChange={(e) => setFormData({ ...formData, storeName: e.target.value })}
                     className="ios-input"
@@ -293,7 +293,7 @@ export default function LeadModal({
 
                 <div>
                   <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
-                    Website URL
+                    Website Link
                   </label>
                   <input
                     type="text"
@@ -308,7 +308,7 @@ export default function LeadModal({
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
-                    Category
+                    What do you sell?
                   </label>
                   <select
                     value={formData.category}
@@ -316,12 +316,12 @@ export default function LeadModal({
                     className="ios-input"
                   >
                     <option value="Fashion, Apparel & Footwear">Fashion &amp; Footwear</option>
-                    <option value="Beauty, Cosmetics & Fragrance">Beauty &amp; Fragrance</option>
-                    <option value="Consumer Electronics & Audio">Electronics &amp; Audio</option>
-                    <option value="Watches, Jewelry & Luxury Goods">Watches &amp; Luxury</option>
+                    <option value="Beauty, Cosmetics & Fragrance">Beauty &amp; Skincare</option>
+                    <option value="Consumer Electronics & Audio">Electronics &amp; Tech</option>
+                    <option value="Watches, Jewelry & Luxury Goods">Watches &amp; Jewelry</option>
                     <option value="Home, Furniture & Decor">Home &amp; Furniture</option>
-                    <option value="Food, Beverage & Specialty Goods">Food &amp; Beverage</option>
-                    <option value="Other E-Commerce Store">Other E-Commerce</option>
+                    <option value="Food, Beverage & Specialty Goods">Food, Coffee &amp; Drinks</option>
+                    <option value="Other E-Commerce Store">Other Online Store</option>
                   </select>
                 </div>
 
@@ -331,7 +331,7 @@ export default function LeadModal({
                   </label>
                   <input
                     type="text"
-                    placeholder="+92 317 4075023"
+                    placeholder="+1 555 019 2834"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="ios-input"
@@ -342,33 +342,33 @@ export default function LeadModal({
               <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '10px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
-                    Package
+                    What are you looking for?
                   </label>
                   <select
                     value={formData.requestedPackage}
                     onChange={(e) => setFormData({ ...formData, requestedPackage: e.target.value })}
                     className="ios-input"
                   >
-                    <option value="Spatial Retail Flagship">Spatial Retail Flagship</option>
-                    <option value="3D Storefront Launchpad">3D Storefront Launchpad</option>
-                    <option value="Managed Web Concierge">Managed Web Concierge</option>
-                    <option value="Full 3D Store + Managed Web Bundle">3D Store + Managed Bundle</option>
+                    <option value="Spatial Retail Flagship">Full 3D Flagship Store</option>
+                    <option value="3D Storefront Launchpad">Starter 3D Store</option>
+                    <option value="Managed Web Concierge">Monthly Website Care</option>
+                    <option value="Full 3D Store + Managed Web Bundle">3D Store + Monthly Care</option>
                   </select>
                 </div>
 
                 <div>
                   <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>
-                    Catalog SKUs
+                    Number of Products
                   </label>
                   <select
                     value={formData.productCount}
                     onChange={(e) => setFormData({ ...formData, productCount: e.target.value })}
                     className="ios-input"
                   >
-                    <option value="Up to 15 Products">Up to 15 SKUs</option>
-                    <option value="15 - 50 Products">15 – 50 SKUs</option>
-                    <option value="50 - 200 Products">50 – 200 SKUs</option>
-                    <option value="200+ Products">200+ SKUs</option>
+                    <option value="Up to 15 Products">Up to 15 Products</option>
+                    <option value="15 - 50 Products">15 – 50 Products</option>
+                    <option value="50 - 200 Products">50 – 200 Products</option>
+                    <option value="200+ Products">200+ Products</option>
                   </select>
                 </div>
               </div>
@@ -376,7 +376,7 @@ export default function LeadModal({
               <div>
                 <textarea
                   rows={2}
-                  placeholder="Optional notes or products to feature..."
+                  placeholder="Optional: Tell us 2 or 3 best-selling products you want to show in 3D..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="ios-input"

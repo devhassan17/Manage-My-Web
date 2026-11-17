@@ -17,11 +17,12 @@ export default function Navbar({ onOpenDemoModal }) {
 
   const navLinks = [
     { label: '3D Stores', href: '/services/3d-virtual-stores' },
-    { label: 'Web Ops', href: '/services/web-management' },
+    { label: 'Web Care', href: '/services/web-management' },
+    { label: 'Examples', href: '/3d-store-examples' },
     { label: 'Live Demo ↗', href: 'https://crazy-3d-website-idea.vercel.app/', external: true },
     { label: 'Clients', href: '/case-studies' },
-    { label: 'Quotation', href: '/pricing' },
-    { label: 'About', href: '/about' },
+    { label: 'Pricing', href: '/pricing' },
+    { label: 'Guides', href: '/blog' },
     { label: 'Contact', href: '/contact' },
   ];
 
@@ -95,7 +96,7 @@ export default function Navbar({ onOpenDemoModal }) {
           style={{
             display: 'none',
             alignItems: 'center',
-            gap: '22px',
+            gap: '18px',
             whiteSpace: 'nowrap',
           }}
           className="desktop-nav-menu"
@@ -264,7 +265,7 @@ export default function Navbar({ onOpenDemoModal }) {
         .desktop-only-link {
           display: none;
         }
-        @media (min-width: 900px) {
+        @media (min-width: 980px) {
           .desktop-nav-menu {
             display: flex !important;
           }

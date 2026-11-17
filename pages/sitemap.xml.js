@@ -1,30 +1,54 @@
+import { BLOG_POSTS_LIST } from '../data/blogPosts';
+
 const BASE_URL = 'https://www.managemyweb.co';
 
 const VIDEO_META = {
   thumbnailLoc: `${BASE_URL}/images/og-cover.png`,
-  title: 'Turn Your E-Commerce Website Into a Walkable 3D Store — 30-Second Explainer',
+  title: 'How a 3D Online Store Works — 30-Second Walkthrough',
   description:
-    'See how ManageMyWeb transforms standard flat Shopify, WooCommerce, and custom e-commerce websites into interactive 3D virtual stores customers can walk inside on any phone or laptop.',
+    'Watch how ManageMyWeb turns a standard Shopify, WooCommerce, or custom online store into a fast 3D shop customers can walk through on any phone or computer.',
   contentLoc: `${BASE_URL}/videos/3d-store-preview.mp4`,
   duration: 30,
   publicationDate: '2026-11-08T00:00:00+00:00',
 };
 
-const SITEMAP_ROUTES = [
+const CORE_ROUTES = [
   {
     path: '',
     priority: '1.0',
     changefreq: 'daily',
     image: '/images/og-cover.png',
-    title: 'ManageMyWeb — 3D E-Commerce Websites & Full Store Management',
+    title: 'ManageMyWeb — 3D Online Stores & Monthly Website Management',
+    hasVideo: true,
+  },
+  {
+    path: '/shopify-3d-store',
+    priority: '0.95',
+    changefreq: 'weekly',
+    image: '/images/og-cover.png',
+    title: '3D Store for Shopify — Add 3D Without Rebuilding',
+  },
+  {
+    path: '/woocommerce-3d-store',
+    priority: '0.95',
+    changefreq: 'weekly',
+    image: '/images/og-cover.png',
+    title: '3D Store for WooCommerce & WordPress Speed Care',
+  },
+  {
+    path: '/3d-store-examples',
+    priority: '0.9',
+    changefreq: 'weekly',
+    image: '/images/og-cover.png',
+    title: '3D E-Commerce Website Examples by Industry',
     hasVideo: true,
   },
   {
     path: '/experience',
-    priority: '0.95',
+    priority: '0.9',
     changefreq: 'weekly',
     image: '/images/og-cover.png',
-    title: 'Interactive 3D E-Commerce Storefront Live Showroom & Video Walkthrough',
+    title: 'Live 3D Online Store Demo & Video Walkthrough',
     hasVideo: true,
   },
   {
@@ -32,113 +56,74 @@ const SITEMAP_ROUTES = [
     priority: '0.9',
     changefreq: 'weekly',
     image: '/images/og-cover.png',
-    title: '3D E-Commerce Storefront & Managed Web Services',
+    title: '3D Online Store Design & Monthly Website Care',
   },
   {
     path: '/services/3d-virtual-stores',
     priority: '0.95',
     changefreq: 'weekly',
     image: '/images/og-cover.png',
-    title: 'Custom 3D Virtual Storefronts for Shopify, WooCommerce & Custom Brands',
+    title: 'Custom 3D Virtual Online Stores',
   },
   {
     path: '/services/web-management',
-    priority: '0.85',
+    priority: '0.9',
     changefreq: 'weekly',
     image: '/images/og-cover.png',
-    title: 'Managed Web Hosting, Speed Optimization & Technical Operations',
+    title: 'Monthly Website Management, Cloud Hosting & Care',
   },
   {
     path: '/services/ecommerce-growth',
-    priority: '0.85',
+    priority: '0.9',
     changefreq: 'weekly',
     image: '/images/og-cover.png',
-    title: 'E-Commerce Conversion Rate Optimization & Spatial Merchandising',
+    title: 'Online Store Speed Fixes & Conversion Growth',
   },
   {
     path: '/pricing',
     priority: '0.9',
     changefreq: 'weekly',
     image: '/images/og-cover.png',
-    title: 'Request Custom Quotation or Free 48-Hour 3D Store Demo',
+    title: '3D Store Pricing, Website Care Plans & Free Demo',
   },
   {
     path: '/case-studies',
     priority: '0.85',
     changefreq: 'weekly',
     image: '/images/clients/moyee-nl.png',
-    title: '14+ Global Client E-Commerce Websites & Case Studies',
+    title: '14+ Client Websites & Real Store Results',
   },
   {
     path: '/contact',
     priority: '0.9',
     changefreq: 'weekly',
     image: '/images/og-cover.png',
-    title: 'Request Your Free 48-Hour 3D Store Demo or Custom Quotation',
+    title: 'Request Your Free 48-Hour 3D Demo or Custom Quote',
   },
   {
     path: '/about',
     priority: '0.8',
     changefreq: 'monthly',
     image: '/images/og-cover.png',
-    title: 'About ManageMyWeb E-Commerce Engineering Studio',
+    title: 'About ManageMyWeb',
   },
   {
     path: '/faq',
     priority: '0.85',
     changefreq: 'weekly',
     image: '/images/og-cover.png',
-    title: '3D Virtual Store & E-Commerce Management Frequently Asked Questions',
+    title: '3D Online Store FAQ — Cost, Shopify, Speed & SEO',
   },
   {
     path: '/blog',
-    priority: '0.8',
+    priority: '0.85',
     changefreq: 'weekly',
     image: '/images/og-cover.png',
-    title: 'Spatial Commerce & E-Commerce Engineering Journal',
+    title: 'Plain-English 3D Store & Website Care Guides',
   },
-  {
-    path: '/blog/can-you-add-a-3d-store-to-shopify',
-    priority: '0.85',
-    changefreq: 'monthly',
-    image: '/images/og-cover.png',
-    title: 'Can You Add a 3D Store to Shopify or WooCommerce?',
-  },
-  {
-    path: '/blog/3d-virtual-store-vs-normal-ecommerce-website',
-    priority: '0.85',
-    changefreq: 'monthly',
-    image: '/images/og-cover.png',
-    title: '3D Virtual Store vs. Normal E-Commerce Website: What Is the Difference?',
-  },
-  {
-    path: '/blog/what-affects-the-cost-of-a-3d-ecommerce-website',
-    priority: '0.85',
-    changefreq: 'monthly',
-    image: '/images/og-cover.png',
-    title: 'What Affects the Cost of a 3D E-Commerce Website?',
-  },
-  {
-    path: '/blog/future-of-ecommerce-3d-virtual-stores',
-    priority: '0.75',
-    changefreq: 'monthly',
-    image: '/images/og-cover.png',
-    title: 'Why 3D Virtual Stores Are Replacing Flat Product Grids',
-  },
-  {
-    path: '/blog/fairchain-coffee-story-in-spatial-web',
-    priority: '0.75',
-    changefreq: 'monthly',
-    image: '/images/clients/fairchain.png',
-    title: 'Turning Product Provenance into Interactive 3D Storytelling',
-  },
-  {
-    path: '/blog/why-traditional-ecommerce-grids-are-dying',
-    priority: '0.75',
-    changefreq: 'monthly',
-    image: '/images/og-cover.png',
-    title: 'Overcoming Rising Ad Costs with Spatial Merchandising',
-  },
+];
+
+const LEGAL_ROUTES = [
   { path: '/privacy', priority: '0.4', changefreq: 'yearly', image: null, title: 'Privacy Policy' },
   { path: '/terms', priority: '0.4', changefreq: 'yearly', image: null, title: 'Terms of Service' },
 ];
@@ -146,21 +131,33 @@ const SITEMAP_ROUTES = [
 export async function getServerSideProps({ res }) {
   const nowIso = new Date().toISOString();
 
+  const blogRoutes = BLOG_POSTS_LIST.map((post) => ({
+    path: `/blog/${post.slug}`,
+    priority: '0.85',
+    changefreq: 'monthly',
+    image: post.image || '/images/og-cover.png',
+    title: post.title,
+    lastmod: `${post.isoDate}T00:00:00+00:00`,
+  }));
+
+  const allRoutes = [...CORE_ROUTES, ...blogRoutes, ...LEGAL_ROUTES];
+
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-${SITEMAP_ROUTES.map(
+${allRoutes
+  .map(
     (route) => `  <url>
     <loc>${BASE_URL}${route.path}</loc>
-    <lastmod>${nowIso}</lastmod>
+    <lastmod>${route.lastmod || nowIso}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>${
       route.image
         ? `
     <image:image>
       <image:loc>${BASE_URL}${route.image}</image:loc>
-      <image:title>${route.title.replace(/&/g, '&amp;')}</image:title>
+      <image:title>${route.title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</image:title>
     </image:image>`
         : ''
     }${
@@ -179,7 +176,8 @@ ${SITEMAP_ROUTES.map(
         : ''
     }
   </url>`
-  ).join('\n')}
+  )
+  .join('\n')}
 </urlset>`;
 
   res.setHeader('Content-Type', 'text/xml; charset=utf-8');
