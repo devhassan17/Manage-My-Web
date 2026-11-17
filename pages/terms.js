@@ -13,7 +13,7 @@ export default function TermsOfService() {
         showBreadcrumbs={true}
       />
 
-      <Navbar onOpenDemoModal={() => { }} />
+      <Navbar onOpenDemoModal={() => {}} />
 
       <main style={{ paddingTop: '40px', paddingBottom: '96px', background: '#FBFBFD' }}>
         <div className="container" style={{ maxWidth: '760px' }}>
@@ -69,7 +69,7 @@ export default function TermsOfService() {
         </div>
       </main>
 
-      <Footer onOpenDemoModal={() => { }} />
+      <Footer onOpenDemoModal={() => {}} />
     </>
   );
 }
