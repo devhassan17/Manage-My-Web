@@ -44,7 +44,7 @@ export default function TermsOfService() {
                 1. Complimentary 3D Prototype Program
               </h2>
               <p>
-                Qualified inquiries submitted during our 60-day onboarding window receive a custom interactive 3D prototype preview of their storefront at no cost and with no obligation to enter a paid build contract.
+                Qualified inquiries receive a complimentary custom interactive 3D prototype preview of their storefront before entering any paid development contract.
               </p>
             </section>
 

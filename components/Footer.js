@@ -51,7 +51,7 @@ export default function Footer({ onOpenDemoModal }) {
               Want to see your real store in 3D?
             </h3>
             <p style={{ color: '#6E6E73', fontSize: '14.5px' }}>
-              Send us your store link for a free 48-hour 3D preview—no commitment required.
+              Send us your store link for a free 3D preview of your products—no commitment required.
             </p>
           </div>
 

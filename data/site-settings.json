@@ -20,13 +20,10 @@
   },
   "promo": {
     "enabled": true,
-    "badge": "Q4 Studio Onboarding",
+    "badge": "Free 3D Prototype Preview",
     "title": "Complimentary Custom 3D Store Prototype",
-    "description": "Share your website URL within our 60-day onboarding window and our engineers will build an interactive 3D prototype of your store within 48 hours at zero cost.",
-    "deadlineDate": "2027-01-02T23:59:59Z",
-    "slotsTotal": 10,
-    "slotsRemaining": 4,
-    "promoCode": "FREE-3D-DEMO-60D"
+    "description": "Share your website URL and our engineering team will build a complimentary interactive 3D preview featuring your products before you commit to a quotation.",
+    "promoCode": "FREE-3D-DEMO"
   },
   "shortcuts": [
     {

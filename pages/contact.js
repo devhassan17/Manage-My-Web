@@ -144,8 +144,8 @@ export default function Contact() {
                   </h3>
                   <p style={{ color: '#424245', fontSize: '14.5px', lineHeight: 1.5, marginBottom: '18px' }}>
                     {formData.requestType === 'quotation'
-                      ? `Thanks, ${formData.name}. We will email your itemized quotation within 24 hours.`
-                      : `Thanks, ${formData.name}. Your free 3D preview will be ready within 48 hours (Step 1), followed by your custom quotation (Step 2).`}
+                      ? `Thanks, ${formData.name}. We are reviewing your store requirements and will email your itemized quotation shortly.`
+                      : `Thanks, ${formData.name}. We have received your store URL and will email your free 3D preview link (Step 1), followed by your custom quotation (Step 2).`}
                   </p>
                   <a
                     href={waUrl}

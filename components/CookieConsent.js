@@ -426,7 +426,7 @@ export default function CookieConsent() {
                   />
                 </div>
                 <p style={{ fontSize: '11.5px', color: '#6E6E73', lineHeight: 1.4, margin: 0 }}>
-                  Tracks 60-day onboarding campaign codes and referral attribution.
+                  Tracks UTM campaign codes and referral attribution when enabled.
                 </p>
               </label>
             </div>

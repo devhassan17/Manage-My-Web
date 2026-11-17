@@ -23,7 +23,7 @@ export default function Custom404() {
     <>
       <SEOHead
         title="404 — Page Not Found | ManageMyWeb"
-        description="The page you are looking for doesn't exist or has moved. Explore our 3D virtual storefronts, view client case studies, or request a free 48-hour demo."
+        description="The page you are looking for doesn't exist or has moved. Explore our 3D virtual storefronts, view client case studies, or request a free 3D preview demo."
         canonicalUrl="https://www.managemyweb.co/404"
         noIndex={true}
       />

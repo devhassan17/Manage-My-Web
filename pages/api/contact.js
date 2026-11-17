@@ -30,7 +30,7 @@ function getPreDesignedItemsForPackage(pkg = '') {
   if (pkg.toLowerCase().includes('launchpad')) {
     return [
       {
-        title: '3D Storefront Launchpad Architecture (WebGL / 60fps)',
+        title: '3D Storefront Launchpad Architecture (WebGL)',
         description: 'Custom 3D showroom with interactive product shelving, express bar checkout, and provenance wall.',
         qty: 1,
         price: 1850,
@@ -285,8 +285,8 @@ export default async function handler(req, res) {
       success: true,
       requestType: newLead.requestType,
       message: isQuotationRequest
-        ? 'Quotation request received. We will send your custom itemized proposal within 24 hours.'
-        : 'Step 1 confirmed: We are building your free 3D demo and will send your preview link within 48 hours.',
+        ? 'Quotation request received. We will review your scope and follow up with your custom itemized proposal.'
+        : 'Step 1 confirmed: We received your store link and will send your free interactive 3D preview prototype link once ready.',
       leadId: newLead.id,
       emailSent,
       emailError,

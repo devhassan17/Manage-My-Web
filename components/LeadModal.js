@@ -159,8 +159,8 @@ export default function LeadModal({
             </h2>
             <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5, marginBottom: '20px' }}>
               {isQuotation
-                ? `Thanks, ${formData.name}. We will send your itemized quotation within 24 hours.`
-                : `Thanks, ${formData.name}. We will email your free 3D preview link in 48 hours (Step 1), followed by your custom quotation (Step 2).`}
+                ? `Thanks, ${formData.name}. We are reviewing your scope and will email your itemized quotation once confirmed.`
+                : `Thanks, ${formData.name}. We are reviewing your store catalog and will email your free 3D preview link (Step 1), followed by your custom quotation (Step 2).`}
             </p>
 
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -242,8 +242,8 @@ export default function LeadModal({
             </h2>
             <p style={{ color: '#6E6E73', fontSize: '13px', marginBottom: '14px' }}>
               {isQuotation
-                ? 'We will send a clear, itemized quote within 24 hours.'
-                : 'Send your store link and we will build a free 3D preview of your products in 48 hours.'}
+                ? 'Share your scope and we will follow up with a clear, itemized custom quotation.'
+                : 'Send your store link and we will build a free interactive 3D preview featuring your products.'}
             </p>
 
             {errorMsg && (
