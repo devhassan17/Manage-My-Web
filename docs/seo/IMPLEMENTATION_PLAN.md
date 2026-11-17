@@ -47,3 +47,4 @@
 - Confirm permissions for all 14 client logos/names (especially #12–#14 marked site offline).
 - Switch `managemyweb.co` -> `www.managemyweb.co` redirect from HTTP `307` to `308 Permanent` in Vercel Dashboard -> Domains.
 - Submit updated `sitemap.xml` inside Google Search Console and verify GA4 conversion reports once deployed.
+

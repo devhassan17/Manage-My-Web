@@ -15,7 +15,7 @@ function getClientTelemetry() {
         webgl = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) || 'WebGL 2.0 (Active)';
       }
     }
-  } catch (e) {}
+  } catch (e) { }
 
   const params = new URLSearchParams(window.location.search || '');
   return {
@@ -83,7 +83,7 @@ export default function CookieConsent() {
         if (parsed?.categories) {
           syncConsentState(parsed.categories);
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     // Fetch banner config from server
@@ -122,7 +122,7 @@ export default function CookieConsent() {
               path: router.asPath || '/',
               visitorId,
             }),
-          }).catch(() => {});
+          }).catch(() => { });
         }
       } catch (e) {
         // ignore parse error
@@ -145,7 +145,7 @@ export default function CookieConsent() {
               functional: Boolean(parsed.categories.functional),
             });
           }
-        } catch (e) {}
+        } catch (e) { }
       }
       setShowCustomize(true);
       setVisible(true);

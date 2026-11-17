@@ -83,8 +83,8 @@ export default function Contact() {
         }}
       />
 
-      <CountdownBanner onClaimDemo={() => {}} />
-      <Navbar onOpenDemoModal={() => {}} />
+      <CountdownBanner onClaimDemo={() => { }} />
+      <Navbar onOpenDemoModal={() => { }} />
 
       <main style={{ paddingTop: '40px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container" style={{ maxWidth: '980px' }}>
@@ -385,8 +385,8 @@ export default function Contact() {
                     {loading
                       ? 'Submitting...'
                       : formData.requestType === 'quotation'
-                      ? 'Request Custom Quote'
-                      : 'Get My Free 3D Demo'}
+                        ? 'Request Custom Quote'
+                        : 'Get My Free 3D Demo'}
                   </button>
                 </form>
               )}
@@ -435,7 +435,7 @@ export default function Contact() {
         </div>
       </main>
 
-      <Footer onOpenDemoModal={() => {}} />
+      <Footer onOpenDemoModal={() => { }} />
     </>
   );
 }

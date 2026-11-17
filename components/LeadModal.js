@@ -421,8 +421,8 @@ export default function LeadModal({
                 {loading
                   ? 'Submitting...'
                   : isQuotation
-                  ? 'Request Custom Quotation'
-                  : 'Start with Free 3D Demo'}
+                    ? 'Request Custom Quotation'
+                    : 'Start with Free 3D Demo'}
               </button>
             </form>
           </div>

@@ -63,3 +63,4 @@ Every item below was directly observed in the repository and requires **Owner Pr
 | Portfolio of 14+ Brands (`ClientLogos.js`, items 12–14 marked `Custom Wordmark (Site Offline)`) | `components/ClientLogos.js`, `pages/case-studies.js`, `public/llms*.txt` | `OWNER APPROVAL` | Flagged for owner verification of client attribution, live status of offline sites (#12–#14), and permission to display logos |
 | Schema `BreadcrumbList` emitted without visible HTML breadcrumbs | `components/SEOHead.js` | `VERIFIED` (`SEO-004` policy check) | Added visible semantic breadcrumb navigation matching `BreadcrumbList` only on internal pages, keeping schema truthful |
 | Schema `Organization` had `ProfessionalService` without street address & `$0.00` offer price | `components/SEOHead.js` | `VERIFIED` (`SEO-004`) | Changed `@type` strictly to `Organization`, removed unverified offer prices, removed `Speakable` assumptions unless verified |
+
