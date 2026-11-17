@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
 import CountdownBanner from '../components/CountdownBanner';
 import Navbar from '../components/Navbar';
 import VirtualCoffeeStore3D from '../components/VirtualCoffeeStore3D';
@@ -14,79 +15,74 @@ export default function ThreeDStoreExamples() {
 
   const examples = [
     {
-      industry: 'Food, Coffee & Specialty Drinks',
-      title: 'Warm Flagship Roastery Showroom',
-      desc: 'Customers walk past warm wood shelves, tap whole-bean bags or gift sets, learn where the beans came from, and pay at the bar counter.',
-      highlights: ['Natural pairing of beans & mugs', 'Origin story right next to price tags', '3.4× longer browsing time'],
+      industry: 'Specialty Coffee & Pantry',
+      title: 'Walkable Roastery & Provenance Room',
+      desc: 'Visitors walk past natural shelves featuring hero bags and brewing bundles, inspect origin notes right beside each product, and continue to checkout.',
+      highlights: ['Curated multi-item bundle shelves', 'Origin story right beside pricing', 'Clear lead vs checkout flow'],
     },
     {
       industry: 'Fashion, Apparel & Footwear',
-      title: 'Streetwear Boutique & Sneaker Wall',
-      desc: 'Shoppers walk between hanging clothing racks and illuminated sneaker pedestals, spin shoes 360°, pick sizes, and check out fast.',
-      highlights: ['Full outfit styling on racks', 'Interactive size & color swatches', 'Higher multi-item cart value'],
+      title: 'Boutique Showroom & Sneaker Pedestals',
+      desc: 'Shoppers explore styled lookbooks on hanging racks and illuminated sneaker pedestals with quick variant selectors.',
+      highlights: ['Curated drop staging', 'Interactive size & color selection', 'Mobile-friendly camera views'],
     },
     {
-      industry: 'Beauty, Skincare & Perfume',
-      title: 'Clean Clinical Counter & Routine Sets',
-      desc: 'Buyers browse morning and night skincare routines grouped on sunlit glass counters instead of hunting through 12 separate tabs.',
-      highlights: ['Easy 3-step routine bundles', 'Ingredient notes displayed clearly', 'Ideal for high-repeat gift sets'],
+      industry: 'Beauty, Skincare & Fragrance',
+      title: 'Clean Routine Counters',
+      desc: 'Group cleansers, serums, and gift sets together in daylight-lit counter stations instead of making shoppers hunt across separate category menus.',
+      highlights: ['Morning & evening routine sets', 'Ingredient highlights on inspect', 'Natural bundle presentation'],
     },
     {
-      industry: 'Watches, Jewelry & Accessories',
-      title: 'Illuminated Glass Display Cases',
-      desc: 'Close-up macro zoom lets high-ticket buyers inspect watch dials, straps, and metal finishes before booking concierge help or buying.',
-      highlights: ['Trust-building zoom detail', 'Direct VIP WhatsApp chat button', 'Custom luxury mood lighting'],
+      industry: 'Watches, Jewelry & Luxury',
+      title: 'Macro Display Cases & Concierge Desk',
+      desc: 'High-ticket shoppers inspect metal textures and close-up angles before clicking directly to checkout or opening a private concierge inquiry.',
+      highlights: ['Close-up detail exploration', 'Direct WhatsApp & quote path', 'Custom ambient lighting mood'],
     },
     {
-      industry: 'Tech, Gadgets & Audio Gear',
-      title: 'Hands-On Interactive Demo Table',
-      desc: 'Just like stepping into an Apple Store table: shoppers inspect headphones, ports, colors, and specs right beside one another.',
-      highlights: ['Visual comparison on one table', 'Clear spec popups on click', 'Fewer pre-purchase returns'],
+      industry: 'Electronics & Audio Hardware',
+      title: 'Interactive Hands-On Demo Tables',
+      desc: 'Display flagship headphones, gear, or accessories side by side on sleek product tables with clear port and specification callouts.',
+      highlights: ['Visual comparison on one table', 'Spec highlights beside products', 'Pre-order & cart support'],
     },
     {
-      industry: 'Home Decor & Furniture',
-      title: 'Real-Scale Living Room Setup',
-      desc: 'Instead of guessing from cropped photos, buyers walk inside styled spaces to see lamps, tables, and art together.',
-      highlights: ['Shop the whole room layout', 'True proportions and styling', 'Great for higher-ticket decor'],
+      industry: 'Home, Lighting & Furniture',
+      title: 'Room-Scale Interior Staging',
+      desc: 'Stage tables, lamps, and accents inside styled room corners so buyers visualize matching sets before choosing dimensions.',
+      highlights: ['Context-led room browsing', 'Multi-item room pairing', 'Direct link back to PDP details'],
     },
   ];
 
   const faqs = [
     {
-      q: 'Can you build a 3D example using my own real store products?',
-      a: 'Yes! You do not have to guess what your store would look like. Send your link and we will build a free working 3D preview featuring 2 or 3 of your actual items in 48 hours.',
+      q: 'Can we preview our own products inside one of these layouts?',
+      a: 'Yes. Share your store URL and 2 or 3 priority products and we will build a working custom preview featuring your own items before discussing a project quote.',
     },
     {
-      q: 'Do I have to upload heavy 3D files myself?',
-      a: 'No. Our team handles creating and compressing the 3D showcase from your regular product photos, links, and brand colors.',
+      q: 'Do we need existing CAD/3D files for every SKU?',
+      a: 'No. We help scope lightweight 3D staging from your existing product photography, dimensions, and reference assets during discovery.',
     },
   ];
 
   return (
     <>
       <SEOHead
-        title="3D E-Commerce Website Examples by Industry | ManageMyWeb"
-        description="Explore interactive 3D online store examples across coffee, clothing, skincare, watches, tech, and home decor. Walk through our live demo or request a free custom preview."
-        keywords="3D ecommerce website examples, 3D online store examples, interactive 3D shop demo, 3D Shopify store example, virtual store examples"
+        title="3D Virtual Showroom & E-Commerce Examples | ManageMyWeb"
+        description="Explore interactive 3D e-commerce showroom examples across specialty coffee, fashion, beauty, watches, electronics, and furniture. View our live demo or request a custom preview."
+        keywords="3D ecommerce website examples, virtual showroom examples, interactive 3D shop demo, Shopify 3D store showcase"
         canonicalUrl="https://www.managemyweb.co/3d-store-examples"
-        schemaData={{
-          '@type': 'FAQPage',
-          mainEntity: faqs.map((f) => ({
-            '@type': 'Question',
-            name: f.q,
-            acceptedAnswer: { '@type': 'Answer', text: f.a },
-          })),
-        }}
+        showBreadcrumbs={true}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '52px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', background: '#FBFBFD' }}>
         <section className="container" style={{ paddingBottom: '52px' }}>
+          <Breadcrumbs path="/3d-store-examples" currentLabel="3D Store Examples" />
+
           <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 36px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              3D Website Examples
+              Showroom Concepts &amp; Use Cases
             </p>
             <h1
               style={{
@@ -98,17 +94,17 @@ export default function ThreeDStoreExamples() {
                 marginBottom: '14px',
               }}
             >
-              See what a 3D online store looks like across different industries.
+              3D Virtual Showroom &amp; Store Examples by Industry
             </h1>
             <p style={{ color: '#6E6E73', fontSize: '16.5px', lineHeight: 1.55, marginBottom: '22px' }}>
-              Every brand gets a space tailored to its products—whether you sell coffee beans, sneakers, skincare sets, or luxury watches.
+              Each 3D showroom is tailored around how shoppers actually evaluate your category—whether through outfit staging, routine counters, hardware comparison tables, or B2B inquiry desks.
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
               <button onClick={() => setDemoModalOpen(true)} className="btn-apple-blue" style={{ padding: '12px 24px', fontSize: '14.5px' }}>
-                See Your Own Store in 3D Free
+                Request a Custom 3D Demo
               </button>
               <Link href="/experience" className="btn-apple-secondary" style={{ padding: '12px 22px', fontSize: '14.5px', color: '#1D1D1F' }}>
-                Fullscreen Video Walkthrough
+                Open Fullscreen Walkthrough
               </Link>
             </div>
           </div>
@@ -120,7 +116,7 @@ export default function ThreeDStoreExamples() {
           <div className="container">
             <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 36px auto' }}>
               <h2 style={{ fontSize: 'clamp(26px, 3.4vw, 36px)', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
-                Layouts tailored to what your customers want to see.
+                Showroom concepts designed around buyer intent
               </h2>
             </div>
 
@@ -148,7 +144,7 @@ export default function ThreeDStoreExamples() {
         </section>
 
         <ClientLogos />
-        <FAQSection title="Example & Custom Demo FAQ" items={faqs} background="#FBFBFD" />
+        <FAQSection title="Showroom Example Questions" items={faqs} background="#FBFBFD" />
       </main>
 
       <Footer onOpenDemoModal={() => setDemoModalOpen(true)} />
@@ -156,4 +152,3 @@ export default function ThreeDStoreExamples() {
     </>
   );
 }
-

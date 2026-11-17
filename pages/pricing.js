@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
 import CountdownBanner from '../components/CountdownBanner';
 import Navbar from '../components/Navbar';
 import FAQSection from '../components/FAQSection';
@@ -22,48 +23,48 @@ export default function Pricing() {
     {
       name: 'Starter 3D Storefront',
       backendValue: '3D Storefront Launchpad',
-      badge: 'Growing Brands',
-      priceLabel: 'Custom Quote',
-      period: 'Based on catalog size',
-      description: 'A clean 3D showroom featuring your best-selling products and direct checkout.',
+      badge: 'Focused Launch',
+      priceLabel: 'Custom Quotation',
+      period: 'Scoped to Selected Catalog Items',
+      description: 'A dedicated 3D showroom featuring your top products alongside your existing website and checkout.',
       features: [
-        'Custom 3D shop built around your brand',
-        'Up to 15 interactive products on 3D shelves',
-        'One-tap Apple Pay & card checkout',
-        'Brand story wall & WhatsApp help desk',
-        'Connects live to Shopify or WooCommerce',
+        'Custom browser-based 3D room built around your brand',
+        'Featured best-selling products staged on 3D shelves',
+        'Direct cart & checkout routing where supported',
+        'In-store brand story panel & inquiry counter',
+        'Shopify, WooCommerce, or custom API integration',
       ],
       highlighted: false,
     },
     {
       name: 'Full 3D Flagship Store',
       backendValue: 'Spatial Retail Flagship',
-      badge: 'Most Popular',
-      priceLabel: 'Custom Quote',
-      period: 'Complete Multi-Room Store',
-      description: 'Multi-room 3D showroom with custom lighting, full product sync, and free 48h demo.',
+      badge: 'Comprehensive Build',
+      priceLabel: 'Custom Quotation',
+      period: 'Custom Architecture & Catalog Sync',
+      description: 'Expanded 3D showroom layout with tailored lighting, multiple zones, and deeper catalog synchronization.',
       features: [
-        'All products & custom 3D displays included',
-        'Custom room design tailored to your industry',
-        'Day & evening lighting + interactive story walls',
-        'Express Apple Pay, Shop Pay & Stripe checkout',
-        'Free 48-hour working 3D preview first',
+        'Extended 3D product lineup & bespoke display fixtures',
+        'Custom architectural room design & lighting mood',
+        'Multiple display rooms and interactive product callouts',
+        'Express wallet routing via your supported gateway',
+        'Includes free prototype preview before development commit',
       ],
       highlighted: true,
     },
     {
-      name: 'Monthly Website Care',
+      name: 'Managed Website Operations',
       backendValue: 'Managed Web Concierge',
-      badge: 'Monthly Support',
-      priceLabel: 'Monthly Retainer',
-      period: 'Full Website & Tech Care',
-      description: 'We manage your hosting, DNS, mobile speed, daily backups, and same-day WhatsApp edits.',
+      badge: 'Optional Monthly Retainer',
+      priceLabel: 'Custom Monthly Plan',
+      period: 'Technical Hosting & Store Support',
+      description: 'Optional separate monthly support covering hosting, DNS, security backups, speed hygiene, and routine edits.',
       features: [
-        'Fast global cloud hosting (< 1.1s loads)',
+        'Cloud CDN hosting setup & uptime monitoring',
         'Domain, DNS & SSL renewal management',
-        'SPF, DKIM & DMARC business email setup',
-        'Same-day store edits right over WhatsApp',
-        'Automated daily off-site backups & monitoring',
+        'SPF, DKIM & DMARC email configuration',
+        'Ongoing image & Core Web Vitals speed hygiene',
+        'Regular off-site backups & routine storefront updates',
       ],
       highlighted: false,
     },
@@ -71,55 +72,52 @@ export default function Pricing() {
 
   const faqs = [
     {
-      q: 'Why is there no single fixed price box?',
-      a: 'A store putting 12 best-sellers into one simple room takes a completely different amount of work than a 400-product custom flagship store. Sending a tailored quote guarantees you never overpay for features you do not need.',
+      q: 'Why do you provide custom quotes instead of flat fixed pricing?',
+      a: 'Staging 10 products into a clean single-room layout involves very different scope than designing a multi-room showroom integrated into a bespoke inventory setup. Custom quotations ensure you only pay for the exact work your store requires.',
     },
     {
-      q: 'Is the 48-hour 3D demo really free?',
-      a: 'Yes! You share your store URL and 2 or 3 products. We build a working 3D preview at zero charge so you can see and test how it feels before deciding whether to go ahead.',
+      q: 'What factors change the final cost of a 3D storefront?',
+      a: 'Five main factors: how many products appear in 3D, how custom the room architecture is, your platform (Shopify, WooCommerce, or custom checkout), optional interactive story/video panels, and whether you add ongoing monthly website operations.',
     },
     {
-      q: 'Do I have to pay monthly if I only want the 3D store built once?',
-      a: 'No. Monthly Website Care is optional—you can hire us for a one-time build, purely for monthly website care, or bundle both together.',
+      q: 'Can we test a 3D preview before entering a build agreement?',
+      a: 'Yes. Share your store URL and priority products to request a free working 3D prototype preview before reviewing your custom itemized quote.',
+    },
+    {
+      q: 'Is monthly website management required to build a 3D store?',
+      a: 'No. Ongoing web operations is completely optional—you can book a standalone 3D storefront project, standalone technical maintenance, or combine both.',
     },
   ];
 
   return (
     <>
       <SEOHead
-        title="3D Online Store Pricing, Website Care Plans & Free Demo | ManageMyWeb"
-        description="See how ManageMyWeb quotes custom 3D online stores and monthly website management. Try your own store in 3D free in 48 hours or ask for a clear custom quote."
-        keywords="3D online store cost, 3D website pricing, Shopify 3D store quote, monthly website maintenance cost, free 3D store demo"
+        title="3D Store Development Pricing & Quotation | ManageMyWeb"
+        description="Learn how ManageMyWeb scopes custom 3D virtual store development and optional website management. Request a free 3D store demo or a custom project quotation."
+        keywords="3D ecommerce website cost, 3D storefront pricing, custom Shopify 3D quote, website management retainer pricing"
         canonicalUrl="https://www.managemyweb.co/pricing"
-        schemaData={[
-          {
-            '@type': 'OfferCatalog',
-            name: 'ManageMyWeb 3D Store & Monthly Website Care Plans',
-            itemListElement: tiers.map((t) => ({
-              '@type': 'Offer',
-              name: t.name,
-              description: t.description,
-            })),
-          },
-          {
-            '@type': 'FAQPage',
-            mainEntity: faqs.map((f) => ({
-              '@type': 'Question',
-              name: f.q,
-              acceptedAnswer: { '@type': 'Answer', text: f.a },
-            })),
-          },
-        ]}
+        showBreadcrumbs={true}
+        schemaData={{
+          '@type': 'OfferCatalog',
+          name: 'ManageMyWeb 3D Storefront & Web Operations Scopes',
+          itemListElement: tiers.map((t) => ({
+            '@type': 'Offer',
+            name: t.name,
+            description: t.description,
+          })),
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => openModal('demo', 'Spatial Retail Flagship')} />
       <Navbar onOpenDemoModal={() => openModal('demo', 'Spatial Retail Flagship')} />
 
-      <main style={{ paddingTop: '52px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', background: '#FBFBFD' }}>
         <div className="container" style={{ paddingBottom: '72px' }}>
-          <div style={{ textAlign: 'center', maxWidth: '660px', margin: '0 auto 40px auto' }}>
+          <Breadcrumbs path="/pricing" currentLabel="Pricing & Quotation" />
+
+          <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 40px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              Two Easy Ways to Start
+              Project Scopes &amp; Process
             </p>
             <h1
               style={{
@@ -131,10 +129,10 @@ export default function Pricing() {
                 marginBottom: '12px',
               }}
             >
-              Start with a Free 3D Demo, or ask for a Direct Quote.
+              3D Store Development Pricing &amp; Quotation
             </h1>
-            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.5 }}>
-              Preview your real products inside a 3D shop for free before spending a dollar—or get an honest quote in 24 hours.
+            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.55 }}>
+              Every quote is scoped around your product count, platform setup, and design complexity—start with a free working 3D demo or request a direct itemized proposal.
             </p>
           </div>
 
@@ -171,13 +169,13 @@ export default function Pricing() {
                     marginBottom: '10px',
                   }}
                 >
-                  Option 1 · Test First
+                  Option 1 · Prototype First
                 </div>
                 <h2 style={{ fontSize: '21px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
-                  Free 48-Hour 3D Demo → Clear Quote
+                  Request a Free 3D Demo → Then Review Your Quote
                 </h2>
                 <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5, marginBottom: '18px' }}>
-                  Send your store link first. Within 48 hours you walk through a free 3D preview made with your products, then get a clear quote.
+                  Send your store link and selected products first. Test a working preview on your own device before deciding whether to request an itemized build proposal.
                 </p>
               </div>
               <button
@@ -185,7 +183,7 @@ export default function Pricing() {
                 className="btn-apple-blue"
                 style={{ alignSelf: 'flex-start', padding: '11px 20px', fontSize: '13.5px' }}
               >
-                Get My Free 3D Demo
+                Request Free 3D Store Demo
               </button>
             </div>
 
@@ -213,13 +211,13 @@ export default function Pricing() {
                     marginBottom: '10px',
                   }}
                 >
-                  Option 2 · Fast Quote
+                  Option 2 · Direct Estimate
                 </div>
                 <h2 style={{ fontSize: '21px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
-                  Direct Custom Quote in 24 Hours
+                  Request a Custom Quotation
                 </h2>
                 <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5, marginBottom: '18px' }}>
-                  Already know what your store needs? Tell us your platform and product count and we will send an itemized proposal within 24 hours.
+                  Already know your timeline, commerce platform, and scope? Share your store requirements to receive an itemized scope breakdown and estimated delivery schedule.
                 </p>
               </div>
               <button
@@ -227,7 +225,7 @@ export default function Pricing() {
                 className="btn-apple-dark"
                 style={{ alignSelf: 'flex-start', padding: '11px 20px', fontSize: '13.5px' }}
               >
-                Ask for a Quote
+                Request Custom Quote
               </button>
             </div>
           </div>
@@ -307,7 +305,7 @@ export default function Pricing() {
                     className={tier.highlighted ? 'btn-apple-blue' : 'btn-apple-dark'}
                     style={{ width: '100%', padding: '12px', fontSize: '13.5px' }}
                   >
-                    Ask for a Quote
+                    Get a Custom Quote
                   </button>
                   <button
                     onClick={() => openModal('demo', tier.backendValue)}
@@ -323,12 +321,12 @@ export default function Pricing() {
 
           <div style={{ textAlign: 'center' }}>
             <Link href="/blog/what-affects-the-cost-of-a-3d-ecommerce-website" className="apple-link" style={{ fontSize: '15px' }}>
-              Read our breakdown: 5 factors that affect the price of a 3D website →
+              Read our detailed guide: 5 factors that affect 3D store pricing →
             </Link>
           </div>
         </div>
 
-        <FAQSection title="Pricing & Quote Questions" items={faqs} background="#F5F5F7" />
+        <FAQSection title="Pricing & Scope Questions" items={faqs} background="#F5F5F7" />
       </main>
 
       <Footer onOpenDemoModal={() => openModal('demo', 'Spatial Retail Flagship')} />

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SEOHead from '../../components/SEOHead';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import CountdownBanner from '../../components/CountdownBanner';
 import Navbar from '../../components/Navbar';
 import FAQSection from '../../components/FAQSection';
@@ -12,55 +13,48 @@ export default function EcommerceGrowth() {
 
   const faqs = [
     {
-      q: 'Why do visitors look at my store and leave without buying?',
-      a: 'Nine times out of ten, it comes down to three things: slow mobile pages (taking over 3 seconds to open), plain layouts that look like every competitor, or too many steps during mobile checkout.',
+      q: 'What causes shoppers to browse and leave before buying?',
+      a: 'Across online retail, common blockers include slow-loading product pages on mobile networks, hard-to-read sizing or material details, and lengthy checkout forms requiring account creation.',
     },
     {
-      q: 'How can you raise my conversion rate without me paying for more ads?',
-      a: 'We optimize your mobile load speed under 1.1s, add one-tap Apple Pay / Google Pay / Shop Pay express checkouts, and showcase your top bundles visually so more visitors finish buying and add more items to each order.',
+      q: 'How do you approach checkout and conversion improvement?',
+      a: 'We audit where visitors stall using privacy-respecting analytics, strip out heavy blocking third-party scripts, clarify bundle context and trust details beside buy actions, and enable express payment options where supported by your checkout.',
     },
     {
-      q: 'Do you set up Google Analytics and Microsoft Clarity heatmaps too?',
-      a: 'Yes! We wire up GA4 purchase tracking and Microsoft Clarity session recordings so you can actually watch where visitors tap, scroll, or drop off.',
+      q: 'Do you make guarantees about exact percentage lifts before seeing our store?',
+      a: 'No honest engineer guarantees identical percentages for every catalog. Instead, we focus on measurable friction removal—faster load times, cleaner mobile checkout paths, and clearer tracking so you can evaluate real results in your own analytics.',
     },
   ];
 
   return (
     <>
       <SEOHead
-        title="Increase Online Store Sales, Mobile Speed & Checkout Conversion | ManageMyWeb"
-        description="Get more sales from the visitors already coming to your store. Faster mobile speed, one-tap Apple Pay checkout, smarter product bundles, and Microsoft Clarity tracking."
-        keywords="increase online store sales, ecommerce conversion rate optimization, fix slow mobile store, reduce cart abandonment, Shopify checkout speed"
+        title="E-Commerce Conversion & Checkout Optimization | ManageMyWeb"
+        description="Remove slow mobile pages, clumsy forms, and missing buyer context so more store visitors complete checkout. Clear audits, speed cleanup, and express checkout support."
+        keywords="ecommerce conversion optimization, Shopify checkout optimization, reduce cart abandonment, mobile store speed fixes, online store CRO"
         canonicalUrl="https://www.managemyweb.co/services/ecommerce-growth"
-        schemaData={[
-          {
-            '@type': 'Service',
-            name: 'Online Store Speed & Conversion Growth',
-            serviceType: 'E-Commerce Conversion & Speed Optimization',
-            provider: { '@id': 'https://www.managemyweb.co/#organization' },
-            areaServed: 'Worldwide',
-            description:
-              'Turn existing website traffic into bigger orders with sub-second mobile loading, one-tap express checkouts, and visual merchandising.',
-          },
-          {
-            '@type': 'FAQPage',
-            mainEntity: faqs.map((f) => ({
-              '@type': 'Question',
-              name: f.q,
-              acceptedAnswer: { '@type': 'Answer', text: f.a },
-            })),
-          },
-        ]}
+        showBreadcrumbs={true}
+        schemaData={{
+          '@type': 'Service',
+          name: 'E-Commerce Conversion & Checkout Optimization',
+          serviceType: 'Conversion Rate & Checkout Optimization',
+          provider: { '@id': 'https://www.managemyweb.co/#organization' },
+          areaServed: 'Worldwide',
+          description:
+            'Practical mobile performance cleanup, product context clarity, and streamlined express checkout integration for e-commerce brands.',
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '52px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', background: '#FBFBFD' }}>
         <div className="container" style={{ paddingBottom: '72px' }}>
-          <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 44px auto' }}>
+          <Breadcrumbs path="/services/ecommerce-growth" currentLabel="E-Commerce Conversion & Checkout Optimization" />
+
+          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 44px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              Speed &amp; Conversion Growth
+              Conversion &amp; Speed Focus
             </p>
             <h1
               style={{
@@ -72,13 +66,13 @@ export default function EcommerceGrowth() {
                 marginBottom: '12px',
               }}
             >
-              Get more sales from the traffic you already pay for.
+              E-Commerce Conversion &amp; Checkout Optimization
             </h1>
             <p style={{ color: '#424245', fontSize: '16.5px', lineHeight: 1.55, marginBottom: '22px' }}>
-              Ads get more expensive every month. The fastest way to lift profit is making your store load quicker on phones, easier to browse, and faster to pay.
+              Paid clicks cost more every quarter. Improving mobile speed, product storytelling, and express payment options helps convert more of the visitors already coming to your store.
             </p>
             <button onClick={() => setDemoModalOpen(true)} className="btn-apple-blue" style={{ padding: '12px 24px', fontSize: '14.5px' }}>
-              Request Store Audit or Demo
+              Discuss Your Store Conversion Funnel
             </button>
           </div>
 
@@ -92,59 +86,59 @@ export default function EcommerceGrowth() {
           >
             {[
               {
-                stat: '+62%',
-                label: 'Bigger Cart Totals',
-                desc: 'Grouping matching products visually on shelves encourages buyers to grab bundles instead of single items.',
+                tag: 'Speed',
+                label: 'Faster Mobile Loading',
+                desc: 'We audit blocking scripts, uncompressed photography, and app bloat that frustrate shoppers on cellular connections.',
               },
               {
-                stat: '-41%',
-                label: 'Fewer Abandoned Carts',
-                desc: 'One-tap Apple Pay, Google Pay, and Shop Pay let shoppers finish paying in seconds with Face ID.',
+                tag: 'Checkout',
+                label: 'Fewer Form Roadblocks',
+                desc: 'We configure supported one-tap payment options like Apple Pay, Google Pay, and Shop Pay so buyers do not drop out typing long addresses.',
               },
               {
-                stat: '3.4×',
-                label: 'More Time In Your Store',
-                desc: 'Instead of bouncing after 40 seconds on a flat page, visitors stay over 3 minutes exploring your brand.',
+                tag: 'Context',
+                label: 'Smarter Shelf Merchandising',
+                desc: 'Pairing related items together visually—whether in 3D showrooms or clean collection layouts—helps shoppers discover complementary products naturally.',
               },
-            ].map((metric) => (
+            ].map((item) => (
               <div
-                key={metric.label}
+                key={item.label}
                 className="apple-card"
                 style={{ padding: '30px', borderRadius: '18px', background: '#FFFFFF' }}
               >
-                <div style={{ fontSize: '36px', fontWeight: 600, color: '#1D1D1F', letterSpacing: '-0.03em', marginBottom: '6px' }}>
-                  {metric.stat}
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#0066CC', textTransform: 'uppercase', marginBottom: '8px' }}>
+                  {item.tag}
                 </div>
-                <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
-                  {metric.label}
+                <h2 style={{ fontSize: '19px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
+                  {item.label}
                 </h2>
-                <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5 }}>{metric.desc}</p>
+                <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.55, margin: 0 }}>{item.desc}</p>
               </div>
             ))}
           </div>
 
-          {/* 4 Actionable Growth Fixes */}
+          {/* 4 Practical Engineering Steps */}
           <div style={{ background: '#FFFFFF', border: '1px solid #D2D2D7', borderRadius: '20px', padding: '32px' }}>
             <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#1D1D1F', marginBottom: '20px' }}>
-              Four simple fixes we make to raise conversion rates
+              Practical improvements we check first on every store
             </h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
               {[
                 {
                   title: '1. Clean Up Slow Mobile Scripts',
-                  desc: 'We strip unused Shopify app code and oversized uncompressed images so mobile pages load around 1 second.',
+                  desc: 'Remove redundant leftover theme snippets, tracking pixels, and oversized uncompressed images slowing down Core Web Vitals.',
                 },
                 {
-                  title: '2. Cut Checkout Steps in Half',
-                  desc: 'We enable instant Apple Pay, Google Pay, and Shop Pay so buyers do not quit typing addresses on small keyboards.',
+                  title: '2. Simplify Mobile Checkout Paths',
+                  desc: 'Reduce required clicks between product view, cart drawer, and wallet checkout on narrow mobile screens.',
                 },
                 {
-                  title: '3. Showcase Story Next to the Price',
-                  desc: 'We put why your product is worth the price right beside the buy button instead of hiding it on an About page.',
+                  title: '3. Surface Key Trust Details Early',
+                  desc: 'Place shipping rules, materials, and customer help options clearly next to purchase actions rather than burying them.',
                 },
                 {
-                  title: '4. Real Visitor Tracking',
-                  desc: 'We install Microsoft Clarity heatmaps and GA4 conversion events so you see exactly what shoppers click and where they leave.',
+                  title: '4. Consent-Respecting Funnel Measurement',
+                  desc: 'Configure accurate GA4 lead and purchase events alongside consent controls so you can verify what truly works.',
                 },
               ].map((fix) => (
                 <div key={fix.title} style={{ background: '#F5F5F7', padding: '20px', borderRadius: '14px' }}>
@@ -161,13 +155,13 @@ export default function EcommerceGrowth() {
                 Why stores feel slow on phones →
               </Link>
               <Link href="/blog/how-to-stop-cart-abandonment" className="apple-link" style={{ fontSize: '14px' }}>
-                How to stop cart abandonment →
+                Practical checkout friction fixes →
               </Link>
             </div>
           </div>
         </div>
 
-        <FAQSection title="Speed & Sales Questions" items={faqs} background="#F5F5F7" />
+        <FAQSection title="Conversion Optimization Questions" items={faqs} background="#F5F5F7" />
       </main>
 
       <Footer onOpenDemoModal={() => setDemoModalOpen(true)} />

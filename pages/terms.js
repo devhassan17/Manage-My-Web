@@ -1,4 +1,5 @@
 import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -7,14 +8,16 @@ export default function TermsOfService() {
     <>
       <SEOHead
         title="Terms of Use | ManageMyWeb"
-        description="Terms and service level agreements for bespoke 3D storefront builds and managed web operations."
+        description="Terms and scope guidelines for custom 3D storefront builds and ongoing website management."
         canonicalUrl="https://www.managemyweb.co/terms"
+        showBreadcrumbs={true}
       />
 
       <Navbar onOpenDemoModal={() => {}} />
 
-      <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', paddingBottom: '96px', background: '#FBFBFD' }}>
         <div className="container" style={{ maxWidth: '760px' }}>
+          <Breadcrumbs path="/terms" currentLabel="Terms of Service" />
           <h1 style={{ fontSize: '38px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
             Terms of Use
           </h1>
@@ -56,10 +59,10 @@ export default function TermsOfService() {
 
             <section>
               <h2 style={{ fontSize: '19px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
-                3. Service Level Agreement (SLA)
+                3. Ongoing Website Support Scope
               </h2>
               <p>
-                Managed retainer clients receive 99.99% cloud edge uptime monitoring and priority under-2-hour engineer response for critical production issues.
+                Managed retainer clients receive scheduled cloud hosting monitoring, off-site backups, and direct engineering support according to the agreed maintenance schedule in their written proposal.
               </p>
             </section>
           </div>

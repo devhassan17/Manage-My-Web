@@ -1,4 +1,5 @@
 import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -9,12 +10,14 @@ export default function PrivacyPolicy() {
         title="Privacy Policy | ManageMyWeb"
         description="How ManageMyWeb protects your brand data, e-commerce credentials, and customer analytics."
         canonicalUrl="https://www.managemyweb.co/privacy"
+        showBreadcrumbs={true}
       />
 
       <Navbar onOpenDemoModal={() => { }} />
 
-      <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', paddingBottom: '96px', background: '#FBFBFD' }}>
         <div className="container" style={{ maxWidth: '760px' }}>
+          <Breadcrumbs path="/privacy" currentLabel="Privacy Policy" />
           <h1 style={{ fontSize: '38px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
             Privacy Policy
           </h1>

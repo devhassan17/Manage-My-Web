@@ -24,127 +24,132 @@ export default function Home({ serverSeo }) {
   const ecommerceVerticals = [
     {
       category: 'Fashion, Apparel & Footwear',
-      title: 'Clothing & Shoes',
-      desc: 'Walkable racks and sneaker walls where shoppers spin every item 360° and pick their size right in the room.',
+      title: 'Clothing & Footwear',
+      desc: 'Walkable clothing racks and shoe displays where visitors inspect silhouettes, pick sizes, and add items straight to their bag.',
     },
     {
       category: 'Beauty, Cosmetics & Fragrance',
-      title: 'Skincare, Makeup & Perfume',
-      desc: 'Clean display counters where buyers compare shades, read ingredients, and add gift bundles in one tap.',
+      title: 'Skincare, Beauty & Fragrance',
+      desc: 'Clean counter displays organized around routines, shades, and gift sets rather than buried dropdown menus.',
     },
     {
       category: 'Consumer Electronics & Audio',
-      title: 'Tech, Gadgets & Audio',
-      desc: 'Interactive product tables where visitors rotate headphones or gear, compare specs, and check out fast.',
+      title: 'Electronics & Audio Hardware',
+      desc: 'Interactive tables where shoppers rotate products to examine ports, finishes, and key technical specifications.',
     },
     {
       category: 'Watches, Jewelry & Luxury Goods',
       title: 'Watches & Jewelry',
-      desc: 'Bright display cases that let shoppers zoom in on close-up details and book VIP help or wholesale orders.',
+      desc: 'Detail-focused display cases where buyers view dials and craftsmanship up close or open a direct inquiry desk.',
     },
     {
       category: 'Home, Furniture & Decor',
-      title: 'Home & Furniture',
-      desc: 'Real-scale rooms where customers can see how furniture, lighting, and decor look together before buying.',
+      title: 'Home, Lighting & Furniture',
+      desc: 'Styled rooms that show how pieces fit together at scale instead of isolated cutouts on a white background.',
     },
     {
       category: 'Food, Beverage & Specialty Goods',
-      title: 'Coffee, Food & Drinks',
-      desc: 'Inviting shelves that tell your sourcing story alongside bundle boxes—just like walking into your cafe or shop.',
+      title: 'Coffee, Tea & Specialty Food',
+      desc: 'Warm retail shelves pairing tasting packs alongside sourcing stories and simple multi-item gifting.',
     },
   ];
 
   const zones = [
     {
-      title: 'Walk-Up Product Shelves',
-      subtitle: 'Room 01',
-      desc: 'Instead of scrolling flat squares, visitors walk up to custom racks, spin products 360°, pick sizes or colors, and drop them straight into their cart.',
-      stat: '+48%',
-      statLabel: 'More products viewed per visit',
-      badge: '01 · 3D Shelves',
-      specs: ['Spin and inspect any product in 360°', 'Live stock and variants from your store', 'Custom-built displays for what you sell'],
+      title: 'Interactive 3D Product Shelves',
+      subtitle: 'Area 01',
+      desc: 'Visitors walk up to shelves tailored to your catalog, rotate hero products in the browser, review variants, and add items directly to their existing cart.',
+      outcome: 'Guided Product Discovery',
+      outcomeNote: 'Built to help shoppers browse curated collections naturally',
+      badge: '01 · Product Shelves',
+      specs: [
+        '360-degree product inspection in Chrome and Safari',
+        'Connects to supported Shopify or WooCommerce product feeds',
+        'Accessible HTML fallback details for every featured item',
+      ],
     },
     {
-      title: 'One-Tap Checkout Counter',
-      subtitle: 'Room 02',
-      desc: 'No clunky 5-step checkout forms. Customers walk to the counter and pay with Apple Pay, Google Pay, Shop Pay, or card in seconds.',
-      stat: '+62%',
-      statLabel: 'Higher average order size',
-      badge: '02 · Fast Checkout',
-      specs: ['One-tap Apple Pay & Google Pay', 'Connects directly to Shopify or WooCommerce', 'Fewer abandoned carts on mobile'],
+      title: 'Streamlined Checkout Routing',
+      subtitle: 'Area 02',
+      desc: 'When shoppers are ready to buy, items pass cleanly into your existing Shopify, WooCommerce, or supported express checkout flow without creating a second account.',
+      outcome: 'Seamless Cart Handoff',
+      outcomeNote: 'Preserves your existing payment methods and fulfillment',
+      badge: '02 · Express Checkout',
+      specs: [
+        'Uses your existing payment gateways where supported',
+        'Supports express mobile wallets enabled on your store',
+        'Keeps tax, shipping, and order notifications in one system',
+      ],
     },
     {
-      title: 'Your Brand Story Wall',
-      subtitle: 'Room 03',
-      desc: 'Almost nobody clicks hidden About pages. Put what makes your products special—materials, craftsmanship, or videos—right beside your shelves.',
-      stat: '3.4×',
-      statLabel: 'More repeat customers',
+      title: 'In-Room Brand Story Panels',
+      subtitle: 'Area 03',
+      desc: 'Most shoppers leave before ever clicking an About link in the footer. Place materials, sourcing proof, and product videos directly inside the showroom.',
+      outcome: 'Higher Brand Context',
+      outcomeNote: 'Explains value and craftsmanship right beside the price',
       badge: '03 · Brand Story',
-      specs: ['Photos, videos, and story panels inside the shop', 'Show how your products are made', 'Build instant trust with first-time buyers'],
+      specs: [
+        'Readable story panels paired directly with key products',
+        'Optional lightweight video walkthroughs or lookbooks',
+        'Helps justify premium craftsmanship without popups',
+      ],
     },
     {
-      title: 'Customer Help & Wholesale Desk',
-      subtitle: 'Room 04',
-      desc: 'Give shoppers or wholesale buyers a real place inside the store to ask sizing questions, request bulk pricing, or open WhatsApp in one click.',
-      stat: '94%',
-      statLabel: 'Customers find what they need',
-      badge: '04 · Live Help Desk',
-      specs: ['Instant WhatsApp or live chat handoff', 'Bulk & wholesale order requests', 'Direct help with sizes and bundles'],
+      title: 'Direct Support & Wholesale Desk',
+      subtitle: 'Area 04',
+      desc: 'Give hesitant buyers or B2B wholesale inquiries an easy counter inside the store to message your team or jump straight into an inquiry form.',
+      outcome: 'Human Buyer Support',
+      outcomeNote: 'Turns sizing or bulk questions into qualified leads',
+      badge: '04 · Help Desk',
+      specs: [
+        'Direct contact & WhatsApp handoff with clear intent',
+        'Dedicated path for custom bulk or B2B orders',
+        'Works cleanly even on mobile or low-power screens',
+      ],
     },
   ];
 
   const faqs = [
     {
-      q: 'What does ManageMyWeb actually do?',
-      a: 'We do two things for online store owners: (1) we turn your Shopify, WooCommerce, or custom shop into a fast 3D online store shoppers can walk through on any phone or computer, and (2) we handle your monthly hosting, speed, security, email, and daily website edits so you do not have to stress over tech.',
+      q: 'What does ManageMyWeb develop?',
+      a: 'We specialize in custom 3D e-commerce website development—turning standard online stores on Shopify, WooCommerce, and custom setups into walkable 3D storefronts that run directly in standard web browsers. We also offer ongoing technical website management as a separate service.',
     },
     {
-      q: 'How does the Free 48-Hour 3D Demo work?',
-      a: 'You share your store link and pick 2 or 3 best-selling products. Within 48 hours, our team builds a working 3D preview of your own shop for free. Once you test it, we send a clear custom quote based on what you want—zero pressure to buy.',
+      q: 'How does the Free 3D Store Demo work?',
+      a: 'Share your existing website link and highlight 2 or 3 representative products. Our team builds a working browser preview with your products so you can test mobile speed and user experience before discussing scope or a custom quotation.',
     },
     {
-      q: 'Do customers need to download an app or have a powerful computer?',
-      a: 'No app is required. Your 3D store opens directly in Safari or Chrome on iPhones, Android phones, and laptops, loading in around 1 second at a smooth 60 frames per second.',
+      q: 'Do shoppers need an app or VR headset?',
+      a: 'No. Everything opens directly inside Chrome, Safari, or Edge on mobile phones and desktop computers—with HTML previews and static fallbacks available if a device uses low-power or reduced-motion settings.',
     },
     {
-      q: 'Do I have to leave Shopify or WooCommerce to use this?',
-      a: 'No. Your existing Shopify, WooCommerce, or custom checkout, prices, stock levels, and order emails stay exactly where they are. We connect the 3D store right onto your current setup.',
+      q: 'Do I have to abandon Shopify or WooCommerce?',
+      a: 'No. Your 3D storefront connects alongside or on top of your existing Shopify or WooCommerce catalog so inventory, pricing, payment methods, and orders continue running through your main store platform where supported.',
     },
     {
-      q: 'Can you just manage and speed up my current website without 3D?',
-      a: 'Yes! Many clients hire us purely for monthly website care—fast cloud hosting, fixing slow pages on mobile, setting up business emails so they never land in spam, daily backups, and same-day edits on WhatsApp.',
+      q: 'How do you make sure a 3D website is still fast and Google-indexable?',
+      a: 'Every critical page heading, product description, comparison, and CTA lives in real server-rendered HTML outside the 3D scene. Assets are compressed and lazy-loaded so initial content remains clean, accessible, and fast.',
     },
     {
-      q: 'Will a 3D online store still rank well on Google?',
-      a: 'Yes. Every 3D store we build includes full readable HTML text, fast page loads, mobile-friendly markup, XML sitemaps, and Schema.org data so Google indexes every page and product properly.',
+      q: 'Can you also manage ongoing hosting, DNS, and technical updates?',
+      a: 'Yes. Through our separate Managed Website Operations service, our engineers handle edge hosting, DNS records, backups, speed maintenance, and routine storefront edits.',
     },
   ];
 
   return (
     <>
       <SEOHead
-        title="ManageMyWeb | 3D Online Stores & Monthly Website Management"
-        description="Turn your Shopify, WooCommerce, or custom website into a 3D online store shoppers can walk through. Plus full hosting, speed fixes, and daily updates. Get a free 3D demo in 48 hours."
-        keywords="3D online store, 3D Shopify store, WooCommerce 3D store, interactive 3D website, virtual store builder, website management service, monthly website maintenance, free 3D store demo, ManageMyWeb"
+        title="3D E-Commerce Website Development | ManageMyWeb"
+        description="Build a custom 3D e-commerce storefront for Shopify or WooCommerce. Let customers explore interactive showrooms in their browser and request a free demo from ManageMyWeb."
+        keywords="3D ecommerce website development, 3D virtual store development, custom 3D Shopify store, WooCommerce 3D store, interactive 3D storefront, virtual showroom development, ManageMyWeb"
         canonicalUrl="https://www.managemyweb.co"
         serverSeo={serverSeo}
         schemaData={[
           {
-            '@type': 'FAQPage',
-            mainEntity: faqs.map((item) => ({
-              '@type': 'Question',
-              name: item.q,
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: item.a,
-              },
-            })),
-          },
-          {
             '@type': 'VideoObject',
-            name: 'How a 3D Online Store Works — 30-Second Walkthrough',
+            name: 'Interactive 3D E-Commerce Storefront Walkthrough — 30-Second Demo',
             description:
-              'Watch how ManageMyWeb turns a standard Shopify, WooCommerce, or custom store into a fast 3D online shop shoppers can walk through on any phone or computer.',
+              'See how shoppers explore a browser-based 3D storefront, view products on shelves, and route into checkout without downloading an app.',
             thumbnailUrl: ['https://www.managemyweb.co/images/og-cover.png'],
             uploadDate: '2026-11-08T00:00:00+00:00',
             duration: 'PT30S',
@@ -153,27 +158,27 @@ export default function Home({ serverSeo }) {
           },
           {
             '@type': 'HowTo',
-            name: 'How to Turn Your Online Store Into a 3D Store',
+            name: 'How Custom 3D E-Commerce Website Development Works',
             description:
-              'See your own store in 3D for free in 48 hours, review a custom quote, and launch synced with your current checkout.',
+              'Five-stage process from store discovery and free 3D prototype to commerce platform integration, launch, and optional ongoing support.',
             step: [
               {
                 '@type': 'HowToStep',
                 position: 1,
-                name: 'Send Your Store Website Link',
-                text: 'Share your Shopify, WooCommerce, or custom store link to request a free 3D demo.',
+                name: 'Discovery & Catalog Review',
+                text: 'Share your existing Shopify, WooCommerce, or custom store link and priority products.',
               },
               {
                 '@type': 'HowToStep',
                 position: 2,
-                name: 'Test Your Free 48-Hour 3D Demo',
-                text: 'Walk through a working 3D store built around your actual products in 48 hours at zero cost.',
+                name: 'Interactive 3D Prototype Demo',
+                text: 'Test a working browser prototype featuring your selected products on mobile and desktop.',
               },
               {
                 '@type': 'HowToStep',
                 position: 3,
-                name: 'Get a Clear Quote & Go Live',
-                text: 'Pick what you want, get a straightforward quote, and let our team manage hosting and updates.',
+                name: 'Commerce Integration & Launch',
+                text: 'Connect catalog data and checkout routing, validate performance and accessibility, and publish.',
               },
             ],
           },
@@ -184,7 +189,7 @@ export default function Home({ serverSeo }) {
       <Navbar onOpenDemoModal={() => openModalForCategory('Fashion, Apparel & Footwear', 'demo')} />
 
       <main>
-        {/* HERO SECTION — PLAIN HUMAN ENGLISH */}
+        {/* HERO SECTION */}
         <section style={{ paddingTop: '56px', paddingBottom: '56px', background: '#FBFBFD' }}>
           <div className="container" style={{ textAlign: 'center' }}>
             <p
@@ -197,21 +202,21 @@ export default function Home({ serverSeo }) {
                 marginBottom: '12px',
               }}
             >
-              3D Online Stores &amp; Full Website Care
+              3D E-Commerce Website Development
             </p>
 
             <h1
               style={{
-                fontSize: 'clamp(34px, 5vw, 58px)',
+                fontSize: 'clamp(34px, 5vw, 56px)',
                 fontWeight: 600,
                 letterSpacing: '-0.035em',
                 lineHeight: 1.08,
-                maxWidth: '900px',
+                maxWidth: '920px',
                 margin: '0 auto 20px auto',
                 color: '#1D1D1F',
               }}
             >
-              Turn your online store into a <span style={{ color: '#0066CC' }}>3D shop</span> customers actually remember.
+              Custom <span style={{ color: '#0066CC' }}>3D E-Commerce Websites</span> Customers Can Walk Through.
             </h1>
 
             <div
@@ -227,14 +232,11 @@ export default function Home({ serverSeo }) {
               }}
             >
               <p style={{ margin: 0 }}>
-                Most online stores look like the exact same grid of flat boxes. Shoppers scroll for 30 seconds, get bored, and close the tab.
-              </p>
-              <p style={{ margin: 0 }}>
-                We build a fast, <strong style={{ color: '#1D1D1F', fontWeight: 600 }}>walkable 3D online store</strong> right in the browser for Shopify, WooCommerce, or custom websites—and handle your hosting, speed fixes, security backups, and daily updates so you can focus on selling.
+                We design and develop interactive 3D storefronts for e-commerce brands. Customers browse virtual shelves in their web browser, inspect products, and continue to checkout using your existing commerce platform where supported.
               </p>
             </div>
 
-            {/* 3 Clear Pillars */}
+            {/* 3 Core Engineering Pillars */}
             <div
               style={{
                 maxWidth: '920px',
@@ -247,16 +249,16 @@ export default function Home({ serverSeo }) {
             >
               {[
                 {
-                  step: '1 · Works on Any Phone, No App Needed',
-                  text: 'Customers walk through your store, spin items in 360°, add to cart, and pay right inside Safari or Chrome.',
+                  step: '1 · Shopify, WooCommerce & Custom',
+                  text: 'Built to work alongside Shopify, WooCommerce, and selected custom storefronts—without throwing away your existing back office.',
                 },
                 {
-                  step: '2 · Connects to Shopify & WooCommerce',
-                  text: 'Keep your existing products, stock, and checkout—plus we manage your hosting, speed, DNS, and daily edits.',
+                  step: '2 · Mobile & Browser Accessible',
+                  text: 'Runs directly in iOS Safari, Android Chrome, and desktop browsers with compressed assets and reduced-motion fallbacks.',
                 },
                 {
-                  step: '3 · See Your Free 3D Demo in 48 Hours',
-                  text: 'Send us your store link and we will build a free 3D preview with your real products before you pay a cent.',
+                  step: '3 · Optional Ongoing Tech Support',
+                  text: 'Keep development, hosting, security backups, and routine store updates handled cleanly through one engineering partner.',
                 },
               ].map((item) => (
                 <div
@@ -292,7 +294,7 @@ export default function Home({ serverSeo }) {
                 className="btn-apple-blue"
                 style={{ padding: '14px 26px', fontSize: '15px' }}
               >
-                Get My Free 3D Demo
+                Request a Free 3D Store Demo
               </button>
 
               <button
@@ -300,7 +302,7 @@ export default function Home({ serverSeo }) {
                 className="btn-apple-secondary"
                 style={{ padding: '14px 26px', fontSize: '15px', color: '#1D1D1F' }}
               >
-                Ask for a Quote
+                Get a Custom Quote
               </button>
 
               <a
@@ -310,29 +312,23 @@ export default function Home({ serverSeo }) {
                 className="apple-link"
                 style={{ fontSize: '15px', marginLeft: '6px' }}
               >
-                <span>Try a live 3D store demo</span>
+                <span>Open live interactive 3D store demo</span>
                 <span aria-hidden="true">↗</span>
               </a>
             </div>
 
             <p style={{ fontSize: '13px', color: '#6E6E73', marginBottom: '36px' }}>
-              Step 1: Free 48-hour 3D preview of your products → Step 2: Custom quote tailored to your store
+              Start by testing a custom 3D preview with your real products before requesting a full build quote.
             </p>
 
-            {/* Video Showcase of the 3D Storefront */}
+            {/* Interactive 3D Showcase Window */}
             <div className="container-wide" style={{ padding: 0 }}>
               <VirtualCoffeeStore3D onOpenContact={() => openModalForCategory('Fashion, Apparel & Footwear', 'demo')} />
             </div>
           </div>
         </section>
 
-        {/* CLIENT LOGOS PORTFOLIO */}
-        <ClientLogos
-          title="Trusted by 14+ Brands Worldwide"
-          subtitle="Real online stores and business websites we built and manage across the US, UK, Netherlands, Ireland, Australia & Canada"
-        />
-
-        {/* METRICS BAR */}
+        {/* CAPABILITY & HONEST PERFORMANCE HIGHLIGHTS */}
         <section
           style={{
             background: '#F5F5F7',
@@ -345,44 +341,35 @@ export default function Home({ serverSeo }) {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
                 gap: '24px',
                 textAlign: 'center',
               }}
             >
               {[
-                { stat: '3.4×', label: 'Longer Store Visits', detail: 'Over 3 minutes exploring vs. 45s on flat grids' },
-                { stat: '+62%', label: 'Bigger Cart Totals', detail: 'Shoppers naturally bundle items from shelves' },
-                { stat: '< 1.1s', label: 'Fast Mobile Loading', detail: 'Smooth 60fps in iPhone Safari & Android Chrome' },
-                { stat: '24/7', label: 'Full Website Care', detail: 'Hosting, backups, speed & same-day edits' },
+                { label: 'No App Required', title: 'Runs in Any Browser', detail: 'Works in mobile Safari, Chrome, and desktop without downloads' },
+                { label: 'Synced Catalog', title: 'Platform Compatible', detail: 'Connects with existing Shopify, WooCommerce & custom carts' },
+                { label: 'Indexable HTML', title: 'SEO & Fallback Ready', detail: 'Key headings, copy, and CTAs stay readable outside canvas' },
+                { label: 'Clear Scope', title: 'Prototype First', detail: 'Review a working preview featuring your products before committing' },
               ].map((item) => (
-                <div key={item.label}>
-                  <div
-                    style={{
-                      fontSize: 'clamp(32px, 3.6vw, 42px)',
-                      fontWeight: 600,
-                      color: '#1D1D1F',
-                      letterSpacing: '-0.03em',
-                      lineHeight: 1.1,
-                      marginBottom: '4px',
-                    }}
-                  >
-                    {item.stat}
+                <div key={item.title}>
+                  <div style={{ fontSize: '11.5px', fontWeight: 600, color: '#0066CC', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '4px' }}>
+                    {item.label}
                   </div>
-                  <div style={{ fontSize: '14px', fontWeight: 600, color: '#1D1D1F' }}>{item.label}</div>
-                  <div style={{ fontSize: '12.5px', color: '#6E6E73' }}>{item.detail}</div>
+                  <div style={{ fontSize: '17px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>{item.title}</div>
+                  <div style={{ fontSize: '13px', color: '#6E6E73', lineHeight: 1.45 }}>{item.detail}</div>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* SIDE-BY-SIDE COMPARISON: WHY A 3D STORE BEATS FLAT TEMPLATES */}
+        {/* SIDE-BY-SIDE: HONEST TRADEOFFS & WHEN 3D MAKES SENSE */}
         <section style={{ padding: '72px 0', background: '#FFFFFF', borderBottom: '1px solid #D2D2D7' }}>
           <div className="container" style={{ maxWidth: '960px' }}>
-            <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 36px auto' }}>
+            <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 36px auto' }}>
               <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-                Flat Store vs. 3D Store
+                Standard Grid vs. 3D Showroom
               </p>
               <h2
                 style={{
@@ -393,55 +380,53 @@ export default function Home({ serverSeo }) {
                   marginBottom: '10px',
                 }}
               >
-                Why store owners switch away from plain templates.
+                Who a 3D online store is built for—and how it works alongside your current site.
               </h2>
               <p style={{ color: '#6E6E73', fontSize: '15.5px', lineHeight: 1.55 }}>
-                You spend hard-earned money on ads and SEO to bring people to your website. Do not lose them on a forgettable page.
+                We believe in clear engineering tradeoffs: keep flat category pages where rapid SKU search matters most, and use 3D showrooms where visual story and product staging sell.
               </p>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: '20px' }}>
               <div style={{ background: '#F5F5F7', borderRadius: '20px', padding: '28px', border: '1px solid #E5E5EA' }}>
                 <div style={{ fontSize: '12px', fontWeight: 600, color: '#6E6E73', textTransform: 'uppercase', marginBottom: '8px' }}>
-                  Standard Template Website
+                  Standard 2D Product Grids
                 </div>
                 <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '14px' }}>
-                  Looks just like every competitor
+                  Great for quick SKU lookup, hard to differentiate
                 </h3>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', color: '#424245', fontSize: '14px' }}>
-                  <li>• Boring rows of small square product photos</li>
-                  <li>• Shoppers bounce in under 45 seconds</li>
-                  <li>• Brand story buried in a footer link nobody clicks</li>
-                  <li>• Slow mobile pages weighed down by heavy plugins</li>
-                  <li>• You have to fix hosting, DNS, and broken layouts yourself</li>
+                  <li>• Rows of identical square thumbnails across most stores</li>
+                  <li>• Brand story and craftsmanship sit buried in separate footer pages</li>
+                  <li>• Best suited when buyers search exact spare parts by code</li>
+                  <li>• Rarely creates memorable word-of-mouth visits on its own</li>
                 </ul>
               </div>
 
               <div style={{ background: '#FFFFFF', borderRadius: '20px', padding: '28px', border: '2px solid #0071E3', boxShadow: '0 10px 30px rgba(0, 113, 227, 0.08)' }}>
                 <div style={{ fontSize: '12px', fontWeight: 600, color: '#0066CC', textTransform: 'uppercase', marginBottom: '8px' }}>
-                  ManageMyWeb 3D Store + Monthly Care
+                  ManageMyWeb 3D E-Commerce Storefront
                 </div>
                 <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '14px' }}>
-                  Feels like walking into your flagship shop
+                  Designed around visual storytelling and guided exploration
                 </h3>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', color: '#1D1D1F', fontSize: '14px', fontWeight: 500 }}>
-                  <li>✓ Walkable 3D shelves shoppers remember &amp; share</li>
-                  <li>✓ 3.4× longer browsing time and +62% larger orders</li>
-                  <li>✓ Keeps your existing Shopify or WooCommerce checkout</li>
-                  <li>✓ Loads in under 1.1s on phones with zero app download</li>
-                  <li>✓ Full hosting, email, speed &amp; WhatsApp updates handled for you</li>
+                  <li>✓ Walkable showroom spaces displaying best-sellers and matching sets</li>
+                  <li>✓ Brand story, origin facts, and close-up details live inside the room</li>
+                  <li>✓ Syncs into your existing Shopify, WooCommerce, or supported cart</li>
+                  <li>✓ Performance-aware compression with accessible HTML fallback copy</li>
                 </ul>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 3-STEP HOW IT WORKS */}
+        {/* 5-STAGE PROCESS */}
         <section style={{ padding: '72px 0', background: '#FBFBFD', borderBottom: '1px solid #D2D2D7' }}>
           <div className="container">
-            <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 40px auto' }}>
+            <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 40px auto' }}>
               <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-                Simple 3-Step Process
+                How We Build It
               </p>
               <h2
                 style={{
@@ -451,39 +436,49 @@ export default function Home({ serverSeo }) {
                   color: '#1D1D1F',
                 }}
               >
-                Try your 3D store before you pay anything.
+                From your current store link to a live 3D launch.
               </h2>
             </div>
 
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                gap: '20px',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+                gap: '16px',
               }}
             >
               {[
                 {
-                  step: '01',
-                  title: 'Send Your Website Link',
-                  desc: 'Tell us your Shopify, WooCommerce, or custom store address and a few top products.',
+                  step: '01 · Discovery',
+                  title: 'Review Your Catalog',
+                  desc: 'Tell us whether you use Shopify, WooCommerce, or custom tech, plus top products to highlight.',
                 },
                 {
-                  step: '02',
-                  title: 'Free 3D Demo in 48 Hours',
-                  desc: 'We build a working 3D preview with your real items so you can test it on your own phone.',
+                  step: '02 · Prototype',
+                  title: 'Test a Free 3D Demo',
+                  desc: 'Explore a working browser preview with your real items on phone and laptop before deciding.',
                 },
                 {
-                  step: '03',
-                  title: 'Clear Quote & Easy Launch',
-                  desc: 'Get an honest, itemized quote—then let our team connect your store and manage everything.',
+                  step: '03 · Integration',
+                  title: 'Connect Products & Cart',
+                  desc: 'Sync pricing, stock variants, and checkout routing while checking accessibility and speed.',
+                },
+                {
+                  step: '04 · Launch',
+                  title: 'Publish Safely',
+                  desc: 'Go live cleanly alongside existing SEO pages with redirects and tracking verified.',
+                },
+                {
+                  step: '05 · Optional Care',
+                  title: 'Ongoing Support',
+                  desc: 'Optionally keep our team on hand for hosting, monitoring, backups, and store updates.',
                 },
               ].map((item) => (
                 <div
                   key={item.step}
                   className="apple-card"
                   style={{
-                    padding: '28px',
+                    padding: '24px',
                     borderRadius: '18px',
                     background: '#FFFFFF',
                   }}
@@ -497,12 +492,12 @@ export default function Home({ serverSeo }) {
                       letterSpacing: '0.04em',
                     }}
                   >
-                    STEP {item.step}
+                    {item.step}
                   </div>
-                  <h3 style={{ fontSize: '19px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
+                  <h3 style={{ fontSize: '17px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
                     {item.title}
                   </h3>
-                  <p style={{ color: '#6E6E73', fontSize: '14px', lineHeight: 1.5 }}>{item.desc}</p>
+                  <p style={{ color: '#6E6E73', fontSize: '13.5px', lineHeight: 1.5 }}>{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -514,7 +509,7 @@ export default function Home({ serverSeo }) {
           <div className="container">
             <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 40px auto' }}>
               <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-                Made For Your Products
+                Industries We Build For
               </p>
               <h2
                 style={{
@@ -524,7 +519,7 @@ export default function Home({ serverSeo }) {
                   color: '#1D1D1F',
                 }}
               >
-                Custom-designed around what you sell.
+                Tailored to the products you sell.
               </h2>
             </div>
 
@@ -583,7 +578,7 @@ export default function Home({ serverSeo }) {
                         fontFamily: 'inherit',
                       }}
                     >
-                      Free 3D Demo ›
+                      Request Free 3D Demo ›
                     </button>
                     <button
                       onClick={() => openModalForCategory(v.category, 'quotation')}
@@ -612,7 +607,7 @@ export default function Home({ serverSeo }) {
           <div className="container">
             <div style={{ textAlign: 'center', maxWidth: '620px', margin: '0 auto 32px auto' }}>
               <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-                Inside Your 3D Store
+                Inside a 3D Storefront
               </p>
               <h2
                 style={{
@@ -622,7 +617,7 @@ export default function Home({ serverSeo }) {
                   color: '#1D1D1F',
                 }}
               >
-                Four areas built to turn visitors into buyers.
+                How each area helps shoppers buy with confidence.
               </h2>
             </div>
 
@@ -683,20 +678,17 @@ export default function Home({ serverSeo }) {
 
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'baseline',
-                    gap: '10px',
                     paddingTop: '16px',
                     borderTop: '1px solid #D2D2D7',
                     marginBottom: '22px',
                   }}
                 >
-                  <span style={{ fontSize: '28px', fontWeight: 600, color: '#1D1D1F' }}>
-                    {zones[selectedZoneTab].stat}
-                  </span>
-                  <span style={{ fontSize: '13.5px', color: '#6E6E73' }}>
-                    {zones[selectedZoneTab].statLabel}
-                  </span>
+                  <div style={{ fontSize: '18px', fontWeight: 600, color: '#1D1D1F', marginBottom: '2px' }}>
+                    {zones[selectedZoneTab].outcome}
+                  </div>
+                  <div style={{ fontSize: '13.5px', color: '#6E6E73' }}>
+                    {zones[selectedZoneTab].outcomeNote}
+                  </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
@@ -705,14 +697,14 @@ export default function Home({ serverSeo }) {
                     className="btn-apple-dark"
                     style={{ padding: '11px 20px', fontSize: '13.5px' }}
                   >
-                    Try Free 3D Demo
+                    Request Free 3D Demo
                   </button>
                   <button
                     onClick={() => openModalForCategory('Fashion, Apparel & Footwear', 'quotation')}
                     className="btn-apple-secondary"
-                    style={{ padding: '11px 20px', fontSize: '13.5px' }}
+                    style={{ padding: '11px 20px', fontSize: '13.5px', color: '#1D1D1F' }}
                   >
-                    Ask for a Quote
+                    Get a Custom Quote
                   </button>
                 </div>
               </div>
@@ -734,7 +726,7 @@ export default function Home({ serverSeo }) {
                     {zones[selectedZoneTab].badge}
                   </span>
                   <span style={{ fontSize: '11.5px', color: '#1D7D3F', background: '#E8F5E9', padding: '3px 10px', borderRadius: '980px', fontWeight: 600 }}>
-                    Runs at 60fps in Browser
+                    Browser Ready
                   </span>
                 </div>
 
@@ -771,19 +763,25 @@ export default function Home({ serverSeo }) {
                     textDecoration: 'none',
                   }}
                 >
-                  Walk inside the live 3D store demo ↗
+                  Open interactive 3D showroom demo ↗
                 </a>
               </div>
             </div>
           </div>
         </section>
 
-        {/* PLATFORM GUIDES & TOPIC HUBS (HELPS GOOGLE INDEX ALL KEY PAGES) */}
+        {/* CLIENT PORTFOLIO */}
+        <ClientLogos
+          title="E-Commerce & Digital Client Work"
+          subtitle="Stores and web platforms delivered across the Netherlands, UK, Ireland, USA, Australia & Canada"
+        />
+
+        {/* SERVICE HUBS & OPTIONAL WEB OPERATIONS */}
         <section style={{ padding: '64px 0', background: '#F5F5F7', borderBottom: '1px solid #D2D2D7' }}>
           <div className="container">
-            <div style={{ textAlign: 'center', maxWidth: '620px', margin: '0 auto 32px auto' }}>
+            <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 32px auto' }}>
               <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-                Explore By Platform &amp; Topic
+                Services &amp; Platform Guides
               </p>
               <h2
                 style={{
@@ -793,35 +791,35 @@ export default function Home({ serverSeo }) {
                   color: '#1D1D1F',
                 }}
               >
-                Everything you need to launch and run a faster store.
+                Explore 3D services, platform guides &amp; optional web operations.
               </h2>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
               {[
                 {
+                  href: '/services/3d-virtual-stores',
+                  tag: 'Core Service',
+                  title: 'Custom 3D Virtual Store Development',
+                  desc: 'Full architecture, mobile fallbacks, checkout integration, and staging steps.',
+                },
+                {
                   href: '/shopify-3d-store',
                   tag: 'Shopify',
-                  title: '3D Store for Shopify',
-                  desc: 'Add a 3D shopping experience onto your existing Shopify catalog, variants, and Shop Pay checkout.',
+                  title: 'Shopify 3D Storefront Integration',
+                  desc: 'Connect a walkable 3D shop with your Shopify catalog, variants, and checkout.',
                 },
                 {
                   href: '/woocommerce-3d-store',
                   tag: 'WooCommerce',
-                  title: '3D Store for WooCommerce',
-                  desc: 'Turn slow WordPress product pages into a fast 3D shop while keeping all your WooCommerce orders.',
+                  title: 'WooCommerce 3D Store Integration',
+                  desc: 'Keep WordPress payments and plugins running while serving fast 3D browsing.',
                 },
                 {
-                  href: '/3d-store-examples',
-                  tag: 'Showcase',
-                  title: '3D Website Examples',
-                  desc: 'See how fashion, skincare, coffee, watch, electronics, and furniture brands use 3D stores.',
-                },
-                {
-                  href: '/blog',
-                  tag: 'Guides',
-                  title: 'Plain-English Guides',
-                  desc: 'Learn what 3D stores cost, how website maintenance works, and how to speed up mobile pages.',
+                  href: '/services/web-management',
+                  tag: 'Secondary Service',
+                  title: 'Managed Website Operations',
+                  desc: 'Separate optional retainer for hosting, DNS, security backups, and store edits.',
                 },
               ].map((hub) => (
                 <Link
@@ -848,17 +846,17 @@ export default function Home({ serverSeo }) {
                     </h3>
                     <p style={{ fontSize: '13.5px', color: '#6E6E73', lineHeight: 1.5, margin: 0 }}>{hub.desc}</p>
                   </div>
-                  <span style={{ fontSize: '13.5px', fontWeight: 600, color: '#0066CC' }}>Read more →</span>
+                  <span style={{ fontSize: '13.5px', fontWeight: 600, color: '#0066CC' }}>Explore →</span>
                 </Link>
               ))}
             </div>
           </div>
         </section>
 
-        {/* COMPACT FAQ */}
+        {/* ACCESSIBLE READABLE FAQ */}
         <FAQSection
-          title="Quick Answers"
-          subtitle="Plain-English answers before you request a demo or quote."
+          title="Frequently Asked Questions"
+          subtitle="Clear answers about 3D store development, platform support, and ongoing maintenance."
           items={faqs}
           background="#FBFBFD"
         />

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
 import CountdownBanner from '../components/CountdownBanner';
 import Navbar from '../components/Navbar';
 import LeadModal from '../components/LeadModal';
@@ -12,20 +13,23 @@ export default function About() {
   return (
     <>
       <SEOHead
-        title="About ManageMyWeb | Who Builds Your 3D Stores & Manages Your Site"
-        description="Learn why we started ManageMyWeb: most online stores look identical, and most founders are tired of dealing with broken hosting, slow pages, and unreliable freelancers."
-        keywords="about ManageMyWeb, 3D online store team, website management company, Shopify developers, WooCommerce experts"
+        title="About ManageMyWeb | 3D Commerce Engineers"
+        description="Learn how ManageMyWeb builds browser-based 3D e-commerce websites for Shopify, WooCommerce, and independent retail brands while supporting day-to-day store operations."
+        keywords="about ManageMyWeb, 3D commerce engineers, 3D ecommerce development team, Shopify and WooCommerce agency"
         canonicalUrl="https://www.managemyweb.co/about"
+        showBreadcrumbs={true}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 44px auto' }}>
+          <Breadcrumbs path="/about" currentLabel="About ManageMyWeb" />
+
+          <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 44px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              About Us
+              3D Commerce Engineers
             </p>
             <h1
               style={{
@@ -37,10 +41,10 @@ export default function About() {
                 marginBottom: '12px',
               }}
             >
-              Great brands deserve better than cookie-cutter websites.
+              About ManageMyWeb
             </h1>
             <p style={{ color: '#424245', fontSize: '16.5px', lineHeight: 1.55 }}>
-              We started ManageMyWeb to fix two problems every online store faces: boring identical website templates, and the endless headache of hosting, slow pages, and technical updates.
+              We build browser-based 3D virtual storefronts for ambitious online brands—and help them manage the hosting, speed, and technical updates behind the scenes.
             </p>
           </div>
 
@@ -59,23 +63,23 @@ export default function About() {
           >
             <div>
               <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-                Why We Exist
+                Our Approach
               </p>
               <h2 style={{ fontSize: '26px', fontWeight: 600, color: '#1D1D1F', marginBottom: '12px', lineHeight: 1.15 }}>
-                Your store design team + your full-time tech team.
+                Helping retail brands stand out beyond standard product templates.
               </h2>
               <p style={{ color: '#424245', fontSize: '15px', lineHeight: 1.65, marginBottom: '16px' }}>
-                99% of online shops look exactly alike—a banner and rows of square photos. We help brands stand out by turning their products into a walkable 3D shop customers can explore right inside Safari or Chrome.
+                Most online shops rely on the same flat grid layouts. We design and engineer walkable 3D storefronts that run inside normal mobile and desktop web browsers—connected cleanly to Shopify, WooCommerce, or custom storefronts so your backend workflows stay intact.
               </p>
               <p style={{ color: '#424245', fontSize: '15px', lineHeight: 1.65, marginBottom: '22px' }}>
-                And unlike hit-and-run agencies that vanish after launch day, our engineers stay on hand every day—watching server uptime, boosting speed, setting up DNS and email, and shipping small site changes the very day you message us on WhatsApp.
+                Through our separate Managed Website Operations service, brands can also hand off hosting, DNS management, speed optimization, security backups, and regular storefront updates directly to our engineers.
               </p>
               <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 <Link href="/services/3d-virtual-stores" className="btn-apple-dark" style={{ padding: '11px 22px', fontSize: '14px' }}>
-                  See How 3D Stores Work
+                  Custom 3D Virtual Stores
                 </Link>
                 <Link href="/case-studies" className="btn-apple-secondary" style={{ padding: '11px 22px', fontSize: '14px', color: '#1D1D1F' }}>
-                  See Client Websites
+                  View Client Projects
                 </Link>
               </div>
             </div>
@@ -88,13 +92,13 @@ export default function About() {
               }}
             >
               {[
-                { stat: '14+', label: 'Live Client Brands' },
-                { stat: '6', label: 'Countries Served' },
-                { stat: '< 1.1s', label: 'Average Page Load' },
-                { stat: '48h', label: 'Free 3D Demo Turnaround' },
+                { label: 'Core Focus', title: '3D Storefronts' },
+                { label: 'Platforms', title: 'Shopify & Woo' },
+                { label: 'Markets Served', title: 'Global Brands' },
+                { label: 'Start Safely', title: 'Prototype First' },
               ].map((item) => (
                 <div
-                  key={item.label}
+                  key={item.title}
                   style={{
                     background: '#F5F5F7',
                     borderRadius: '16px',
@@ -102,10 +106,10 @@ export default function About() {
                     textAlign: 'center',
                   }}
                 >
-                  <div style={{ fontSize: '26px', fontWeight: 600, color: '#1D1D1F', marginBottom: '4px' }}>
-                    {item.stat}
+                  <div style={{ fontSize: '11.5px', color: '#0066CC', fontWeight: 600, textTransform: 'uppercase', marginBottom: '4px' }}>
+                    {item.label}
                   </div>
-                  <div style={{ fontSize: '12.5px', color: '#6E6E73', fontWeight: 500 }}>{item.label}</div>
+                  <div style={{ fontSize: '18px', fontWeight: 600, color: '#1D1D1F' }}>{item.title}</div>
                 </div>
               ))}
             </div>
@@ -121,18 +125,18 @@ export default function About() {
             {[
               {
                 num: '01',
-                title: 'Made For Real Store Owners',
-                desc: 'Everything we build speaks plain English and connects cleanly with Shopify, WooCommerce, and custom backends.',
+                title: 'Practical Integrations',
+                desc: 'We connect 3D displays directly into supported catalogs without asking you to abandon existing payments or shipping.',
               },
               {
                 num: '02',
-                title: 'Zero App Downloads',
-                desc: 'Your customers open a normal website link on their phone or laptop and walk inside right away.',
+                title: 'Browser-First Accessibility',
+                desc: 'Every storefront includes standard HTML navigation, readable product copy, reduced-motion handling, and no required app downloads.',
               },
               {
                 num: '03',
-                title: 'Talk Directly to Engineers',
-                desc: 'No ticket queues. Message the exact people building and running your store on WhatsApp whenever you need help.',
+                title: 'Direct Engineering Communication',
+                desc: 'Speak directly with the builders managing your 3D experience, hosting, and routine storefront changes.',
               },
             ].map((v) => (
               <div key={v.title} className="apple-card" style={{ padding: '28px', borderRadius: '18px', background: '#FFFFFF' }}>

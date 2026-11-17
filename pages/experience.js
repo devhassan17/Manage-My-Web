@@ -11,8 +11,8 @@ export default function ExperiencePage() {
     <>
       <SEOHead
         title="Live 3D Online Store Demo & Video Walkthrough | ManageMyWeb"
-        description="Watch our 30-second video walkthrough or open the live 3D online store demo. Walk around in 360°, click items off the shelves, and ask for a free 48-hour 3D preview of your own store."
-        keywords="live 3D online store demo, 3D ecommerce website example, 360 virtual store walkthrough, 3D Shopify store demo, ManageMyWeb"
+        description="Watch our 30-second video walkthrough or open the interactive 3D online store demo. Explore product shelves in 360° and request a custom 3D preview of your own store."
+        keywords="live 3D online store demo, 3D ecommerce website example, 360 virtual store walkthrough, interactive 3D store demo, ManageMyWeb"
         canonicalUrl="https://www.managemyweb.co/experience"
         schemaData={{
           '@type': 'VideoObject',

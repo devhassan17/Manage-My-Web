@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SEOHead from '../../components/SEOHead';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import CountdownBanner from '../../components/CountdownBanner';
 import Navbar from '../../components/Navbar';
 import VirtualCoffeeStore3D from '../../components/VirtualCoffeeStore3D';
@@ -15,99 +16,92 @@ export default function ThreeDVirtualStores() {
     {
       id: 'interactive-shelves',
       zone: 'Zone 01',
-      title: 'Walk-Up 3D Product Shelves',
-      desc: 'Customers walk right up to custom shelves and racks, spin items in 360°, check sizes, and add to bag.',
-      stat: '+48% More Products Viewed',
+      title: 'Interactive 3D Product Shelves',
+      desc: 'Shoppers move around custom shelves and product pedestals, spin featured items, review size or color variants, and add directly to their cart.',
+      badge: 'Product Discovery',
     },
     {
       id: 'spatial-checkout',
       zone: 'Zone 02',
-      title: 'One-Tap Checkout Counter',
-      desc: 'No long multi-page forms. Shoppers tap Apple Pay, Google Pay, or card synced live with Shopify or WooCommerce.',
-      stat: '+62% Bigger Orders',
+      title: 'Existing Commerce Checkout Routing',
+      desc: 'Items pass into your existing Shopify, WooCommerce, or supported cart so existing payment providers, shipping rules, and taxes continue working normally.',
+      badge: 'Cart Integration',
     },
     {
       id: 'fairchain-story',
       zone: 'Zone 03',
-      title: 'Brand Story & Origin Wall',
-      desc: 'Show buyers why your brand is special—materials, making process, and real photos—right next to your shelves.',
-      stat: '3.4× More Repeat Buyers',
+      title: 'In-Store Brand Story Wall',
+      desc: 'Display material origin, craft notes, or short brand clips right beside your products instead of hiding them in a separate footer page.',
+      badge: 'Brand Context',
     },
     {
       id: 'postal-dispatch',
       zone: 'Zone 04',
-      title: 'Customer Help & Wholesale Desk',
-      desc: 'A built-in help counter for sizing questions, custom bulk orders, or direct WhatsApp chat with your team.',
-      stat: '94% Inquiries Answered',
+      title: 'Direct Support & Wholesale Desk',
+      desc: 'Let hesitant buyers or wholesale inquiries message your team directly on WhatsApp or submit a custom bulk quote inside the experience.',
+      badge: 'Lead Capture',
     },
   ];
 
   const faqs = [
     {
-      q: 'What is a 3D virtual store?',
-      a: 'It is an online shop designed like a real room customers can walk through inside Chrome or Safari—clicking real products off shelves, spinning them in 360°, and checking out in one tap.',
+      q: 'What is custom 3D virtual store development?',
+      a: 'We build a custom interactive 3D showroom inside Chrome, Safari, and Edge connected to your e-commerce product catalog so visitors can explore products on shelves and route seamlessly into checkout.',
     },
     {
-      q: 'Do shoppers need a VR headset or app to open it?',
-      a: 'No. It runs directly in a normal web browser on iPhones, Android phones, tablets, and laptops in around 1 second.',
+      q: 'What stays inside Shopify or WooCommerce?',
+      a: 'Where supported by your storefront setup, your product database, pricing rules, inventory levels, payment gateways, shipping calculations, and order management stay inside Shopify or WooCommerce.',
     },
     {
-      q: 'Will it sync with my Shopify or WooCommerce products?',
-      a: 'Yes. Prices, stock counts, variants, and checkout orders stay 100% connected to your current store backend.',
+      q: 'How do mobile performance and low-power fallbacks work?',
+      a: 'We compress 3D geometry and textures carefully so mobile browsers stay responsive, while keeping core product text, navigation, static previews, and checkout buttons available in normal semantic HTML.',
     },
   ];
 
   return (
     <>
       <SEOHead
-        title="Custom 3D Online Stores & Virtual Shops | ManageMyWeb"
-        description="Turn your online catalog—clothing, beauty, electronics, watches, home decor, or coffee—into a fast 3D store customers can walk through on any phone. Get a free 48h demo."
-        keywords="3D virtual store, custom 3D online store, 3D Shopify store, interactive 3D ecommerce website, walkable online store builder"
+        title="Custom 3D Virtual Store Development | ManageMyWeb"
+        description="Explore bespoke browser-based 3D virtual stores with product displays, brand storytelling and commerce integrations. See how ManageMyWeb develops your showroom."
+        keywords="custom 3D virtual store development, 3D ecommerce website development, Shopify 3D store integration, WooCommerce 3D showroom"
         canonicalUrl="https://www.managemyweb.co/services/3d-virtual-stores"
-        schemaData={[
-          {
-            '@type': 'Service',
-            name: 'Custom 3D Online Store Design',
-            serviceType: '3D E-Commerce Website Design',
-            provider: { '@id': 'https://www.managemyweb.co/#organization' },
-            areaServed: 'Worldwide',
-            description:
-              'Custom browser-ready 3D online stores for clothing, beauty, electronics, jewelry, home decor, and specialty food brands.',
-          },
-          {
-            '@type': 'FAQPage',
-            mainEntity: faqs.map((f) => ({
-              '@type': 'Question',
-              name: f.q,
-              acceptedAnswer: { '@type': 'Answer', text: f.a },
-            })),
-          },
-        ]}
+        showBreadcrumbs={true}
+        schemaData={{
+          '@type': 'Service',
+          name: 'Custom 3D Virtual Store Development',
+          serviceType: '3D E-Commerce Website Development',
+          provider: { '@id': 'https://www.managemyweb.co/#organization' },
+          areaServed: 'Worldwide',
+          description:
+            'Browser-based interactive 3D virtual storefront design and integration for Shopify, WooCommerce, and custom e-commerce brands.',
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '52px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', background: '#FBFBFD' }}>
         <div className="container" style={{ paddingBottom: '72px' }}>
-          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 40px auto' }}>
+          <Breadcrumbs path="/services/3d-virtual-stores" currentLabel="Custom 3D Virtual Store Development" />
+
+          <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 40px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              3D Online Stores
+              Core Development Service
             </p>
             <h1
               style={{
-                fontSize: 'clamp(34px, 4.6vw, 52px)',
+                fontSize: 'clamp(34px, 4.6vw, 50px)',
                 fontWeight: 600,
                 letterSpacing: '-0.035em',
                 color: '#1D1D1F',
                 lineHeight: 1.08,
-                marginBottom: '12px',
+                marginBottom: '14px',
               }}
             >
-              An online store that feels like walking into your flagship shop.
+              Custom 3D Virtual Store Development
             </h1>
-            <p style={{ fontSize: '16.5px', color: '#424245', lineHeight: 1.55 }}>
-              Built for clothing, beauty, electronics, watches, home decor, and food brands—fast in every mobile browser with zero app downloads.
+            <p style={{ fontSize: '16.5px', color: '#424245', lineHeight: 1.6 }}>
+              We turn standard e-commerce product grids into walkable browser-based 3D showrooms for fashion, beauty, electronics, jewelry, home decor, and food brands—connected with your existing Shopify, WooCommerce, or custom checkout where supported.
             </p>
 
             <div style={{ marginTop: '22px', display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
@@ -116,14 +110,14 @@ export default function ThreeDVirtualStores() {
                 className="btn-apple-blue"
                 style={{ padding: '12px 24px', fontSize: '14.5px' }}
               >
-                Get Free 48h 3D Demo
+                Request a Free 3D Store Demo
               </button>
               <Link
                 href="/3d-store-examples"
                 className="btn-apple-secondary"
                 style={{ padding: '12px 20px', fontSize: '14.5px', color: '#1D1D1F' }}
               >
-                See Store Examples
+                View Industry Examples
               </Link>
               <a
                 href="https://crazy-3d-website-idea.vercel.app/"
@@ -132,7 +126,7 @@ export default function ThreeDVirtualStores() {
                 className="apple-link"
                 style={{ fontSize: '15px' }}
               >
-                <span>Open live 3D website</span>
+                <span>Open live interactive demo</span>
                 <span aria-hidden="true">↗</span>
               </a>
             </div>
@@ -167,7 +161,7 @@ export default function ThreeDVirtualStores() {
                       {z.zone}
                     </span>
                     <span style={{ fontSize: '11.5px', fontWeight: 600, color: '#1D1D1F', background: '#F5F5F7', padding: '3px 10px', borderRadius: '980px' }}>
-                      {z.stat}
+                      {z.badge}
                     </span>
                   </div>
                   <h2 style={{ fontSize: '19px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>
@@ -179,28 +173,40 @@ export default function ThreeDVirtualStores() {
             ))}
           </div>
 
-          {/* Platform Links */}
-          <div style={{ background: '#FFFFFF', border: '1px solid #D2D2D7', borderRadius: '20px', padding: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
+          {/* Technical Scope, Tradeoffs & Platform Flow */}
+          <div style={{ background: '#FFFFFF', border: '1px solid #D2D2D7', borderRadius: '20px', padding: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '28px', marginBottom: '36px' }}>
             <div>
-              <h2 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
-                Works with your current platform
+              <h2 style={{ fontSize: '21px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
+                Data Flow &amp; Platform Dependencies
               </h2>
-              <p style={{ color: '#424245', fontSize: '14.5px', lineHeight: 1.6, margin: 0 }}>
-                Do not stress about rebuilding everything you already set up. We connect directly to your Shopify, WooCommerce, or custom product database.
+              <p style={{ color: '#424245', fontSize: '14.5px', lineHeight: 1.65, marginBottom: '12px' }}>
+                A 3D store does not force you to rebuild inventory management. Selected products, prices, and variant choices pull from your catalog API, while add-to-cart and checkout route back to your main commerce checkout where supported by your setup and third-party apps.
+              </p>
+              <p style={{ color: '#6E6E73', fontSize: '13.5px', lineHeight: 1.6, margin: 0 }}>
+                <strong>Honest constraint:</strong> Custom checkout scripts or heavily customized third-party cart drawers may require tailored integration testing during the prototype stage.
               </p>
             </div>
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-              <Link href="/shopify-3d-store" className="btn-apple-dark" style={{ fontSize: '13.5px', padding: '11px 18px' }}>
-                Shopify 3D Guide →
-              </Link>
-              <Link href="/woocommerce-3d-store" className="btn-apple-secondary" style={{ fontSize: '13.5px', padding: '11px 18px', color: '#1D1D1F' }}>
-                WooCommerce 3D Guide →
-              </Link>
+
+            <div>
+              <h2 style={{ fontSize: '21px', fontWeight: 600, color: '#1D1D1F', marginBottom: '10px' }}>
+                Mobile Behavior, Accessibility &amp; Fallbacks
+              </h2>
+              <p style={{ color: '#424245', fontSize: '14.5px', lineHeight: 1.65, marginBottom: '12px' }}>
+                Real buyers open store links on phones over varied cellular networks. We optimize 3D models and textures for mobile GPUs, respect browser reduced-motion preferences, and maintain clean semantic HTML headings and purchase buttons outside any WebGL/canvas element.
+              </p>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <Link href="/shopify-3d-store" className="apple-link" style={{ fontSize: '14px' }}>
+                  Shopify Integration Details →
+                </Link>
+                <Link href="/woocommerce-3d-store" className="apple-link" style={{ fontSize: '14px' }}>
+                  WooCommerce Integration Details →
+                </Link>
+              </div>
             </div>
           </div>
         </div>
 
-        <FAQSection title="3D Store Questions" items={faqs} background="#F5F5F7" />
+        <FAQSection title="3D Virtual Store Questions" items={faqs} background="#F5F5F7" />
       </main>
 
       <Footer onOpenDemoModal={() => setDemoModalOpen(true)} />

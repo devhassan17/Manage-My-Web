@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
 import CountdownBanner from '../components/CountdownBanner';
 import Navbar from '../components/Navbar';
 import VirtualCoffeeStore3D from '../components/VirtualCoffeeStore3D';
@@ -14,62 +15,55 @@ export default function Shopify3DStorePage() {
   const faqs = [
     {
       q: 'Do I have to leave Shopify or change my checkout?',
-      a: 'No. Your Shopify admin, products, prices, inventory, discounts, and Shop Pay / Apple Pay checkout stay 100% untouched. We connect your 3D store right onto your existing Shopify store.',
+      a: 'No. Your Shopify catalog, pricing, inventory counts, tax rules, and checkout flow remain inside Shopify where supported. The 3D showroom connects with your storefront catalog via Shopify Storefront APIs or theme integration.',
     },
     {
-      q: 'Does a 3D Shopify store work on iPhones and Android phones?',
-      a: 'Yes. Shoppers open your normal website link in Safari or Chrome and walk around immediately—no app download or VR headset required.',
+      q: 'What are the integration limits to keep in mind on Shopify?',
+      a: 'Standard variants, cart permalinks, and Shop Pay / Apple Pay work smoothly through Shopify checkout handoff. Heavily custom third-party cart drawer apps or complex subscription bundles may require tailored scoping during the prototype stage.',
     },
     {
-      q: 'Will a 3D store slow down my Shopify theme?',
-      a: 'No. Your standard product pages stay just as fast, and the interactive 3D showroom uses compressed files that load in around 1 second at 60fps.',
+      q: 'Does a 3D Shopify storefront hurt mobile page speed?',
+      a: 'Your standard Shopify collection and product pages remain unaffected. When visitors open the 3D showroom, assets are compressed and lazy-loaded with static preview fallbacks so mobile devices stay responsive.',
     },
     {
-      q: 'How can I see my Shopify products in 3D first?',
-      a: 'Send us your Shopify website link and 2 or 3 product URLs. Within 48 hours we build a free working 3D preview with your actual products before quoting anything.',
+      q: 'How do we test our own Shopify products in 3D first?',
+      a: 'Share your Shopify store URL and 2 or 3 featured products to request a working 3D browser prototype before discussing a full implementation quote.',
     },
   ];
 
   return (
     <>
       <SEOHead
-        title="3D Shopify Store Design & Management | Free 48h Demo | ManageMyWeb"
-        description="Turn your existing Shopify website into a walkable 3D online store without touching your products, inventory, or Shop Pay checkout. Try a free 48-hour 3D Shopify demo."
-        keywords="3D Shopify store, add 3D store to Shopify, interactive Shopify website, Shopify 3D store builder, Shopify 3D product viewer, Shopify speed optimization"
+        title="Shopify 3D Store Development & Integration | ManageMyWeb"
+        description="Build an interactive 3D storefront connected to your existing Shopify catalog, variants, and checkout. Review Shopify integration details and request a free 3D store demo."
+        keywords="Shopify 3D store development, add 3D store to Shopify, Shopify 3D virtual showroom, Shopify Storefront API 3D, interactive Shopify store"
         canonicalUrl="https://www.managemyweb.co/shopify-3d-store"
-        schemaData={[
-          {
-            '@type': 'Service',
-            name: 'Shopify 3D Store Design & Integration',
-            serviceType: 'Shopify 3D Storefront Development',
-            provider: { '@id': 'https://www.managemyweb.co/#organization' },
-            areaServed: 'Worldwide',
-            description:
-              'Add an interactive walkable 3D store onto an existing Shopify catalog with live inventory and checkout sync.',
-          },
-          {
-            '@type': 'FAQPage',
-            mainEntity: faqs.map((f) => ({
-              '@type': 'Question',
-              name: f.q,
-              acceptedAnswer: { '@type': 'Answer', text: f.a },
-            })),
-          },
-        ]}
+        showBreadcrumbs={true}
+        schemaData={{
+          '@type': 'Service',
+          name: 'Shopify 3D Storefront Development',
+          serviceType: 'Shopify 3D E-Commerce Development',
+          provider: { '@id': 'https://www.managemyweb.co/#organization' },
+          areaServed: 'Worldwide',
+          description:
+            'Custom browser-based 3D storefront integration built for Shopify catalogs, variant selection, and native Shopify checkout routing.',
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '52px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', background: '#FBFBFD' }}>
         <section className="container" style={{ paddingBottom: '56px' }}>
+          <Breadcrumbs path="/shopify-3d-store" currentLabel="Shopify 3D Store Development" />
+
           <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 40px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              For Shopify Store Owners
+              Shopify Integration
             </p>
             <h1
               style={{
-                fontSize: 'clamp(34px, 4.8vw, 52px)',
+                fontSize: 'clamp(34px, 4.8vw, 50px)',
                 fontWeight: 600,
                 letterSpacing: '-0.035em',
                 color: '#1D1D1F',
@@ -77,10 +71,10 @@ export default function Shopify3DStorePage() {
                 marginBottom: '16px',
               }}
             >
-              Add a 3D store to your <span style={{ color: '#0066CC' }}>Shopify</span> site—without rebuilding.
+              Shopify 3D Store Development Without Replacing Your Backend
             </h1>
             <p style={{ color: '#424245', fontSize: '17px', lineHeight: 1.6, marginBottom: '24px' }}>
-              Every Shopify store uses the same handful of flat themes. Give shoppers a walkable 3D flagship room synced live with your Shopify inventory, variants, and Shop Pay / Apple Pay checkout.
+              Connect an interactive browser-based 3D showroom directly to your Shopify products, variants, and native checkout—keeping your existing inventory, apps, and order fulfillment running smoothly.
             </p>
 
             <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
@@ -89,10 +83,10 @@ export default function Shopify3DStorePage() {
                 className="btn-apple-blue"
                 style={{ padding: '13px 26px', fontSize: '15px' }}
               >
-                Get Free 48h Shopify 3D Demo
+                Request a Free 3D Demo
               </button>
               <Link href="/pricing" className="btn-apple-secondary" style={{ padding: '13px 24px', fontSize: '15px', color: '#1D1D1F' }}>
-                Ask for a Quote
+                Get a Custom Quote
               </Link>
             </div>
           </div>
@@ -104,30 +98,30 @@ export default function Shopify3DStorePage() {
           <div className="container" style={{ maxWidth: '960px' }}>
             <div style={{ textAlign: 'center', marginBottom: '36px' }}>
               <h2 style={{ fontSize: 'clamp(26px, 3.4vw, 36px)', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
-                Keep everything inside Shopify working the way it does today.
+                How Shopify Catalog &amp; Checkout Integration Works
               </h2>
               <p style={{ color: '#6E6E73', fontSize: '15.5px' }}>
-                You do not lose a single order, app, discount rule, or pixel.
+                Your Shopify admin stays the single source of truth for stock, variants, and orders.
               </p>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '18px' }}>
               {[
                 {
-                  title: 'Live Product & Stock Sync',
-                  desc: 'Change a price, size, or photo in your Shopify dashboard and it updates inside your 3D store automatically.',
+                  title: 'Shopify Storefront API Sync',
+                  desc: 'Featured titles, prices, stock availability, and size or color variants stay synced directly from your Shopify catalog.',
                 },
                 {
-                  title: 'Native Shopify Cart & Shop Pay',
-                  desc: 'Shoppers add items off 3D shelves directly into your Shopify cart and pay with Shop Pay, Apple Pay, Google Pay, or cards.',
+                  title: 'Native Shopify Cart & Checkout',
+                  desc: 'When visitors pick products in 3D, selections pass to your Shopify checkout flow supporting Shop Pay, Apple Pay, and card gateways.',
                 },
                 {
-                  title: 'Keep Your Regular Pages Too',
-                  desc: 'Your normal product collections stay intact for search traffic, while a prominent button invites buyers into your 3D showroom.',
+                  title: 'Coexists With Standard Collection Pages',
+                  desc: 'Keep your existing theme templates for fast search and direct links while giving visitors a clear entry into the 3D showroom.',
                 },
                 {
-                  title: 'Monthly Shopify Speed & Edits',
-                  desc: 'Want us to clean up bloated Shopify apps, improve mobile speed, and update banners via WhatsApp? We can manage that too.',
+                  title: 'Honest Scope & App Compatibility Check',
+                  desc: 'Before any full build, we inspect third-party bundle or subscription apps to make sure checkout handoff behaves reliably.',
                 },
               ].map((item) => (
                 <div key={item.title} className="apple-card" style={{ padding: '26px', borderRadius: '18px', background: '#FBFBFD' }}>
@@ -141,7 +135,7 @@ export default function Shopify3DStorePage() {
 
             <div style={{ textAlign: 'center', marginTop: '32px' }}>
               <Link href="/blog/can-you-add-a-3d-store-to-shopify" className="apple-link" style={{ fontSize: '15px' }}>
-                Read our step-by-step Shopify 3D setup guide →
+                Read our step-by-step Shopify 3D integration guide →
               </Link>
             </div>
           </div>
@@ -155,4 +149,3 @@ export default function Shopify3DStorePage() {
     </>
   );
 }
-

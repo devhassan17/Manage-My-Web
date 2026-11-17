@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SEOHead from '../../components/SEOHead';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import CountdownBanner from '../../components/CountdownBanner';
 import Navbar from '../../components/Navbar';
 import FAQSection from '../../components/FAQSection';
@@ -12,59 +13,48 @@ export default function WebManagement() {
 
   const faqs = [
     {
-      q: 'What does monthly website management include?',
-      a: 'We take over cloud hosting, domain renewals, DNS updates, SSL certificates, business email setup (SPF/DKIM/DMARC), mobile speed fixes, daily off-site backups, and same-day site edits whenever you message us on WhatsApp.',
+      q: 'What does Managed Website Operations include?',
+      a: 'Our ongoing engineering support plan covers cloud hosting setup and monitoring, domain and DNS care, SSL renewal checks, SPF/DKIM/DMARC email configuration, off-site security backups, mobile speed hygiene, and routine storefront edits.',
     },
     {
-      q: 'Can you manage my website even if it is not 3D?',
-      a: 'Yes! We manage standard Shopify stores, WordPress/WooCommerce sites, and custom web apps.',
+      q: 'Can we hire you for website management without ordering a 3D store?',
+      a: 'Yes. Managed Website Operations is offered as a dedicated service for existing Shopify, WooCommerce, and custom e-commerce websites.',
     },
     {
-      q: 'How fast do you make edits when I message you?',
-      a: 'Most small changes—new sale banners, text edits, adding products, fixing bugs—are completed the very same day.',
-    },
-    {
-      q: 'Will I still own my domain name and website files?',
-      a: '100% yes. Your domain, code, store database, and email accounts always stay registered in your company name.',
+      q: 'Do we keep ownership of our domain and site assets?',
+      a: 'Yes. All domain registrations, source files, customer databases, and third-party accounts remain owned by your business.',
     },
   ];
 
   return (
     <>
       <SEOHead
-        title="Monthly Website Management, Cloud Hosting & Care | ManageMyWeb"
-        description="Stop wrestling with slow hosting, broken DNS, spam email issues, or waiting weeks on freelancers. We manage your hosting, backups, speed, and daily website edits."
-        keywords="website management service, monthly website maintenance, managed cloud hosting, WordPress speed optimization, DNS and DMARC setup, same day website updates"
+        title="Managed Website Operations & E-Commerce Support | ManageMyWeb"
+        description="Technical website management for e-commerce brands: hosting, DNS, monitoring, security, updates and ongoing optimization. Discuss a custom support plan."
+        keywords="managed website operations, ecommerce website maintenance, technical website support, managed cloud hosting, WordPress and Shopify maintenance"
         canonicalUrl="https://www.managemyweb.co/services/web-management"
-        schemaData={[
-          {
-            '@type': 'Service',
-            name: 'Monthly Website Management & Cloud Hosting',
-            serviceType: 'Website Maintenance & Hosting',
-            provider: { '@id': 'https://www.managemyweb.co/#organization' },
-            areaServed: 'Worldwide',
-            description:
-              'Full-service monthly website hosting, speed optimization, DNS & email authentication, security backups, and same-day edits over WhatsApp.',
-          },
-          {
-            '@type': 'FAQPage',
-            mainEntity: faqs.map((f) => ({
-              '@type': 'Question',
-              name: f.q,
-              acceptedAnswer: { '@type': 'Answer', text: f.a },
-            })),
-          },
-        ]}
+        showBreadcrumbs={true}
+        schemaData={{
+          '@type': 'Service',
+          name: 'Managed Website Operations & E-Commerce Support',
+          serviceType: 'Website Management & Support',
+          provider: { '@id': 'https://www.managemyweb.co/#organization' },
+          areaServed: 'Worldwide',
+          description:
+            'Ongoing technical website operations for online stores: cloud hosting, DNS, email deliverability, security backups, speed hygiene, and routine updates.',
+        }}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '52px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', background: '#FBFBFD' }}>
         <div className="container" style={{ paddingBottom: '72px' }}>
-          <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 44px auto' }}>
+          <Breadcrumbs path="/services/web-management" currentLabel="Managed Website Operations" />
+
+          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 44px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              Website Management &amp; Hosting
+              Ongoing Website Support
             </p>
             <h1
               style={{
@@ -76,17 +66,17 @@ export default function WebManagement() {
                 marginBottom: '12px',
               }}
             >
-              We run your website tech so you can run your business.
+              Managed Website Operations &amp; E-Commerce Support
             </h1>
             <p style={{ color: '#424245', fontSize: '16.5px', lineHeight: 1.55, marginBottom: '22px' }}>
-              Stop chasing unreliable freelancers or worrying about broken updates. Send one WhatsApp message for any edit while we keep your site fast, backed up, and online 24/7.
+              Keep your online store healthy without wrestling with broken DNS changes, slow plugins, or unreliable freelancers. Our team manages your hosting, backups, email setup, and day-to-day updates.
             </p>
             <button
               onClick={() => setDemoModalOpen(true)}
               className="btn-apple-blue"
               style={{ padding: '12px 24px', fontSize: '14.5px' }}
             >
-              Ask for a Monthly Care Quote
+              Discuss a Custom Support Plan
             </button>
           </div>
 
@@ -101,33 +91,33 @@ export default function WebManagement() {
             {[
               {
                 num: '01',
-                title: 'Fast Global Cloud Hosting',
-                desc: 'We host your site on fast edge servers with global CDN caching so shoppers worldwide load pages in under a second.',
+                title: 'Cloud Hosting & Edge Caching',
+                desc: 'Modern CDN caching and clean hosting setup so visitors worldwide experience responsive page loads without server bottlenecks.',
               },
               {
                 num: '02',
-                title: 'Domain, DNS & SSL Renewal Care',
-                desc: 'Never worry about broken records, expired SSL security warnings, or losing track of where your domain is registered.',
+                title: 'Domain, DNS & SSL Hygiene',
+                desc: 'Clean tracking of DNS records, domain renewals, and HTTPS SSL certificates so avoidable outages never catch you off guard.',
               },
               {
                 num: '03',
-                title: 'Business Email That Hits Inboxes',
-                desc: 'Proper SPF, DKIM, and DMARC setup on Zoho or Google Workspace so receipts and sales quotes never land in spam.',
+                title: 'Business Email Configuration',
+                desc: 'Proper SPF, DKIM, and DMARC records on Zoho or Google Workspace to strengthen inbox placement for receipts and customer replies.',
               },
               {
                 num: '04',
-                title: 'Daily Off-Site Backups & Uptime Watch',
-                desc: 'Every day your site is backed up off-site, protected behind a firewall, and watched 24/7 for uptime.',
+                title: 'Off-Site Backups & Uptime Checks',
+                desc: 'Regular off-site backups paired with active uptime monitoring and security patches across themes, plugins, or apps.',
               },
               {
                 num: '05',
-                title: 'Same-Day Edits on WhatsApp',
-                desc: 'Need a holiday sale banner, new product added, or pricing updated? Message our engineers on WhatsApp and it gets done today.',
+                title: 'Routine Storefront Updates',
+                desc: 'Fast execution of promotional banners, collection swaps, copy updates, and landing-page tweaks through direct team communication.',
               },
               {
                 num: '06',
-                title: 'Speed & Google SEO Health',
-                desc: 'We fix heavy images, clean out leftover plugin code, update sitemaps, and keep Google Core Web Vitals green.',
+                title: 'Speed & Technical SEO Hygiene',
+                desc: 'Ongoing image compression, leftover script audits, sitemap checks, and clean structured metadata.',
               },
             ].map((card) => (
               <div
@@ -148,18 +138,18 @@ export default function WebManagement() {
 
           <div style={{ background: '#FFFFFF', border: '1px solid #D2D2D7', borderRadius: '20px', padding: '32px', maxWidth: '880px', margin: '0 auto' }}>
             <h2 style={{ fontSize: '22px', fontWeight: 600, color: '#1D1D1F', marginBottom: '12px' }}>
-              What happens when you send us a WhatsApp message?
+              Built to protect existing SEO and revenue during updates
             </h2>
             <p style={{ color: '#424245', fontSize: '15px', lineHeight: 1.6, marginBottom: '18px' }}>
-              No ticketing portals or 5-day support waits. Whether you need a new landing page for Friday ads, a broken checkout script fixed immediately, or a quick swap of holiday photos, you message the exact engineers running your site.
+              Small technical mistakes—blocking robots by accident, breaking mobile layouts with oversized images, or updating incompatible plugins directly in production—cost stores organic visibility and sales. We test updates cleanly and monitor core health every month.
             </p>
             <Link href="/blog/monthly-website-maintenance-checklist" className="apple-link" style={{ fontSize: '14.5px' }}>
-              Read our complete monthly website maintenance checklist →
+              Read our complete website maintenance checklist →
             </Link>
           </div>
         </div>
 
-        <FAQSection title="Website Management Questions" items={faqs} background="#F5F5F7" />
+        <FAQSection title="Website Operations Questions" items={faqs} background="#F5F5F7" />
       </main>
 
       <Footer onOpenDemoModal={() => setDemoModalOpen(true)} />

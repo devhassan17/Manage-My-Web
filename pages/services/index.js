@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SEOHead from '../../components/SEOHead';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import CountdownBanner from '../../components/CountdownBanner';
 import Navbar from '../../components/Navbar';
 import LeadModal from '../../components/LeadModal';
@@ -12,41 +13,41 @@ export default function ServicesHub() {
   const services = [
     {
       num: '01',
-      title: 'Custom 3D Online Stores',
+      title: 'Custom 3D Virtual Store Development',
       slug: '/services/3d-virtual-stores',
-      badge: '3D Store Design',
-      desc: 'Turn your flat Shopify, WooCommerce, or custom product grid into an interactive 3D shop customers can walk through right on their phone or laptop.',
+      badge: 'Core Service',
+      desc: 'Turn your Shopify, WooCommerce, or custom product grid into an interactive 3D showroom shoppers can explore right in their browser.',
       features: [
-        'Walkable 3D shop built around your brand',
-        'Spin & zoom products on 3D shelves',
-        'One-tap Apple Pay, Google Pay & Shop Pay checkout',
-        'Connects live to your existing Shopify or WooCommerce store',
+        'Walkable 3D shop built around your brand aesthetic',
+        '360-degree product inspection on custom shelves',
+        'Checkout routing through your existing cart where supported',
+        'Responsive design with reduced-motion and HTML fallbacks',
       ],
     },
     {
       num: '02',
-      title: 'Monthly Website Management & Hosting',
+      title: 'Managed Website Operations & Support',
       slug: '/services/web-management',
-      badge: 'Monthly Care',
-      desc: 'Hand off all the messy technical work—fast cloud hosting, domains, DNS, business email, daily security backups, and same-day updates over WhatsApp.',
+      badge: 'Ongoing Operations',
+      desc: 'Hand off technical maintenance—cloud hosting, DNS, email configuration, off-site backups, and routine store updates.',
       features: [
-        'Fast global cloud hosting (< 1.1s load time)',
-        'Domain renewal, DNS & SSL certificates handled',
-        'SPF, DKIM & DMARC business email setup',
-        'Same-day banner & product edits via WhatsApp',
+        'Cloud edge hosting setup and uptime monitoring',
+        'Domain, DNS & HTTPS SSL renewal tracking',
+        'SPF, DKIM & DMARC business email authentication',
+        'Direct engineering team support for routine edits',
       ],
     },
     {
       num: '03',
-      title: 'Speed Fixes & Higher Store Sales',
+      title: 'E-Commerce Conversion & Checkout Optimization',
       slug: '/services/ecommerce-growth',
-      badge: 'Speed & Conversion',
-      desc: 'Stop losing visitors to slow mobile pages and clunky checkout steps. Make more money from the traffic you already have.',
+      badge: 'Performance & UX',
+      desc: 'Remove mobile speed bottlenecks and checkout friction so more existing visitors turn into completed orders.',
       features: [
-        'Mobile speed cleanup for green Google Core Web Vitals',
-        'One-tap express mobile checkout setup',
-        'Smart product bundling & shelf upsells',
-        'Clean Google Analytics & Microsoft Clarity tracking',
+        'Mobile script cleanup & image size optimization',
+        'Express wallet configuration where supported',
+        'Clearer bundle context & product storytelling',
+        'Consent-aware GA4 & Clarity event tracking',
       ],
     },
   ];
@@ -54,20 +55,23 @@ export default function ServicesHub() {
   return (
     <>
       <SEOHead
-        title="3D Online Store Design & Monthly Website Management | ManageMyWeb"
-        description="Get a walkable 3D online store connected to Shopify or WooCommerce, plus fast cloud hosting, speed fixes, security backups, and same-day website updates."
-        keywords="3D online store service, Shopify 3D store builder, monthly website management service, ecommerce speed optimization, website maintenance company"
+        title="3D E-Commerce Development & Web Services | ManageMyWeb"
+        description="Explore ManageMyWeb services: custom 3D virtual store development for Shopify and WooCommerce, managed website operations, hosting, and checkout optimization."
+        keywords="3D ecommerce development services, custom 3D store development, managed website operations, Shopify optimization service"
         canonicalUrl="https://www.managemyweb.co/services"
+        showBreadcrumbs={true}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '660px', margin: '0 auto 44px auto' }}>
+          <Breadcrumbs path="/services" currentLabel="Services" />
+
+          <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 44px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              What We Do
+              Services
             </p>
             <h1
               style={{
@@ -79,10 +83,10 @@ export default function ServicesHub() {
                 marginBottom: '12px',
               }}
             >
-              3D store design &amp; full website care under one roof.
+              3D E-Commerce Development &amp; Web Services
             </h1>
             <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.55 }}>
-              Hire us to build a standout 3D online store, take over your monthly website tech, or both.
+              Our primary focus is building interactive 3D virtual storefronts—backed by reliable ongoing web operations and conversion optimization when your team wants a technical partner.
             </p>
           </div>
 
@@ -116,7 +120,7 @@ export default function ServicesHub() {
 
                   <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                     <Link href={s.slug} className="btn-apple-dark" style={{ padding: '10px 18px', fontSize: '13.5px' }}>
-                      See how it works
+                      Explore Service Details
                     </Link>
                     <button
                       onClick={() => setDemoModalOpen(true)}
@@ -142,23 +146,22 @@ export default function ServicesHub() {
             ))}
           </div>
 
-          {/* Quick Platform Selector */}
           <div style={{ background: '#FFFFFF', border: '1px solid #D2D2D7', borderRadius: '20px', padding: '32px', textAlign: 'center' }}>
             <h2 style={{ fontSize: '22px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
-              Already running on Shopify or WooCommerce?
+              Explore by Commerce Platform
             </h2>
             <p style={{ color: '#6E6E73', fontSize: '14.5px', marginBottom: '20px' }}>
-              See exactly how our 3D store and speed tools connect with your platform:
+              Review platform-specific integration details and industry examples:
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
               <Link href="/shopify-3d-store" className="btn-apple-secondary" style={{ color: '#1D1D1F' }}>
-                3D Store for Shopify →
+                Shopify 3D Integration →
               </Link>
               <Link href="/woocommerce-3d-store" className="btn-apple-secondary" style={{ color: '#1D1D1F' }}>
-                3D Store for WooCommerce →
+                WooCommerce 3D Integration →
               </Link>
               <Link href="/3d-store-examples" className="btn-apple-secondary" style={{ color: '#1D1D1F' }}>
-                See 3D Store Examples →
+                3D Showroom Examples →
               </Link>
             </div>
           </div>

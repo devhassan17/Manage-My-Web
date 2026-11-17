@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
 import CountdownBanner from '../components/CountdownBanner';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -69,23 +70,26 @@ export default function Contact() {
   return (
     <>
       <SEOHead
-        title="Contact ManageMyWeb | Request Free 3D Demo or Quote"
-        description="Send us your store link for a free 48-hour 3D preview of your products, or message our team directly on WhatsApp (+92 317 4075023) and sales@managemyweb.co."
-        keywords="contact ManageMyWeb, free 3D store demo, 3D Shopify website quote, website management support"
+        title="Request a 3D Store Demo or Quote | ManageMyWeb"
+        description="Send your store link to request a free 3D store demo or a custom development and website management quote from ManageMyWeb."
+        keywords="request 3D store demo, custom 3D website quote, Shopify 3D inquiry, contact ManageMyWeb"
         canonicalUrl="https://www.managemyweb.co/contact"
+        showBreadcrumbs={true}
         schemaData={{
           '@type': 'ContactPage',
-          name: 'Contact ManageMyWeb',
+          name: 'Request a 3D Store Demo or Quote',
           url: 'https://www.managemyweb.co/contact',
-          description: 'Request a free 48-hour 3D demo of your online store or a clear monthly website care quote.',
+          description: 'Request a browser-based 3D storefront preview or custom quotation from ManageMyWeb.',
         }}
       />
 
       <CountdownBanner onClaimDemo={() => {}} />
       <Navbar onOpenDemoModal={() => {}} />
 
-      <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container" style={{ maxWidth: '980px' }}>
+          <Breadcrumbs path="/contact" currentLabel="Request Demo or Quote" />
+
           <div style={{ textAlign: 'center', maxWidth: '620px', margin: '0 auto 40px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
               Get In Touch
@@ -100,10 +104,10 @@ export default function Contact() {
                 marginBottom: '10px',
               }}
             >
-              Get a Free 3D Demo or Quote.
+              Request a 3D Store Demo or Quote
             </h1>
             <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.45 }}>
-              Share your store link below—or message our engineers directly on WhatsApp.
+              Share your store link below—or message our engineering team directly on WhatsApp.
             </p>
           </div>
 
@@ -423,7 +427,7 @@ export default function Contact() {
                   <strong style={{ color: '#1D1D1F' }}>WhatsApp:</strong> {contactInfo.whatsappNumber}
                 </div>
                 <div style={{ fontSize: '13px', color: '#1D7D3F', fontWeight: 500 }}>
-                  Replies in under 2 hours
+                  Direct response from our engineering team
                 </div>
               </div>
             </div>
