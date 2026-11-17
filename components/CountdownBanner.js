@@ -1,41 +1,4 @@
-import { useState, useEffect } from 'react';
-
 export default function CountdownBanner({ onClaimDemo }) {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 59,
-    hours: 23,
-  });
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const storageKey = 'managemyweb_promo_deadline_v1';
-    let targetTime;
-    const stored = localStorage.getItem(storageKey);
-    if (stored) {
-      targetTime = parseInt(stored, 10);
-    } else {
-      targetTime = Date.now() + 60 * 24 * 60 * 60 * 1000;
-      localStorage.setItem(storageKey, targetTime.toString());
-    }
-
-    const updateTimer = () => {
-      const diff = targetTime - Date.now();
-      if (diff <= 0) {
-        setTimeLeft({ days: 0, hours: 0 });
-      } else {
-        setTimeLeft({
-          days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        });
-      }
-    };
-
-    updateTimer();
-    const interval = setInterval(updateTimer, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div
       style={{
@@ -61,11 +24,7 @@ export default function CountdownBanner({ onClaimDemo }) {
         }}
       >
         <span>
-          <strong style={{ fontWeight: 600 }}>Free 48-Hour 3D Demo:</strong> See your own store in 3D before you spend a dollar.
-        </span>
-
-        <span style={{ color: '#6E6E73', fontVariantNumeric: 'tabular-nums' }}>
-          {mounted ? `${timeLeft.days}d ${timeLeft.hours}h left` : '59d 23h left'}
+          <strong style={{ fontWeight: 600 }}>Free 3D Store Demo:</strong> Share your store link to preview your products in a working 3D browser showroom before quoting.
         </span>
 
         <button
@@ -82,7 +41,7 @@ export default function CountdownBanner({ onClaimDemo }) {
             fontFamily: 'inherit',
           }}
         >
-          Claim Free Demo ›
+          Request Free Demo ›
         </button>
       </div>
     </div>

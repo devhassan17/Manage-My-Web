@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getAttributionPayload, trackLeadConversion, trackWhatsAppClick } from '../utils/analytics';
 
 export default function LeadModal({
   isOpen,
@@ -20,7 +21,8 @@ export default function LeadModal({
     productCount: '15 - 50 Products',
     platform: 'Shopify',
     message: '',
-    promoCode: 'FREE-3D-DEMO-60D',
+    promoCode: 'FREE-3D-DEMO',
+    companyFax: '',
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -48,11 +50,19 @@ export default function LeadModal({
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          attribution: getAttributionPayload(),
+        }),
       });
       const data = await res.json();
 
       if (res.ok && data.success) {
+        trackLeadConversion({
+          requestType: formData.requestType,
+          packageName: formData.requestedPackage,
+          leadId: data.leadId,
+        });
         setSubmitted(true);
       } else {
         setErrorMsg(data.error || 'Unable to submit request. Please try again.');
@@ -154,7 +164,13 @@ export default function LeadModal({
             </p>
 
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href={waUrl} target="_blank" rel="noopener noreferrer" className="btn-apple-blue">
+              <a
+                href={waUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackWhatsAppClick('lead_modal_success')}
+                className="btn-apple-blue"
+              >
                 Chat on WhatsApp
               </a>
               <button
@@ -247,6 +263,18 @@ export default function LeadModal({
             )}
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }} aria-hidden="true">
+                <label htmlFor="modal_company_fax">Fax</label>
+                <input
+                  id="modal_company_fax"
+                  name="companyFax"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData.companyFax}
+                  onChange={(e) => setFormData({ ...formData, companyFax: e.target.value })}
+                />
+              </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '11.5px', color: '#1D1D1F', marginBottom: '4px', fontWeight: 500 }}>

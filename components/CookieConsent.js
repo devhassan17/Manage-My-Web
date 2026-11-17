@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { captureUtmParams, syncConsentState } from '../utils/analytics';
 
 function getClientTelemetry() {
   if (typeof window === 'undefined') return {};
@@ -60,6 +61,9 @@ export default function CookieConsent() {
   });
 
   useEffect(() => {
+    // Capture UTM parameters cleanly for non-PII attribution
+    captureUtmParams();
+
     // Do not show cookie banner on the Admin dashboard
     if (router.pathname.startsWith('/admin')) {
       setVisible(false);
@@ -73,6 +77,14 @@ export default function CookieConsent() {
     }
 
     const savedConsent = localStorage.getItem('mmw_cookie_consent');
+    if (savedConsent) {
+      try {
+        const parsed = JSON.parse(savedConsent);
+        if (parsed?.categories) {
+          syncConsentState(parsed.categories);
+        }
+      } catch (e) {}
+    }
 
     // Fetch banner config from server
     fetch('/api/cookies')
@@ -153,6 +165,7 @@ export default function CookieConsent() {
 
     localStorage.setItem('mmw_cookie_consent', JSON.stringify(payload));
     document.cookie = `mmw_cookie_consent=${encodeURIComponent(decision)}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+    syncConsentState(selectedCategories);
 
     setVisible(false);
     setShowCustomize(false);

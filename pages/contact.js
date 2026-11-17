@@ -4,6 +4,7 @@ import CountdownBanner from '../components/CountdownBanner';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { usePublicContact } from '../utils/usePublicConfig';
+import { getAttributionPayload, trackLeadConversion, trackWhatsAppClick } from '../utils/analytics';
 
 export default function Contact() {
   const { contactInfo, waRaw } = usePublicContact();
@@ -21,7 +22,8 @@ export default function Contact() {
     productCount: '15 - 50 Products',
     platform: 'Shopify',
     message: '',
-    promoCode: 'FREE-3D-DEMO-60D',
+    promoCode: 'FREE-3D-DEMO',
+    companyFax: '',
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -36,11 +38,19 @@ export default function Contact() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          attribution: getAttributionPayload(),
+        }),
       });
       const data = await res.json();
 
       if (res.ok && data.success) {
+        trackLeadConversion({
+          requestType: formData.requestType,
+          packageName: formData.requestedPackage,
+          leadId: data.leadId,
+        });
         setSubmitted(true);
       } else {
         setErrorMsg(data.error || 'Failed to submit inquiry.');
@@ -133,12 +143,30 @@ export default function Contact() {
                       ? `Thanks, ${formData.name}. We will email your itemized quotation within 24 hours.`
                       : `Thanks, ${formData.name}. Your free 3D preview will be ready within 48 hours (Step 1), followed by your custom quotation (Step 2).`}
                   </p>
-                  <a href={waUrl} target="_blank" rel="noopener noreferrer" className="btn-apple-blue">
+                  <a
+                    href={waUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackWhatsAppClick('contact_page_success')}
+                    className="btn-apple-blue"
+                  >
                     Chat on WhatsApp
                   </a>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <div style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }} aria-hidden="true">
+                    <label htmlFor="contact_company_fax">Fax</label>
+                    <input
+                      id="contact_company_fax"
+                      name="companyFax"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={formData.companyFax}
+                      onChange={(e) => setFormData({ ...formData, companyFax: e.target.value })}
+                    />
+                  </div>
                   {/* Segmented Switcher */}
                   <div
                     style={{
@@ -376,6 +404,7 @@ export default function Contact() {
                   href={waUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackWhatsAppClick('contact_page_sidebar')}
                   className="btn-apple-dark"
                   style={{ width: '100%', padding: '11px', fontSize: '13.5px' }}
                 >

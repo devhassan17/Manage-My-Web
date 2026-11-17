@@ -79,10 +79,22 @@ export default async function handler(req, res) {
       requestedPackage = 'Spatial Retail Flagship',
       productCount = '15 - 50 Products',
       platform = 'Shopify',
-    } = req.body;
+      companyFax = '', // Invisible honeypot trap
+      attribution = null,
+    } = req.body || {};
 
-    if (!name || !email) {
-      return res.status(400).json({ error: 'Name and email are required.' });
+    // Reject automated bots silently if hidden honeypot field is filled
+    if (companyFax && String(companyFax).trim().length > 0) {
+      return res.status(200).json({
+        success: true,
+        requestType: 'demo',
+        message: 'Inquiry received.',
+        ignored: true,
+      });
+    }
+
+    if (!name || !String(name).trim() || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).trim())) {
+      return res.status(400).json({ error: 'Please provide your name and a valid email address.' });
     }
 
     const isQuotationRequest = requestType === 'quotation';
@@ -106,7 +118,13 @@ export default async function handler(req, res) {
       productCount: productCount || '15 - 50 Products',
       platform: platform || 'Shopify',
       message: (message || '').trim(),
-      promoCode: promoCode || 'FREE-3D-DEMO-60D',
+      promoCode: promoCode || 'FREE-3D-DEMO',
+      attribution: attribution && typeof attribution === 'object' ? {
+        utmSource: String(attribution.utmSource || '').slice(0, 100),
+        utmMedium: String(attribution.utmMedium || '').slice(0, 100),
+        utmCampaign: String(attribution.utmCampaign || '').slice(0, 100),
+        landingPage: String(attribution.landingPage || '').slice(0, 200),
+      } : null,
       status: isQuotationRequest ? 'Quotation Requested' : 'New',
       notes: '',
     };

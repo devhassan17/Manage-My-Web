@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { usePublicContact } from '../utils/usePublicConfig';
+import { trackWhatsAppClick } from '../utils/analytics';
 
 export default function Footer({ onOpenDemoModal }) {
   const currentYear = new Date().getFullYear();
@@ -66,6 +67,7 @@ export default function Footer({ onOpenDemoModal }) {
               href={waUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackWhatsAppClick('footer_cta')}
               className="btn-apple-secondary"
               style={{ padding: '11px 20px', fontSize: '14px', color: '#1D1D1F' }}
             >
