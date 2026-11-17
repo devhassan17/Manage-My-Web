@@ -170,10 +170,10 @@ export default function ClientLogos({ title = 'Stores & Brands We Work With', su
             const wrapperProps = isOffline
               ? {}
               : {
-                href: client.url,
-                target: '_blank',
-                rel: 'noopener noreferrer',
-              };
+                  href: client.url,
+                  target: '_blank',
+                  rel: 'noopener noreferrer',
+                };
             return (
               <CardWrapper
                 key={client.id}
@@ -191,86 +191,86 @@ export default function ClientLogos({ title = 'Stores & Brands We Work With', su
                   gap: '12px',
                 }}
               >
-                {/* Logo Container */}
+              {/* Logo Container */}
+              <div
+                style={{
+                  height: '64px',
+                  background: '#FFFFFF',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(0,0,0,0.05)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '10px 16px',
+                }}
+              >
+                <img
+                  src={client.logo}
+                  alt={`${client.name} Logo`}
+                  loading="lazy"
+                  style={{
+                    maxHeight: '42px',
+                    maxWidth: '150px',
+                    width: 'auto',
+                    height: 'auto',
+                    objectFit: 'contain',
+                    display: 'block',
+                  }}
+                />
+              </div>
+
+              {/* Client Meta */}
+              <div>
                 <div
                   style={{
-                    height: '64px',
-                    background: '#FFFFFF',
-                    borderRadius: '12px',
-                    border: '1px solid rgba(0,0,0,0.05)',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '10px 16px',
+                    justifyContent: 'space-between',
+                    gap: '6px',
+                    marginBottom: '3px',
                   }}
                 >
-                  <img
-                    src={client.logo}
-                    alt={`${client.name} Logo`}
-                    loading="lazy"
+                  <span
                     style={{
-                      maxHeight: '42px',
-                      maxWidth: '150px',
-                      width: 'auto',
-                      height: 'auto',
-                      objectFit: 'contain',
-                      display: 'block',
-                    }}
-                  />
-                </div>
-
-                {/* Client Meta */}
-                <div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      gap: '6px',
-                      marginBottom: '3px',
+                      fontSize: '13.5px',
+                      fontWeight: 600,
+                      color: '#1D1D1F',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
                     }}
                   >
-                    <span
-                      style={{
-                        fontSize: '13.5px',
-                        fontWeight: 600,
-                        color: '#1D1D1F',
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                      }}
-                    >
-                      {client.name}
-                    </span>
-                  </div>
+                    {client.name}
+                  </span>
+                </div>
 
-                  <div
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    fontSize: '11.5px',
+                    color: '#6E6E73',
+                  }}
+                >
+                  <span style={{ color: isOffline ? '#6E6E73' : '#0066CC', fontWeight: 500 }}>
+                    {isOffline ? `${client.domain} (Archived)` : `${client.domain} ↗`}
+                  </span>
+                  <span
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      fontSize: '11.5px',
-                      color: '#6E6E73',
+                      background: '#F5F5F7',
+                      padding: '2px 7px',
+                      borderRadius: '980px',
+                      fontSize: '10.5px',
+                      fontWeight: 600,
+                      color: '#424245',
                     }}
                   >
-                    <span style={{ color: isOffline ? '#6E6E73' : '#0066CC', fontWeight: 500 }}>
-                      {isOffline ? `${client.domain} (Archived)` : `${client.domain} ↗`}
-                    </span>
-                    <span
-                      style={{
-                        background: '#F5F5F7',
-                        padding: '2px 7px',
-                        borderRadius: '980px',
-                        fontSize: '10.5px',
-                        fontWeight: 600,
-                        color: '#424245',
-                      }}
-                    >
-                      {client.country}
-                    </span>
-                  </div>
+                    {client.country}
+                  </span>
                 </div>
-              </CardWrapper>
+              </div>
+            </CardWrapper>
             );
           })}
         </div>

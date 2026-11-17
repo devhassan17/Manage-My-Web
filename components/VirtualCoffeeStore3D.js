@@ -24,7 +24,7 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
     videoRef.current.muted = nextMuted;
     if (!nextMuted) {
       videoRef.current.volume = 1.0;
-      videoRef.current.play().catch(() => { });
+      videoRef.current.play().catch(() => {});
     }
     setIsMuted(nextMuted);
   };
@@ -35,7 +35,7 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
     if (nextStatic && videoRef.current) {
       videoRef.current.pause();
     } else if (!nextStatic && videoRef.current && !reducedMotion) {
-      videoRef.current.play().catch(() => { });
+      videoRef.current.play().catch(() => {});
     }
   };
 
