@@ -32,3 +32,4 @@ export function usePublicContact() {
   const waRaw = (contactInfo.whatsappNumber || '923174075023').replace(/[^0-9]/g, '');
   return { contactInfo, waRaw };
 }
+

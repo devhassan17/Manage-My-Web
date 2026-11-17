@@ -502,3 +502,4 @@ export const BLOG_POSTS_BY_SLUG = BLOG_POSTS_LIST.reduce((acc, post) => {
   acc[post.slug] = post;
   return acc;
 }, {});
+
