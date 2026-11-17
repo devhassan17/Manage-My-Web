@@ -1,13 +1,25 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = false }) {
   const demoUrl = 'https://crazy-3d-website-idea.vercel.app/';
   const videoSrc = '/videos/3d-store-preview.mp4';
   const videoRef = useRef(null);
   const [isMuted, setIsMuted] = useState(true);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [staticFallback, setStaticFallback] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq.matches) {
+      setReducedMotion(true);
+      if (videoRef.current) videoRef.current.pause();
+    }
+  }, []);
 
   const toggleAudio = () => {
     if (!videoRef.current) return;
+    if (staticFallback) setStaticFallback(false);
     const nextMuted = !videoRef.current.muted;
     videoRef.current.muted = nextMuted;
     if (!nextMuted) {
@@ -15,6 +27,16 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
       videoRef.current.play().catch(() => {});
     }
     setIsMuted(nextMuted);
+  };
+
+  const toggleStaticMode = () => {
+    const nextStatic = !staticFallback;
+    setStaticFallback(nextStatic);
+    if (nextStatic && videoRef.current) {
+      videoRef.current.pause();
+    } else if (!nextStatic && videoRef.current && !reducedMotion) {
+      videoRef.current.play().catch(() => {});
+    }
   };
 
   if (isFullscreen) {
@@ -31,21 +53,32 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
           justifyContent: 'center',
         }}
       >
-        <video
-          ref={videoRef}
-          src={videoSrc}
-          autoPlay
-          loop
-          muted={isMuted}
-          playsInline
-          controls
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block',
-          }}
-        />
+        {staticFallback ? (
+          <img
+            src="/images/og-cover.png"
+            alt="Preview of an interactive 3D e-commerce showroom showing product shelves and checkout counter"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            src={videoSrc}
+            poster="/images/og-cover.png"
+            preload="metadata"
+            autoPlay={!reducedMotion}
+            loop={!reducedMotion}
+            muted={isMuted}
+            playsInline
+            controls
+            aria-label="30-second video demo of walking through an interactive 3D online store"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block',
+            }}
+          />
+        )}
 
         <div
           style={{
@@ -55,25 +88,45 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
             zIndex: 50,
             display: 'flex',
             gap: '10px',
+            flexWrap: 'wrap',
           }}
         >
           <button
             type="button"
-            onClick={toggleAudio}
+            onClick={toggleStaticMode}
             style={{
-              background: isMuted ? '#0066CC' : '#1D1D1F',
-              color: '#FFFFFF',
-              border: 'none',
+              background: 'rgba(255, 255, 255, 0.92)',
+              color: '#1D1D1F',
+              border: '1px solid rgba(0,0,0,0.1)',
               borderRadius: '980px',
-              padding: '10px 18px',
-              fontSize: '13.5px',
+              padding: '10px 16px',
+              fontSize: '13px',
               fontWeight: 600,
               cursor: 'pointer',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.28)',
             }}
           >
-            {isMuted ? '🔊 Turn On Voiceover Audio' : '🔇 Mute Audio'}
+            {staticFallback ? 'Play Video Walkthrough' : 'Static Preview Mode'}
           </button>
+
+          {!staticFallback && (
+            <button
+              type="button"
+              onClick={toggleAudio}
+              style={{
+                background: isMuted ? '#0066CC' : '#1D1D1F',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '980px',
+                padding: '10px 18px',
+                fontSize: '13.5px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.28)',
+              }}
+            >
+              {isMuted ? 'Turn On Audio' : 'Mute Audio'}
+            </button>
+          )}
 
           <a
             href={demoUrl}
@@ -87,7 +140,7 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
               boxShadow: '0 8px 24px rgba(0,0,0,0.28)',
             }}
           >
-            Open Live Interactive 3D Website ↗
+            Open Interactive 3D Demo ↗
           </a>
         </div>
       </div>
@@ -120,16 +173,16 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }} aria-hidden="true">
             <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#FF5F56', display: 'inline-block' }} />
             <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#FFBD2E', display: 'inline-block' }} />
             <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#27C93F', display: 'inline-block' }} />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#1D7D3F', display: 'inline-block' }} />
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#1D7D3F', display: 'inline-block' }} aria-hidden="true" />
             <span style={{ fontSize: '12.5px', fontWeight: 600, color: '#1D1D1F' }}>
-              30-Second Walkthrough: How a 3D Store Works (With Audio)
+              30-Second 3D Storefront Walkthrough
             </span>
           </div>
         </div>
@@ -137,21 +190,41 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
           <button
             type="button"
-            onClick={toggleAudio}
+            onClick={toggleStaticMode}
             style={{
-              background: isMuted ? '#E8F0FE' : '#E8F5E9',
-              color: isMuted ? '#0066CC' : '#1D7D3F',
-              border: isMuted ? '1px solid #B8D4FE' : '1px solid #B7E1CD',
-              padding: '6px 14px',
+              background: '#FFFFFF',
+              color: '#424245',
+              border: '1px solid #D2D2D7',
+              padding: '6px 12px',
               borderRadius: '980px',
               fontSize: '12px',
-              fontWeight: 600,
+              fontWeight: 500,
               cursor: 'pointer',
               whiteSpace: 'nowrap',
             }}
           >
-            {isMuted ? '🔊 Turn On Voiceover Audio' : '🔊 Voiceover Playing (Tap to Mute)'}
+            {staticFallback ? 'Show Video' : 'Low-Power Preview'}
           </button>
+
+          {!staticFallback && (
+            <button
+              type="button"
+              onClick={toggleAudio}
+              style={{
+                background: isMuted ? '#E8F0FE' : '#E8F5E9',
+                color: isMuted ? '#0066CC' : '#1D7D3F',
+                border: isMuted ? '1px solid #B8D4FE' : '1px solid #B7E1CD',
+                padding: '6px 14px',
+                borderRadius: '980px',
+                fontSize: '12px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {isMuted ? 'Turn On Audio' : 'Mute Audio'}
+            </button>
+          )}
 
           <a
             href={demoUrl}
@@ -171,23 +244,24 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
               whiteSpace: 'nowrap',
             }}
           >
-            <span>Open Live 3D Website in New Tab</span>
+            <span>Open Live Interactive 3D Store</span>
             <span aria-hidden="true">↗</span>
           </a>
 
           {onOpenContact && (
             <button
+              type="button"
               onClick={onOpenContact}
               className="btn-apple-blue"
               style={{ padding: '6px 14px', fontSize: '12px', whiteSpace: 'nowrap' }}
             >
-              Build My 3D Store
+              Request Free 3D Demo
             </button>
           )}
         </div>
       </div>
 
-      {/* Fast Native MP4 Video Showcase */}
+      {/* Video or Low-Power Static Preview */}
       <div
         style={{
           position: 'relative',
@@ -196,31 +270,48 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
           lineHeight: 0,
         }}
       >
-        <video
-          ref={videoRef}
-          src={videoSrc}
-          poster="/images/og-cover.png"
-          preload="metadata"
-          autoPlay
-          loop
-          muted={isMuted}
-          playsInline
-          controls
-          aria-label="30-second explainer: how a 3D e-commerce store works"
-          width={1280}
-          height={720}
-          style={{
-            width: '100%',
-            height: 'auto',
-            aspectRatio: '16 / 9',
-            maxHeight: '620px',
-            objectFit: 'cover',
-            display: 'block',
-          }}
-        />
+        {staticFallback ? (
+          <img
+            src="/images/og-cover.png"
+            alt="Static preview of a browser-based 3D virtual storefront showing walkable aisles, product shelves, and checkout counter"
+            width={1200}
+            height={630}
+            style={{
+              width: '100%',
+              height: 'auto',
+              aspectRatio: '16 / 9',
+              maxHeight: '620px',
+              objectFit: 'cover',
+              display: 'block',
+            }}
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            src={videoSrc}
+            poster="/images/og-cover.png"
+            preload="metadata"
+            autoPlay={!reducedMotion}
+            loop={!reducedMotion}
+            muted={isMuted}
+            playsInline
+            controls
+            aria-label="30-second explainer showing how shoppers walk through a 3D online store"
+            width={1280}
+            height={720}
+            style={{
+              width: '100%',
+              height: 'auto',
+              aspectRatio: '16 / 9',
+              maxHeight: '620px',
+              objectFit: 'cover',
+              display: 'block',
+            }}
+          />
+        )}
       </div>
 
-      {/* Minimal Bottom Bar with Direct New-Tab Link */}
+      {/* Readable HTML Summary Below Frame (Accessible + Crawler Friendly) */}
       <div
         style={{
           background: '#F5F5F7',
@@ -232,10 +323,12 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
           flexWrap: 'wrap',
           gap: '8px',
           fontSize: '12.5px',
-          color: '#6E6E73',
+          color: '#424245',
         }}
       >
-        <span>Works for clothing, shoes, beauty, coffee, electronics, watches &amp; home stores</span>
+        <span>
+          Browser-accessible 3D virtual store demo built for Shopify, WooCommerce, and custom e-commerce catalogs—works on desktop and mobile with no app required.
+        </span>
         <a
           href={demoUrl}
           target="_blank"
@@ -246,9 +339,15 @@ export default function VirtualCoffeeStore3D({ onOpenContact, isFullscreen = fal
             textDecoration: 'none',
           }}
         >
-          Walk through the live 3D store demo ↗
+          Open live 3D store demo in new tab ↗
         </a>
       </div>
+
+      <noscript>
+        <div style={{ padding: '14px 18px', background: '#FFFFFF', color: '#1D1D1F', fontSize: '13.5px', lineHeight: 1.5 }}>
+          Interactive 3D storefront walkthrough: visitors explore virtual product shelves, inspect items, add products to their cart, and complete checkout in their web browser without installing an app.
+        </div>
+      </noscript>
     </div>
   );
 }

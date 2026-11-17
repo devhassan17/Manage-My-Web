@@ -324,3 +324,30 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0 18px;
   }
 }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--apple-blue);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body {
+    scroll-behavior: auto;
+  }
+  .apple-card,
+  .glass-panel,
+  .btn-apple-blue,
+  .btn-apple-dark,
+  .btn-apple-secondary {
+    transition: none;
+  }
+  .glass-card-interactive:hover,
+  .apple-card-interactive:hover {
+    transform: none;
+  }
+}

@@ -164,25 +164,33 @@ export default function ClientLogos({ title = 'Stores & Brands We Work With', su
             gap: '14px',
           }}
         >
-          {CLIENTS_LIST.map((client) => (
-            <a
-              key={client.id}
-              href={client.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="apple-card apple-card-interactive"
-              style={{
-                padding: '18px 18px 16px 18px',
-                borderRadius: '16px',
-                background: '#FBFBFD',
-                border: '1px solid #E5E5EA',
-                textDecoration: 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                gap: '12px',
-              }}
-            >
+          {CLIENTS_LIST.map((client) => {
+            const isOffline = client.verifiedSource && client.verifiedSource.includes('Offline');
+            const CardWrapper = isOffline ? 'div' : 'a';
+            const wrapperProps = isOffline
+              ? {}
+              : {
+                  href: client.url,
+                  target: '_blank',
+                  rel: 'noopener noreferrer',
+                };
+            return (
+              <CardWrapper
+                key={client.id}
+                {...wrapperProps}
+                className="apple-card apple-card-interactive"
+                style={{
+                  padding: '18px 18px 16px 18px',
+                  borderRadius: '16px',
+                  background: '#FBFBFD',
+                  border: '1px solid #E5E5EA',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  gap: '12px',
+                }}
+              >
               {/* Logo Container */}
               <div
                 style={{
@@ -245,7 +253,9 @@ export default function ClientLogos({ title = 'Stores & Brands We Work With', su
                     color: '#6E6E73',
                   }}
                 >
-                  <span style={{ color: '#0066CC', fontWeight: 500 }}>{client.domain} ↗</span>
+                  <span style={{ color: isOffline ? '#6E6E73' : '#0066CC', fontWeight: 500 }}>
+                    {isOffline ? `${client.domain} (Archived)` : `${client.domain} ↗`}
+                  </span>
                   <span
                     style={{
                       background: '#F5F5F7',
@@ -260,8 +270,9 @@ export default function ClientLogos({ title = 'Stores & Brands We Work With', su
                   </span>
                 </div>
               </div>
-            </a>
-          ))}
+            </CardWrapper>
+            );
+          })}
         </div>
       </div>
     </section>
