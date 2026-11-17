@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
 import VirtualCoffeeStore3D from '../components/VirtualCoffeeStore3D';
 import LeadModal from '../components/LeadModal';
 
@@ -14,6 +15,7 @@ export default function ExperiencePage() {
         description="Watch our 30-second video walkthrough or open the interactive 3D online store demo. Explore product shelves in 360° and request a custom 3D preview of your own store."
         keywords="live 3D online store demo, 3D ecommerce website example, 360 virtual store walkthrough, interactive 3D store demo, ManageMyWeb"
         canonicalUrl="https://www.managemyweb.co/experience"
+        showBreadcrumbs={true}
         schemaData={{
           '@type': 'VideoObject',
           name: '30-Second Walkthrough: How a 3D Online Store Works',
@@ -52,6 +54,23 @@ export default function ExperiencePage() {
         >
           3D E-Commerce Store Demo: Walk Inside an Online Shop
         </h1>
+
+        <div
+          style={{
+            position: 'absolute',
+            top: '68px',
+            left: '20px',
+            zIndex: 100,
+            background: 'rgba(255, 255, 255, 0.92)',
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: '980px',
+            padding: '6px 14px',
+          }}
+        >
+          <div style={{ marginBottom: '-18px' }}>
+            <Breadcrumbs path="/experience" />
+          </div>
+        </div>
 
         {/* Floating Minimal Exit / Action Bar */}
         <div
