@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SEOHead from '../../components/SEOHead';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import CountdownBanner from '../../components/CountdownBanner';
 import Navbar from '../../components/Navbar';
 import LeadModal from '../../components/LeadModal';
@@ -42,17 +43,6 @@ export default function ArticlePage({ article, slug }) {
     },
   ];
 
-  if (article.faqs && article.faqs.length) {
-    schemaNodes.push({
-      '@type': 'FAQPage',
-      mainEntity: article.faqs.map((f) => ({
-        '@type': 'Question',
-        name: f.q,
-        acceptedAnswer: { '@type': 'Answer', text: f.a },
-      })),
-    });
-  }
-
   return (
     <>
       <SEOHead
@@ -61,30 +51,18 @@ export default function ArticlePage({ article, slug }) {
         ogImage={article.image}
         ogType="article"
         canonicalUrl={articleUrl}
+        showBreadcrumbs={true}
         schemaData={schemaNodes}
       />
 
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '64px', paddingBottom: '96px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', paddingBottom: '96px', background: '#FBFBFD' }}>
         <article className="container" style={{ maxWidth: '760px' }}>
-          <div style={{ marginBottom: '32px' }}>
-            <Link
-              href="/blog"
-              style={{
-                color: '#0066CC',
-                fontSize: '14px',
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-                marginBottom: '20px',
-              }}
-            >
-              ← Back to All Guides
-            </Link>
+          <Breadcrumbs path={`/blog/${slug}`} currentLabel={article.title} />
 
+          <div style={{ marginBottom: '32px' }}>
             <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '10px', fontWeight: 500 }}>
               <span style={{ color: '#0066CC', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 {article.category}
@@ -135,22 +113,6 @@ export default function ArticlePage({ article, slug }) {
             ))}
           </div>
 
-          {article.faqs && article.faqs.length > 0 && (
-            <section style={{ marginTop: '44px', paddingTop: '28px', borderTop: '1px solid #D2D2D7' }}>
-              <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#1D1D1F', marginBottom: '16px', letterSpacing: '-0.02em' }}>
-                Quick answers
-              </h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-                {article.faqs.map((f) => (
-                  <div key={f.q}>
-                    <h3 style={{ fontSize: '17px', fontWeight: 600, color: '#1D1D1F', marginBottom: '6px' }}>{f.q}</h3>
-                    <p style={{ fontSize: '16px', color: '#424245', lineHeight: 1.65, margin: 0 }}>{f.a}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
           <section
             style={{
               marginTop: '44px',
@@ -161,14 +123,14 @@ export default function ArticlePage({ article, slug }) {
             }}
           >
             <h2 style={{ fontSize: '21px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px' }}>
-              See your own store in 3D—free
+              Test a custom 3D prototype with your own store
             </h2>
             <p style={{ fontSize: '15px', color: '#424245', lineHeight: 1.6, marginBottom: '16px' }}>
-              Send us your store link and we will build a free working 3D demo with your real products within 48 hours.
+              Share your Shopify, WooCommerce, or custom store link to request a working 3D preview featuring your own products before requesting an itemized quote.
             </p>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               <button onClick={() => setDemoModalOpen(true)} className="btn-apple-blue" style={{ padding: '11px 20px', fontSize: '14px' }}>
-                Get My Free 3D Demo
+                Request a Free 3D Store Demo
               </button>
               <Link href="/experience" className="btn-apple-secondary" style={{ padding: '11px 20px', fontSize: '14px', color: '#1D1D1F', textDecoration: 'none' }}>
                 Watch the 30-second video
@@ -177,7 +139,7 @@ export default function ArticlePage({ article, slug }) {
           </section>
 
           <nav aria-label="Related guides" style={{ marginTop: '44px' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '14px' }}>More helpful guides</h2>
+            <h2 style={{ fontSize: '20px', fontWeight: 600, color: '#1D1D1F', marginBottom: '14px' }}>Related guides &amp; services</h2>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {relatedPosts.map((p) => (
                 <li key={p.slug}>
@@ -187,18 +149,18 @@ export default function ArticlePage({ article, slug }) {
                 </li>
               ))}
               <li>
+                <Link href="/services/3d-virtual-stores" style={{ color: '#0066CC', fontSize: '16px', textDecoration: 'none' }}>
+                  Custom 3D Virtual Store Development →
+                </Link>
+              </li>
+              <li>
                 <Link href="/shopify-3d-store" style={{ color: '#0066CC', fontSize: '16px', textDecoration: 'none' }}>
-                  3D Stores for Shopify →
+                  Shopify 3D Store Integration →
                 </Link>
               </li>
               <li>
                 <Link href="/woocommerce-3d-store" style={{ color: '#0066CC', fontSize: '16px', textDecoration: 'none' }}>
-                  3D Stores for WooCommerce →
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/web-management" style={{ color: '#0066CC', fontSize: '16px', textDecoration: 'none' }}>
-                  Monthly Website Management &amp; Hosting →
+                  WooCommerce 3D Store Integration →
                 </Link>
               </li>
             </ul>

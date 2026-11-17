@@ -1,28 +1,29 @@
 # ManageMyWeb (https://www.managemyweb.co)
 
-> ManageMyWeb turns normal Shopify, WooCommerce, and custom online stores into fast, walkable 3D shops that open right inside Chrome or Safari—with zero app download. We also manage monthly cloud hosting, DNS, email setup, speed fixes, backups, and same-day store edits over WhatsApp.
+> ManageMyWeb develops custom, browser-based 3D e-commerce websites and virtual storefronts for Shopify, WooCommerce, and custom retail brands—and offers optional monthly managed website operations.
 
-## What We Do
-- **Custom 3D Online Stores**: Walkable 3D stores where shoppers spin products 360° on shelves, pick sizes or options, read brand stories beside products, and pay in one tap via Apple Pay, Google Pay, Shop Pay, or Stripe.
-- **Keep Shopify or WooCommerce Intact**: Your inventory, pricing, payment methods, and orders stay completely unchanged inside your existing store dashboard.
-- **Monthly Website Care**: Fast cloud hosting (< 1.1s load time), domain & DNS care, SSL certificates, SPF/DKIM/DMARC email setup, daily backups, and same-day store edits via WhatsApp.
-- **Try Free Before Paying**: Send your website link and get a free working 3D preview made with your own products in 48 hours before receiving a custom quote.
+## Core Focus
+- **Custom 3D Virtual Store Development**: Interactive browser showrooms where customers browse virtual shelves, inspect products, read brand story context beside items, and continue to checkout via your existing store platform where supported.
+- **No App Required**: Opens inside Chrome, Safari, and Edge on desktop and mobile devices with semantic HTML fallbacks and reduced-motion awareness.
+- **Optional Managed Website Operations**: Cloud hosting setup, domain/DNS tracking, SSL checks, email configuration (SPF/DKIM/DMARC), off-site backups, speed hygiene, and routine storefront edits.
+- **Prototype-First Engagement**: Request a custom 3D store demo featuring a few selected products before scoping a full build quote.
 
 ## Key Pages
-- [Home — 3D Online Stores & Website Care](https://www.managemyweb.co/): Overview, live video demo, 14+ real client brands, and free 3D demo form.
-- [3D Store for Shopify](https://www.managemyweb.co/shopify-3d-store): How to add a 3D store onto an existing Shopify site without changing your checkout.
-- [3D Store for WooCommerce](https://www.managemyweb.co/woocommerce-3d-store): Upgrade slow WordPress & WooCommerce pages into a fast edge-hosted 3D shop.
-- [3D Website Examples by Industry](https://www.managemyweb.co/3d-store-examples): Examples across clothing, shoes, skincare, coffee, watches, tech, and home decor.
-- [Interactive 3D Demo](https://www.managemyweb.co/experience): Watch the 30-second store walkthrough or step inside the live 3D demo.
-- [Monthly Website Management](https://www.managemyweb.co/services/web-management): Hosting, DNS, email deliverability, speed fixes, backups, and WhatsApp updates.
-- [Speed & Sales Growth](https://www.managemyweb.co/services/ecommerce-growth): Mobile speed improvements and express checkouts to lift average order size.
-- [Pricing & Free Demo](https://www.managemyweb.co/pricing): Request a free 48-hour 3D preview or ask for a custom quote in 24 hours.
-- [Client Portfolio](https://www.managemyweb.co/case-studies): 14+ real stores across the USA, UK, Netherlands, Ireland, Australia, and Canada.
-- [Questions & Answers (FAQ)](https://www.managemyweb.co/faq): Honest answers on costs, mobile speed, Shopify/WooCommerce, and Google SEO.
-- [Plain-English Store Guides](https://www.managemyweb.co/blog): Complete library of 12 practical guides on 3D websites, website maintenance, and conversion.
+- [Home — 3D E-Commerce Website Development](https://www.managemyweb.co/): Overview, live interactive demo walkthrough, client work, and demo/quote request flow.
+- [Custom 3D Virtual Store Development](https://www.managemyweb.co/services/3d-virtual-stores): Core 3D storefront capabilities, platform data flow, and fallback behaviors.
+- [Shopify 3D Store Integration](https://www.managemyweb.co/shopify-3d-store): How 3D showrooms connect with Shopify catalogs and native checkout.
+- [WooCommerce 3D Store Integration](https://www.managemyweb.co/woocommerce-3d-store): How 3D assets stay fast on edge CDN alongside WordPress & WooCommerce checkouts.
+- [3D Virtual Showroom Examples](https://www.managemyweb.co/3d-store-examples): Showroom concepts by retail industry.
+- [Live 3D Store Demo](https://www.managemyweb.co/experience): Watch the 30-second video walkthrough or open the interactive 3D preview.
+- [Managed Website Operations](https://www.managemyweb.co/services/web-management): Hosting, DNS, security backups, speed hygiene, and ongoing updates.
+- [E-Commerce Conversion & Checkout Optimization](https://www.managemyweb.co/services/ecommerce-growth): Mobile script cleanup, checkout friction fixes, and consent-aware analytics.
+- [Pricing & Quotation](https://www.managemyweb.co/pricing): Custom project scoping based on product count, room design, and platform setup.
+- [Projects & Client Work](https://www.managemyweb.co/case-studies): Stores and digital projects across Europe, North America, and Australia.
+- [3D E-Commerce FAQs](https://www.managemyweb.co/faq): Answers on platform support, Google SEO, mobile usability, and ownership.
+- [Guides & Insights](https://www.managemyweb.co/blog): Technical and strategic guides on 3D storefronts and website maintenance.
 
 ## Contact
 - Website: https://www.managemyweb.co
 - Email: sales@managemyweb.co
 - WhatsApp: +92 317 4075023
-- Complete Guide: https://www.managemyweb.co/llms-full.txt
+- Extended Guide: https://www.managemyweb.co/llms-full.txt

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import SEOHead from '../../components/SEOHead';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import CountdownBanner from '../../components/CountdownBanner';
 import Navbar from '../../components/Navbar';
 import LeadModal from '../../components/LeadModal';
@@ -22,13 +23,14 @@ export default function BlogIndex() {
   return (
     <>
       <SEOHead
-        title="3D Online Store & Website Management Guides | ManageMyWeb Blog"
-        description="Plain-English guides for store owners: how to make a 3D website, connect 3D to Shopify or WooCommerce, speed up mobile pages, and reduce cart abandonment."
-        keywords="how to make a 3d website, 3d shopify store guide, website maintenance checklist, ecommerce speed optimization, reduce cart abandonment"
+        title="3D E-Commerce Guides & Development Insights | ManageMyWeb"
+        description="Practical implementation guides for e-commerce teams: Shopify and WooCommerce 3D store architecture, 2D vs 3D tradeoffs, cost determinants, mobile speed, and SEO."
+        keywords="Shopify 3D guide, 3D ecommerce cost factors, 3D store vs normal website, website maintenance checklist, 3D SEO"
         canonicalUrl="https://www.managemyweb.co/blog"
+        showBreadcrumbs={true}
         schemaData={{
           '@type': 'Blog',
-          name: 'ManageMyWeb Guides & Blog',
+          name: 'ManageMyWeb Guides & Development Insights',
           url: 'https://www.managemyweb.co/blog',
           blogPost: BLOG_POSTS_LIST.map((p) => ({
             '@type': 'BlogPosting',
@@ -42,11 +44,13 @@ export default function BlogIndex() {
       <CountdownBanner onClaimDemo={() => setDemoModalOpen(true)} />
       <Navbar onOpenDemoModal={() => setDemoModalOpen(true)} />
 
-      <main style={{ paddingTop: '52px', paddingBottom: '80px', background: '#FBFBFD' }}>
+      <main style={{ paddingTop: '40px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '660px', margin: '0 auto 36px auto' }}>
+          <Breadcrumbs path="/blog" currentLabel="Guides & Insights" />
+
+          <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 36px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
-              Guides &amp; Resources
+              Editorial &amp; Implementation Guides
             </p>
             <h1
               style={{
@@ -58,10 +62,10 @@ export default function BlogIndex() {
                 marginBottom: '12px',
               }}
             >
-              Plain-English guides for store owners.
+              3D E-Commerce Guides &amp; Development Insights
             </h1>
-            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.5 }}>
-              Honest answers on 3D websites, Shopify &amp; WooCommerce setup, website costs, faster mobile speed, and monthly site care.
+            <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.55 }}>
+              Honest engineering breakdowns on Shopify and WooCommerce integrations, 2D vs. 3D tradeoffs, pricing factors, mobile speed, and SEO hygiene.
             </p>
           </div>
 
