@@ -2,7 +2,7 @@
 
 **Branch:** `seo/brief-implementation` (branched from `main` @ `c959c10`)  
 **Scope:** Implementation of *ManageMyWeb SEO, Organic Growth & Conversion Implementation Brief (18 November 2026)*  
-**Deployment Status:** Staged on branch `seo/brief-implementation` — **not** merged or pushed to production (`main`) pending owner sign-off.
+**Deployment Status:** Approved by owner on 22 November 2026 for merge into `main` and Vercel production deployment.
 
 ---
 
@@ -54,6 +54,15 @@
 - **Brief Tasks Covered:** `SEO-004`
 - Updated `pages/experience.js` to include `showBreadcrumbs={true}` and a high-contrast pill `<Breadcrumbs path="/experience" />` overlay so 100% of indexable subpages in `/sitemap.xml` consistently pair visible breadcrumbs with `BreadcrumbList` JSON-LD.
 
-### 7. Documentation Finalization (Current Commit)
+### 7. `e6d637d` — `docs(seo): add branch changelog and verified validation report`
 - Added `docs/seo/CHANGELOG.md` and `docs/seo/VALIDATION.md` summarizing every verified build/server/schema/API check alongside explicit `NEEDS ACCESS` and `OWNER APPROVAL` items.
+
+### 8. `34b0bdd` — `seo(canonical,sitemap): align homepage canonical and sitemap root URL with trailing slash and clean sitemap image titles`
+- **Brief Tasks Covered:** `SEO-002`, `SEO-008`
+- Aligned homepage root `<loc>` in `pages/sitemap.xml.js`, `canonicalUrl` in `pages/index.js`, and default `canonicalUrl` in `components/SEOHead.js` to `https://www.managemyweb.co/` (matching Google Search Console's root URL & Vercel's `301` `location: https://www.managemyweb.co/`).
+- Cleaned remaining pre-brief `<image:title>` labels inside `pages/sitemap.xml.js` (`48-Hour`, `14+ Client Websites`, etc.).
+
+### 9. Production Merge & Redirect Resolution (22 November 2026)
+- Owner updated Vercel Domains so both `https://managemyweb.co/` and `https://manage-my-web.vercel.app/` return permanent `HTTP/2 301` -> `https://www.managemyweb.co/` (resolved the live `HTTP/2 307` canonical split).
+- Merged `seo/brief-implementation` into `main` and pushed to `origin/main` upon owner Step 3 go-ahead.
 

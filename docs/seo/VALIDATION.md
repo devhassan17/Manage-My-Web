@@ -1,16 +1,17 @@
 # ManageMyWeb SEO, Growth & Conversion Validation Report
 
-**Date:** 18 November 2026  
-**Branch Validated:** `seo/brief-implementation` @ `e5505f2`  
-**Verification Method:** Clean Next.js production build (`npm run build`) + local Next.js production server (`npx next start -p 3098`) crawled and tested via automated Node verification script across all 27 sitemap URLs, error routes, public config endpoints, and lead API cases.
+**Date:** 22 November 2026  
+**Branch Validated:** `seo/brief-implementation` @ `34b0bdd`  
+**Verification Method:** Clean Next.js production build (`npm run build`) + local Next.js production server (`npx next start -p 3098`) crawled and tested via automated Node verification script across all 27 sitemap URLs, error routes, public config endpoints, and lead API cases, plus live `curl -sI` edge redirect verification against Vercel.
 
 ---
 
-## 1. Local Production Build & Runtime Verification (`VERIFIED`)
+## 1. Local Production Build, Redirect & Runtime Verification (`VERIFIED`)
 
 | Check | Result | Notes / Exact Evidence |
 |---|---|---|
-| `npm run build` | **PASSED (`exit code 0` on retry)** | Next.js `16.4.4` (Turbopack) compiled `29/29` static pages, `/` & `/sitemap.xml` SSR routes, and all 10 `/blog/[slug]` SSG pages. First cold invocation stopped once with Next.js `SecurityFatalError` advisory notice; second invocation completed cleanly in ~2s (`exit code 0`). |
+| Live Domain Redirects (`curl -sI`) | **PASSED (`HTTP/2 301` / `308`)** | Owner updated Vercel Domains on 22 Nov 2026: `https://managemyweb.co/` -> `HTTP/2 301` -> `https://www.managemyweb.co/`; `https://manage-my-web.vercel.app/` -> `HTTP/2 301` -> `https://www.managemyweb.co/`; `http://` variants -> `HTTP/1.0 308 Permanent Redirect`; `https://www.managemyweb.co/` -> `HTTP/2 200`. |
+| `npm run build` | **PASSED (`exit code 0` on retry)** | Next.js `16.4.4` (Turbopack) compiled `29/29` static pages, `/` & `/sitemap.xml` SSR routes, and all 10 `/blog/[slug]` SSG pages (`34b0bdd`). First cold invocation stopped once with Next.js `SecurityFatalError` advisory notice; second invocation completed cleanly (`exit code 0`). |
 | `/sitemap.xml` | **PASSED (`HTTP 200`)** | Served `text/xml; charset=utf-8` with **27 indexable canonical URLs** (`https://www.managemyweb.co...`). Zero legacy duplicate blog slugs (`best-3d-ecommerce-website-examples`, etc.) remain. |
 | All 27 Sitemap Pages (`HEAD`/`GET`) | **PASSED (`27/27 HTTP 200`)** | Every single route listed in `/sitemap.xml` returned HTTP `200` on local production `next start`. |
 | Unique `<title>` & `<meta name="description">` | **PASSED (`27/27 unique`)** | Verified 27 unique `<title>` tags aligned with Brief Section 5 and 27 unique non-empty meta descriptions. |
@@ -62,10 +63,10 @@
 
 ## 4. Items Requiring Explicit Owner Sign-Off (`OWNER APPROVAL`)
 
-1. **Production Deployment (`seo/brief-implementation` -> `main`):** Branch is staging-ready. Review the diff and approve merging/deploying to `main` (per policy, no push to `main` was made autonomously).
-2. **Vercel Apex Redirect Status (`307` -> `308 Permanent`):** Pre-branch live check (`curl -I https://managemyweb.co/`) showed Vercel edge returning `HTTP/2 307` -> `https://www.managemyweb.co/`. Change the Domain Redirect type in Vercel Dashboard -> Project Settings -> Domains to **Permanent (`308`)**.
+1. **Vercel Apex & Subdomain Permanent Redirect (`307` -> `301`):** **`COMPLETED (22 Nov 2026)`** — Live `curl -sI` verified `https://managemyweb.co/` and `https://manage-my-web.vercel.app/` both return `HTTP/2 301` -> `https://www.managemyweb.co/`.
+2. **Production Deployment (`seo/brief-implementation` -> `main`):** Approved by owner on 22 Nov 2026 (`"let's go step 3"`) for merge into `main` and Vercel production rollout.
 3. **Portfolio Attribution & Offline Client Sites (`components/ClientLogos.js` & `pages/case-studies.js`):** Confirm permission to display all 14 client names/logos and confirm whether offline entries (`thehiddenepidemic.com`, `lawncandycards.ca`, `empiresproperty.com`) should stay marked `(Archived)` or be removed.
 4. **Optional Proof-Backed Case Metrics & Turnaround SLAs:** If you want concrete metrics (`AOV`, `engagement time`, `checkout rate`) or a fixed `48-hour` / `24-hour` turnaround commitment restored publicly, attach verified analytics screenshots/records before re-enabling them. Note also that admin-editable autoresponder copy in `data/smtp-config.json` still mentions `within 48 hours` in the email template body and can be adjusted in `/admin` -> SMTP Settings at your discretion.
 5. **Decision on P2 Acquisition Pages (`/shopify-3d-store`, `/woocommerce-3d-store`, `/3d-store-examples`):** These 3 routes were created prior to this brief (`850025e`) and refined cleanly on this branch. Confirm whether to keep all three indexed alongside `/services/3d-virtual-stores` and `/case-studies` or consolidate any into redirects later.
-6. **Next.js Framework Security Upgrade (`16.4.4`):** `npm run build` displayed Next.js's known security vulnerability upgrade recommendation (`next upgrade --agent=security`). Confirm if you want the dependency upgrade run separately after reviewing the SEO branch.
+6. **Next.js Framework Security Upgrade (`16.4.4`):** `npm run build` displayed Next.js's known security vulnerability upgrade recommendation (`next upgrade --agent=security`). Confirm if you want the dependency upgrade run separately after production deployment verification.
 
