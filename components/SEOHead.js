@@ -24,7 +24,7 @@ export default function SEOHead({
   keywords = '3D ecommerce website development, 3D virtual store development, Shopify 3D store, WooCommerce 3D store, interactive 3D storefront, website management service, ManageMyWeb',
   ogImage = '/images/og-cover.png',
   ogType = 'website',
-  canonicalUrl = SITE_URL,
+  canonicalUrl = `${SITE_URL}/`,
   noIndex = false,
   showBreadcrumbs = false,
   schemaData = null,

@@ -142,7 +142,7 @@ export default function Home({ serverSeo }) {
         title="3D E-Commerce Website Development | ManageMyWeb"
         description="Build a custom 3D e-commerce storefront for Shopify or WooCommerce. Let customers explore interactive showrooms in their browser and request a free demo from ManageMyWeb."
         keywords="3D ecommerce website development, 3D virtual store development, custom 3D Shopify store, WooCommerce 3D store, interactive 3D storefront, virtual showroom development, ManageMyWeb"
-        canonicalUrl="https://www.managemyweb.co"
+        canonicalUrl="https://www.managemyweb.co/"
         serverSeo={serverSeo}
         schemaData={[
           {
