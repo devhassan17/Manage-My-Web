@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import Head from 'next/head';
 import CookieConsent from '../components/CookieConsent';
+import { Analytics } from '@vercel/analytics/next';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -17,6 +18,7 @@ export default function App({ Component, pageProps }) {
 
       <Component {...pageProps} />
       <CookieConsent />
+      <Analytics />
     </>
   );
 }
