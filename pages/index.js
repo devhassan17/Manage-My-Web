@@ -8,6 +8,7 @@ import ClientLogos from '../components/ClientLogos';
 import LeadModal from '../components/LeadModal';
 import Footer from '../components/Footer';
 import FAQSection from '../components/FAQSection';
+import { BLOG_POSTS_LIST } from '../data/blogPosts';
 
 export default function Home({ serverSeo }) {
   const [demoModalOpen, setDemoModalOpen] = useState(false);
@@ -848,6 +849,93 @@ export default function Home({ serverSeo }) {
                   </div>
                   <span style={{ fontSize: '13.5px', fontWeight: 600, color: '#0066CC' }}>Explore →</span>
                 </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* LATEST 2027 GUIDES & BLOG VISIBILITY */}
+        <section style={{ padding: '72px 0', background: '#FFFFFF', borderBottom: '1px solid #D2D2D7' }}>
+          <div className="container">
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                flexWrap: 'wrap',
+                gap: '16px',
+                marginBottom: '32px',
+              }}
+            >
+              <div style={{ maxWidth: '640px' }}>
+                <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
+                  2027 Storefront Insights &amp; Playbooks
+                </p>
+                <h2
+                  style={{
+                    fontSize: 'clamp(26px, 3.2vw, 36px)',
+                    fontWeight: 600,
+                    letterSpacing: '-0.03em',
+                    color: '#1D1D1F',
+                    marginBottom: '8px',
+                  }}
+                >
+                  Latest 2027 E-Commerce &amp; 3D Store Guides
+                </h2>
+                <p style={{ fontSize: '15px', color: '#6E6E73', lineHeight: 1.55, margin: 0 }}>
+                  Practical reading on 2027 3D e-commerce trends, Shopify and WooCommerce architecture, seasonal drops, and technical SEO hygiene.
+                </p>
+              </div>
+              <Link
+                href="/blog"
+                className="btn-apple-secondary"
+                style={{ padding: '10px 18px', fontSize: '13.5px', textDecoration: 'none', color: '#1D1D1F' }}
+              >
+                Browse All Blog Guides →
+              </Link>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '18px' }}>
+              {BLOG_POSTS_LIST.slice(0, 4).map((post) => (
+                <article
+                  key={post.slug}
+                  className="apple-card apple-card-interactive"
+                  style={{
+                    padding: '24px',
+                    borderRadius: '18px',
+                    background: '#FBFBFD',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    gap: '14px',
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 600, color: '#0066CC', textTransform: 'uppercase' }}>
+                        {post.category}
+                      </span>
+                      <span style={{ fontSize: '11px', fontWeight: 600, background: '#EDF5FF', color: '#0066CC', padding: '3px 9px', borderRadius: '980px' }}>
+                        {post.metric}
+                      </span>
+                    </div>
+                    <h3 style={{ fontSize: '17px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px', lineHeight: 1.35 }}>
+                      <Link href={`/blog/${post.slug}`} style={{ color: '#1D1D1F', textDecoration: 'none' }}>
+                        {post.title}
+                      </Link>
+                    </h3>
+                    <p style={{ fontSize: '13.5px', color: '#6E6E73', lineHeight: 1.5, margin: 0 }}>
+                      {post.excerpt}
+                    </p>
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '10px', borderTop: '1px solid #ECECEE' }}>
+                    <span style={{ fontSize: '12px', color: '#6E6E73' }}>{post.readTime}</span>
+                    <Link href={`/blog/${post.slug}`} style={{ fontSize: '13.5px', fontWeight: 600, color: '#0066CC', textDecoration: 'none' }}>
+                      Read Guide →
+                    </Link>
+                  </div>
+                </article>
               ))}
             </div>
           </div>

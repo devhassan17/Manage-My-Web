@@ -5,6 +5,128 @@
 
 export const BLOG_POSTS_LIST = [
   {
+    slug: '3d-ecommerce-website-trends-2027',
+    title: '3D E-Commerce Website Trends for 2027: What Actually Matters for Online Brands',
+    excerpt: 'Going into 2027, smart retail brands are moving past heavy gimmick demos toward fast, curated browser showrooms built for mobile shoppers and search visibility.',
+    date: 'November 22, 2026',
+    isoDate: '2026-11-22',
+    readTime: '6 min read',
+    category: '2027 Outlook',
+    metric: '2027 Trends',
+    image: '/images/og-cover.png',
+    author: 'ManageMyWeb Editorial & Engineering',
+    lead: 'Interactive 3D storefronts heading into 2027 look very different from the heavy experimental demos of a few years ago. Shoppers expect instant loading on phones, clean HTML product details, and effortless express checkout alongside immersive browsing.',
+    sections: [
+      {
+        heading: 'Curated flagship rooms instead of endless 3D warehouses',
+        content: `One clear shift for 2027 e-commerce design is restraint. Instead of forcing hundreds of everyday SKUs into complex virtual aisles, brands are pairing fast classic collection pages with a single focused 3D showroom featuring 10 to 30 hero products, gift sets, or seasonal releases.
+
+Customers immediately get the tactile sense of a flagship boutique without getting lost or waiting on oversized downloads.`,
+      },
+      {
+        heading: 'Mobile-first controls and accessible low-power fallbacks',
+        content: `Most retail store visits happen on phones over cellular connections. In 2027, serious 3D storefronts prioritize single-tap product hotspots, smooth touch camera transitions, compressed WebGL scenes, and clean static or reduced-motion views whenever a shopper's device is in low-power mode.
+
+Accessibility is no longer an afterthought—keyboard navigation, readable HTML captions, and instant fallback product links ensure nobody gets blocked from buying.`,
+      },
+      {
+        heading: 'Putting brand origin and craftsmanship directly beside products',
+        content: `With rising paid ad costs heading into 2027, shoppers compare dozens of similar tabs before trusting a newer brand. Instead of burying sustainability reports, ingredient sourcing, or hardware tolerances inside a footer link, spatial storefronts display short visual callouts and sourcing proof right beside featured items on the shelf.`,
+      },
+      {
+        heading: 'Search & AI discovery built outside the WebGL canvas',
+        content: `Modern 3D stores engineered for 2027 search keep every headline, comparison table, product summary, FAQ, and buy path rendered in clean server-side or static HTML outside the canvas. That lets Google Search and AI shopping assistants understand your products clearly while giving human buyers an unforgettable interactive experience.`,
+      },
+    ],
+  },
+  {
+    slug: 'shopify-and-woocommerce-storefront-architecture-2027',
+    title: 'Shopify & WooCommerce Architecture in 2027: Adding 3D Without Slowing Mobile Speed',
+    excerpt: 'How merchants in 2027 keep existing inventory, tax rules, and express checkouts intact while running lightweight WebGL storefronts alongside their theme.',
+    date: 'November 22, 2026',
+    isoDate: '2026-11-22',
+    readTime: '6 min read',
+    category: '2027 Outlook',
+    metric: '2027 Playbook',
+    image: '/images/og-cover.png',
+    author: 'ManageMyWeb Engineering Team',
+    lead: 'As merchants prepare their tech stacks for 2027, the biggest engineering rule for interactive stores is straightforward: never sacrifice page responsiveness or replace reliable checkout infrastructure just to add visual depth.',
+    sections: [
+      {
+        heading: 'Keeping Shopify or WooCommerce as your single backend',
+        content: `You do not have to migrate off Shopify or WooCommerce in 2027 to offer a virtual showroom. Your commerce platform continues handling SKU pricing, stock counts, regional tax calculations, shipping zones, discounts, and native payment wallets.
+
+Through Shopify Storefront APIs or WooCommerce REST/Store APIs, the 3D showroom fetches live availability and passes chosen variants directly back into your existing checkout.`,
+      },
+      {
+        heading: 'Deferring 3D assets cleanly for strong Core Web Vitals',
+        content: `Google Core Web Vitals—especially Interaction to Next Paint (INP) and mobile Largest Contentful Paint (LCP)—punish bloated storefront scripts. Responsible 2027 architecture paints headings, navigation, product descriptions, and preview posters first in lightweight HTML/CSS, then streams compressed 3D assets over an edge CDN on demand.
+
+If leftover theme apps or heavy carousels are already dragging mobile speed down, cleaning up unused scripts often makes room for richer interactive experiences.`,
+      },
+      {
+        heading: 'Testing checkout handoffs before peak 2027 campaigns',
+        content: `Always test custom discount bundles, express wallets like Shop Pay or Apple Pay, and multi-currency rounding in staging with real test products first—especially if your store uses third-party cart drawer apps that inject scripts outside native URL checkout flows.`,
+      },
+    ],
+  },
+  {
+    slug: 'ecommerce-seo-and-ai-search-readiness-checklist-2027',
+    title: 'The 2027 E-Commerce SEO & AI Search Readiness Checklist (Including 3D Websites)',
+    excerpt: 'From permanent 301/308 redirects and clean HTML sitemaps to honest structured data and llms.txt—how online stores stay rankable in 2027.',
+    date: 'November 21, 2026',
+    isoDate: '2026-11-21',
+    readTime: '5 min read',
+    category: 'Speed & SEO',
+    metric: '2027 Checklist',
+    image: '/images/og-cover.png',
+    author: 'ManageMyWeb Engineering Team',
+    lead: 'Heading into 2027, ranking across traditional search results and AI shopping summaries requires clean fundamentals rather than keyword tricks. Use this practical audit checklist before your next storefront release.',
+    sections: [
+      {
+        heading: '1. Domain canonicals & permanent redirects (no 307 leaks)',
+        content: `Verify that apex domains, www variants, HTTP URLs, and hosting preview subdomains all consolidate onto one primary canonical host via permanent 301 or 308 redirects. Even a single misconfigured 307 temporary redirect at the CDN layer can cause Google Search Console to choose the wrong canonical URL.`,
+      },
+      {
+        heading: '2. Clean semantic HTML alongside interactive visuals',
+        content: `Whether you run a classic Shopify theme or a 2027 WebGL flagship store, ensure every core headline (one clear H1 per page), service overview, spec list, breadcrumb link, and call-to-action lives in standard readable HTML rather than inside images or canvas elements.`,
+      },
+      {
+        heading: '3. Truthful structured data without artificial claims',
+        content: `Keep JSON-LD Organization, BreadcrumbList, Service, and BlogPosting schemas strictly aligned with visible page content. Avoid stuffing hidden FAQ schemas on unrelated pages, fake review ratings, or synthetic promo countdown timers that erode buyer trust.`,
+      },
+      {
+        heading: '4. Updated XML sitemap & concise llms.txt documentation',
+        content: `Ensure /sitemap.xml lists only indexable HTTP 200 canonical pages (excluding admin routes, 404s, or retired duplicates) and keep public/llms.txt accurate so AI search assistants cite your current offerings cleanly.`,
+      },
+    ],
+  },
+  {
+    slug: 'how-to-launch-a-3d-product-drop-for-2027',
+    title: 'How to Launch a Limited-Edition 3D Product Drop in 2027 Without Rebuilding Your Store',
+    excerpt: 'Use a focused interactive 3D room for seasonal releases, capsule collections, or flagship hero lines while keeping daily catalog operations untouched.',
+    date: 'November 20, 2026',
+    isoDate: '2026-11-20',
+    readTime: '5 min read',
+    category: 'Strategy',
+    metric: '2027 Launch',
+    image: '/images/og-cover.png',
+    author: 'ManageMyWeb Editorial',
+    lead: 'Planning a seasonal capsule collection, signature product release, or VIP campaign for 2027? You do not need to overhaul your entire website to turn a launch into an interactive experience shoppers share and remember.',
+    sections: [
+      {
+        heading: 'Why product drops fit virtual showrooms naturally',
+        content: `Limited-edition footwear, apparel capsules, specialty coffee roasts, audio gear, and fragrance launches succeed when storytelling and urgency work together. Staging 5 to 15 spotlight items inside a dedicated browser-based showroom gives campaign traffic a memorable destination rather than dropping paid clicks onto a cold grid page.`,
+      },
+      {
+        heading: 'A practical 3-step rollout workflow for 2027 launches',
+        content: `1. Start with a working prototype: Share 2 or 3 signature products and test camera usability on phones first.
+2. Connect existing inventory & checkout: Link variants directly to your live Shopify or WooCommerce SKUs so inventory stays synced in real time when orders arrive.
+3. Pair with B2B or waitlist capture: Offer buyers a direct inquiry counter or launch signup beside hero shelves for wholesale and early-access demand.`,
+      },
+    ],
+  },
+  {
     slug: 'can-you-add-a-3d-store-to-shopify',
     title: 'Can You Add a 3D Store to Shopify or WooCommerce?',
     excerpt: 'How 3D storefront architecture connects with Shopify Storefront APIs or WooCommerce without forcing a platform rebuild.',

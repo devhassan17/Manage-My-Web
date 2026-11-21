@@ -22,7 +22,7 @@ export default function Navbar({ onOpenDemoModal }) {
     { label: 'Live Demo ↗', href: 'https://crazy-3d-website-idea.vercel.app/', external: true },
     { label: 'Clients', href: '/case-studies' },
     { label: 'Pricing', href: '/pricing' },
-    { label: 'Guides', href: '/blog' },
+    { label: 'Blog', href: '/blog' },
     { label: 'Contact', href: '/contact' },
   ];
 

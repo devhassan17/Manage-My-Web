@@ -23,9 +23,9 @@ export default function BlogIndex() {
   return (
     <>
       <SEOHead
-        title="3D E-Commerce Guides & Development Insights | ManageMyWeb"
-        description="Practical implementation guides for e-commerce teams: Shopify and WooCommerce 3D store architecture, 2D vs 3D tradeoffs, cost determinants, mobile speed, and SEO."
-        keywords="Shopify 3D guide, 3D ecommerce cost factors, 3D store vs normal website, website maintenance checklist, 3D SEO"
+        title="3D E-Commerce Guides & 2027 Development Insights | ManageMyWeb"
+        description="Practical 2027 guides and implementation insights for e-commerce teams: 2027 3D store trends, Shopify and WooCommerce architecture, mobile speed, SEO, and scope factors."
+        keywords="2027 ecommerce website trends, 3D ecommerce 2027, Shopify 3D guide, 3D ecommerce cost factors, website maintenance checklist, 3D SEO"
         canonicalUrl="https://www.managemyweb.co/blog"
         showBreadcrumbs={true}
         schemaData={{
@@ -46,7 +46,7 @@ export default function BlogIndex() {
 
       <main style={{ paddingTop: '40px', paddingBottom: '80px', background: '#FBFBFD' }}>
         <div className="container">
-          <Breadcrumbs path="/blog" currentLabel="Guides & Insights" />
+          <Breadcrumbs path="/blog" currentLabel="Blog & 2027 Guides" />
 
           <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 36px auto' }}>
             <p className="apple-eyebrow" style={{ marginBottom: '8px' }}>
@@ -62,10 +62,10 @@ export default function BlogIndex() {
                 marginBottom: '12px',
               }}
             >
-              3D E-Commerce Guides &amp; Development Insights
+              3D E-Commerce Guides &amp; 2027 Insights
             </h1>
             <p style={{ color: '#6E6E73', fontSize: '16px', lineHeight: 1.55 }}>
-              Honest engineering breakdowns on Shopify and WooCommerce integrations, 2D vs. 3D tradeoffs, pricing factors, mobile speed, and SEO hygiene.
+              Honest 2027 playbooks and engineering breakdowns on Shopify and WooCommerce integrations, 2D vs. 3D tradeoffs, pricing factors, mobile speed, and SEO hygiene.
             </p>
           </div>
 
@@ -125,13 +125,16 @@ export default function BlogIndex() {
                 }}
               >
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', gap: '8px', flexWrap: 'wrap' }}>
                     <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', color: '#0066CC' }}>
                       {post.category} · {post.readTime}
                     </span>
-                    <span style={{ fontSize: '11px', fontWeight: 600, background: '#F5F5F7', padding: '3px 9px', borderRadius: '980px', color: '#1D1D1F' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 600, background: post.metric.includes('2027') ? '#EDF5FF' : '#F5F5F7', padding: '3px 9px', borderRadius: '980px', color: post.metric.includes('2027') ? '#0066CC' : '#1D1D1F' }}>
                       {post.metric}
                     </span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#6E6E73', marginBottom: '8px' }}>
+                    {post.date}
                   </div>
                   <h2 style={{ fontSize: '19px', fontWeight: 600, color: '#1D1D1F', marginBottom: '8px', lineHeight: 1.3 }}>
                     <Link href={`/blog/${post.slug}`} style={{ color: '#1D1D1F', textDecoration: 'none' }}>
